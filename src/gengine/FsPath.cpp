@@ -15,7 +15,14 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h>
+
+#define WIN32
+
+#ifdef WIN32
+    #include <direct.h>
+#else
+    #include <unistd.h>
+#endif
 
 //-----------------------------------------------------------------
 /**
@@ -94,7 +101,7 @@ createDir(const std::string &dir)
     }
 
 #ifdef WIN32
-    int error = mkdir(dir.c_str());
+    int error = _mkdir(dir.c_str());
 #else
     int error = mkdir(dir.c_str(), 0777);
 #endif

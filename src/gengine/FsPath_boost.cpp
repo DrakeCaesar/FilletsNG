@@ -6,6 +6,7 @@
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  */
+
 #include "FsPath.h"
 
 #include "Log.h"
@@ -35,7 +36,7 @@ boostPath(const std::string &file)
     std::string
 FsPath::getNative(const std::string &file)
 {
-    return boostPath(file).native_file_string();
+    return boostPath(file).string();
 }
 //-----------------------------------------------------------------
 /**

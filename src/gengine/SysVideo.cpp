@@ -32,7 +32,8 @@ SysVideo::setCaption(const std::string &title)
     bool done = false;
     SDL_SysWMinfo info;
     SDL_VERSION(&info.version);
-    if (SDL_GetWMInfo(&info) > 0) {
+    SDL_Window * window;
+    if (SDL_GetWindowWMInfo(window, &info) > 0) {
         done = sysSetCaption(&info, title);
     }
 
@@ -89,7 +90,7 @@ sysSetCaption(SDL_SysWMinfo *info, const std::string &title)
     if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1,
                 lpszW, title.size()))
     {
-        result = SetWindowTextW(info->window, lpszW);
+        result = SetWindowTextW(info->info.win.window, lpszW);
     }
     else {
         LOG_DEBUG(ExInfo("not supported conversion")
