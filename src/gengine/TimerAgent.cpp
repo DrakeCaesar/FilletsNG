@@ -9,12 +9,12 @@
 #include "TimerAgent.h"
 
 #include "OptionAgent.h"
-
+#include "Application.h"
 //-----------------------------------------------------------------
     void
 TimerAgent::own_init()
 {
-    m_timeinterval = OptionAgent::agent()->getAsInt("timeinterval", 100);
+    m_timeinterval = OptionAgent::agent()->getAsInt("timeinterval", 100/speedup);
     m_lastTime = SDL_GetTicks();
     m_nextTime = m_lastTime;
     m_deltaTime = 1;
@@ -30,7 +30,7 @@ TimerAgent::getTimeInterval()
     int result = m_timeinterval;
 
     if (SDL_GetModState() & KMOD_SHIFT) {
-        result = m_timeinterval / 4;
+        result = m_timeinterval * 4;
     }
     return result;
 }

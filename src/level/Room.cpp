@@ -34,7 +34,7 @@
 #include "Path.h"
 
 #include <assert.h>
-
+#include "Application.h"
 //-----------------------------------------------------------------
 /**
  * Create room holder.
@@ -119,7 +119,7 @@ Room::addModel(Cube *new_model, Unit *new_unit)
         m_controls->addUnit(new_unit);
     }
 
-    int model_index = (int)m_models.size() - 1;
+    int model_index = m_models.size() - 1;
     new_model->setIndex(model_index);
     return model_index;
 }
@@ -274,7 +274,7 @@ Room::fallout(bool interactive)
             if (outDepth > 0) {
                 wentOut = true;
                 if (interactive) {
-                    m_locker->ensurePhases(3);
+                    m_locker->ensurePhases(3*speedup);
                 }
             }
             else if (outDepth == -1) {

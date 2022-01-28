@@ -13,7 +13,7 @@
 
 #include "KeyStroke.h"
 #include "MouseStroke.h"
-
+#include "Application.h"
 //-----------------------------------------------------------------
 /**
  * Create list of drivers.
@@ -106,7 +106,7 @@ Controls::useSwitch()
         }
 
         if (m_switch && m_active != m_units.end()) {
-            m_locker->ensurePhases(3);
+            m_locker->ensurePhases(3*speedup);
             (*m_active)->activate();
             result = true;
         }
@@ -169,32 +169,37 @@ Controls::lockPhases()
         }
 
         m_locker->ensurePhases(getNeededPhases(m_speedup));
+            movingfish = true;
+        
     }
     else {
         m_speedup = 0;
+        movingfish = false;
     }
 }
+int test = 0;
 //-----------------------------------------------------------------
 int
-Controls::getNeededPhases(int speedup) const
+Controls::getNeededPhases(int n_speedup) const
 {
     static const int SPEED_WARP1 = 6;
     static const int SPEED_WARP2 = 10;
 
-    int phases = 3;
+    int phases = 3*speedup;
     if (m_active != m_units.end()) {
         if ((*m_active)->isTurning()) {
-            phases = (*m_active)->countAnimPhases("turn");
+            phases = (*m_active)->countAnimPhases("turn")*3;
         }
-        else if (speedup > SPEED_WARP2) {
-            phases = (*m_active)->countAnimPhases("swam") / 6;
+        else if (n_speedup > SPEED_WARP2) {
+            phases = (*m_active)->countAnimPhases("swam")*speedup / 6;
         }
-        else if (speedup > SPEED_WARP1) {
-            phases = (*m_active)->countAnimPhases("swam") / 3;
+        else if (n_speedup > SPEED_WARP1) {
+            phases = (*m_active)->countAnimPhases("swam")*speedup / 3;
         }
         else {
-            phases = (*m_active)->countAnimPhases("swam") / 2;
+            phases = (*m_active)->countAnimPhases("swam")*speedup / 2;
         }
+        
     }
     return phases;
 }
