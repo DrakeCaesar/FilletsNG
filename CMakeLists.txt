@@ -153,7 +153,6 @@ src/effect/EffectDisintegrate.cpp
 src/SDL_gfx/SDL_gfxPrimitives.c
 )
 
-
 #set(Boost_USE_STATIC_LIBS OFF) 
 set(Boost_USE_MULTITHREADED ON)  
 #set(Boost_USE_STATIC_RUNTIME OFF) 
@@ -162,18 +161,11 @@ find_package(SDL2 CONFIG REQUIRED)
 find_package(sdl2-ttf CONFIG REQUIRED)
 find_package(sdl2-image CONFIG REQUIRED)
 find_package(sdl2-mixer CONFIG REQUIRED)
-find_package(Boost REQUIRED COMPONENTS filesystem )
-
-include_directories(${Boost_INCLUDE_DIRS}) 
-
 
 target_link_libraries(fillets PRIVATE SDL2::SDL2 SDL2::SDL2main)
 target_link_libraries(fillets PRIVATE SDL2::SDL2_image)
 target_link_libraries(fillets PRIVATE SDL2::SDL2_mixer)
-target_link_libraries(fillets PRIVATE SDL2::SDL2_ttf)
-target_link_libraries(fillets PRIVATE Boost::boost ${Boost_LIBRARIES})
-
-
+target_link_libraries(fillets PRIVATE SDL2::SDL2_ttf) 
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE 
 ${CMAKE_CURRENT_SOURCE_DIR}/src/SDL_gfx/  
@@ -188,19 +180,20 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/state/
 ${CMAKE_CURRENT_SOURCE_DIR}/src/widget/
 )
 
-
 include(FindLua)
-find_package(lua REQUIRED)
 target_link_libraries(fillets PRIVATE ${LUA_LIBRARIES})
 target_include_directories(fillets PRIVATE ${LUA_INCLUDE_DIR})
 
-
+find_package(Boost REQUIRED COMPONENTS filesystem )
+include_directories(${Boost_INCLUDE_DIRS}) 
+target_link_libraries(fillets PRIVATE Boost::boost ${Boost_LIBRARIES})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-set(CMAKE_TOOLCHAIN_FILE "C:/Users/domin/dev/vcpkg/scripts/buildsystems/vcpkg.cmake")
 set(DCMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 include(CPack)
+
+
 
 

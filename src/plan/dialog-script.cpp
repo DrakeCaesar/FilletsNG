@@ -99,9 +99,9 @@ script_dialog_addFont(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *name = luaL_checkstring(L, 1);
-    int red = luaL_checkint(L, 2);
-    int green = luaL_checkint(L, 3);
-    int blue = luaL_checkint(L, 4);
+    int red = luaL_checkinteger(L, 2);
+    int green = luaL_checkinteger(L, 3);
+    int blue = luaL_checkinteger(L, 4);
 
     SubTitleAgent::agent()->addFont(name, new Color(red, green, blue));
 
@@ -137,7 +137,7 @@ script_dialog_addDialog(lua_State *L) throw()
 script_model_isTalking(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
-    int model_index = luaL_checkint(L, 1);
+    int model_index = luaL_checkinteger(L, 1);
 
     bool talking = getDialogs(L)->isTalking(model_index);
     lua_pushboolean(L, talking);
@@ -153,10 +153,10 @@ script_model_isTalking(lua_State *L) throw()
 script_model_talk(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
-    int model_index = luaL_checkint(L, 1);
+    int model_index = luaL_checkinteger(L, 1);
     const char *name = luaL_checkstring(L, 2);
-    int volume = luaL_optint(L, 3, 75);
-    int loops = luaL_optint(L, 4, 0);
+    int volume = luaL_optinteger(L, 3, 75);
+    int loops = luaL_optinteger(L, 4, 0);
     bool dialogFlag = lua_toboolean(L, 5);
 
     getDialogs(L)->actorTalk(model_index, name, volume, loops, dialogFlag);
@@ -171,7 +171,7 @@ script_model_talk(lua_State *L) throw()
 script_model_killSound(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
-    int model_index = luaL_checkint(L, 1);
+    int model_index = luaL_checkinteger(L, 1);
 
     getDialogs(L)->killSound(model_index);
     END_NOEXCEPTION;

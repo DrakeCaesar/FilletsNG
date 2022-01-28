@@ -22,11 +22,11 @@ extern "C" {
 //-----------------------------------------------------------------
 ScriptState::ScriptState()
 {
-    m_state = lua_open();
-    luaopen_base(m_state);
-    luaopen_string(m_state);
-    luaopen_math(m_state);
-    luaopen_table(m_state);
+    m_state = luaL_newstate();
+    luaL_requiref(m_state, "_G", luaopen_base, true);
+    luaL_requiref(m_state, LUA_STRLIBNAME, luaopen_string, true);
+    luaL_requiref(m_state, LUA_MATHLIBNAME, luaopen_math, true);
+    luaL_requiref(m_state, LUA_TABLIBNAME, luaopen_table, true);
 
     prepareErrorHandler();
 }
@@ -42,9 +42,11 @@ ScriptState::~ScriptState()
 void
 ScriptState::prepareErrorHandler()
 {
+    lua_pushglobaltable(m_state);
     lua_pushliteral(m_state, "_TRACEBACK");
     lua_pushcfunction(m_state, script_debugStack);
-    lua_settable(m_state, LUA_GLOBALSINDEX);
+    lua_settable(m_state, -3);
+    lua_pop(m_state, 1);
 }
 //-----------------------------------------------------------------
 /**
@@ -53,9 +55,11 @@ ScriptState::prepareErrorHandler()
 void
 ScriptState::insertErrorHandler(int index)
 {
+    lua_pushglobaltable(m_state);
     lua_pushliteral(m_state, "_TRACEBACK");
-    lua_rawget(m_state, LUA_GLOBALSINDEX);
+    lua_rawget(m_state, -2);
     lua_insert(m_state, index);
+    lua_pop(m_state, 1);
 }
 //-----------------------------------------------------------------
 /**

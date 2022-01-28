@@ -136,8 +136,8 @@ script_level_action_restart(lua_State *L) throw()
 script_level_createRoom(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
-    int w = luaL_checkint(L, 1);
-    int h = luaL_checkint(L, 2);
+    int w = luaL_checkinteger(L, 1);
+    int h = luaL_checkinteger(L, 2);
     const char *picture = luaL_checkstring(L, 3);
 
     getLevel(L)->createRoom(w, h, picture);

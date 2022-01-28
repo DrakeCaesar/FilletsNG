@@ -83,7 +83,7 @@ Path::dataWritePath(const std::string &file)
 Path::dataSystemPath(const std::string &file)
 {
     std::string systemdir = OptionAgent::agent()->getParam("systemdir");
-    systemdir = "C:\\Users\\domin\\dev\\fillets-data";
+    systemdir = "..\\..\\..\\fillets-data";
 
     return constructPath(systemdir, file);
 }
