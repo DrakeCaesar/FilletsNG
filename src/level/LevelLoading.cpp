@@ -12,6 +12,7 @@
 #include "Room.h"
 #include "LoadException.h"
 #include "minmax.h"
+#include "Application.h"
 
 //-----------------------------------------------------------------
 LevelLoading::LevelLoading(RoomAccess *access)
@@ -43,7 +44,8 @@ LevelLoading::isLoading() const
 LevelLoading::loadGame(const std::string &moves)
 {
     m_loadedMoves = moves;
-    m_loadSpeed = min(50, max(5, (int)(m_loadedMoves.size() / 150)));
+    m_loadSpeed = min(50, max(5, m_loadedMoves.size() / 150));
+    m_loadSpeed = 1;
 }
 //-----------------------------------------------------------------
 /**
@@ -65,7 +67,7 @@ LevelLoading::loadReplay(const std::string &moves)
     void
 LevelLoading::nextLoadAction()
 {
-    if (m_paused) {
+    if (m_paused || tick%(speedup) != 0) {
         return;
     }
 

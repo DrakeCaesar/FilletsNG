@@ -16,6 +16,7 @@
 #include "Anim.h"
 #include "Dir.h"
 #include "minmax.h"
+#include "Application.h"
 
 //-----------------------------------------------------------------
 /**
@@ -67,9 +68,11 @@ View::noteNewRound(int phases)
 //-----------------------------------------------------------------
 void
 View::drawOn(SDL_Surface *screen)
-{
+{ 
     m_screen = screen;
     m_animShift = min(SCALE, m_animShift + m_shiftSize);
+    if (!movingfish)
+        m_animShift = (tick-1)%speedup*3;
     m_models.drawOn(this);
     drawDecors();
 }

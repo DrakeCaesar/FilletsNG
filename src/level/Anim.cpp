@@ -19,6 +19,7 @@
 #include "EffectInvisible.h"
 #include "EffectReverse.h"
 #include "EffectZx.h"
+#include "Application.h"
 
 
 //-----------------------------------------------------------------
@@ -55,11 +56,13 @@ Anim::~Anim()
     void
 Anim::drawAt(SDL_Surface *screen, int x, int y, eSide side)
 {
+    x += offset;
+    y += offset;
     if (!m_effect->isInvisible()) {
         SDL_Surface *surface =
             m_animPack[side]->getRes(m_animName, m_animPhase);
         m_effect->blit(screen, surface, x, y);
-        if (m_run) {
+        if (m_run && tick%speedup == 0) {
             m_animPhase++;
             if (m_animPhase >= m_animPack[side]->countRes(m_animName)) {
                 m_animPhase = 0;
@@ -152,7 +155,7 @@ Anim::useSpecialAnim(const std::string &name, int phase)
         return;
     }
 
-    int count = m_animPack[SIDE_LEFT]->countRes(name);
+    int count = m_animPack[SIDE_LEFT]->countRes(name)*speedup;
     if (m_specialAnimPhase >= count) {
         if (count == 0) {
             m_specialAnimName = "";
