@@ -30,12 +30,9 @@
 #include "SimpleMsg.h"
 #include "StringMsg.h"
 
-#include "SDL.h"
+#include "SDL2/SDL.h"
 #include <stdio.h> // for fflush, stdout
-int tick = 0;
-int speedup = 5;
-int offset = -5;
-bool movingfish = false;
+
 //-----------------------------------------------------------------
 Application::Application()
 {
@@ -84,7 +81,6 @@ Application::init(int argc, char *argv[])
 Application::run()
 {
     while (!m_quit) {
-        ++tick;
         m_agents->update();
     }
 }

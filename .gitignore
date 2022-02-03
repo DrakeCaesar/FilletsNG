@@ -10,4 +10,3 @@ config.log
 config.status
 .vs/
 build/
-.cache/

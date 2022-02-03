@@ -21,7 +21,7 @@
 #include "level-script.h"
 
 #include <memory> // for auto_ptr
-#include "Application.h"
+
 //-----------------------------------------------------------------
 /**
  * Create new plan holder.
@@ -51,12 +51,8 @@ LevelScript::createCommand(int funcRef)
     void
 LevelScript::updateScript()
 {
-    char luacom[64];
-    sprintf(luacom, "script_update(%d,%d)", tick,speedup); 
-    //printf("%s\n",luacom);
-    m_script->doString(luacom);
-    if (tick%speedup == 0)
-        satisfyPlan();
+    m_script->doString("script_update()");
+    satisfyPlan();
 }
 //-----------------------------------------------------------------
 void

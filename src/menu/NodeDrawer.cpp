@@ -19,7 +19,6 @@
 #include "minmax.h"
 
 #include "SDL_gfxPrimitives.h"
-#include "Application.h"
 
 //-----------------------------------------------------------------
 NodeDrawer::NodeDrawer()
@@ -65,7 +64,7 @@ NodeDrawer::drawNode(const LevelNode *node) const
             return;
         case LevelNode::STATE_OPEN:
             {
-                int phase = (TimerAgent::agent()->getCycles()/speedup) % 10;
+                int phase = TimerAgent::agent()->getCycles() % 10;
                 if (phase > 4) {
                     phase--;
                 }

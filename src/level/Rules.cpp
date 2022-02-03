@@ -19,7 +19,7 @@
 #include "OptionAgent.h"
 
 #include <assert.h>
-#include "Application.h"
+
 //-----------------------------------------------------------------
 /**
  * Create new rules for model.
@@ -91,8 +91,7 @@ Rules::occupyNewPos()
 
         V2 shift = Dir::dir2xy(m_dir);
         V2 oldLoc = m_model->getLocation();
-        if (tick%(speedup) == 0 || movingfish)
-            m_model->change_setLocation(oldLoc.plus(shift));
+        m_model->change_setLocation(oldLoc.plus(shift));
 
         m_mask->mask();
     }
@@ -169,7 +168,7 @@ Rules::checkDead(Cube::eAction lastAction)
 Rules::checkDeadMove()
 {
     bool strict = OptionAgent::agent()->getAsBool("strict_rules", true);
-    
+
     Cube::t_models resist = m_mask->getResist(Dir::DIR_UP);
     Cube::t_models::iterator end = resist.end();
     for (Cube::t_models::iterator i = resist.begin(); i != end; ++i) {

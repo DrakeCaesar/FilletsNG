@@ -1,10 +1,6 @@
 #ifndef HEADER_APPLICATION_H
 #define HEADER_APPLICATION_H
-extern int tick;
-extern int speedup;
-extern int offset;
-extern int skip;
-extern bool movingfish;
+
 class AgentPack;
 
 #include "NoCopy.h"
@@ -32,7 +28,7 @@ class Application : public NoCopy, public BaseListener {
         void init(int argc, char *argv[]);
         void run();
         void shutdown();
-        
+
         virtual void receiveSimple(const SimpleMsg *msg);
         virtual void receiveString(const StringMsg *msg);
 };
