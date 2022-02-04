@@ -1,0 +1,80 @@
+CE
+br-v-komfort
+ V: Na to, že je to vlastně smetiště, je to docela komfort.
+ V: It`s quite comfortable for a wasteyard.
+br-m-bydli
+ M: Myslíš, že tu někdo bydlí?
+ M: What do you think, does anybody live here?
+br-v-santusak
+ V: Nějaký podvodní santusák.
+ V: Some underwater homeless.
+br-m-podvodnik
+ M: Nebo santusácký podvodník.
+ M: We call them shell-less.
+
+br-m-vsim0
+ M: Všiml sis, že...
+ M: Did you notice that...
+br-m-vsim1
+ M: Není ti divné, že...
+ M: Don`t you think that...
+br-m-vsim2
+ M: To je zvláštní, že...
+ M: Isn`t it strange that...
+br-v-nerozvadet0
+ V: Já bych to nerozváděl.
+ V: Don`t speak about it.
+br-v-nerozvadet1
+ V: Prosím tě, žádné fekální vtipy.
+ V: Please, no jokes about defecation.
+br-v-nerozvadet2
+ V: Ano, vím o tom. Nebudeme to komentovat.
+ V: Yes, I know about that. We won`t comment on it.
+br-m-dva
+ M: Ale proč DVA?
+ M: Yeah, but why TWO?
+br-v-dost
+ V: Prosím tě, nech toho!
+ V: Stop it, will you?
+
+br-m-sprcha
+ M: Viděla jsem tu hodně zbytečností, ale podvodní sprcha...
+ M: I`ve seen many useless things, but an underwater shower...
+br-v-lazen
+ V: Třeba z ní tryská vzduch, jako ve vířivé lázni.
+ V: Maybe it sprays air, like in the bubble bath.
+br-m-zapnout
+ M: Myslíš, že bychom ji mohli zapnout?
+ N: Do you think we could turn it on?
+br-v-shodit
+ V: Těžko. Ale mohli bychom ji shodit.
+ V: Hardly. But we could push it down.
+
+br-m-poklady
+ M: No to jsou poklady.
+ M: Now this is real treasure.
+
+br-v-nechat
+ V: Měli jsme ji nechat tam, kde byla.
+ V: We should have let it alone.
+br-m-nefunguje
+ M: A navíc stejně nefunguje.
+ M: And it doesn`t work anyway.
+
+br-m-ahoj
+ M: Ahoj tam uvnitř.
+ M: Hello, inside there.
+br-v-draha
+ V: To je určitě lepší než horská dráha.
+ V: This must be better than rollercoaster.
+br-m-zkusit
+ M: Hned bych si to taky zkusila.
+ M: I would love to try it myself.
+
+br-m-bavi
+ M: Zdá se, že se dobře baví.
+ M: He seems to be enjoying himself.
+
+br-x-pracka
+x
+x

@@ -1,0 +1,43 @@
+CE
+vl-m-hara
+ M: To je ale haraburdí!
+ M: There is a lot of garbage here!
+vl-v-kaj1
+ V: To byla určitě kapitánova kajuta.
+ V: This was surely a captain`s cabin.
+vl-v-kaj2
+ V: Co bys chtěla po tolika letech.
+ V: What would you expect after so many years.
+
+vl-m-hak
+ M: Myslíš, že ten hák měl Silver místo ruky? Jak by se do té kajuty vešel?
+ M: Do you think that Silver had this hook in place of his hand?
+vl-v-lodni
+ V: To je lodní hák. S ním se vytahují čluny...
+ V: This is a ship hook. It`s used to pull up boats...
+vl-x-site
+ b: ... a sítě!
+ b: ... and nets!
+
+vl-m-oko
+ M: S tím okem to nevidím dobře.
+ M: It`s a strange looking eye.
+vl-v-silha
+ V: To oko potměšile šilhá.
+ V: This eye squints kind of sneaky.
+
+vl-leb-kecy0
+ l: Neviděli jste někde moje oko?
+ l: Haven`t you seen my eye somewhere?
+vl-leb-kecy1
+ l: Tenhle šátek je velice důležitý. Víte, ona lidská lebka s prázdným očním důlkem vypadá opravdu odpudivě.
+ l: This scarf is very important. The human skull with an empty eye socket looks really disgusting, you know.
+vl-leb-kecy2
+ l: Po té nešťastné nehodě s čajovou lžičkou se na svět dívám úplně jinak.
+ l: After that unfortunate accident with a teaspoon I have a completely different viewpoint of the world.
+vl-leb-kecy3
+ l: Proč já tady vlastně musím být. Jako by sem místo mě nemohli vrznout třeba truhlu... nebo kastról.
+ l: Why am I here, after all? As if they can`t put here some chest... or chamber pot.
+vl-leb-kecy4
+ l: Všímáte si práce mých mimických svalů? Dost dobrý, na kostru, ne?
+ l: Do you appreciate my facial expressions? Not bad for a skeleton, is it?

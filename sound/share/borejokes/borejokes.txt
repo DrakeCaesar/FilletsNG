@@ -1,0 +1,186 @@
+CE
+ ------mala beznadej---------------------------
+ob-m-neverim
+ M: Nevěřím, že to půjde...
+ M: I don`t believe we can make it...
+ob-m-nedosataneme
+ M: Už se odsud nikdy nedostaneme.
+ M: We aren`t going to get out of here.
+ob-m-naveky
+ M: Jsme tu na věky zavření.
+ M: We are shut here forever.
+ob-v-jit0
+ V: Musí to nějak jít.
+ V: There must be a way out.
+ob-v-jit1
+ V: Řešení tu je, jen ho nevidíme.
+ V: There is some solution, only we cannot see it.
+ob-v-musi
+ V: Hlavu vzhůru, nějak to jít musí.
+ V: Lift up your head, there must be a way.
+ob-v-klid
+ V: Jen klid.
+ V: Take it easy.
+ ------napady velkeho-----
+ob-v-neobvykle
+ V: V tom bude něco neobvyklého...
+ V: There is something strange about it...
+ob-m-teorie
+ M: Nepokoušej se zase rozvíjet ty svoje teorie.
+ M: Just spare me your theories, please.
+
+ob-v-mamto
+ V: Mám to! Když posuneme támhle tu ...
+ V: I`ve got it. If we push that one...
+ob-m-pokracuj
+ M: Pokračuj!
+ M: Go on!
+ob-v-napad
+ V: Ale ne, byl to jen takový nápad...
+ V: Oh no, it was just an idea...
+
+ob-v-vyzkousej
+ V: Co kdybychom vyzkoušeli támhle... 
+ V: What if we try that....
+ob-m-co
+ M: Co?
+ M: What?
+ob-v-alenic
+ V: Ale nic, to byl jen takový nápad.
+ V: Nothing. Just an idea.
+ob-m-zase
+ M: Už zase...
+ M: Not again.
+ -------velkou to nebavi-----------
+ob-v-nebavi
+ V: Už mě to nebaví.
+ V: I`m tired of it.
+ob-v-hrej
+ V: No tak, hrej, chceme se dostat ven.
+ V: Just play, we want to get out.
+ob-v-sami
+ V: Jestli nezačne ten hráč něco dělat, vyřešíme si to sami.
+ V: If the player keeps doing nothing, we`ll solve it ourselves.
+
+ob-m-pst
+ M: Pssst, neruš hráče, přemýšlí...
+ M: Shhh, don`t disturb the player. He thinks again...
+ob-m-hlavu
+ M: Zachovej chladnou hlavu.
+ M: Keep calm.
+ob-m-klid
+ M: Jen klid.
+ M: Take it easy.
+ -------malou to nebavi------------
+ob-m-jesteneco
+ M: Tak bude se ještě něco dít?
+ M: Will there be some action?
+ob-m-nedeje
+ M: Proč se nic neděje?
+ M: Why aren`t  we doing anything?
+ob-m-proc
+ M: Proč se nic neděje?
+ M: Why are we idle?
+ob-m-ceka
+ M: On snad čeká, že to vyřešíme za něj?!
+ M: Does he expect us to solve ourselves?
+
+ob-v-nerus
+ V: Neruš, hráč přemýšlí...
+ V: Don`t disturb. The player thinks again...
+
+ob-m-jetam
+ M: Je tam ten hráč vůbec?
+ M: Is there the player at all?
+ob-v-leskne
+ V: Nevím, obrazovka se zevnitř děsně leskne.
+ V: I don`t know. The screen glares too much from inside.
+ ------nikoho to nebavi----------------
+ob-v-prestavka
+ V: Malá přestávka nezaškodí.
+ V: The little break will help.
+
+ob-o-nebavi
+ 0: Už nás to čekání nebaví!
+ 0: We are tired of waiting!
+
+ob-o-halo
+ 0: Halóóó!
+ 0: Hello!
+ob-v-nelekl
+ V: Nelekl ses?
+ V: Did you flinch?
+ob-m-mysleli
+ M: My jsme jen mysleli, jestli jsi na nás nezapomněl.
+ M: We were just afraid that you might have forgotten about us.
+
+ob-v-nehybes
+ V: Hele, proč s námi nehýbeš?
+ V: Look, why don`t you move us a little bit?
+ob-m-resit
+ M: My jsme hra, nás máš řešit.
+ M: We are the game, you are supposed to solve us.
+ob-v-akvarium
+ V: Na koukání si pořiď akvárium.
+ V: Buy yourself a fish tank for observations.
+
+ob-v-halo
+ V: Halóóó! My jsme tady! Nezapomněl jsi na nás?
+ V: Hellooo! We are here? Did you forget about us?
+ 
+ -----------jen takovy provokacni kecy----------
+ob-m-tezky
+ M: Těžký, co?
+ M: Difficult, isn`t it?
+ob-v-jidlo
+ V: Hele, hráči, neskočil bys nám pro něco k jídlu? Dej nám to do adresáře TMP, hned to sníme.
+ V: Look player, couldn`t you bring us something to eat? Put it in the TEMP directory, we`ll eat it momentarily.
+
+ob-m-strach
+ M: Prosím tě, až přestaneš hrát, nevypínej počítač... je tady pak hrozná tma a mám strach.
+ M: When you stop playing, don`t turn off the computer, please. It`s so dark and scary here if you do.
+
+ob-m-jakdlouho
+ M: Jak dlouho to ještě budeme řešit?
+ M: How long are we going to solve it?
+ob-v-zvykacka
+ V: Tak dlouho, jak dlouho vydrží chuť téhle žvýkačky...
+ V: As long as the taste of this chewing gum lasts.
+ob-m-zvykacka
+ M: Cože, hotovo? Vždyť ta žvýkačka chutná ještě pořád skvěle.
+ M: What, you are finished? But this chewing gum still tastes extraordinary.
+
+ob-v-ostani
+ V: Co myslíš, jak jsou na tom ostatní?
+ V: What do you think, how are the other faring?
+ob-m-kdo
+ M: To jako kdo?
+ M: The other who?
+ob-v-kdoresi
+ V: No ostatní, kdo to řeší. Třeba už mají víc místností.
+ V: The other player who are solving this game. Maybe they managed to solve more levels.
+ob-m-pravdepodobne
+ M: To je dost pravděpodobné.
+ M: It`s very likely.
+
+ob-m-ach
+ M: Ach jo.
+ M: Oh, yeah.
+ob-v-copak
+ V: Copak?
+ V: What happened?
+ob-m-lito
+ M: Přišlo mi to tak nějak líto.
+ M: I just feel so sorry...
+ob-v-colito
+ V: Co ti přišlo líto?
+ V: Sorry for what?
+ob-m-vsechno
+ M: No... všechno.
+ M: Sorry for everything.
+ob-v-covsechno
+ V: Co všechno?
+ V: What everything?
+ob-m-uplnevse
+ M: Úplně všechno! A vůbec, starej se o sebe!
+ M: Completely everything! And leave me alone, I beg you!

@@ -1,0 +1,64 @@
+CE
+bot-m-vidis
+ M: Vidíš toho koníka?
+ M: Can you see that seahorse?
+bot-v-uveznen0
+ V: Je uvězněný mezi amforami.
+ V: It is blocked by amphoras.
+bot-v-uveznen1
+ V: Opíjel se mezi amforami.
+ V: It got itself drunk among amphoras.
+bot-m-zajem
+ M: Zajímalo by mě, jestli v nich ještě něco je.
+ M: I wonder if there is anything left in them.
+bot-v-podivat
+ V: Asi se stejně budeš muset jít podívat.
+ V: You probably have to go check for yourself.
+
+bot-m-vidim
+ M: Konečně vidím nějakou novou lebku.
+ M: Finally, I can see some new kind of skull.
+
+bot-v-vsim
+ V: Všimla sis toho totemu? To je mexický bůh Škleboxuatl.
+ V: Did you notice that totem? This is Mexican god Shelloxuatl.
+bot-m-vypada
+ M: Vypadá na to.
+ M: It looks like that.
+
+bot-m-padaji
+ M: Ty amfory padají nelidsky pomalu.
+ M: These amphores fall unbearably slow.
+bot-v-vsak0
+ V: Však také nejsi člověk.
+ V: Well, you are not a bear, after all.
+bot-v-vsak1
+ V: Však jsme také pod vodou.
+ V: Don`t forget we are under water.
+
+bot-m-ble
+ M: Blé... Tuhle animaci si autoři mohli odpustit.
+ M: Yuck. The authors could spare us that animation.
+bot-v-totem
+ V: Mně se ten totem líbí.
+ V: This totem looks good to me.
+
+bot-v-lebka
+ V: Z té lebky vyzařuje něco tajemného.
+ V: That skull seems to radiate something strange.
+
+bot-m-zivy
+ M: Je to živý, nebo je to kouzlo?
+ M: Is it alive or is it some kind of spell?
+
+bot-x-smich
+x
+x
+
+bot-x-gr0
+x
+x
+
+bot-x-gr1
+x
+x

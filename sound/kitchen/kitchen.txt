@@ -1,0 +1,120 @@
+CE
+kuch-m-objev0
+ M: To je ale hezká kuchyně.
+ M: Oh my, this is a nice kitchen.
+kuch-m-objev1
+ M: Vida, objevili jsme lodní kuchyni.
+ M: Yeah, we discovered the ship kitchen.
+kuch-m-objev2
+ M: Zatracená kuchyně.
+ M: Darned kitchen.
+kuch-m-objev3
+ M: Tak, a jsme v kuchyni kapitána Silvera.
+ M: And now we are in the captain Silver`s kitchen.
+kuch-v-varil
+ V: Nemyslím, že si vařil sám.
+ V: I don`t think he was a cook himself.
+kuch-v-problem
+ V: Ale to není náš problém.
+ V: But this is not our problem.
+kuch-m-noproblem
+ M: Tady vůbec moc problémů není. Já můžu odplout hned.
+ M: There are not many problems here. I can swim out at once.
+kuch-v-podivej
+ V: No tak se podívej, kde jsem já.
+ V: But just have a look at me.
+
+kuch-v-stolky0
+ V: Nechápu, jak sem dostali ty servírovací stolky.
+ V: I can`t understand how these serving tables got there.
+kuch-v-stolky1
+ V: Ty stolky mně tady hrozně zavazí.
+ V: These tables are in the way.
+kuch-v-stolky2
+ V: Mám už z téhle komůrky silně klaustrofobní pocit.
+ V: This little chamber gives me the creeps.
+
+kuch-v-odsud0
+ V: Nemůžu se odsud dostat!
+ V: I can`t get out of here!
+kuch-m-premyslim0
+ M: Zrovna přemýšlím, jak ti pomoci.
+ M: I`m just thinking how to help you.
+
+kuch-v-odsud1
+ V: Pomoz mi nějak!
+ V: Help me somehow!
+kuch-m-premyslim1
+ M: Přemýšlím...
+ M: I am thinking...
+kuch-m-premyslim2
+ M: Už se na tom pracuje.
+ M: I am on my way.
+
+kuch-m-hrnec0
+ M: Fuj, v tom hrnci je něco připečené!
+ M: Yuck, there is something left in this pot!
+kuch-m-hrnec1
+ M: Ten hrnec není ani umytý.
+ M: This pot wasn`t even washed up.
+kuch-m-hrnec2
+ M: Tady asi nikdo neumývá nádobí.
+ M: Nobody washes the dishes here.
+
+kuch-v-kreslo0
+ V: Kdyby tu nebylo to křeslo, ušetřili by jsme si spoustu práce.
+ V: If there was no chair, it would save us a lot of work.
+kuch-v-ja
+ V: Hlavně já.
+ V: Especially myself.
+kuch-m-kreslo0
+ M: Co vlastně dělá křeslo v kuchyni?
+ M: What is a chair doing in a kitchen?
+kuch-v-kreslo1
+ V: Křeslo nemá co dělat v kuchyni.
+ V: There should be no chairs in the kitchen.
+kuch-m-kreslo2
+ M: Každý si chce někdy odpočinout.
+ M: Everybody want to rest sometimes.
+
+kuch-m-stolky
+ M: Ty stolky jsem už někde viděla.
+ M: I have seen these tables somewhere.
+kuch-v-serie
+ V: To víš, sériová dřevařská práce.
+ V: They are mass-produced, you know.
+kuch-m-pekne
+ M: Ale jsou pěkné. Taky si takové pořídíme.
+ M: But they are nice. We`ll order us a few, too.
+
+kuch-v-obavam
+ V: Obávám se, že do této části se dostanu jenom já.
+ V: I am afraid that only I can get out of this space.
+
+kuch-m-zapeklite
+ M: Vypadá to, že jsou i v této lodi skutečně zapeklité problémy.
+ M: It seems that even this ship contains some demanding problems.
+
+kuch-v-mec
+ V: Proč je tu ten meč?
+ V: Why is that sword here?
+kuch-m-porcovani
+ M: Asi ho používali k porcování masa.
+ M: Maybe they used it to cut the meat.
+kuch-v-nedela
+ V: To jistě. Ale s mečem se to obvykle nedělá v kuchyni.
+ V: Certainly. But you don`t cut meat with a sword in the kitchen, usually.
+
+kuch-m-kuchari
+ M: Ještě, že už tu nejsou kuchaři. Ještě by nás mohli chtít uvařit.
+ M: We are lucky there are no cooks here. They could try to cook us.
+
+kuch-v-svitek0
+ V: Na tom svitku je nějaký recept.
+ V: There must be some recipe on that parchment.
+kuch-v-svitek1
+ V: Na tom svitku je asi nějaké kulinářské tajemství.
+ V: There must be some culinary mystery on that parchment.
+kuch-m-recept
+ M: Třeba recept na úpravu ryb.
+ M: Possibly, how to cook the fish.

@@ -1,0 +1,75 @@
+CE
+poc-m-lezt0
+ M: Kam jsme to zase vlezli?
+ M: That`s another fine mess.
+poc-m-lezt1
+ M: A co je zase tohle?
+ M: What kind of place is this?
+poc-m-lezt2
+ M: To je teda místo.
+ M: Wow, that`s a place.
+poc-v-kam0
+ V: Kam tak člověk - chci říci ryba - může vlézt záchodem?
+ V: Where can man - I mean fish - get by climbing into toilet?
+poc-v-kam1
+ V: Vypadá to na malé úhledné smetiště.
+ V: It looks like a cozy little dump.
+poc-v-kam2
+ V: Podívej, co ty lidi nenaházeli do záchodu.
+ V: Look, what kind of things have the people flushed down the toilet.
+poc-v-kam3
+ V: Když jsem sem lezl, tak jsem to čekal horší.
+ V: I thought it would be worse when I was climbing in.
+
+poc-v-nenajde
+ V: Co všechno se na takovém smetišti nenajde.
+ V: You can find many strange things in such a dump.
+
+poc-m-myslis
+ M: Myslíš, že tohle je ten počítač, o který se tu hraje?
+ M: Do you think this is the computer that`s in stake in this game?
+poc-v-multimed
+ V: No dovol! Tohle přece není výkoný multimediální počítač. To je XTéčko s dvanáctipalcovým monitorem. 
+ V: Surely not! This is no powerful multimedia computer. This is but XT machine with twelve inch display.
+poc-v-vyresil
+ V: Ten, kdo první vyřeší, chci říci vyřešil, všechny zbývající levely, vyhraje, chci říci vyhrál, počítač s technologií MMX, 3Dfx kartou, spoustou paměti, olbřímím diskem... 
+ V: The one who will solve, I mean who have solved, will receive, I mean received, MMX based machine with 3Dfx card, plenty of RAM, huge hard disk...
+poc-m-kcemu
+ M: No a k čemu to je? Já třeba znám spoustu her, skroro stejně dobrých, jako je tahle, a ty by klidně běžely i na tomhle XTéčku.
+ M: And what is it for? I for one know plenty of games almost as good as this one that could easily run on this XT machine.
+poc-v-pssst
+ V: Pssst!
+ V: Shhhh!
+
+poc-v-napad
+ V: Hele, jen takový nápad: Co když je to ten počítač, který máme hledat?
+ V: Hey, look, just an idea: Could this be the computer we are looking for?
+poc-m-mohlby
+ M: To by mohl být on.
+ M: This could be it.
+poc-v-stahni
+ V: Tak na co čekáme? Stáhni na disketu ta podezřelá data a můžeme jít.
+ V: So what are we waiting for? Put that suspicious data on the diskette and off we go.
+poc-m-ukryta
+ M: To nebude tak jednoduché. Data v něm budou určitě dobře ukryta. Budu se muset dostat dovnitř.
+ M: It won`t be as easy as that. The data are surely going to be hidden somewhere. We have to go in.
+poc-v-dira
+ V: Co tam zkusit vlézt třeba támhletou dírou?
+ V: And what about getting in through that opening?
+poc-m-mechanika
+ M: To je disketová mechanika.
+ M: That is a floppy disk drive.
+poc-m-zezadu
+ M: Musím se k němu dostat zezadu.
+ M: I have to get to the back of it.
+
+poc-m-vyvrtka
+ M: Polož tu vývrtku a pojď mi pomoct.
+ M: Put down that corkscrew and come to help me.
+
+poc-m-kram
+ M: To je ale odporný krám. Velký, těžký a určitě strašně pomalý.
+ M: Oh my, what a sloppy machine. So big, so heavy and surely so slow.
+poc-v-mono
+ V: A navíc mono.
+ V: And moreover only mono.

@@ -1,0 +1,41 @@
+CE
+pt1-m-parnicek
+ M: Hleďme. Výletní parníček.
+ M: Look. The party boat.
+pt1-v-predtucha
+ V: Mám takovou předtuchu, že to nebudou žádní normální výletníci.
+ V: I have a feeling that this is not going to be a normal picnic.
+pt1-m-predtucha
+ M: Ty tvoje předtuchy. Určitě to budou milí a přátelští lidé.
+ M: You and your feelings. Surely it`s full of kind and friendly people.
+
+pt1-m-kostlivec
+ M: Možná, žes měl pravdu. Jsou to divní výletníci.
+ M: Maybe, you were right. This is a strange picnic.
+pt1-m-vylezt0
+ M: Myslíš, že by mohli z té lodi vylézt?
+ M: Do you think they could get out of this boat?
+pt1-m-vylezt1
+ M: Doufám, že z té lodi nevylezou.
+ M: I hope they can`t get out of that boat.
+pt1-m-vylezt2
+ M: Co jestli nás začnou honit.
+ M: What if they start to pursue us?
+
+pt1-v-pryc0
+ V: Myslím, že by nás nedohnali. Kostlivci asi nebudou přeborníci v plavání.
+ V: I don`t think they could get us. Skeletons can`t swim very well.
+pt1-v-pryc1
+ V: Radši na to nemysli a pohni sebou, ať jsme odsud co nejrychleji pryč.
+ V: Stop thinking about it and move your fins so that we can get out of here.
+
+pt1-v-valec
+ V: To chceš podepřít ten ocelový válec skleničkou?
+ V: You want to support that steel tube with a glass?
+pt1-m-nemuzu
+ M: Víc pro tebe udělat nemůžu.
+ M: I can`t do anything else for you.
+
+pt1-v-pozor
+ V: Pozor, ať to nevyliješ!
+ V: Be careful not to spill it!

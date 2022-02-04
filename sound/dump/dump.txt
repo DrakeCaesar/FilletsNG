@@ -1,0 +1,75 @@
+CE
+sm-m-prolezame
+ M: Už šestou místnost prolézáme smetiště.
+ M: We are crawling through wasteyard for six levels now.
+sm-v-jine0
+ V: Tohle je obzvlášť vydařené.
+ V: This one looks really very waste-like. 
+sm-v-jine1
+ V: Ba ne, mám pocit, že tohle je něčím zvláštní.
+ V: But no, I think that there is something strange about it.
+sm-v-jine2
+ V: Ne, myslím, že tu je něco, co není nikde jinde.
+ V: No, I think there is something here, what cannot be found anywhere else.
+
+sm-v-budik
+ V: Podívej se na ten budík. Nepřipomíná ti něčím dudlík?
+ V: Look at that clock. Doesn`t it resemble a child-comforter a little?
+sm-m-normalni
+ M: Jsi normální?
+ M: Do you feel all right?
+
+sm-m-kramy0
+ M: Tady je ale krámů.
+ M: This is a pile of garbage.
+sm-m-kramy1
+ M: Tady muselo ztroskotat vetešnictví.
+ M: This must be a wreck of a flea shop.
+sm-v-kramy2
+ V: Tady je to horší než v ropné skvrně.
+ V: It`s worse here than in an oil spill.
+sm-v-kramy3
+ V: Tady je ale svinstva.
+ V: There is so much filth here.
+
+sm-v-lod
+ V: Vidíš tu loďku?
+ V: Can you see that boat?
+sm-m-dedek
+ M: Tu s tím dědkem?
+ M: The one with that old man?
+sm-v-charon
+ V: To je starý Cháron, převozník mrtvých.
+ V: It`s old Charon, ferryman of the dead.
+sm-m-codela
+ M: A co dělá na smetišti?
+ M: And what does he do on the wasteyard?
+sm-v-duchodce0
+ V: Asi je z něj dneska důchodce.
+ V: He`s probably retired.
+sm-v-duchodce1
+ V: Mrtvoly nevynášely dost, tak se s mladým dali na odpadky.
+ V: The corpses were no longer profitable and so they started a recycling business.
+
+sm-v-sbirka
+ V: Vidíš tu sbírku neužitečností, podivností a odpadků... Všechno to kdysi byly užitečné věci, které někdo pracně vyrobil.
+ V: Can you see that collection of useless stuff, weird objects and refute... All of them were useful things, carefully and skillfully manufactured.
+sm-m-namaloval
+ M: Nebo namaloval.
+ M: Or painted.
+sm-v-marnost
+ V: Je to všechno marnost, jako ta medúza.
+ V: Everything is in vain, like that medusa over there.
+sm-m-proc
+ M: Proč?
+ M: Why?
+sm-v-podivej
+ V: Podívej se na ni. Běží stále vpřed a zůstává na místě. Není to snad nejkrásnější příklad toho, o čem jsem mluvil?
+ V: Just look at it. It keeps running forward but stays in one place. Isn`t it the most fitting example of what I was speaking about?
+sm-x-meduza
+ m: Běhám, abych zhubla, vy troubové!
+ m: I am jogging to lose weight, you fools!
+
+sm-x-tiktak
+x
+x

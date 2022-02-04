@@ -1,0 +1,158 @@
+CE
+kd-uvod
+ @: Dobrý den, ryby. Tentokrát jde o záležitost mimořádného významu, proto se obracíme na vás jako na naše nejschopnější agenty pod vodou.
+ @: Good morning, fish. This is an affair of the gravest importance and so we have chosen you, our ablest underwater agents.
+kd-ufo
+ @: Informátorům naší Fakt Děsně Tajné Organizace se podařilo získat několik amatérských záběrů mimozemského objektu, který se zřítil někam do vaší oblasti. Vaším úkolem, pokud ho přijmete, bude UFO najít a získat informace o principech a konstrukci mezihvězdného pohonu.
+ @: Agents of FDTO - Fish Detective Training Organization - managed to get hold of several amateur snapshots of an extraterrestrial object which has crashed somewhere in your vicinity. Your mission, if you choose to accept it, will be to recover the UFO and acquire all the information you can about the principles and nature of interstellar propulsion.
+kd-mesto
+ @: Zároveň zkuste pohnout s našimi starými nevyřešenými případy. Především jsou to nejasnosti kolem potopení dávného mýtického města, shodou okolností v téže oblasti.
+ @: You should also try to close some of our as yet unsolved cases. We are mostly interested in the circumstances surrounding the sinking of the mythical city, by chance in the same area.
+kd-bermudy
+ @: S tím může souviset i záhada Bermudského trojúhelníku. Zjistěte, proč se v něm už po léta ztrácejí lodě a letadla.
+ @: This case may be connected to the mystery of the Bermuda Triangle. Find out why so many ships and planes have disappeared in this area over the past several decades.
+kd-silver
+ @: Navíc jedna ze ztracených lodí údajně patřila legendárnímu kapitánu Silverovi. Kolem tohoto slavného piráta je stále mnoho nejasností. Nás především zajímá mapa místa, kam zakopal své poklady.
+ @: One of the lost ships is rumored to have belonged to the legendary Captain Silver. There are still many uncertainties surrounding this famous pirate. Most of all we are interested in the map which shows the location of his buried treasure.
+kd-pocitac
+ @: Jedním z nejdůležitějších úkolů je najít počítač, který v hlubinách ukryla nejmenovaná zločinná organizace. Obsahuje údaje o projektu, který by mohl změnit celý svět.
+ @: One of your most important tasks is to find the computer hidden in the deep by a certain criminal organization. It contains data about a project which could change the entire world.
+kd-zelva
+ @: Také je třeba zajistit tajemnou želvu, želvu korálovou, jež uprchla z nápravně výchovné laboratoře FDTO. Není ozbrojena, ale zřejmě má telepatické schopnosti.
+ @: You should also find and detain the mysterious coral turtle. It escaped from the FDTO interrogation facility. It is not armed, but it supposedly has telepathic abilities.
+kd-elektr
+ @: Byli jsme upozorněni, že jistá jaderná elektrárna se zbavuje radiaktivního odpadu nelegálním způsobem. Prověřte to. 
+ @: We have been notified that a certain nuclear power plant has been dumping its radioactive waste illegally. Check it out.
+kd-gral
+ @: A také nezapomeňte najít svatý grál.
+ @: And don`t forget to find the holy grail.
+kd-zaver
+ @: A jako vždy: Bude-li někdo z vašeho týmu uvězněn či zabit, Altar se od všeho distancuje a místnost bude restartována.
+ @: And as usual: If anyone from your team is injured or killed, Altar will deny any knowledge of your existence and the level will be restarted.
+kd-znici
+ @: Tento disk se zničí za pět sekund.
+ @: This disk will self-destruct in five seconds.
+
+kuf-m-je
+ M: Jé, už zase...
+ M: Oh no, not again...
+kuf-v-noco
+ V: No, co naděláme.
+ V: You know there`s nothing we can do about it.
+kuf-v-hod
+ V: Hodíme to dolů a podíváme se na to.
+ V: Let`s push it down so we can take a look at it.
+
+kuf-v-doprace
+ V: Tak, pusťme se do práce.
+ V: Well, let`s get to work.
+kuf-v-dotoho
+ V: Tak, a teď už se do toho konečně pustíme.
+ V: So, now we can finally get started.
+kuf-m-ven
+ M: Naším prvním úkolem bude dostat se ven z místnosti.
+ M: Our first task is to get out of this room.
+kuf-v-ukol
+ V: To bude ostatně naším úkolem ve všech místnostech.
+ V: This, by the way, is going to be our task in all the other rooms as well.
+
+kuf-v-jeste
+ V: Nepodíváme se na to ještě jednou?
+ V: Should we watch it again?
+kuf-m-disk
+ M: Jak? Disk se zničil.
+ M: How? The disk self-destructed
+kuf-v-restart
+ V: Mohli bychom místnost restartovat.
+ V: We could restart the level.
+kuf-m-pravda
+ M: To je pravda...
+ M: That`s true...
+
+kuf-m-dodilny
+ M: Pojď, vezmeme hráče do dílny a ukážeme mu pravidla bezpečnosti práce.
+ M: Come on, let`s take the player into the workshop and show him the work safety regulations.
+kuf-v-napad
+ V: Dobrý nápad.
+ V: Good idea.
+
+kuf-m-nezvednu
+ M: Já to nenadzvednu, zkus to ty.
+ M: I can`t lift it. Can you give it a try?
+kuf-m-kousek
+ M: Ještě kousek, ať pod tebou můžu projet.
+ M: Just a little bit higher so I can swim underneath you.
+
+help1
+ M: Teď na nic nesahej, jen se dívej. Ukážeme ti, co bys s námi neměl dělat a co dělat umíme.
+ M: For now, don`t touch anything, just watch and learn. We`ll show you what you should and shouldn`t do with us as well as what things we`re capable of.
+help2
+ V: Než vstoupíme do dílny, uložíme si pozici - dělá se to klávesou F2.
+ V: Before entering the workshop, let`s save the game - just press the F2 key.
+help3
+ M: Nejprve ti ukážeme, co nám ubližuje.
+ M: First we`ll show you what can hurt us.
+help4
+ V: Já budu dělat figuranta.
+ V: I`ll volunteer to be the dummy.
+
+help5
+ M: Především bychom na sebe neměli házet předměty.
+ M: First of all, we shouldn`t drop things on each other.
+help6
+ M: Stejně tak nesmíme podklesnout pod předmětem, který neseme - spadnul by na nás.
+ M: We also can`t swim downwards when carrying an object, because it would fall on us.
+
+help7
+ V: Nyní začínáme znovu - můžeme však nahrát uloženou pozici klávesou F3.
+ V: Now we`ll start again - or we can load the saved game by pressing the F3 key.
+help8
+ V: Tak, a jsme na místě, kde jsme hru ukládali.
+ V: And now we`re back where we last saved the game.
+help9
+ M: Další věc, kterou nesmíme dělat, je posunovat si předmět po hřbetě.
+ M: Another thing we must not do is push objects along our back.
+help10
+ M: Některé předměty mají takový tvar, že bych je mohla zároveň držet i posouvat - ale to také nesmím.
+ M: Some objects are shaped in such a way that we could hold them and push them at the same time - but we`re not allowed to do this either.
+
+help11
+ V: Znovu nahrajeme pozici klávesou F3.
+ V: Again, we load a saved game by pressing the F3 key.
+help12
+ M: Nesmíme ani přihazovat předměty na hromádku, kterou někdo z nás drží.
+ M: We also can`t drop additional objects on a pile that one of us is carrying.
+help13
+ M: A já, na rozdíl od většího kamaráda, nejen že nepohnu s ocelovými předměty, ale nesmím je ani držet.
+ M: And unlike my bigger partner, I can`t move or even carry steel objects.
+
+help14
+ V: Naposledy jsme nahráli pozici. Teď ti ukážeme, co dělat umíme.
+ V: We have loaded our saved game for the last time. Now we`ll show you all the things we`re capable of.
+help15
+ M: Předmět můžeme vždy zvedat a zase pouštět.
+ M: We can always pick up objects and then let them fall.
+help16
+ M: Pokud se těsně před tím, než by nás měl zamáčknout, někde zachytí, můžeme ho i posouvat jedna po druhé...
+ M: We can push an object along each other`s back only if the object will then be pushed onto another support...
+help17
+ M: ... a dokonce ho na sebe pouštět.
+ M: ... and even let it drop on each other in this case.
+help18
+ M: To mohu udělat i sama... podklesnu pod ním... a nebo jej nasunu támhle na tu polici.
+ M: I can even do this alone... I can swim down under it... or put it on this ledge.
+help19
+ M: Také můžeme posouvat předmět po jiném předmětu, který držíme, ne však přímo po zádech.
+ M: We can also push one object along the top of another object which we are supporting, but we can`t move the object that is directly on our back.
+help20
+ V: Můžeme také pod předmětem volně proplouvat a předávat si jej.
+ V: We can also swim freely under an object which we are supporting and pass it to the other fish.
+help21
+ M: A pokud předmět hned spadne, můžeme ho jedna z druhé shodit.
+ M: And we can push objects off of each other`s back, as long as the object falls down immediately.
+help22
+ V: Tak, to by asi bylo z pravidel všechno. Chceš-li vědět více, stiskni F1 a přečti si návod.
+ V: That`s about it for the rules. If you want to know more, press F1 and read the help section.
+help23
+ M: Já bych to ještě shrnula. Předměty můžeme beztrestně pouze zvedat, pouštět, posouvat po pevné podložce, na něco je nasouvat nebo je ze sebe shazovat.
+ M: In summary, we can only lift objects, let them drop, push them along a solid surface, push them onto a surface, and push them off of each other.

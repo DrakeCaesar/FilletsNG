@@ -1,0 +1,84 @@
+CE
+bat-m-tohle
+ M: Tohle vypadá na výzkumnický batyskaf.
+ M: So this is an exploratory bathyscaph.
+
+bat-m-mikro
+ M: Pěkný mikroskop.
+ M: A nice microscope.
+
+bat-v-zved0
+ V: Nemám to zvednout?
+ V: Shouldn`t I lift this?
+bat-v-zved1
+ V: Nechceš to zvednout?
+ V: Do you want me to lift this up?
+bat-v-vyp
+ V: Nemám to vypnout?
+ V: Shouldn`t I turn that off?
+
+bat-v-klid
+ V: Teď už bude klid.
+ V: Now it will be quiet here.
+bat-m-sluch
+ M: Odsud to sluchátko už nedostaneme.
+ M: We can`t get the receiver from there.
+
+bat-s-prome0
+ H: To bude asi pro mě...
+ H: This is going to be for me...
+bat-s-prome1
+ H: To asi volá můj brácha...
+ H: This is going to be my brother...
+bat-s-prome2
+ H: Mohli byste zvednout ten telefon?
+ H: Could you handle me that call, please?
+
+bat-s-snek0
+ H: Doufám, že vám tady moc nezavazím.
+ H: I hope I am not in the way here.
+bat-s-snek1
+ H: Opravdu, můžu klidně popolézt. Stačí říct.
+ H: Really, I can easily crawl away. Just say a word.
+bat-s-snek2
+ H: Nerad bych nějak překážel.
+ H: I really don`t want to be an obstacle.
+bat-s-snek3
+ H: Klidně řekněte, jestli mám uhnout.
+ H: Just tell me if you want me to move away.
+
+bat-p-0
+ Z: Haló.
+ Z: Hello.
+bat-p-1
+ Z: Je tam někdo?
+ Z: Is somebody there?
+bat-p-2
+ Z: Brácho, seš tam?
+ Z: Are you there, brother?
+bat-p-3
+ Z: Tady šnek Pižla.
+ Z: The snail Escargot speaking.
+bat-p-4
+ Z: Nic neslyším.
+ Z: I can`t here you.
+bat-p-5
+ Z: Haló haló!
+ Z: Hello, hello!
+
+bat-t-phone0
+x
+x
+bat-t-phone1
+x
+x
+bat-t-budik
+x
+x
+ 
+bat-p-zhov0
+ S: Haló, tady policejní šéfinspektor Clouseau. Hledám nebezpečné měkkýše, kteří... Kato, teď ne, ty žlutá opice!
+ S: Hello, the chief inspector Clouseau speaking. I am looking for the dangerous shellfish, who... Oh no, not know, Kato, you yellow ape!
+bat-p-zhov1
+ g: Dobrý den. Dovolali jste se na číslo 02 21913271. Z rodiny Okružáků nikdo není doma. Dokonce ani velkej brácha Eduard. Jestli chcete, můžete nám zanechat vzkaz, až pípne signál. Co je s tím signálem?
+ g: Hello, you have reached the number 4202-21913271. Nobody from the family of Roundfish is presently present. Please, leave the message after the beep. What happened?
