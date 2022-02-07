@@ -112,9 +112,11 @@ NodeDrawer::drawSelect(const V2 &loc) const
 
     const SDL_Surface *dot = m_imagePack->getRes("solved");
     int radius = max(dot->w, dot->h) / 2 + 1;
-    Uint32 colorRGBA = 0xffc61880;
+    Uint32 colorRGBA = 0x8018c6ff;
+    SDL_Renderer* renderer = SDL_CreateSoftwareRenderer(m_screen);
 
-    //filledCircleColor(m_screen, loc.getX(), loc.getY(), radius, colorRGBA);
+
+    filledCircleColor(renderer, loc.getX(), loc.getY(), radius, colorRGBA);
 }
 //-----------------------------------------------------------------
 /**
@@ -144,12 +146,18 @@ NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
     Sint16 y1 = start->getLoc().getY();
     Sint16 x2 = end->getLoc().getX();
     Sint16 y2 = end->getLoc().getY();
+    
+    SDL_Renderer * renderer = SDL_CreateSoftwareRenderer(m_screen);
 
-    Uint32 colorRGBA = 0xffff00ff;
-    //aalineColor(m_screen, x1, y1, x2, y2, colorRGBA);
-    //aalineColor(m_screen, x1 - 1, y1 - 1 , x2 - 1, y2 - 1, colorRGBA);
-    //aalineColor(m_screen, x1 + 1, y1 + 1 , x2 + 1, y2 + 1, colorRGBA);
-    //aalineColor(m_screen, x1 - 1, y1 + 1 , x2 - 1, y2 + 1, colorRGBA);
-    //aalineColor(m_screen, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
+    Uint32 colorRGBA = 0xff00ffff;
+
+    aalineColor(renderer, x1, y1, x2, y2, colorRGBA);
+    aalineColor(renderer, x1 - 1, y1 - 1 , x2 - 1, y2 - 1, colorRGBA);
+    aalineColor(renderer, x1 + 1, y1 + 1 , x2 + 1, y2 + 1, colorRGBA);
+    aalineColor(renderer, x1 - 1, y1 + 1 , x2 - 1, y2 + 1, colorRGBA);
+    aalineColor(renderer, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
+    aalineColor(renderer, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
+
+    
 }
 
