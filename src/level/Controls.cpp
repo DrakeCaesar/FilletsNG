@@ -321,10 +321,11 @@ Controls::activateDriven(char symbol)
 void
 Controls::setActive(t_units::iterator active)
 {
-    if (m_active != active) {
+    //TODO: check vector comparison 
+    //if (m_active != active) {
         m_speedup = 0;
         m_active = active;
-    }
+    //}
 }
 //-----------------------------------------------------------------
 /**

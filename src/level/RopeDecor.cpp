@@ -12,7 +12,7 @@
 
 #include "View.h"
 
-#include "SDL_gfxPrimitives.h"
+#include "SDL2/SDL2_gfxPrimitives.h"
 
 //-----------------------------------------------------------------
 RopeDecor::RopeDecor(const Cube *model1, const Cube *model2,
@@ -34,7 +34,7 @@ RopeDecor::drawOnScreen(const View *view, SDL_Surface *screen)
 
     //NOTE: steel color
     Uint32 colorRGBA = 0x30404eff;
-    lineColor(screen, loc1.getX(), loc1.getY(),
-            loc2.getX(), loc2.getY(), colorRGBA);
+    //lineColor(screen, loc1.getX(), loc1.getY(),
+    //        loc2.getX(), loc2.getY(), colorRGBA);
 }
 

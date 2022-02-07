@@ -18,7 +18,7 @@
 #include "TimerAgent.h"
 #include "minmax.h"
 
-#include "SDL_gfxPrimitives.h"
+#include "SDL2/SDL2_gfxPrimitives.h"
 #include "Application.h"
 
 //-----------------------------------------------------------------
@@ -114,7 +114,7 @@ NodeDrawer::drawSelect(const V2 &loc) const
     int radius = max(dot->w, dot->h) / 2 + 1;
     Uint32 colorRGBA = 0xffc61880;
 
-    filledCircleColor(m_screen, loc.getX(), loc.getY(), radius, colorRGBA);
+    //filledCircleColor(m_screen, loc.getX(), loc.getY(), radius, colorRGBA);
 }
 //-----------------------------------------------------------------
 /**
@@ -146,10 +146,10 @@ NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
     Sint16 y2 = end->getLoc().getY();
 
     Uint32 colorRGBA = 0xffff00ff;
-    aalineColor(m_screen, x1, y1, x2, y2, colorRGBA);
-    aalineColor(m_screen, x1 - 1, y1 - 1 , x2 - 1, y2 - 1, colorRGBA);
-    aalineColor(m_screen, x1 + 1, y1 + 1 , x2 + 1, y2 + 1, colorRGBA);
-    aalineColor(m_screen, x1 - 1, y1 + 1 , x2 - 1, y2 + 1, colorRGBA);
-    aalineColor(m_screen, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
+    //aalineColor(m_screen, x1, y1, x2, y2, colorRGBA);
+    //aalineColor(m_screen, x1 - 1, y1 - 1 , x2 - 1, y2 - 1, colorRGBA);
+    //aalineColor(m_screen, x1 + 1, y1 + 1 , x2 + 1, y2 + 1, colorRGBA);
+    //aalineColor(m_screen, x1 - 1, y1 + 1 , x2 - 1, y2 + 1, colorRGBA);
+    //aalineColor(m_screen, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
 }
 
