@@ -5,25 +5,26 @@ include(CTest)
 include(CPack)
 enable_testing()
 
-file(GLOB_RECURSE fillets_SRC CONFIGURE_DEPENDS "src/*.cpp" )
+file(GLOB_RECURSE fillets_SRC CONFIGURE_DEPENDS "src/*.cpp")
 list(FILTER fillets_SRC EXCLUDE REGEX ".*FsPath_boost\.cpp$")
 add_executable(fillets ${fillets_SRC})
 
 find_package(SDL2 CONFIG REQUIRED)
-find_package(sdl2-ttf CONFIG REQUIRED)
 find_package(sdl2-image CONFIG REQUIRED)
-find_package(sdl2-mixer CONFIG REQUIRED)
 find_package(sdl2-gfx CONFIG REQUIRED)
 
-target_link_libraries(fillets PRIVATE SDL2::SDL2 )
-target_link_libraries(fillets PRIVATE SDL2::SDL2main )
+find_package(SDL2_mixer CONFIG REQUIRED)
+find_package(SDL2_ttf CONFIG REQUIRED)
+
+target_link_libraries(fillets PRIVATE SDL2::SDL2 SDL2::SDL2main)
 target_link_libraries(fillets PRIVATE SDL2::SDL2_image)
-target_link_libraries(fillets PRIVATE SDL2::SDL2_mixer)
-target_link_libraries(fillets PRIVATE SDL2::SDL2_ttf) 
 target_link_libraries(fillets PRIVATE SDL2::SDL2_gfx)
 
+target_link_libraries(fillets PRIVATE $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>)
+target_link_libraries(fillets PRIVATE $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
 
-file(GLOB fillets_INCLUDE_DIRS LIST_DIRECTORIES true "src/*/" )
+file(GLOB fillets_INCLUDE_DIRS LIST_DIRECTORIES true "src/*/")
+
 foreach(dir ${fillets_INCLUDE_DIRS})
     target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${dir})
 endforeach()
