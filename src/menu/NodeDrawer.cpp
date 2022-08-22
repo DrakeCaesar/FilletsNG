@@ -117,6 +117,8 @@ NodeDrawer::drawSelect(const V2 &loc) const
 
 
     filledCircleColor(renderer, loc.getX(), loc.getY(), radius, colorRGBA);
+
+    SDL_DestroyRenderer(renderer);
 }
 //-----------------------------------------------------------------
 /**
@@ -158,6 +160,6 @@ NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
     aalineColor(renderer, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
     aalineColor(renderer, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
 
-    
+    SDL_DestroyRenderer(renderer);
 }
 

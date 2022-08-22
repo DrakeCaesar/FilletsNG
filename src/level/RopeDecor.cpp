@@ -40,5 +40,7 @@ RopeDecor::drawOnScreen(const View *view, SDL_Surface *screen)
     
     lineColor(renderer, loc1.getX(), loc1.getY(),
             loc2.getX(), loc2.getY(), colorRGBA);
+
+    SDL_DestroyRenderer(renderer);
 }
 
