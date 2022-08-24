@@ -30,7 +30,6 @@
 #include "SimpleMsg.h"
 #include "StringMsg.h"
 
-#include "SDL.h"
 #include <stdio.h> // for fflush, stdout
 int tick = 0;
 int speedup = 5;
