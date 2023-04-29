@@ -24,8 +24,21 @@
     Uint16 fmt;
     int freq, channels;
     Mix_QuerySpec(&freq, &fmt, &channels);
-    int sampleSize = fmt == AUDIO_S8 || fmt == AUDIO_U8 ? 1 : 2;
 
+    int sampleSize;
+    if (fmt == AUDIO_S8 || fmt == AUDIO_U8) {
+        sampleSize = 1;
+    }
+    else if (fmt == AUDIO_S16LSB || fmt == AUDIO_S16MSB || fmt == AUDIO_U16LSB || fmt == AUDIO_U16MSB) {
+        sampleSize = 2;
+    }
+    else if (fmt == AUDIO_F32SYS) {
+        sampleSize = 4;
+    }
+    else {
+        LOG_WARNING(ExInfo("unhandled audio format"));
+        sampleSize = 4;
+    }
     m_music = Mix_LoadWAV(file.getNative().c_str());
     if (m_music) {
         lookupLoopData(file, sampleSize * channels * freq / 22050);

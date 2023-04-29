@@ -13,3 +13,4 @@ build/
 .cache/
 x64/
 script/options.lua
+/Debug
