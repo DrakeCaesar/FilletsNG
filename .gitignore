@@ -9,3 +9,8 @@ fillets
 config.log
 config.status
 .vs/
+build/
+.cache/
+x64/
+script/options.lua
+/Debug
