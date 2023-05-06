@@ -15,25 +15,29 @@
  * Call own_mouseButton when stroke is inside own body.
  */
 void
-IWidget::mouseButton(const MouseStroke &stroke)
+IWidget::mouseButton(const MouseStroke& stroke)
 {
-    if (isInside(stroke.getLoc())) {
-        own_mouseButton(stroke);
-    }
+	if (isInside(stroke.getLoc()))
+	{
+		own_mouseButton(stroke);
+	}
 }
+
 //-----------------------------------------------------------------
 /**
  * Returns own_getTip when location is inside own body.
  */
 std::string
-IWidget::getTip(const V2 &loc)
+IWidget::getTip(const V2& loc)
 {
-    std::string result;
-    if (isInside(loc)) {
-        result = own_getTip(loc);
-    }
-    return result;
+	std::string result;
+	if (isInside(loc))
+	{
+		result = own_getTip(loc);
+	}
+	return result;
 }
+
 //-----------------------------------------------------------------
 /**
  * Test whether location is inside this widget.
@@ -41,10 +45,9 @@ IWidget::getTip(const V2 &loc)
  * @return true when location is inside widget body
  */
 bool
-IWidget::isInside(const V2 &loc)
+IWidget::isInside(const V2& loc)
 {
-    V2 inside = loc.minus(m_shift);
-    return (inside.getX() >= 0 && inside.getX() < getW()
-        && inside.getY() >= 0 && inside.getY() < getH());
+	V2 inside = loc.minus(m_shift);
+	return (inside.getX() >= 0 && inside.getX() < getW()
+		&& inside.getY() >= 0 && inside.getY() < getH());
 }
-

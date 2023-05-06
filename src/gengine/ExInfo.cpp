@@ -15,21 +15,23 @@
  * Info about problem.
  * @param problem short info
  */
-    ExInfo::ExInfo(const std::string &problem) throw()
-: m_what(problem)
+ExInfo::ExInfo(const std::string& problem) throw()
+	: m_what(problem)
 {
-    /* empty */
+	/* empty */
 }
+
 //-----------------------------------------------------------------
 /**
  * Return info about problem.
  * @return pointer to info which is valid only with this ExInfo
  */
-    const char *
+const char*
 ExInfo::what() const throw()
 {
-    return m_what.c_str();
+	return m_what.c_str();
 }
+
 //-----------------------------------------------------------------
 /**
  * Add more info.
@@ -37,17 +39,18 @@ ExInfo::what() const throw()
  * @param value value
  * @return *this
  */
-ExInfo &
-ExInfo::addInfo(const std::string &name,
-        const std::string &value) throw()
+ExInfo&
+ExInfo::addInfo(const std::string& name,
+                const std::string& value) throw()
 {
-    m_what.append("; ");
-    m_what.append(name);
-    m_what.append("='");
-    m_what.append(value);
-    m_what.append("'");
-    return *this;
+	m_what.append("; ");
+	m_what.append(name);
+	m_what.append("='");
+	m_what.append(value);
+	m_what.append("'");
+	return *this;
 }
+
 //-----------------------------------------------------------------
 /**
  * Add more info, numeric value.
@@ -55,13 +58,12 @@ ExInfo::addInfo(const std::string &name,
  * @param value value
  * @return *this
  */
-    ExInfo &
-ExInfo::addInfo(const std::string &name, long value) throw()
+ExInfo&
+ExInfo::addInfo(const std::string& name, long value) throw()
 {
-    m_what.append("; ");
-    m_what.append(name);
-    m_what.append("=");
-    m_what.append(StringTool::toString(value));
-    return *this;
+	m_what.append("; ");
+	m_what.append(name);
+	m_what.append("=");
+	m_what.append(StringTool::toString(value));
+	return *this;
 }
-

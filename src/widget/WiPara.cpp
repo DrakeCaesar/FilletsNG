@@ -12,16 +12,18 @@
 #include "StringTool.h"
 
 //-----------------------------------------------------------------
-WiPara::WiPara(const std::string &text, const Font &font,
-        const SDL_Color &color)
+WiPara::WiPara(const std::string& text, const Font& font,
+               const SDL_Color& color)
 {
-    const std::string space = " ";
-    StringTool::t_args lines = StringTool::split(text, '\n');
-    for (unsigned int i = 0; i < lines.size(); ++i) {
-        std::string line = lines[i];
-        if (line.empty()) {
-            line = space;
-        }
-        addWidget(new WiLabel(line, font, color));
-    }
+	const std::string space = " ";
+	StringTool::t_args lines = StringTool::split(text, '\n');
+	for (unsigned int i = 0; i < lines.size(); ++i)
+	{
+		std::string line = lines[i];
+		if (line.empty())
+		{
+			line = space;
+		}
+		addWidget(new WiLabel(line, font, color));
+	}
 }

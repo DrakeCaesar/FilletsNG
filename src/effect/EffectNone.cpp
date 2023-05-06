@@ -8,17 +8,16 @@
  */
 #include "EffectNone.h"
 
-const char *EffectNone::NAME = "none";
+const char* EffectNone::NAME = "none";
 //-----------------------------------------------------------------
 /**
  * Blit without special effect.
  */
 void
-EffectNone::blit(SDL_Surface *screen, SDL_Surface *surface, int x, int y)
+EffectNone::blit(SDL_Surface* screen, SDL_Surface* surface, int x, int y)
 {
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    SDL_BlitSurface(surface, NULL, screen, &rect);
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	SDL_BlitSurface(surface, nullptr, screen, &rect);
 }
-

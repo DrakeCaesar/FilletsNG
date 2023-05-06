@@ -13,23 +13,26 @@ class DialogStack;
 /**
  * Action planner.
  */
-class Planner : public Scripter {
-    private:
-        CommandQueue *m_plan;
-        DialogStack *m_dialogs;
-    private:
-        void registerScriptFuncs();
-    public:
-        Planner();
-        virtual ~Planner();
+class Planner : public Scripter
+{
+private:
+	CommandQueue* m_plan;
+	DialogStack* m_dialogs;
 
-        bool satisfyPlan();
-        void killPlan();
-        virtual void interruptPlan();
+private:
+	void registerScriptFuncs();
 
-        void planAction(int funcRef);
-        bool isPlanning() const;
-        DialogStack *dialogs() { return m_dialogs; }
+public:
+	Planner();
+	~Planner() override;
+
+	bool satisfyPlan();
+	void killPlan();
+	virtual void interruptPlan();
+
+	void planAction(int funcRef);
+	bool isPlanning() const;
+	DialogStack* dialogs() { return m_dialogs; }
 };
 
 #endif

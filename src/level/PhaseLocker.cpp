@@ -13,24 +13,26 @@
 //-----------------------------------------------------------------
 PhaseLocker::PhaseLocker()
 {
-    m_lockPhases = 0;
+	m_lockPhases = 0;
 }
+
 //-----------------------------------------------------------------
 /**
  * Reserve game cycle for blocking animation.
  * @param count how much phases we need
  */
-    void
+void
 PhaseLocker::ensurePhases(int count)
 {
-    m_lockPhases = max(m_lockPhases, count);
+	m_lockPhases = max(m_lockPhases, count);
 }
+
 //-----------------------------------------------------------------
 void
 PhaseLocker::decLock()
 {
-    if (m_lockPhases > 0) {
-        m_lockPhases--;
-    }
+	if (m_lockPhases > 0)
+	{
+		m_lockPhases--;
+	}
 }
-

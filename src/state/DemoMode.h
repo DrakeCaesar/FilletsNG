@@ -12,25 +12,35 @@ class DemoInput;
 /**
  * Graphic demo.
  */
-class DemoMode : public Planner, public GameState, public Drawable {
-    private:
-        int m_oldLimitY;
-        Path m_demoscript;
-        SDL_Surface *m_surfaceBuffer;
-        Picture *m_display;
-    protected:
-        virtual void own_initState();
-        virtual void own_updateState();
-        virtual void own_pauseState() {}
-        virtual void own_resumeState() {}
-        virtual void own_cleanState();
-    public:
-        DemoMode(const Path &demoscript);
-        virtual ~DemoMode();
-        virtual const char *getName() const { return "state_demo"; };
+class DemoMode : public Planner, public GameState, public Drawable
+{
+private:
+	int m_oldLimitY;
+	Path m_demoscript;
+	SDL_Surface* m_surfaceBuffer;
+	Picture* m_display;
 
-        bool action_display(Picture *picture);
-        virtual void drawOn(SDL_Surface *screen);
+protected:
+	void own_initState() override;
+	void own_updateState() override;
+
+	void own_pauseState() override
+	{
+	}
+
+	void own_resumeState() override
+	{
+	}
+
+	void own_cleanState() override;
+
+public:
+	DemoMode(const Path& demoscript);
+	~DemoMode() override;
+	const char* getName() const override { return "state_demo"; };
+
+	bool action_display(Picture* picture);
+	void drawOn(SDL_Surface* screen) override;
 };
 
 #endif

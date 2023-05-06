@@ -16,13 +16,14 @@
 #include "InputProvider.h"
 
 //-----------------------------------------------------------------
-MouseControl::MouseControl(Controls *controls, const View *view,
-        FinderAlg *finder)
+MouseControl::MouseControl(Controls* controls, const View* view,
+                           FinderAlg* finder)
 {
-    m_controls = controls;
-    m_view = view;
-    m_finder = finder;
+	m_controls = controls;
+	m_view = view;
+	m_finder = finder;
 }
+
 //-----------------------------------------------------------------
 /**
  * Left button finds shortest path.
@@ -30,18 +31,21 @@ MouseControl::MouseControl(Controls *controls, const View *view,
  * @return whether a move was made
  */
 bool
-MouseControl::mouseDrive(const InputProvider *input) const
+MouseControl::mouseDrive(const InputProvider* input) const
 {
-    bool moved = false;
-    V2 field = m_view->getFieldPos(VideoAgent::agent()->scaleMouseLoc(input->getMouseLoc()));
-    if (input->isLeftPressed()) {
-        moved = moveTo(field);
-    }
-    else if (input->isRightPressed()) {
-        moved = moveHardTo(field);
-    }
-    return moved;
+	bool moved = false;
+	V2 field = m_view->getFieldPos(VideoAgent::agent()->scaleMouseLoc(input->getMouseLoc()));
+	if (input->isLeftPressed())
+	{
+		moved = moveTo(field);
+	}
+	else if (input->isRightPressed())
+	{
+		moved = moveHardTo(field);
+	}
+	return moved;
 }
+
 //-----------------------------------------------------------------
 /**
  * Move along shortest path without pushing.
@@ -49,18 +53,21 @@ MouseControl::mouseDrive(const InputProvider *input) const
  * @return whether a move was made
  */
 bool
-MouseControl::moveTo(const V2 &field) const
+MouseControl::moveTo(const V2& field) const
 {
-    bool moved = false;
-    const Unit *unit = m_controls->getActive();
-    if (unit) {
-        Dir::eDir dir = m_finder->findDir(unit, field);
-        if (dir != Dir::DIR_NO) {
-             moved = m_controls->makeMove(unit->myOrder(dir));
-        }
-    }
-    return moved;
+	bool moved = false;
+	const Unit* unit = m_controls->getActive();
+	if (unit)
+	{
+		Dir::eDir dir = m_finder->findDir(unit, field);
+		if (dir != Dir::DIR_NO)
+		{
+			moved = m_controls->makeMove(unit->myOrder(dir));
+		}
+	}
+	return moved;
 }
+
 //-----------------------------------------------------------------
 /**
  * Move direct to the destination.
@@ -68,25 +75,29 @@ MouseControl::moveTo(const V2 &field) const
  * @return whether a move was made
  */
 bool
-MouseControl::moveHardTo(const V2 &field) const
+MouseControl::moveHardTo(const V2& field) const
 {
-    bool moved = false;
-    const Unit *unit = m_controls->getActive();
-    if (unit) {
-        V2 loc = unit->getLoc();
-        if (field.getX() < loc.getX()) {
-            moved = m_controls->makeMove(unit->myOrder(Dir::DIR_LEFT));
-        }
-        else if (loc.getX() + unit->getW() <= field.getX()) {
-            moved = m_controls->makeMove(unit->myOrder(Dir::DIR_RIGHT));
-        }
-        else if (field.getY() < loc.getY()) {
-            moved = m_controls->makeMove(unit->myOrder(Dir::DIR_UP));
-        }
-        else if (loc.getY() + unit->getH() <= field.getY()) {
-            moved = m_controls->makeMove(unit->myOrder(Dir::DIR_DOWN));
-        }
-    }
-    return moved;
+	bool moved = false;
+	const Unit* unit = m_controls->getActive();
+	if (unit)
+	{
+		V2 loc = unit->getLoc();
+		if (field.getX() < loc.getX())
+		{
+			moved = m_controls->makeMove(unit->myOrder(Dir::DIR_LEFT));
+		}
+		else if (loc.getX() + unit->getW() <= field.getX())
+		{
+			moved = m_controls->makeMove(unit->myOrder(Dir::DIR_RIGHT));
+		}
+		else if (field.getY() < loc.getY())
+		{
+			moved = m_controls->makeMove(unit->myOrder(Dir::DIR_UP));
+		}
+		else if (loc.getY() + unit->getH() <= field.getY())
+		{
+			moved = m_controls->makeMove(unit->myOrder(Dir::DIR_DOWN));
+		}
+	}
+	return moved;
 }
-

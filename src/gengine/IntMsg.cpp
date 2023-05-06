@@ -14,8 +14,8 @@
 std::string
 IntMsg::toString() const
 {
-    std::string result = m_listenerName;
-    result.append("->" + m_name);
-    result.append("(" + StringTool::toString(m_value) + ")");
-    return result;
+	std::string result = m_listenerName;
+	result.append("->" + m_name);
+	result.append("(" + StringTool::toString(m_value) + ")");
+	return result;
 }

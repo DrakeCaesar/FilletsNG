@@ -19,12 +19,13 @@
 /**
  * Prepare countdown.
  */
-LevelCountDown::LevelCountDown(const RoomAccess *access)
+LevelCountDown::LevelCountDown(const RoomAccess* access)
 {
-    m_countdown = -1;
-    m_access = access;
-    m_levelStatus = NULL;
+	m_countdown = -1;
+	m_access = access;
+	m_levelStatus = nullptr;
 }
+
 //-----------------------------------------------------------------
 /**
  * Resets counter.
@@ -33,12 +34,14 @@ LevelCountDown::LevelCountDown(const RoomAccess *access)
 void
 LevelCountDown::reset()
 {
-    if (NULL == m_levelStatus) {
-        throw LogicException(ExInfo("level status is NULL"));
-    }
-    m_levelStatus->setRunning(true);
-    m_countdown = -1;
+	if (nullptr == m_levelStatus)
+	{
+		throw LogicException(ExInfo("level status is NULL"));
+	}
+	m_levelStatus->setRunning(true);
+	m_countdown = -1;
 }
+
 //-----------------------------------------------------------------
 /**
  * Countdown to zero.
@@ -46,68 +49,78 @@ LevelCountDown::reset()
  * @return true when counter is at zero
  */
 bool
-LevelCountDown::countDown(const CountAdvisor *advisor)
+LevelCountDown::countDown(const CountAdvisor* advisor)
 {
-    bool result = false;
-    if (m_countdown < 0) {
-        setCountDown(advisor);
-    }
-    else if (m_countdown > 0) {
-        m_countdown--;
-    }
-    else {
-        result = true;
-    }
-    return result;
+	bool result = false;
+	if (m_countdown < 0)
+	{
+		setCountDown(advisor);
+	}
+	else if (m_countdown > 0)
+	{
+		m_countdown--;
+	}
+	else
+	{
+		result = true;
+	}
+	return result;
 }
+
 //-----------------------------------------------------------------
 void
-LevelCountDown::setCountDown(const CountAdvisor *advisor)
+LevelCountDown::setCountDown(const CountAdvisor* advisor)
 {
-    if (m_access->const_room()->isSolved()) {
-        m_countdown = advisor->getCountForSolved();
-    }
-    else if (m_access->const_room()->cannotMove()) {
-        m_countdown = advisor->getCountForWrong();
-    }
-    else {
-        m_countdown = -1;
-    }
+	if (m_access->const_room()->isSolved())
+	{
+		m_countdown = advisor->getCountForSolved();
+	}
+	else if (m_access->const_room()->cannotMove())
+	{
+		m_countdown = advisor->getCountForWrong();
+	}
+	else
+	{
+		m_countdown = -1;
+	}
 }
+
 //-----------------------------------------------------------------
 bool
 LevelCountDown::isFinishedEnough() const
 {
-    return m_countdown == 0 && m_access->const_room()->isSolved();
+	return m_countdown == 0 && m_access->const_room()->isSolved();
 }
+
 //-----------------------------------------------------------------
 bool
 LevelCountDown::isWrongEnough() const
 {
-    return m_countdown == 0 && m_access->const_room()->cannotMove() &&
-        !m_access->const_room()->isSolved();
+	return m_countdown == 0 && m_access->const_room()->cannotMove() &&
+		!m_access->const_room()->isSolved();
 }
+
 //-----------------------------------------------------------------
 /**
  * Write best solution to the file.
  * Save moves and models state.
  */
-    void
+void
 LevelCountDown::saveSolution()
 {
-    m_levelStatus->setComplete();
-    std::string current_moves =
-        m_access->const_room()->stepCounter()->getMoves();
-    m_levelStatus->writeSolvedMoves(current_moves);
+	m_levelStatus->setComplete();
+	std::string current_moves =
+		m_access->const_room()->stepCounter()->getMoves();
+	m_levelStatus->writeSolvedMoves(current_moves);
 }
+
 //-----------------------------------------------------------------
 /**
  * Creates next state or returns NULL.
  * @return returns NULL when only quitState() is needed
  */
-GameState *
+GameState*
 LevelCountDown::createNextState()
 {
-    return m_levelStatus->createPoster();
+	return m_levelStatus->createPoster();
 }
-

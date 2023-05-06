@@ -9,19 +9,34 @@ class Picture;
 /**
  * Static picture.
  */
-class PosterState : public GameState {
-    protected:
-        Picture *m_bg;
-    protected:
-        virtual void own_initState();
-        virtual void own_updateState() {}
-        virtual void own_pauseState() {}
-        virtual void own_resumeState() {}
-        virtual void own_cleanState() {}
-    public:
-        PosterState(const Path &picture);
-        virtual ~PosterState();
-        virtual const char *getName() const { return "state_poster"; };
+class PosterState : public GameState
+{
+protected:
+	Picture* m_bg;
+
+protected:
+	void own_initState() override;
+
+	void own_updateState() override
+	{
+	}
+
+	void own_pauseState() override
+	{
+	}
+
+	void own_resumeState() override
+	{
+	}
+
+	void own_cleanState() override
+	{
+	}
+
+public:
+	PosterState(const Path& picture);
+	~PosterState() override;
+	const char* getName() const override { return "state_poster"; };
 };
 
 #endif

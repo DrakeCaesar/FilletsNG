@@ -17,23 +17,27 @@
 //-----------------------------------------------------------------
 StateManager::~StateManager()
 {
-    emptyTrash();
+	emptyTrash();
 
-    t_states::iterator end = m_states.end();
-    for (t_states::iterator i = m_states.begin(); i != end; ++i) {
-        delete (*i);
-    }
+	auto end = m_states.end();
+	for (auto i = m_states.begin(); i != end; ++i)
+	{
+		delete (*i);
+	}
 }
+
 //-----------------------------------------------------------------
-    void
+void
 StateManager::emptyTrash()
 {
-    t_states::iterator end = m_trash.end();
-    for (t_states::iterator i = m_trash.begin(); i != end; ++i) {
-        delete (*i);
-    }
-    m_trash.clear();
+	auto end = m_trash.end();
+	for (auto i = m_trash.begin(); i != end; ++i)
+	{
+		delete (*i);
+	}
+	m_trash.clear();
 }
+
 //-----------------------------------------------------------------
 /**
  * Update current state and states on background
@@ -43,16 +47,18 @@ StateManager::emptyTrash()
 void
 StateManager::updateGame()
 {
-    t_states::iterator end = m_states.end();
-    for (t_states::iterator i = m_states.begin(); i != end; /* empty */) {
-        //NOTE: state can remove self and thus invalide current iterator
-        GameState *cur = *(i++);
-        if (cur->isRunning()) {
-            cur->updateState();
-        }
-    }
+	auto end = m_states.end();
+	for (auto i = m_states.begin(); i != end; /* empty */)
+	{
+		//NOTE: state can remove self and thus invalide current iterator
+		GameState* cur = *(i++);
+		if (cur->isRunning())
+		{
+			cur->updateState();
+		}
+	}
 
-    emptyTrash();
+	emptyTrash();
 }
 
 //-----------------------------------------------------------------
@@ -61,34 +67,36 @@ StateManager::updateGame()
  * NOTE: given state can be still active, cannot be deleted
  */
 void
-StateManager::removeState(GameState *state)
+StateManager::removeState(GameState* state)
 {
-    state->cleanState();
-    m_trash.push_back(state);
-    m_states.remove(state);
+	state->cleanState();
+	m_trash.push_back(state);
+	m_states.remove(state);
 }
+
 //-----------------------------------------------------------------
 /**
  * Remove given state and set this one.
  */
 void
-StateManager::changeState(GameState *who, GameState *new_state)
+StateManager::changeState(GameState* who, GameState* new_state)
 {
-    insertAfter(who, new_state);
-    removeState(who);
-    new_state->initState(this);
-    checkStack();
+	insertAfter(who, new_state);
+	removeState(who);
+	new_state->initState(this);
+	checkStack();
 }
+
 //-----------------------------------------------------------------
 /**
  * Pause given state and activate this one.
  */
 void
-StateManager::pushState(GameState *who, GameState *new_state)
+StateManager::pushState(GameState* who, GameState* new_state)
 {
-    insertAfter(who, new_state);
-    new_state->initState(this);
-    checkStack();
+	insertAfter(who, new_state);
+	new_state->initState(this);
+	checkStack();
 }
 
 //-----------------------------------------------------------------
@@ -96,17 +104,19 @@ StateManager::pushState(GameState *who, GameState *new_state)
  * Remove given state and resume paused states below it.
  */
 void
-StateManager::popState(GameState *who)
+StateManager::popState(GameState* who)
 {
-    removeState(who);
+	removeState(who);
 
-    if (!m_states.empty()) {
-        checkStack();
-    }
-    else {
-        MessagerAgent::agent()->forwardNewMsg(
-                new SimpleMsg(Name::APP_NAME, "quit"));
-    }
+	if (!m_states.empty())
+	{
+		checkStack();
+	}
+	else
+	{
+		MessagerAgent::agent()->forwardNewMsg(
+			new SimpleMsg(Name::APP_NAME, "quit"));
+	}
 }
 
 //-----------------------------------------------------------------
@@ -116,33 +126,39 @@ StateManager::popState(GameState *who)
  * @param new_state state to insert
  */
 void
-StateManager::insertAfter(GameState *who, GameState *new_state)
+StateManager::insertAfter(GameState* who, GameState* new_state)
 {
-    if (NULL == who) {
-        m_states.push_front(new_state);
-    }
-    else {
-        t_states::iterator it = findIter(who);
-        m_states.insert(++it, new_state);
-    }
+	if (nullptr == who)
+	{
+		m_states.push_front(new_state);
+	}
+	else
+	{
+		auto it = findIter(who);
+		m_states.insert(++it, new_state);
+	}
 }
+
 //-----------------------------------------------------------------
 /**
  * Find iterator under given state.
  * @throws LogicException when state is not found
  */
-    StateManager::t_states::iterator
-StateManager::findIter(GameState *who)
+StateManager::t_states::iterator
+StateManager::findIter(GameState* who)
 {
-    t_states::iterator end = m_states.end();
-    for (t_states::iterator i = m_states.begin(); i != end; ++i) {
-        if (who == (*i)) {
-            return i;
-        }
-    }
-    throw LogicException(ExInfo("game state is not found in stack")
-            .addInfo("state", who ? who->getName() : "(null)"));
+	auto end = m_states.end();
+	for (auto i = m_states.begin(); i != end; ++i)
+	{
+		if (who == (*i))
+		{
+			return i;
+		}
+	}
+	throw LogicException(ExInfo("game state is not found in stack")
+		.addInfo("state", who ? who->getName() : "(null)"));
 }
+
 //-----------------------------------------------------------------
 /**
  * Preserve stack consistency.
@@ -153,20 +169,23 @@ StateManager::findIter(GameState *who)
 void
 StateManager::checkStack()
 {
-    if (m_states.empty()) {
-        throw LogicException(ExInfo("game state stack is empty"));
-    }
+	if (m_states.empty())
+	{
+		throw LogicException(ExInfo("game state stack is empty"));
+	}
 
-    t_states::iterator topIt = m_states.end();
-    --topIt;
-    GameState *top = (*topIt);
-    if (top->isOnBg()) {
-        top->noteFg();
-    }
-    pauseBg(topIt);
-    resumeBg(topIt);
-    installHandlers();
+	auto topIt = m_states.end();
+	--topIt;
+	GameState* top = (*topIt);
+	if (top->isOnBg())
+	{
+		top->noteFg();
+	}
+	pauseBg(topIt);
+	resumeBg(topIt);
+	installHandlers();
 }
+
 //-----------------------------------------------------------------
 /**
  * Pause all running states below on stack which are not allowed.
@@ -176,17 +195,21 @@ StateManager::checkStack()
 void
 StateManager::pauseBg(t_states::iterator stateIt)
 {
-    if (stateIt != m_states.begin()) {
-        t_states::iterator prev = stateIt;
-        --prev;
-        if (!(*stateIt)->isRunning() || !(*stateIt)->allowBg()) {
-            if ((*prev)->isRunning()) {
-                (*prev)->pauseState();
-            }
-        }
-        pauseBg(prev);
-    }
+	if (stateIt != m_states.begin())
+	{
+		auto prev = stateIt;
+		--prev;
+		if (!(*stateIt)->isRunning() || !(*stateIt)->allowBg())
+		{
+			if ((*prev)->isRunning())
+			{
+				(*prev)->pauseState();
+			}
+		}
+		pauseBg(prev);
+	}
 }
+
 //-----------------------------------------------------------------
 /**
  * Recursively resume the given state and all states below on stack
@@ -197,17 +220,20 @@ StateManager::pauseBg(t_states::iterator stateIt)
 void
 StateManager::resumeBg(t_states::iterator stateIt)
 {
-    if ((*stateIt)->allowBg() && stateIt != m_states.begin()) {
-        t_states::iterator prev = stateIt;
-        --prev;
-        resumeBg(prev);
-        (*prev)->noteBg();
-    }
+	if ((*stateIt)->allowBg() && stateIt != m_states.begin())
+	{
+		auto prev = stateIt;
+		--prev;
+		resumeBg(prev);
+		(*prev)->noteBg();
+	}
 
-    if (!(*stateIt)->isRunning()) {
-        (*stateIt)->resumeState();
-    }
+	if (!(*stateIt)->isRunning())
+	{
+		(*stateIt)->resumeState();
+	}
 }
+
 //-----------------------------------------------------------------
 /**
  * Let all running states to install input and draw handler.
@@ -217,15 +243,17 @@ StateManager::resumeBg(t_states::iterator stateIt)
 void
 StateManager::installHandlers()
 {
-    t_states::iterator end = m_states.end();
-    for (t_states::iterator i = m_states.begin(); i != end; ++i) {
-        if ((*i)->isRunning()) {
-            (*i)->unHandlers();
-            (*i)->installHandlers();
-        }
-        else {
-            (*i)->unHandlers();
-        }
-    }
+	auto end = m_states.end();
+	for (auto i = m_states.begin(); i != end; ++i)
+	{
+		if ((*i)->isRunning())
+		{
+			(*i)->unHandlers();
+			(*i)->installHandlers();
+		}
+		else
+		{
+			(*i)->unHandlers();
+		}
+	}
 }
-

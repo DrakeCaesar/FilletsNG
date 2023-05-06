@@ -16,43 +16,47 @@ class Color;
 /**
  * Subtitles manager.
  */
-class SubTitleAgent : public BaseAgent, public Drawable {
-    AGENT(SubTitleAgent, Name::SUBTITLE_NAME);
-    public:
-    static const int TITLE_ROW = 26;
-    static const int TITLE_BASE = 20;
-    static const int TITLE_SPEED = 2;
-    static const int TITLE_BORDER = 20;
-    static const int TITLE_LIMIT_Y = TITLE_BASE + 5 * TITLE_ROW;
-    typedef std::deque<Title*> t_titles;
-    t_titles m_titles;
+class SubTitleAgent : public BaseAgent, public Drawable
+{
+	AGENT(SubTitleAgent, Name::SUBTITLE_NAME);
 
-    Font *m_font;
-    ResColorPack *m_colors;
-    int m_limitY;
-    private:
-    std::string splitAndCreate(const std::string &subtitle, const Color *color);
-    void trimRest(std::string &buffer);
-    void newShortSubtitle(const std::string &subtitle, const Color *color);
+public:
+	static const int TITLE_ROW = 26;
+	static const int TITLE_BASE = 20;
+	static const int TITLE_SPEED = 2;
+	static const int TITLE_BORDER = 20;
+	static const int TITLE_LIMIT_Y = TITLE_BASE + 5 * TITLE_ROW;
+	using t_titles = std::deque<Title*>;
+	t_titles m_titles;
 
-    void shiftTitlesUp(int rate);
-    void shiftFinalsUp(int rate);
-    int lowestY();
-    protected:
-    virtual void own_init();
-    virtual void own_update();
-    virtual void own_shutdown();
-    public:
-    int getLimitY() const { return m_limitY; }
-    void setLimitY(int limitY) { m_limitY = limitY; }
-    void addFont(const std::string &fontname, Color *new_color);
-    void newSubtitle(const std::string &subtitle, const std::string &fontname);
+	Font* m_font;
+	ResColorPack* m_colors;
+	int m_limitY;
 
-    void killTalks();
-    void removeAll();
+private:
+	std::string splitAndCreate(const std::string& subtitle, const Color* color);
+	void trimRest(std::string& buffer);
+	void newShortSubtitle(const std::string& subtitle, const Color* color);
 
-    virtual void drawOn(SDL_Surface *screen);
+	void shiftTitlesUp(int rate);
+	void shiftFinalsUp(int rate);
+	int lowestY();
+
+protected:
+	void own_init() override;
+	void own_update() override;
+	void own_shutdown() override;
+
+public:
+	int getLimitY() const { return m_limitY; }
+	void setLimitY(int limitY) { m_limitY = limitY; }
+	void addFont(const std::string& fontname, Color* new_color);
+	void newSubtitle(const std::string& subtitle, const std::string& fontname);
+
+	void killTalks();
+	void removeAll();
+
+	void drawOn(SDL_Surface* screen) override;
 };
 
 #endif
-

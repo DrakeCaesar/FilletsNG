@@ -11,16 +11,19 @@
 /**
  * List of listeners.
  */
-class MessagerAgent : public BaseAgent {
-    AGENT(MessagerAgent, Name::MESSAGER_NAME);
-    private:
-        typedef std::map<std::string,BaseListener*> t_listeners;
-        t_listeners m_listeners;
-    public:
-        void addListener(BaseListener *listener);
-        void removeListener(const std::string &name);
+class MessagerAgent : public BaseAgent
+{
+	AGENT(MessagerAgent, Name::MESSAGER_NAME);
 
-        void forwardNewMsg(BaseMsg *msg);
+private:
+	using t_listeners = std::map<std::string, BaseListener*>;
+	t_listeners m_listeners;
+
+public:
+	void addListener(BaseListener* listener);
+	void removeListener(const std::string& name);
+
+	void forwardNewMsg(BaseMsg* msg);
 };
 
 #endif

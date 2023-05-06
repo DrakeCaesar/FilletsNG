@@ -8,15 +8,17 @@ class GameState;
 /**
  * Handle input for help screen.
  */
-class HelpInput : public StateInput {
-    protected:
-        virtual void enableHelp() { quitState(); }
-        virtual void enableMenu() { quitState(); }
-        virtual void specStroke(const KeyStroke &stroke);
-    public:
-        HelpInput(GameState *state);
+class HelpInput : public StateInput
+{
+protected:
+	void enableHelp() override { quitState(); }
+	void enableMenu() override { quitState(); }
+	void specStroke(const KeyStroke& stroke) override;
 
-        virtual void mouseEvent(const MouseStroke &buttons);
+public:
+	HelpInput(GameState* state);
+
+	void mouseEvent(const MouseStroke& buttons) override;
 };
 
 #endif

@@ -8,25 +8,27 @@
 /**
  * Test whether object can carry moved stack.
  */
-class OnStack : public OnCondition {
-    public:
-        virtual bool isSatisfy(Cube *model) const
-        {
-            bool result = false;
-            if (!model->isAlive()) {
-                if (model->rules()->getDir() == Dir::DIR_NO
-                        && model->rules()->isOnStrongPad(Cube::LIGHT))
-                {
-                        result = true;
-                }
-            }
-            return result;
-        }
+class OnStack : public OnCondition
+{
+public:
+	bool isSatisfy(Cube* model) const override
+	{
+		bool result = false;
+		if (!model->isAlive())
+		{
+			if (model->rules()->getDir() == Dir::DIR_NO
+				&& model->rules()->isOnStrongPad(Cube::LIGHT))
+			{
+				result = true;
+			}
+		}
+		return result;
+	}
 
-        virtual bool isWrong(Cube *model) const
-        {
-            return model->isAlive();
-        }
+	bool isWrong(Cube* model) const override
+	{
+		return model->isAlive();
+	}
 };
 
 #endif

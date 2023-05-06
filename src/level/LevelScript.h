@@ -16,27 +16,30 @@ class Command;
 /**
  * Handle plan for dialogs and planned actions.
  */
-class LevelScript : public Planner, public RoomAccess {
-    private:
-        Level *m_level;
-    private:
-        void registerGameFuncs();
-        void registerLevelFuncs();
-    public:
-        LevelScript(Level *aLevel);
+class LevelScript : public Planner, public RoomAccess
+{
+private:
+	Level* m_level;
 
-        void updateScript();
-        virtual void interruptPlan();
+private:
+	void registerGameFuncs();
+	void registerLevelFuncs();
 
-        Level *level() { return m_level; }
-        Command *createCommand(int funcRef);
+public:
+	LevelScript(Level* aLevel);
 
-        int addModel(Cube *new_model, Unit *new_unit);
-        Cube *getModel(int model_index);
-        Cube *askField(const V2 &loc);
+	void updateScript();
+	void interruptPlan() override;
 
-        void addSound(const std::string &name, const Path &file);
-        void playSound(const std::string &name, int volume);
+	Level* level() { return m_level; }
+	Command* createCommand(int funcRef);
+
+	int addModel(Cube* new_model, Unit* new_unit);
+	Cube* getModel(int model_index);
+	Cube* askField(const V2& loc);
+
+	void addSound(const std::string& name, const Path& file);
+	void playSound(const std::string& name, int volume);
 };
 
 #endif

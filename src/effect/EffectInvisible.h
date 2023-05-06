@@ -6,14 +6,18 @@
 /**
  * Draw nothing.
  */
-class EffectInvisible : public ViewEffect {
-    public:
-        static const char *NAME;
-        virtual const char* getName() const { return NAME; }
-        virtual bool isInvisible() const { return true; }
-        virtual void blit(SDL_Surface *, SDL_Surface *, int, int) {}
+class EffectInvisible : public ViewEffect
+{
+public:
+	static const char* NAME;
+	const char* getName() const override { return NAME; }
+	bool isInvisible() const override { return true; }
+
+	void blit(SDL_Surface*, SDL_Surface*, int, int) override
+	{
+	}
 };
 
-const char *EffectInvisible::NAME = "invisible";
+const char* EffectInvisible::NAME = "invisible";
 
 #endif

@@ -7,17 +7,18 @@
 /**
  * Test whether model is on Wall.
  */
-class OnWall : public OnCondition {
-    public:
-        virtual bool isSatisfy(Cube *model) const
-        {
-            return model->isWall();
-        }
+class OnWall : public OnCondition
+{
+public:
+	bool isSatisfy(Cube* model) const override
+	{
+		return model->isWall();
+	}
 
-        virtual bool isWrong(Cube *model) const
-        {
-            return model->isAlive();
-        }
+	bool isWrong(Cube* model) const override
+	{
+		return model->isAlive();
+	}
 };
 
 #endif

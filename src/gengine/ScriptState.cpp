@@ -22,19 +22,21 @@ extern "C" {
 //-----------------------------------------------------------------
 ScriptState::ScriptState()
 {
-    m_state = luaL_newstate();
-    luaL_requiref(m_state, "_G", luaopen_base, true);
-    luaL_requiref(m_state, LUA_STRLIBNAME, luaopen_string, true);
-    luaL_requiref(m_state, LUA_MATHLIBNAME, luaopen_math, true);
-    luaL_requiref(m_state, LUA_TABLIBNAME, luaopen_table, true);
+	m_state = luaL_newstate();
+	luaL_requiref(m_state, "_G", luaopen_base, true);
+	luaL_requiref(m_state, LUA_STRLIBNAME, luaopen_string, true);
+	luaL_requiref(m_state, LUA_MATHLIBNAME, luaopen_math, true);
+	luaL_requiref(m_state, LUA_TABLIBNAME, luaopen_table, true);
 
-    prepareErrorHandler();
+	prepareErrorHandler();
 }
+
 //-----------------------------------------------------------------
 ScriptState::~ScriptState()
 {
-    lua_close(m_state);
+	lua_close(m_state);
 }
+
 //-----------------------------------------------------------------
 /**
  * Prepare error handler at global stack.
@@ -42,12 +44,13 @@ ScriptState::~ScriptState()
 void
 ScriptState::prepareErrorHandler()
 {
-    lua_pushglobaltable(m_state);
-    lua_pushliteral(m_state, "_TRACEBACK");
-    lua_pushcfunction(m_state, script_debugStack);
-    lua_settable(m_state, -3);
-    lua_pop(m_state, 1);
+	lua_pushglobaltable(m_state);
+	lua_pushliteral(m_state, "_TRACEBACK");
+	lua_pushcfunction(m_state, script_debugStack);
+	lua_settable(m_state, -3);
+	lua_pop(m_state, 1);
 }
+
 //-----------------------------------------------------------------
 /**
  * Insert error handler at given local index.
@@ -55,12 +58,13 @@ ScriptState::prepareErrorHandler()
 void
 ScriptState::insertErrorHandler(int index)
 {
-    lua_pushglobaltable(m_state);
-    lua_pushliteral(m_state, "_TRACEBACK");
-    lua_rawget(m_state, -2);
-    lua_insert(m_state, index);
-    lua_pop(m_state, 1);
+	lua_pushglobaltable(m_state);
+	lua_pushliteral(m_state, "_TRACEBACK");
+	lua_rawget(m_state, -2);
+	lua_insert(m_state, index);
+	lua_pop(m_state, 1);
 }
+
 //-----------------------------------------------------------------
 /**
  * Process script on stack.
@@ -70,55 +74,61 @@ ScriptState::insertErrorHandler(int index)
  *
  * @throws ScriptException when script is bad
  */
-    void
+void
 ScriptState::callStack(int error, int params, int returns)
 {
-    if (0 == error) {
-        int base = lua_gettop(m_state) - params;
-        insertErrorHandler(base);
-        error = lua_pcall(m_state, params, returns, base);
-        lua_remove(m_state, base);
-    }
+	if (0 == error)
+	{
+		int base = lua_gettop(m_state) - params;
+		insertErrorHandler(base);
+		error = lua_pcall(m_state, params, returns, base);
+		lua_remove(m_state, base);
+	}
 
-    if (error) {
-        const char *msg = lua_tostring(m_state, -1);
-        if (NULL == msg) {
-            msg = "(error with no message)";
-        }
-        ExInfo info = ExInfo("script failure")
-            .addInfo("error", msg);
-        lua_pop(m_state, 1);
-        throw ScriptException(info);
-    }
+	if (error)
+	{
+		const char* msg = lua_tostring(m_state, -1);
+		if (nullptr == msg)
+		{
+			msg = "(error with no message)";
+		}
+		ExInfo info = ExInfo("script failure")
+			.addInfo("error", msg);
+		lua_pop(m_state, 1);
+		throw ScriptException(info);
+	}
 }
+
 //-----------------------------------------------------------------
 /**
  * Process script file.
  * @param file script
  */
-    void
-ScriptState::doFile(const Path &file)
+void
+ScriptState::doFile(const Path& file)
 {
-    int error = luaL_loadfile(m_state, file.getNative().c_str());
-    callStack(error);
+	int error = luaL_loadfile(m_state, file.getNative().c_str());
+	callStack(error);
 }
+
 //-----------------------------------------------------------------
 /**
  * Process string.
  * @param input script
  */
-    void
-ScriptState::doString(const std::string &input)
+void
+ScriptState::doString(const std::string& input)
 {
-    int error = luaL_loadbuffer(m_state, input.c_str(), input.size(),
-            input.c_str());
-    callStack(error);
+	int error = luaL_loadbuffer(m_state, input.c_str(), input.size(),
+	                            input.c_str());
+	callStack(error);
 }
+
 //-----------------------------------------------------------------
-    void
-ScriptState::registerFunc(const char *name, lua_CFunction func)
+void
+ScriptState::registerFunc(const char* name, lua_CFunction func)
 {
-    lua_register(m_state, name, func);
+	lua_register(m_state, name, func);
 }
 
 //-----------------------------------------------------------------
@@ -132,22 +142,24 @@ ScriptState::registerFunc(const char *name, lua_CFunction func)
 bool
 ScriptState::callCommand(int funcRef, int param)
 {
-    int numResults = 1;
-    lua_rawgeti(m_state, LUA_REGISTRYINDEX, funcRef);
-    lua_pushnumber(m_state, param);
-    callStack(0, 1, numResults);
+	int numResults = 1;
+	lua_rawgeti(m_state, LUA_REGISTRYINDEX, funcRef);
+	lua_pushnumber(m_state, param);
+	callStack(0, 1, numResults);
 
-    if (0 == lua_isboolean(m_state, -1)) {
-        const char *type = lua_typename(m_state, lua_type(m_state, -1));
-        lua_pop(m_state, numResults);
-        throw ScriptException(
-                ExInfo("script command failure - boolean expected")
-                .addInfo("got", type));
-    }
-    bool result = lua_toboolean(m_state, -1);
-    lua_pop(m_state, numResults);
-    return result;
+	if (0 == lua_isboolean(m_state, -1))
+	{
+		const char* type = lua_typename(m_state, lua_type(m_state, -1));
+		lua_pop(m_state, numResults);
+		throw ScriptException(
+			ExInfo("script command failure - boolean expected")
+			.addInfo("got", type));
+	}
+	bool result = lua_toboolean(m_state, -1);
+	lua_pop(m_state, numResults);
+	return result;
 }
+
 //-----------------------------------------------------------------
 /**
  * Remove function from registry.
@@ -156,7 +168,7 @@ ScriptState::callCommand(int funcRef, int param)
 void
 ScriptState::unref(int funcRef)
 {
-    luaL_unref(m_state, LUA_REGISTRYINDEX, funcRef);
+	luaL_unref(m_state, LUA_REGISTRYINDEX, funcRef);
 }
 
 //-----------------------------------------------------------------
@@ -164,10 +176,9 @@ ScriptState::unref(int funcRef)
  * Register light userdata for lua script.
  */
 void
-ScriptState::registerLeader(Scripter *leader)
+ScriptState::registerLeader(Scripter* leader)
 {
-    lua_pushstring(m_state, script_getLeaderName());
-    lua_pushlightuserdata(m_state, leader);
-    lua_rawset(m_state, LUA_REGISTRYINDEX);
+	lua_pushstring(m_state, script_getLeaderName());
+	lua_pushlightuserdata(m_state, leader);
+	lua_rawset(m_state, LUA_REGISTRYINDEX);
 }
-

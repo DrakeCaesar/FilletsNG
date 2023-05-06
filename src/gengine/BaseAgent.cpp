@@ -14,37 +14,40 @@
 //-----------------------------------------------------------------
 BaseAgent::BaseAgent()
 {
-    m_initialized = false;
+	m_initialized = false;
 }
+
 //-----------------------------------------------------------------
-    void
+void
 BaseAgent::init()
 {
-    LOG_DEBUG(ExInfo("init").addInfo("name", getName()));
-    //NOTE: agent can call oneself in init()
-    m_initialized = true;
-    own_init();
+	LOG_DEBUG(ExInfo("init").addInfo("name", getName()));
+	//NOTE: agent can call oneself in init()
+	m_initialized = true;
+	own_init();
 }
+
 //-----------------------------------------------------------------
 /**
  * @throws LogicException when agent is not initialized.
  */
-    void
+void
 BaseAgent::update()
 {
-    if (!m_initialized) {
-        throw LogicException(ExInfo("agent is not ready")
-            .addInfo("name", getName()));
-    }
+	if (!m_initialized)
+	{
+		throw LogicException(ExInfo("agent is not ready")
+			.addInfo("name", getName()));
+	}
 
-    own_update();
+	own_update();
 }
+
 //-----------------------------------------------------------------
-    void
+void
 BaseAgent::shutdown()
 {
-    LOG_DEBUG(ExInfo("shutdown").addInfo("name", getName()));
-    own_shutdown();
-    m_initialized = false;
+	LOG_DEBUG(ExInfo("shutdown").addInfo("name", getName()));
+	own_shutdown();
+	m_initialized = false;
 }
-

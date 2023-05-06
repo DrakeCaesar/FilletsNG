@@ -13,39 +13,42 @@
 #include "MouseStroke.h"
 
 //-----------------------------------------------------------------
-RadioBox::RadioBox(const std::string &param, const std::string &value,
-        const Path &picture)
-: WiContainer(new WiPicture(picture), BORDER), m_param(param), m_value(value)
+RadioBox::RadioBox(const std::string& param, const std::string& value,
+                   const Path& picture)
+	: WiContainer(new WiPicture(picture), BORDER), m_param(param), m_value(value)
 {
 }
+
 //-----------------------------------------------------------------
 /**
  * Draw border for selected button.
  */
-    void
-RadioBox::drawOn(SDL_Surface *screen)
+void
+RadioBox::drawOn(SDL_Surface* screen)
 {
-    if (OptionAgent::agent()->getParam(m_param) == m_value) {
-        SDL_Rect rect;
-        rect.x = m_shift.getX();
-        rect.y = m_shift.getY();
-        rect.w = getW();
-        rect.h = getH();
+	if (OptionAgent::agent()->getParam(m_param) == m_value)
+	{
+		SDL_Rect rect;
+		rect.x = m_shift.getX();
+		rect.y = m_shift.getY();
+		rect.w = getW();
+		rect.h = getH();
 
-        Uint32 green = SDL_MapRGB(screen->format, 0x00, 0xff, 0x00);
-        SDL_FillRect(screen, &rect, green);
-    }
-    WiContainer::drawOn(screen);
+		Uint32 green = SDL_MapRGB(screen->format, 0x00, 0xff, 0x00);
+		SDL_FillRect(screen, &rect, green);
+	}
+	WiContainer::drawOn(screen);
 }
+
 //-----------------------------------------------------------------
 /**
  * Select button and set param=value.
  */
-    void
-RadioBox::own_mouseButton(const MouseStroke &stroke)
+void
+RadioBox::own_mouseButton(const MouseStroke& stroke)
 {
-    if (stroke.isLeft()) {
-        OptionAgent::agent()->setPersistent(m_param, m_value);
-    }
+	if (stroke.isLeft())
+	{
+		OptionAgent::agent()->setPersistent(m_param, m_value);
+	}
 }
-

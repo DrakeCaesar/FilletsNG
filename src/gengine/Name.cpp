@@ -12,17 +12,16 @@
 //NOTE: timerAgent is before inputAgent. This gives player
 // the fastest rection on his input (there is no delay between input,
 // game and video update).
-const char *Name::APP_NAME = "App";
-const char *Name::MESSAGER_NAME = "10messager";
-const char *Name::SCRIPT_NAME = "15script";
-const char *Name::OPTION_NAME = "20option";
+const char* Name::APP_NAME = "App";
+const char* Name::MESSAGER_NAME = "10messager";
+const char* Name::SCRIPT_NAME = "15script";
+const char* Name::OPTION_NAME = "20option";
 
-const char *Name::VIDEO_NAME = "30video";
-const char *Name::SOUND_NAME = "40sound";
-const char *Name::TIMER_NAME = "50timer";
+const char* Name::VIDEO_NAME = "30video";
+const char* Name::SOUND_NAME = "40sound";
+const char* Name::TIMER_NAME = "50timer";
 
-const char *Name::INPUT_NAME = "60input";
-const char *Name::SUBTITLE_NAME = "70subtitle";
+const char* Name::INPUT_NAME = "60input";
+const char* Name::SUBTITLE_NAME = "70subtitle";
 
-const char *Name::GAME_NAME = "80game";
-
+const char* Name::GAME_NAME = "80game";

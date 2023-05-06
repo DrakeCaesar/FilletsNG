@@ -21,32 +21,35 @@
 #include "demo-script.h"
 
 //-----------------------------------------------------------------
-DemoMode::DemoMode(const Path &demoscript)
-    : m_demoscript(demoscript)
+DemoMode::DemoMode(const Path& demoscript)
+	: m_demoscript(demoscript)
 {
-    m_oldLimitY = 0;
-    m_display = NULL;
-    m_surfaceBuffer = NULL;
-    m_script->registerFunc("demo_display", script_demo_display);
-    takeHandler(new DemoInput(this));
-    registerDrawable(this);
-    registerDrawable(SubTitleAgent::agent());
+	m_oldLimitY = 0;
+	m_display = nullptr;
+	m_surfaceBuffer = nullptr;
+	m_script->registerFunc("demo_display", script_demo_display);
+	takeHandler(new DemoInput(this));
+	registerDrawable(this);
+	registerDrawable(SubTitleAgent::agent());
 }
+
 //-----------------------------------------------------------------
 DemoMode::~DemoMode()
 {
-    own_cleanState();
+	own_cleanState();
 }
+
 //-----------------------------------------------------------------
 /**
  * Run demo.
  */
-    void
+void
 DemoMode::own_initState()
 {
-    m_oldLimitY = SubTitleAgent::agent()->getLimitY();
-    m_script->doFile(m_demoscript);
+	m_oldLimitY = SubTitleAgent::agent()->getLimitY();
+	m_script->doFile(m_demoscript);
 }
+
 //-----------------------------------------------------------------
 /**
  * Execute next demo command.
@@ -54,26 +57,30 @@ DemoMode::own_initState()
 void
 DemoMode::own_updateState()
 {
-    if (satisfyPlan()) {
-        quitState();
-    }
+	if (satisfyPlan())
+	{
+		quitState();
+	}
 }
+
 //-----------------------------------------------------------------
 void
 DemoMode::own_cleanState()
 {
-    //NOTE: loaded dialogs are released by ~Planner()
-    if (m_surfaceBuffer) {
-        SDL_FreeSurface(m_surfaceBuffer);
-        m_surfaceBuffer = NULL;
-    }
-    if (m_display) {
-        delete m_display;
-        m_display = NULL;
-    }
+	//NOTE: loaded dialogs are released by ~Planner()
+	if (m_surfaceBuffer)
+	{
+		SDL_FreeSurface(m_surfaceBuffer);
+		m_surfaceBuffer = nullptr;
+	}
+	if (m_display)
+	{
+		delete m_display;
+		m_display = nullptr;
+	}
 
-    SubTitleAgent::agent()->setLimitY(m_oldLimitY);
-    killPlan();
+	SubTitleAgent::agent()->setLimitY(m_oldLimitY);
+	killPlan();
 }
 
 //-----------------------------------------------------------------
@@ -82,37 +89,39 @@ DemoMode::own_cleanState()
  * NOTE: limitY for long subtitles are prepared when display is set
  * before planning start
  */
-    bool
-DemoMode::action_display(Picture *picture)
+bool
+DemoMode::action_display(Picture* picture)
 {
-    if (m_display) {
-        delete m_display;
-    }
-    m_display = picture;
+	if (m_display)
+	{
+		delete m_display;
+	}
+	m_display = picture;
 
-    if (NULL == m_surfaceBuffer) {
-        OptionAgent *options = OptionAgent::agent();
-        options->setParam("screen_width", m_display->getW());
-        options->setParam("screen_height", m_display->getH());
-        VideoAgent::agent()->initVideoMode();
+	if (nullptr == m_surfaceBuffer)
+	{
+		OptionAgent* options = OptionAgent::agent();
+		options->setParam("screen_width", m_display->getW());
+		options->setParam("screen_height", m_display->getH());
+		VideoAgent::agent()->initVideoMode();
 
-        SubTitleAgent::agent()->setLimitY(2 * m_display->getH());
-    }
-    return true;
+		SubTitleAgent::agent()->setLimitY(2 * m_display->getH());
+	}
+	return true;
 }
+
 //-----------------------------------------------------------------
 void
-DemoMode::drawOn(SDL_Surface *screen)
+DemoMode::drawOn(SDL_Surface* screen)
 {
-    if (NULL == m_surfaceBuffer) {
-        m_surfaceBuffer = SurfaceTool::createEmpty(screen);
-    }
+	if (nullptr == m_surfaceBuffer)
+	{
+		m_surfaceBuffer = SurfaceTool::createEmpty(screen);
+	}
 
-    if (m_display) {
-        m_display->drawOn(m_surfaceBuffer);
-    }
-    SDL_BlitSurface(m_surfaceBuffer, NULL, screen, NULL);
+	if (m_display)
+	{
+		m_display->drawOn(m_surfaceBuffer);
+	}
+	SDL_BlitSurface(m_surfaceBuffer, nullptr, screen, nullptr);
 }
-
-
-

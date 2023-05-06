@@ -18,14 +18,17 @@ extern "C" {
  * Global scripting.
  * It is used by OptionAgent and debug console.
  */
-class ScriptAgent : public BaseAgent, public Scripter {
-    AGENT(ScriptAgent, Name::SCRIPT_NAME);
-    protected:
-        virtual void own_init();
-    public:
-        void registerFunc(const char *name, lua_CFunction func);
+class ScriptAgent : public BaseAgent, public Scripter
+{
+	AGENT(ScriptAgent, Name::SCRIPT_NAME);
 
-        virtual void receiveString(const StringMsg *msg);
+protected:
+	void own_init() override;
+
+public:
+	void registerFunc(const char* name, lua_CFunction func);
+
+	void receiveString(const StringMsg* msg) override;
 };
 
 #endif

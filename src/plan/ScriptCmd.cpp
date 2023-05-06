@@ -16,19 +16,21 @@
  * @param script script state where to execute
  * @param funcRef index of function at registry
  */
-ScriptCmd::ScriptCmd(ScriptState *script, int funcRef)
+ScriptCmd::ScriptCmd(ScriptState* script, int funcRef)
 {
-    m_script = script;
-    m_funcRef = funcRef;
+	m_script = script;
+	m_funcRef = funcRef;
 }
+
 //-----------------------------------------------------------------
 /**
  * Remove function from registry.
  */
 ScriptCmd::~ScriptCmd()
 {
-    m_script->unref(m_funcRef);
+	m_script->unref(m_funcRef);
 }
+
 //-----------------------------------------------------------------
 /**
  * Return true when command has finished his work.
@@ -39,6 +41,5 @@ ScriptCmd::~ScriptCmd()
 bool
 ScriptCmd::finish(int count)
 {
-    return m_script->callCommand(m_funcRef, count);
+	return m_script->callCommand(m_funcRef, count);
 }
-

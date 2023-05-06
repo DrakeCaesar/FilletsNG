@@ -17,11 +17,13 @@
 //-----------------------------------------------------------------
 KeyBinder::~KeyBinder()
 {
-    t_strokes::iterator end = m_strokes.end();
-    for (t_strokes::iterator i = m_strokes.begin(); i != end; ++i) {
-        delete i->second;
-    }
+	auto end = m_strokes.end();
+	for (auto i = m_strokes.begin(); i != end; ++i)
+	{
+		delete i->second;
+	}
 }
+
 //-----------------------------------------------------------------
 /**
  * Bind keystroke.
@@ -30,47 +32,50 @@ KeyBinder::~KeyBinder()
  * @throws LogicException when keystroke is occupied
  */
 void
-KeyBinder::addStroke(const KeyStroke &stroke, BaseMsg *msg)
+KeyBinder::addStroke(const KeyStroke& stroke, BaseMsg* msg)
 {
-    std::pair<t_strokes::iterator,bool> status =
-        m_strokes.insert(
-                std::pair<KeyStroke,BaseMsg*>(stroke, msg));
-    if (!status.second) {
-        throw LogicException(ExInfo("keystroke is occupied")
-                .addInfo("keystroke", stroke.toString()));
-    }
-    else {
-        LOG_DEBUG(ExInfo("binding keystroke")
-                .addInfo("keystroke", stroke.toString())
-                .addInfo("msg", msg->toString()));
-    }
+	std::pair<t_strokes::iterator, bool> status =
+		m_strokes.insert(
+			std::pair<KeyStroke, BaseMsg*>(stroke, msg));
+	if (!status.second)
+	{
+		throw LogicException(ExInfo("keystroke is occupied")
+			.addInfo("keystroke", stroke.toString()));
+	}
+	LOG_DEBUG(ExInfo("binding keystroke")
+		.addInfo("keystroke", stroke.toString())
+		.addInfo("msg", msg->toString()));
 }
+
 //-----------------------------------------------------------------
 void
-KeyBinder::removeStroke(const KeyStroke &stroke)
+KeyBinder::removeStroke(const KeyStroke& stroke)
 {
-    t_strokes::iterator it = m_strokes.find(stroke);
-    if (m_strokes.end() != it) {
-        delete it->second;
-        m_strokes.erase(it);
-    }
-    else {
-        LOG_WARNING(ExInfo("keystroke does not exist")
-                .addInfo("keystroke", stroke.toString()));
-    }
+	auto it = m_strokes.find(stroke);
+	if (m_strokes.end() != it)
+	{
+		delete it->second;
+		m_strokes.erase(it);
+	}
+	else
+	{
+		LOG_WARNING(ExInfo("keystroke does not exist")
+			.addInfo("keystroke", stroke.toString()));
+	}
 }
+
 //-----------------------------------------------------------------
 /**
  * Handle keydown event,
  * find keystroke and send message.
  */
 void
-KeyBinder::keyDown(const SDL_Keysym &keysym) const
+KeyBinder::keyDown(const SDL_Keysym& keysym) const
 {
-    KeyStroke stroke(keysym);
-    t_strokes::const_iterator it = m_strokes.find(stroke);
-    if (m_strokes.end() != it) {
-        it->second->sendClone();
-    }
+	KeyStroke stroke(keysym);
+	auto it = m_strokes.find(stroke);
+	if (m_strokes.end() != it)
+	{
+		it->second->sendClone();
+	}
 }
-

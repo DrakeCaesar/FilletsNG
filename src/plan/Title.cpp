@@ -28,65 +28,72 @@
  * @param color subtitle color (shared)
  */
 Title::Title(int baseY, int finalY, int bonusTime, int limitY,
-        const std::string &content, Font *font, const Color *color)
-: m_content(content)
+             const std::string& content, Font* font, const Color* color)
+	: m_content(content)
 {
-    m_font = font;
-    m_surface = m_font->renderTextOutlined(content, *color);
+	m_font = font;
+	m_surface = m_font->renderTextOutlined(content, *color);
 
-    int text_width = m_font->calcTextWidth(content);
+	int text_width = m_font->calcTextWidth(content);
 
-    m_screenW = OptionAgent::agent()->getAsInt("screen_width");
-    m_screenH = OptionAgent::agent()->getAsInt("screen_height");
-    m_x = (m_screenW - text_width) / 2;
-    m_y = m_screenH - baseY;
-    m_finalY = m_screenH - finalY;
-    m_limitY = m_screenH - limitY;
-    m_mintime = StringTool::utf8Length(m_content) * TIME_PER_CHAR;
-    if (m_mintime < TIME_MIN) {
-        m_mintime = TIME_MIN;
-    }
-    m_mintime += bonusTime;
+	m_screenW = OptionAgent::agent()->getAsInt("screen_width");
+	m_screenH = OptionAgent::agent()->getAsInt("screen_height");
+	m_x = (m_screenW - text_width) / 2;
+	m_y = m_screenH - baseY;
+	m_finalY = m_screenH - finalY;
+	m_limitY = m_screenH - limitY;
+	m_mintime = StringTool::utf8Length(m_content) * TIME_PER_CHAR;
+	if (m_mintime < TIME_MIN)
+	{
+		m_mintime = TIME_MIN;
+	}
+	m_mintime += bonusTime;
 }
+
 //-----------------------------------------------------------------
 Title::~Title()
 {
-    SDL_FreeSurface(m_surface);
+	SDL_FreeSurface(m_surface);
 }
+
 //-----------------------------------------------------------------
 /**
  * Draw model.
  */
-    void
-Title::drawOn(SDL_Surface *screen)
+void
+Title::drawOn(SDL_Surface* screen)
 {
-    //TODO: wavy text
-    SDL_Rect rect;
-    rect.x = m_x;
-    rect.y = m_y;
+	//TODO: wavy text
+	SDL_Rect rect;
+	rect.x = m_x;
+	rect.y = m_y;
 
-    SDL_BlitSurface(m_surface, NULL, screen, &rect);
+	SDL_BlitSurface(m_surface, nullptr, screen, &rect);
 }
+
 //-----------------------------------------------------------------
 /**
  * Shift up until title is on limit.
  * Decrease m_mintime.
  */
-    void
+void
 Title::shiftUp(int rate)
 {
-    m_mintime--;
-    m_y -= rate;
-    if (m_y < m_finalY) {
-        m_y = m_finalY;
-    }
+	m_mintime--;
+	m_y -= rate;
+	if (m_y < m_finalY)
+	{
+		m_y = m_finalY;
+	}
 }
+
 //-----------------------------------------------------------------
-    void
+void
 Title::shiftFinalUp(int rate)
 {
-    m_finalY -= rate;
+	m_finalY -= rate;
 }
+
 //-----------------------------------------------------------------
 /**
  * Return Y position from the bottom border.
@@ -94,15 +101,15 @@ Title::shiftFinalUp(int rate)
 int
 Title::getY() const
 {
-    return m_screenH - m_y;
+	return m_screenH - m_y;
 }
+
 //-----------------------------------------------------------------
 /**
  * Whether title was long enough on screen.
  */
-    bool
+bool
 Title::isGone()
 {
-    return (m_mintime < 0 || m_y < m_limitY);
+	return (m_mintime < 0 || m_y < m_limitY);
 }
-

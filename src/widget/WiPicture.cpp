@@ -11,22 +11,23 @@
 #include "ResImagePack.h"
 
 //-----------------------------------------------------------------
-WiPicture::WiPicture(const Path &picture)
+WiPicture::WiPicture(const Path& picture)
 {
-    m_surface = ResImagePack::loadImage(picture);
+	m_surface = ResImagePack::loadImage(picture);
 }
+
 //-----------------------------------------------------------------
 WiPicture::~WiPicture()
 {
-    SDL_FreeSurface(m_surface);
-}
-//-----------------------------------------------------------------
-void
-WiPicture::drawOn(SDL_Surface *screen)
-{
-    SDL_Rect rect;
-    rect.x = m_shift.getX();
-    rect.y = m_shift.getY();
-    SDL_BlitSurface(m_surface, NULL, screen, &rect);
+	SDL_FreeSurface(m_surface);
 }
 
+//-----------------------------------------------------------------
+void
+WiPicture::drawOn(SDL_Surface* screen)
+{
+	SDL_Rect rect;
+	rect.x = m_shift.getX();
+	rect.y = m_shift.getY();
+	SDL_BlitSurface(m_surface, nullptr, screen, &rect);
+}

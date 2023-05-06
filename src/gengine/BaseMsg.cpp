@@ -16,11 +16,12 @@
  * @param listenerName name of destination
  * @param name msg name
  */
-    BaseMsg::BaseMsg(const std::string &listenerName, const std::string &name)
-: m_listenerName(listenerName), m_name(name)
+BaseMsg::BaseMsg(const std::string& listenerName, const std::string& name)
+	: m_listenerName(listenerName), m_name(name)
 {
-    /* empty */
+	/* empty */
 }
+
 //-----------------------------------------------------------------
 /**
  * Send copy of message.
@@ -28,14 +29,15 @@
 void
 BaseMsg::sendClone() const
 {
-    //NOTE: message type must be preserved
-    MessagerAgent::agent()->forwardNewMsg(clone());
+	//NOTE: message type must be preserved
+	MessagerAgent::agent()->forwardNewMsg(clone());
 }
+
 //-----------------------------------------------------------------
 std::string
 BaseMsg::toString() const
 {
-    std::string result = m_listenerName;
-    result.append("->" + m_name);
-    return result;
+	std::string result = m_listenerName;
+	result.append("->" + m_name);
+	return result;
 }
