@@ -1,0 +1,75 @@
+Nr | codename      | English name               | Czech name
+---+---------------+----------------------------+----------------------------
+01 | start         | How It All Started         | Jak to všechno začalo
+02 | briefcase     | Briefcase Message          | Podivná zásilka
+03 | cellar        | Rehearsal in Cellar        | Zkouška ve sklepě
+04 | library       | Library Flotsam            | Co zbylo z knihovny
+05 | stairs        | Plants on the Stairs       | Zeleň na schodišti
+06 | broom         | A Mess in the Boiler Room  | Nepořádek v kotelně
+07 | reef          | Under the Reef             | Pod útesem
+08 | wc            | Closed in the Closet       | Zamčeni na WC
+09 | submarine     | Drowned Submarine          | Utonulá ponorka
+10 | party1        | Picnic Boat                | Výletní loď
+11 | elk           | Great War                  | Velká vlastenecká válka
+12 | wreck         | The Ship of Captain Silver | Loď kapitána Silvera
+13 | viking1       | The Last Voyage            | Poslední plavba
+14 | airplane      | Altitude: Minus 9000 Feet  | Výška: -9000 stop
+15 | bathyscaph    | Bathyscaph                 | Batyskaf
+16 | tank          | Amphibious Tank            | Obojživelný tank
+17 | viking2       | Eight Vikings in a Boat    | Osm vikingů a pes
+18 | party2        | Return from the Party      | Návrat z výletu
+19 | gods          | The Gods Must Be Mad       | Bohové musí být šílení
+20 | elevator1     | House with an Elevator     | Dům s výtahem
+21 | city          | Welcome To Our City        | Vítejte ve městě!
+22 | ufo           | Independence Day           | Den nezávislosti
+23 | columns       | The Columns                | Na kolonádě
+24 | pavement      | Uneven Pavement            | Nerovná dlažba
+25 | pyramid       | Mr. Cheops` House          | Dům pana Cheopse
+26 | music         | A Bit of Music             | Pro potěšení
+27 | crabshow      | Crab Freak Show            | Paniptikum korýšů
+28 | elevator2     | Another elevator           | Druhý dům s výtahem
+29 | atlantis      | And How It Was             | Tak takhle to bylo
+30 | corals        | First Bizarre Things       | První bizarnosti
+31 | labyrinth     | Labyrinth                  | Bludiště
+32 | imprisoned    | Imprisoned                 | Uvězněni
+33 | society       | Closed Society             | Uzavřená společnost
+34 | creatures     | Sleeping Creatures         | Spící tvorečkové
+35 | cancan        | Cancan Crabs               | Kankánoví krabíci
+36 | pearls        | One More Pearl; Please!    | Ještě jednu perličku!
+37 | turtle        | Telepathic Devil           | Telepatická mrcha
+38 | computer      | The Deep Server            | Hlubinný server
+39 | noground      | Almost No Wall             | Skoro žádná zeď
+40 | bathroom      | Plumbman`s Refuse          | Instalatérský odpad
+41 | duckie        | Adventure with Pink Duckie | Dobrodružství s kachničkou
+42 | puzzle        | Shredded Stickman          | Rozstříhaná čmáranice
+43 | dump          | Real Chaos                 | Opravdový chaos
+44 | barrel        | Outraged Greenpeace        | Greenpeace by zuřili
+45 | cabin1        | The First Mate`s Cabin     | Kajuta prvního důstojníka
+46 | snowman       | The Winter Mess Hall       | Zimní jídelna
+47 | cannons       | Fire!                      | Pal!
+48 | kitchen       | Ship Kitchen               | Lodní kuchyně
+49 | cabin2        | Second Mate`s Cabin        | Kajuta druhého důstojníka
+50 | captain       | Captain`s Cabin            | Kapitánova kajuta
+51 | map           | Silver`s Hideout           | Silverova tajná skrýš
+52 | reactor       | Power Plant                | Reaktor
+53 | magnet        | Strange Forces             | Neznámé síly
+54 | engine        | Brm... Brm...              | Brm brm...
+55 | steel         | Nothing but steel          | Ocel; samá ocel
+56 | corridor      | Guarded Corridor           | Přísně střežená chodba
+57 | experiments   | Biological Experiments     | Biologické experimenty
+58 | propulsion    | The Real Propulsion        | Skutečný pohon
+59 | aztec         | Aztec Art Hall             | Sál aztéckého umění
+60 | gems          | Shiny Cave-in              | Blýskavý zával
+61 | chest         | Giant`s Chest              | Truhlička obra Koloděje
+62 | alibaba       | The Hall of Ali-baba       | Alibabův sál
+63 | cave          | The Deepest Cave           | Nejhlubší jeskyně
+64 | grail         | What Would King Arthur Say?| Artuš by se divil
+65 | tetris        | TETRIS                     | TETRIS
+66 | emulator      | Emulator                   | Emulátor
+67 | warcraft      | Garden of War              | Garden of War
+68 | windoze       | Favorites                  | Oblíbené položky
+69 | hardware      | A Hardware Problem         | Hardwarový problém
+70 | floppy        | Read Only                  | Read only
+71 | ending        | At Home                    | Doma
+72 | score         | Special Score              | Special Score
+

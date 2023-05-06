@@ -1,0 +1,60 @@
+CE
+zd1-v-civil
+ V: Jaká to byla vyspělá civilizace. Staletí pod vodou a jejich výtahy ještě jezdí.
+ V: What a glorious civilization. So many centuries under water and their elevators still work.
+zd1-m-tlac
+ M: Zvláště, když zatlačíme.
+ M: Especially, when we push them.
+zd1-m-dolu
+ M: Ale jenom dolů.
+ M: But only down.
+
+zd1-m-last
+ M: Vidíš tu lasturu?
+ M: Do you see that shell?
+zd1-v-talis
+ V: To je prastarý talisman stavitelů zdviží. Aby jim výtah skvěle Shell.
+ V: It`s an age-old talisman for elevator builders who always said 'Build well. Build with Shell`.
+
+zd1-m-poved
+ M: Není ti ta lastura nějak povědomá?
+ M: Isn`t that shell a little bit familiar?
+zd1-v-styd
+ V: Že se nestydí. Taková zjevná skrytá reklama!
+ V: They should be ashamed of themselves. This is subliminal advertising.
+
+zd1-v-lebka
+ V: Ta lebka je mi nějak povědomá.
+ V: That skull looks familiar.
+zd1-m-stejne
+ M: Všechny lidské lebky vypadají stejně... Na rozdíl od rybích kostřiček.
+ M: All human skulls look the same... Unlike fish skeletons.
+
+zd1-m-cesta
+ M: To je ale cesta.
+ M: This is a tough path.
+zd1-v-krecek
+ V: Připadám si jako křeček ve šlapacím kole.
+ V: I feel like a mouse on a treadmill.
+zd1-m-slap
+ M: Šlapací kolo na ryby? Vždyť máme jen ploutve.
+ M: A treadmill for fish? But we only have fins.
+
+zd1-x-huhu1
+ l: Hu húúú húúúúú" Já jsem táádýýý"
+ l: Hoo, hooooo, hoooo" I`m over heeeere"
+zd1-x-huhu2
+ l: Húúú, jestli chcete, prozradím vám řešení všech místností"
+ l: Hoooo, if you want I`ll tell you how to solve all the levels"
+zd1-x-huhu3
+ l: Húúúú hu húúúú, já vím, proč se potopilo město!
+ l: Hooo, ho, hooo, I know why the city sank!
+zd1-x-huhu4
+ l: Húúúú, proč si mě nikdo nevšímá?
+ l: Hoooo, why isn`t anyone paying attention to me?
+zd1-x-huhu5
+ l: Húúúú hu húúú húúú! Proč mě ignorujete?
+ l: Hoooo ho hooo! Why are you ignoring me?
+zd1-x-huhu6
+ l: Hahúúú, holahúúúú, ryby! Všimněte si mě!
+ l: Hooooo, hooooo, fish! Pay attention to me!

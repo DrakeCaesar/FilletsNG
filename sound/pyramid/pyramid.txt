@@ -1,0 +1,41 @@
+CE
+pyr-m-kam
+ M: Kam jsme se to dostali?
+ M: Where are we now?
+pyr-v-vsim
+ V: Pyramidy... Povšimni si, jak se v tomto městě mísí antické motivy.
+ V: The Pyramids... Notice how the classical motifs mix in this city.
+
+pyr-m-plaz
+ M: Co se to tam plazí?
+ M: What is that crawling around over there?
+pyr-v-druha
+ V: To přece nevidíš. Vždyť je to na druhé straně zdi.
+ V: You can`t see it from here? It`s on the other side of wall.
+
+pyr-m-nudi
+ M: Podívej, ta ženská se snad nudí!
+ M: Look, the woman is bored!
+pyr-v-sark
+ V: Tak tobě se zdá, že to trvá dlouho?
+ V: Do you think that this is taking us too long?
+pyr-m-zkus
+ M: Zkus si to sama, když jsi tak chytrá.
+ M: Try it yourself, if you`re so clever.
+pyr-m-comy
+ M: A co máme říkat my?
+ M: What should we say?
+pyr-m-nic
+ M: Ty tu nic nosit nemusíš.
+ M: You don`t have to carry anything.
+
+pyr-v-sfing
+ V: Neboj se.
+ V: Don`t be afraid.
+
+pyr-m-dest
+ M: Co je asi napsáno na těch destičkách?
+ M: What is it written on these tablets?
+pyr-v-sbohem
+ V: Sbohem a dík za všechny ty ryby.
+ V: So long and thanks for all the fish.

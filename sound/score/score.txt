@@ -1,0 +1,38 @@
+CE
+sc-v-typicka
+ V: Tohle není typická místnost.
+ V: This is not a typical level.
+sc-m-orisek
+ M: Dostat se z téhle místnosti ven, to by byl jistě dost náročný oříšek.
+ M: To get out of this level would be surely taxing.
+
+sc-v-pismena
+ V: Našli jsme tady na dně rozházená nějaká písmena.
+ V: We found some letters scattered around the ocean floor.
+sc-m-napis
+ M: Těžko říci, ze kterého nápisu asi pocházejí.
+ M: It`s hard to say what are they supposed to mean.
+
+sc-v-poskladat
+ V: Tvým úkolem, pokud jej přijmeš, bude poskládat písmena do řady, hezky vedle sebe, aby vytvořila nějaký nápis.
+ V: Your mission, if you choose to accept it, will be to arrange the letters in a row, one along the other, to form some inscription.
+sc-m-jmeno
+ M: Třeba jméno nějakého tvého kamaráda.
+ M: A name of your friend, for example.
+sc-v-darek
+ V: Bude to pěkný dárek k jeho nedávným padesátinám.
+ V: It will be a nice present for his recent fiftieth birthday.
+
+sc-m-tezky
+ M: To bude pro hráče těžký oříšek.
+ M: This will be very difficult for the player.
+sc-v-casopis
+ V: Zvlášť jestli nezná počítačový časopis SCORE.
+ V: Especially if he doesn`t know the computer games magazine Score.
+sc-m-pst
+ M: Psst... teď jsi to málem prozradil.
+ M: Shhh... You almost gave it out.
+
+sc-m-mezery
+ M: A ať tam nejsou mezery, a ať žádné písmeno nevyčnívá z řady.
+ M: And remember, there may be no spaces and all letters must be aligned.

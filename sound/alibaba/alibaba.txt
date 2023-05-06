@@ -1,0 +1,46 @@
+CE
+kni-m-svicny
+ M: Z pokladnice do skladu svícnů. Tomu říkám pokrok.
+ M: From treasury to the candlestick warehouse. Now, this is what I call a progress.
+kni-v-ber
+ V: Ber to z té lepší stránky. Tady například není nic, co by se podobalo grálu.
+ V: You have to look at the bright side. There is nothing that looks like grail here.
+
+kni-v-prolezt
+ V: Zdá se, že budu muset prolézt tím strašným bludištěm.
+ V: It seems that I`ll have to go through that horrible maze.
+kni-m-tloustka
+ M: Ta tvoje tloušťka. Ta nás vždycky zdržuje.
+ M: Your fat body. It always hinders us.
+kni-v-padavko
+ V: Nezačínej s tím zase, ty padavko.
+ V: Just leave me alone, you emaciated pollywog.
+kni-m-hromado
+ M: Na ty tvoje řeči jsem tak akorát zvědavá, ty hromado svalů a ploutví.
+ M: Cut this crap, you misshaped heap of muscles and scales, will you?
+kni-v-vypni
+ V: Mohl bys, prosím tě, restartovat level? Zdá se, že nám to teď spolu moc nejde.
+ V: Could you restart the level, please? We don`t seem to be getting along very well now.
+
+kni-m-hrncirstvi
+ M: Připadám si tu jako ve skladu hrnčířství.
+ M: I feel like I am in the pottery warehouse.
+kni-v-amforstvi
+ V: Chceš říci: amfórství.
+ V: You mean, amphory warehouse.
+kni-m-amfornictvi
+ M: Když už, tak: amfórnictví.
+ M: No, it should be amphoraware.
+
+kni-m-mise
+ M: Víš, myslím, že tahle celá jeskynní mise mi hodně pomohla.
+ M: You know what? I think that this mission really helped me.
+kni-v-proc
+ V: A proč?
+ V: And why?
+kni-m-cetky
+ M: Pochopila jsem, že šperky a zlato jsou jenom laciné cetky.
+ M: I grew to understand that jewels and gold are but cheap trinkets.
+kni-m-kramy
+ M: Už ty krámy nemůžu ani vidět!
+ M: I can`t bear the darned stuff any longer!

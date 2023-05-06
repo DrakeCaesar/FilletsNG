@@ -1,0 +1,44 @@
+CE
+pt2-m-parnik
+ M: Zase ten přízračný parník.
+ M: That ghostly boat, again.
+pt2-v-zmena
+ V: Vidíš? Něco se změnilo, zatímco jsme byli pryč. Říkám ti, že nás někdo pozoruje.
+ V: Can you see it? Something has changed while we were away. I tell you, somebody is watching us.
+pt2-m-hrac
+ M: Co se na nás pořád díváš? Nevidíš, že nás to znervózňuje?
+ M: Why do you keep looking at us? Can`t you see it makes us nervous?
+
+pt2-m-piknik0
+ M: Koukám, že ten jejich piknik už pomalu končí.
+ M: It looks like their picnic is coming to an end.
+pt2-m-piknik1
+ M: Už mají po pikniku.
+ M: The picnic is over.
+pt2-m-piknik2
+ M: Tohle tu zbylo po pikniku.
+ M: That`s all that is left from the picnic.
+pt2-m-piknik3
+ M: Měli tu takový piknik u dna.
+ M: They have had a kind of picnic by the bottom.
+
+pt2-v-unaveni0
+ V: Zdá se, že ti výletníci jsou poněkud společensky unaveni.
+ V: I think that those party-goers are little bit tired.
+pt2-v-unaveni1
+ V: Ti už mají opravdu dost.
+ V: Yes, they have had enough.
+
+pt2-v-nemohou0
+ V: Myslím, že ti už nemají náladu nějak nám ublížit.
+ V: I think they cannot think about harming us now.
+pt2-v-nemohou1
+ V: Myslím, že ti už nám nic udělat nemohou.
+ V: I think they are quite harmless now.
+
+pt2-v-minule0
+ V: To nebude tak jednoduché jako minule.
+ V: It won`t be that easy like the last time.
+pt2-v-minule1
+ V: Zdá se, že to bude trochu složitější.
+ V: It seems it`s going to be more difficult this time.

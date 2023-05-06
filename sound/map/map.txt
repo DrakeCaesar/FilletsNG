@@ -1,0 +1,58 @@
+CE
+map-v-mapa
+ V: No sláva. Tak ta mapa opravdu existuje!
+ V: Oh well. So that map really exists after all!
+map-m-mapa
+ M: No vida. Támhle máme tu mapu.
+ M: Okay. Here is the map.
+map-m-ukol
+ M: Takže teď bude naším úkolem nějak dostat ven tu mapu.
+ M: So it`s clear now that our goal is to get that map out somehow.
+map-v-jasne
+ V: Jasně. Kdybychom měli jenom odplout, to by bylo věru snadné.
+ V: Of course. It would be too easy, if we should just swim away.
+map-m-neplacej
+ M: Neplácej nesmysly a raději přemýšlej.
+ M: Don`t talk nonsense and try to think instead.
+
+map-v-ukol
+ V: Naším úkolem je dostat nějak ven tu mapu.
+ V: Our goal is to get out that map somehow.
+
+map-v-cojetam
+ V: Copak je asi na té mapě?
+ V: What can be on that map?
+map-v-poklady
+ V: Myslíš, že opravdu ukazuje Silverovy poklady?
+ V: Do you think that it really shows Silver`s treasures?
+map-m-uvidime
+ M: To uvidíme, až se nám tu zatracenou mapu podaří dostat ven.
+ M: We shall see when we manage to get the darned map out.
+
+map-m-sneci
+ M: Chtělo by to víc těch šneků.
+ M: We`d need more of these snails.
+map-x-hlemyzdi
+ y: Snad hlemýždů, ne?
+ y: You mean Escargots, don`t you?
+
+map-v-oci
+ V: Chtělo by to víc těch skleněných očí.
+ V: We`d need more of that glass eyes.
+
+map-v-restart
+ V: Nejjednodušší by bylo připlout do této místnosti támhle vrchem. Zkusme ji restartovat, jestli se neobjevíme tam.
+ V: The easiest way to do it would be to get to the upper part of this level. Let`s try to restart it, maybe we shall appear there.
+map-m-pravidla
+ M: Nedělej, že jsi po tolika vyřešených místnostech ještě nepochopil pravidla.
+ M: Don`t pretend that you didn`t understand the rules after so many solved levels.
+
+map-m-pohnout
+ M: Tak se nám s ní podařilo pohnout.
+ M: So we managed to move it.
+map-v-dal
+ V: Jen tak dál.
+ V: Let`s keep on good work.
+map-m-uz
+ M: Už to skoro bude.
+ M: Yes, it`s almost done.

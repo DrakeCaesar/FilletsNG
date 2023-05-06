@@ -1,0 +1,51 @@
+CE
+puc-m-koukej
+ M: Koukej, co se na takovém smetišti najde.
+ M: Look, what can we find on such a dump.
+puc-v-podivej
+ V: Podívej, co ti lidi všechno nevyhodí.
+ V: It`s interesting what kind of stuff will somebody will throw out.
+
+puc-v-videl
+ V: Tu ženskou už jsem někde viděl.
+ V: I am sure I have seen this woman somewhere.
+puc-m-oblicej
+ M: To se ti jen zdá, je to úplně tuctový obličej.
+ M: You are probably wrong, it`s a completely plain face.
+
+puc-m-pld0
+ M: Podívej na tu věc.
+ M: Look at that thing.
+puc-m-pld1
+ M: Podívej se na toho plda. To je ale potvora.
+ M: Look at that pld. What a monster.
+puc-m-hele
+ M: Hele, to je ale nechutnost.
+ M: Oh, my, this is repulsive.
+puc-m-slizka
+ M: Ošklivá, slizká, špinavá a navíc hrozně zavazí.
+ M: Repulsive, slimy, dirty and in the way.
+
+puc-v-fuska0
+ V: To je ale fuška.
+ V: It`s taxing.
+puc-v-fuska1
+ V: Je to poněkud pracné.
+ V: It`s quite demanding.
+
+puc-v-fuska2
+ V: To byla ale hokna.
+ V: It was a lot of work.
+puc-m-stalo
+ M: Ale stálo to za to, ne?
+ M: But it paid off, didn`t it?
+puc-m-obraz
+ M: Představ si, že by to byl třeba nějaký vzácný obraz a my ho zachránili!
+ M: Just imagine it was some precious painting and we have saved it!
+puc-v-nesmysl
+ V: Nesmysl!
+ V: What  nonsense!
+
+puc-x-pldik
+ p: MUAHHH" UAHH" UUUH"
+ p: MUAHHH" UAHH" UUUH"

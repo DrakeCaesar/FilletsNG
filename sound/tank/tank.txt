@@ -1,0 +1,53 @@
+CE
+sv-m-pomohli
+ M: To jsme si pomohli. Z batyskafu do tanku, to je jako ze sítě do podběráku.
+ M: This is some improvement. From bathyscaph to tank, this is like from line to the net.
+sv-v-bezsneku
+ V: Aspoň tu nejsou žádní přeochotní šneci.
+ V: At least, there are no oh-so-obliging snails here.
+sv-m-utecha
+ M: To je jen slabá útěcha.
+ M: This is but little consolation.
+
+sv-v-chtel
+ V: Vlasntě jsem si vždycky chtěl prohlédnout tank zevnitř.
+ V: Thinking about it, I always wanted to see the tank from within.
+sv-m-doscasu
+ M: Na to teď budeš mít času víc než dost.
+ M: It seems you will have plenty of opportunity to do this.
+
+sv-m-tank
+ M: Jak se asi dostal ten tank do moře?
+ M: How did this tank got into the sea?
+sv-v-obojzivelny
+ V: Možná to byl obojživelný tank.
+ V: Maybe it was an amphibious tank.
+sv-m-kecy
+ M: Mořský obojživelný tank? Úplně to vidím před sebou: za bezměsíčné noci se k pobřeží omývanému vlnami šírého oceánu blíží les šnorchlů... a na písečné pláže vyjíždějí první obrněnci... konsternovaní obránci nechápavě hledají loď, která je tu vysadila...
+ M: Sea amphibious tank? Just imagine: On the moonless night, the uncomprehending defenders bewilderedly watch the forest of snorkels emerging from the surf, searching in vain for the landing craft...
+sv-v-proc
+ V: Tak proč se ptáš, když jsi tak chytrá?!
+ V: So why are you asking, if you are so darned clever?!
+sv-v-potopena
+ V: Možná je tu potopená výsadková loď.
+ V: Maybe, there is sunken landing craft nearby.
+sv-m-pravdepodob
+ M: To je pravděpodobné.
+ M: It is possible.
+
+sv-m-munice
+ M: Myslíš, že ta munice je ještě funkční?
+ M: Do you think that this ammunition could harm us?
+sv-v-nevim
+ V: Nevím. Každopádně se od ní budu držet radši dál.
+ V: I don`t know. But surely, I`ll try to keep my distance from it.
+
+sv-v-zebrik
+ V: Myslím, že budeme potřebovat ten žebřík.
+ V: I think we are going to need that ladder.
+sv-m-ven
+ M: Abychom po něm vylezli ven? Vždyť máme jen ploutve.
+ M: To climb out? But we have only fins.
+sv-v-ucpat
+ V: Abychom s ním ucpali tu díru.
+ V: No. To plug that hole.

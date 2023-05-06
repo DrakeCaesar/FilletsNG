@@ -1,0 +1,133 @@
+CE
+k1-pap-3xkruty
+ P: Krrrutý, krrrutý, krrrutý kapitán Silverrrr"
+ P: Crrruel, crrruel, crrruel Captain Silverrrr"
+k1-pap-karamba
+ P: Oj" karamba!!!
+ P: Ay" caramba!!!
+k1-pap-kruty
+ P: Krrrutý kapitán Silverrrr"
+ P: Crrruel Captain Silverrrr"
+k1-pap-drahokamy
+ P: Drrrahokamy, trrroubové"
+ P: Trrreasurre, you foools"
+k1-pap-kruci
+ P: Krrruci!
+ P: Good grrrief!
+k1-pap-drahousek
+ P: To si vyprrrošuju, Lóra je pánův drrrahoušek.
+ P: That`s rrrrrridiculous! Polly is his masterrr`s darrrling.
+k1-pap-nestrkej
+ P: Nestrrrkej do mě!
+ P: Don`t ppppush me!
+k1-pap-noproto
+ P: No prroto!
+ P: That`s betterrr!
+k1-pap-prcice
+ P: A jste v prrrčicích!
+ P: And it`s currrtains forrr you!
+k1-pap-prekazet
+ P: Tady vám budu strrrašně překážet.
+ P: I`m going to be in yourrr way herrre.
+k1-pap-problem
+ P: Zatrrraceny prrroblém, není-liž prrravda?
+ P: Trrricky prrroblem, isn`t it?
+k1-pap-sakris
+ P: Sákrrriš
+ P: Dang it!
+k1-pap-sestlustej
+ P: Jseš tlustej, neprrrojedeš"
+ P: You`rrre too fat, you can`t make it thrrrrough.
+k1-pap-sucharek
+ P: Lórrra chce suchárrrek!
+ P: Polly wants a crrracker!
+k1-pap-trhnisi
+ P: Trrrhni si"
+ P: Beat it, sirrr"
+k1-pap-vodprejskni
+ P: Nevotrrravuj a vodprrrejskni!
+ P: Leave me alone and get lost!
+k1-m-copak
+ M: Copak je asi uvnitř?
+ M: What could be inside?
+k1-v-kdovi
+ V: Kdo ví"
+ V: Who knows"
+k1-m-myslis
+ M: Myslíš, že by to mohl být legendarní Silverův poklad?
+ M: Could this be the legendary Silver`s treasure?
+k1-v-bedna
+ V: V tak malé truhle? Kvůli jedné takové bedničce by nás šéf určitě nekontaktoval.
+ V: In such a small chest? The boss surely wouldn`t contact us for such a little case.
+k1-m-fuj
+ M: Fuj!
+ M: Yuck!
+
+k1-m-diky
+ M: Díky.
+ M: Thanks.
+k1-v-radose
+ V: Rádo se stalo.
+ V: No problem.
+
+k1-m-codelas
+ M: Co to děláš?!
+ M: What are you doing?!
+k1-v-promin
+ V: Promiň, už si dám pozor"
+ V: I`m sorry. I`ll be more careful next time.
+k1-v-opatrne
+ V: Opatrně, ať jí neublížíš.
+ V: Be careful! Don`t hurt it!
+k1-m-tospisona
+ M: To spíš ona mně!
+ M: It`s more the other way around!
+
+k1-m-chobotnice
+ M: To je ale chobotnice! Komupak asi patří?
+ M: That`s some octopus! I wonder who`s her owner?
+k1-v-patrila
+ V: Možná patřila obyvateli této kajuty.
+ V: Maybe it belonged to the person who lived in this cabin.
+
+k1-m-podivin
+ M: Ten, kdo tu bydlel, byl asi podivín.
+ M: Whoever lived here sure was weird.
+k1-v-proc
+ V: Proč?
+ V: Why?
+k1-m-lebku
+ M: Podívej, měl tu lidskou lebku!
+ M: Look, he had a human skull here!
+k1-v-jejeho
+ V: Víš, možná je to ta jeho.
+ V: Well, maybe it`s his own skull.
+k1-m-mysli
+ M: Myslíš?
+ M: You think so?
+
+k1-v-citis
+ V: Cítíš tu tíživou atmosféru? Potopený vrak, kostra papouška, lidská lebka, převrácená kolébka"
+ V: Can you sense the atmosphere of rot and decay? The sunken wreck, the parrot`s skeleton, the human skull, and the broken cradle"
+k1-m-kolebku
+ M: Kde vidíš tu kolébku?
+ M: Where do you see the cradle?
+k1-v-cit
+ V: Ach jo, ty nemáš vůbec cit pro poezii"
+ V: Oh, you don`t have any feeling for poetry at all"
+
+k1-chob-1
+x
+x
+k1-chob-2
+x
+x
+k1-chob-3
+x
+x
+k1-chob-p
+x
+x
+k1-x-vrz
+x
+x

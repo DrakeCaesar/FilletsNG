@@ -1,0 +1,56 @@
+CE
+uts-m-otresy
+ M: Probůh, to otřesy způsobily zával!
+ M: My goodness, the impact created cave-in!
+uts-v-projet0
+ V: Nemůžu kolem toho závalu projet, musíme zkusit jiný východ.
+ V: I can`t go through this cave-in, we have to find another exit.
+uts-v-projet1
+ V: Tudy to asi nepůjde.
+ V: This is not the way.
+uts-v-sam
+ V: Sám to tady asi nezvládnu.
+ V: I won`t make it alone.
+
+uts-m-lastura
+ M: Asi jsem měla tu lasturu nejdřív zvednout.
+ M: I probably should have had lifted that shell first.
+uts-v-poradi
+ V: Možná bude potřeba vyměnit pořadí těch předmětů.
+ V: Maybe we would have to switch these objects.
+
+uts-m-matrace
+ M: Matrace. To nejlepší, co pod vodou seženete.
+ M: Mattress. The best thing you can get under water. 
+uts-m-snek
+ M: Teď můžeme shodit šneka na tu matraci.
+ M: Now we can drop the snail on the mattress.
+uts-m-nezvedneme
+ M: Odtam toho šneka už asi nezvedneme.
+ M: It will be difficult to pick up that snail from there.
+
+uts-v-konecne
+ V: Konečně je tam.
+ V: Finally, it`s there.
+uts-m-chudak
+ M: Chudáček šneček...
+ M: The poor snail...
+
+uts-v-koraly
+ V: Měli bychom se podívat do korálových útesů.
+ V: We should search the coral reefs.
+uts-m-tvorove
+ M: Tam bude jistě spousta živých tvorů ke zkoumání.
+ M: There are going to be many interesting beings to investigate there.
+uts-v-mikroskop
+ V: Nejsou korály náhodou zkoumatelné jen pod mikroskopem?
+ V: Don`t we need a microscope to investigate corals?
+uts-m-zivocich
+ M: No, jsou malé. Ale mohou tam být i jiní živočichové.
+ M: Yes, they are small. But there can be other life forms.
+uts-m-zelvy
+ M: Třeba korálové želvy.
+ M: Coral turtles, for example.
+uts-m-batyskaf
+ M: A navíc mi něco říká, že mikroskop je v jednom batyskafu.
+ M: And moreover I have a suspicion that microscope is in one bathyscaph.

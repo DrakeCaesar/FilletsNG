@@ -1,0 +1,75 @@
+CE
+tru-v-nasly
+ V: Tak jsme to konečně našly.
+ V: So we have found it finally.
+tru-m-co
+ M: Co?
+ M: And what?
+tru-v-poklad
+ V: No přeci poklady kapitána Silvera.
+ V: Captain Silver`s treasure, of course.
+tru-v-gral
+ V: No přeci svatý grál.
+ V: The Holy Grail, of course.
+
+tru-v-vkupe
+ V: Tak to tu máme pěkně v kupě: poklady i Grál.
+ V: It`s neatly in one place: the treasure and the Grail.
+tru-m-zrada
+ M: Jen aby v tom nebyla nějaká zrada.
+ M: I think it`s much too easy to be true.
+
+tru-m-oznamit
+ M: Já myslím, že kdyby to bylo skutečně ono, hra by to hráči nějak výrazně oznámila.
+ M: I think that if it really was our goal, the game would let the player know.
+tru-v-stacit
+ V: Však jsem mu to řekl. To by mu mohlo stačit.
+ V: But I have let him know. This could be enough.
+tru-m-zpochybnit
+ M: Jenže já jsem to zpochybnila. To by jej mohlo zmást.
+ M: But I have casted doubts on it. This could confuse him.
+tru-v-nejspis
+ V: No tak dobře. Tak to NEJSPÍŠ ještě není ono.
+ V: Well, all right. PROBABLY this is not what we are looking for.
+tru-m-nejistota
+ M: Tak je to lepší. Zůstává v tom střípek nejistoty.
+ M: This is better. There remains a bit of uncertainty.
+
+tru-m-truhla0
+ M: Nemůže se ta truhla najednou zavřít?
+ M: Couldn`t we close that chest?
+tru-m-truhla1
+ M: Co kdybychom zkusili tu truhlu zavřít?
+ M: What if we try to close that chest?
+tru-v-truhla0
+ V: Se zavřenou truhlou by bylo všechno jednodušší.
+ V: It would be much easier with the closed chest.
+tru-v-truhla1
+ V: Zkus jí strčit do víka.
+ V: Try to push its lid.
+
+tru-m-vzit0
+ M: Nevezmeme si s sebou něco?
+ M: Won`t we take something with us?
+tru-m-vzit1
+ M: Co si takhle vzít nějaký poklad s sebou?
+ M: What about taking some treasure with us?
+tru-m-vzit2
+ M: Není ti líto, že tu necháme všechny ty poklady?
+ M: Ain`t you sorry to leave all these treasures behind?
+tru-v-vzit0
+ V: Budeme rádi, když odjedem aspoň my samy.
+ V: We will be glad if we manage to get out ourselves.
+tru-v-vzit1
+ V: Nezapomeň, že máme poslání.
+ V: Don`t forget our mission.
+tru-v-vzit2
+ V: Poklady by nás jenom zdržovaly.
+ V: A treasure would only hinder us.
+
+tru-v-zrak
+ V: Už mě z toho lesku přechází zrak.
+ V: All this glint is a sight for the sore eyes.
+tru-m-trpyt
+ M: Všechno se tu tak třpytí. Až z toho oči přecházejí.
+ M: Everything here gleams so. It makes me dizzy.

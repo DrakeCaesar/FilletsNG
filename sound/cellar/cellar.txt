@@ -1,0 +1,105 @@
+CE
+pra-m-pravidla
+ M: Pravidla už znáš. Teď si je můžeš vyzkoušet v praxi. Budeme ti trochu radit.
+ M: You know the rules already. Now you can practice them. We will give you some hints occasionally.
+pra-v-klesnout
+ V: Já například teď nesmím podklesnout dolů. A nahoru to také moc nejde.
+ V: I must not swim down now. And I cannot go up, either.
+pra-v-nahore
+ V: Hej, urovnej mi to tam nahoře nějak. Ale opatrně!
+ V: Hey, arrange it up there somehow. But be careful!
+
+pra-m-nepohnu
+ M: S tímhle já nepohnu, to je ocel.
+ M: I can`t move this. This is a steel.
+
+pra-m-zpatky
+ M: Pojeď zpátky, dál nemůžeš!
+ M: Come back, you can`t go further!
+
+pra-v-zapeklita
+ V: Hmmm... zapeklitá věc. Jakmile odstrčíme med, spadne na nás meruňková marmeláda.
+ V: Hmm... This is tricky. If we push aside the honey, we will be smashed by that can of apricot jam.
+pra-m-vyrazit
+ M: Co takhle to vyrazit tou sekyrou?
+ M: Couldn`t we push it aside with that axe?
+pra-v-dobrynapad
+ V: Dobrý nápad.
+ V: That`s a good idea.
+
+pra-m-chytit
+ M: Teď už tu sekeru nemůžu chytit, když jsme tam dali sklenici.
+ M: Now I cannot take the axe. The can is in the way.
+pra-v-vzit
+ V: Tu sekeru nemůžeš vzít!
+ V: You mustn`t push the axe!
+pra-m-prisun
+ M: Když mi sem přisuneš sklenici, hodím ji na ni, to bude v pohodě.
+ M: If you can push that can to me, I`ll shove the axe on it and everything will be okay.
+
+pra-v-problem
+ V: Když vyřešíš nějaký ucelený problém, můžeš si pozici uložit.
+ V: If you solve some specific part you can save the position.
+pra-m-reseni
+ M: Ale jen pokud jsi přesvědčen, že řešení je správné.
+ M: But only if you are sure of your solution.
+pra-v-ukladani
+ V: Nezapomeň, co jsme ti říkali o ukládání pozice.
+ V: Remember what we have said about saving positions.
+
+pra-m-uvazovat
+ M: O tomhle bych ani neměla uvažovat.
+ M: I shouldn`t be thinking about this.
+
+pra-v-spatne
+ V: Tohle vypadá špatně. Asi budeš muset místnost restartovat.
+ V: This looks real bad. You are going to have to restart the level.
+
+pra-m-pustis
+ M: Jestli to pustíš a já zůstanu tady, nedostanu se už nikdy ven.
+ M: If you drop this and I`ll stay here, I will never get out.
+pra-v-zavazis
+ V: Tam mi zavazíš, zkus se schovat jinde.
+ V: You stand in my way there. Try to hide somewhere else.
+pra-m-strach
+ M: Tady? Mám trochu strach. Dostanu se pak ven?
+ M: Here? I`m little bit afraid. Will I get out?
+pra-v-prekvapit
+ V: Nech se překvapit.
+ V: Just wait and see.
+
+pra-m-kniha
+ M: Tady ti, hráči, poradíme - tu knihu musíš dostat támhle vlevo.
+ M: We will give you a hint here, player. You have to put that book over there left.
+pra-v-valec
+ V: Aby se na ní zachytil ten ocelový válec, až do něj strčím.
+ V: So that it will catch that steel cylinder when I push it.
+pra-m-jakudelat
+ M: Ale jak to udělat, v tom ti nebudeme radit.
+ M: But we will not tell you how to do it.
+pra-v-nezapomen
+ V: Jen nezapomeň, že i když po sobě nemůžeme předměty posouvat, můžeme je na něco nasouvat a nebo je ze sebe shazovat.
+ V: Just remember that although we cannot push objects along each other`s back, we can push them down or onto some solid structure.
+
+pra-v-objet
+ V: Co kdybych to objel vrchem.
+ V: What if I go the upper way?
+pra-m-neradit
+ M: Pssst. Řekli jsme neradit.
+ M: Shhhh. That`s too many hints.
+
+pra-m-stava
+ M: To se tak někdy stává.
+ M: Things like that happen sometimes.
+pra-v-dopredu
+ V: V téhle hře je potřeba myslet móc daleko dopředu.
+ V: Sometimes you have to think faaar ahead.
+pra-m-restart
+ M: Často se pak stává, že musíš místnost restartovat.
+ M: And often you have to restart the level then.
+pra-v-schvalne
+ V: Přiznáváme, tohle jsme na tebe narafičili schválně.
+ V: We admit that we did this on purpose.
+pra-m-znovu
+ M: Aby sis to zkusil znovu - a tentokrát už bez našich rad.
+ M: So that you could try it again - this time without any hints.
