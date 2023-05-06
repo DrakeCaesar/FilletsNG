@@ -30,8 +30,8 @@ script_demo_display(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *filename = luaL_checkstring(L, 1);
-    int x = luaL_checkint(L, 2);
-    int y = luaL_checkint(L, 3);
+    int x = luaL_checkinteger(L, 2);
+    int y = luaL_checkinteger(L, 3);
 
     Picture *picture = new Picture(Path::dataReadPath(filename), V2(x, y));
     getDemo(L)->action_display(picture);

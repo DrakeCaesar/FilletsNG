@@ -15,7 +15,13 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h>
+
+#define WIN32
+#ifdef WIN32
+    #include <direct.h>
+#else
+    #include <unistd.h>
+#endif
 
 //-----------------------------------------------------------------
 /**

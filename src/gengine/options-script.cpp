@@ -32,7 +32,7 @@ script_options_sendMsg(lua_State *L) throw()
         message = new StringMsg(listener, msg, string_value);
     }
     else if (lua_isnumber(L, 3)) {
-        int int_value = luaL_checkint(L, 3);
+        int int_value = luaL_checkinteger(L, 3);
         message = new IntMsg(listener, msg, int_value);
     }
     else {

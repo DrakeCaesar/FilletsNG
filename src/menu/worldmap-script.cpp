@@ -50,8 +50,8 @@ script_branch_addNode(lua_State *L) throw()
     const char *parent = luaL_checkstring(L, 1);
     const char *codename = luaL_checkstring(L, 2);
     const char *datafile = luaL_checkstring(L, 3);
-    int nodeX = luaL_checkint(L, 4);
-    int nodeY = luaL_checkint(L, 5);
+    int nodeX = luaL_checkinteger(L, 4);
+    int nodeY = luaL_checkinteger(L, 5);
     bool hidden = lua_toboolean(L, 6);
     const char *poster = luaL_optstring(L, 7, "");
 
@@ -88,7 +88,7 @@ script_node_bestSolution(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *codename = luaL_checkstring(L, 1);
-    int moves = luaL_checkint(L, 2);
+    int moves = luaL_checkinteger(L, 2);
     const char *author = luaL_checkstring(L, 3);
 
     getWorld(L)->bestSolution(codename, moves, author);
