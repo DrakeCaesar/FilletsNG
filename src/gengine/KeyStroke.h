@@ -7,26 +7,23 @@
 /**
  * KeyStroke.
  */
-class KeyStroke
-{
-private:
-	static const int STROKE_IGNORE = ~(KMOD_CTRL | KMOD_ALT);
-	SDL_Keycode m_sym;
-	int m_mod;
-	Uint16 m_unicode;
+class KeyStroke {
+    private:
+        static const int STROKE_IGNORE = ~(KMOD_CTRL|KMOD_ALT);
+        SDL_Keycode m_sym;
+        int m_mod;
+        Uint16 m_unicode;
+    private:
+        static int modStrip(int mod);
+    public:
+        KeyStroke(const SDL_Keysym &keysym);
+        KeyStroke(SDL_Keycode sym, int mod);
 
-private:
-	static int modStrip(int mod);
-
-public:
-	KeyStroke(const SDL_Keysym& keysym);
-	KeyStroke(SDL_Keycode sym, int mod);
-
-	SDL_Keycode getKey() const { return m_sym; }
-	Uint16 getUnicode() const { return m_unicode; }
-	bool less(const KeyStroke& other) const;
-	bool equals(const KeyStroke& other) const;
-	std::string toString() const;
+        SDL_Keycode getKey() const { return m_sym; }
+        Uint16 getUnicode() const { return m_unicode; }
+        bool less(const KeyStroke &other) const;
+        bool equals(const KeyStroke &other) const;
+        std::string toString() const;
 };
 
 /**
@@ -34,10 +31,10 @@ public:
  */
 struct stroke_less
 {
-	bool operator()(const KeyStroke& left, const KeyStroke& right) const
-	{
-		return left.less(right);
-	}
+    bool operator()(const KeyStroke &left, const KeyStroke &right) const
+    {
+        return left.less(right);
+    }
 };
 
 #endif

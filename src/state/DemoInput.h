@@ -8,17 +8,13 @@ class GameState;
 /**
  * Handle input for demo.
  */
-class DemoInput : public GameInput
-{
-protected:
-	void enableHelp() override
-	{
-	}
+class DemoInput : public GameInput {
+    protected:
+        virtual void enableHelp() {}
+    public:
+        DemoInput(GameState *demo);
 
-public:
-	DemoInput(GameState* demo);
-
-	void mouseEvent(const MouseStroke& buttons) override;
+        virtual void mouseEvent(const MouseStroke &buttons);
 };
 
 #endif

@@ -11,29 +11,26 @@ class Field;
 /**
  * Marks and unmasks object from game field.
  */
-class MarkMask : public NoCopy
-{
-private:
-	Cube* m_model;
-	Field* m_field;
+class MarkMask : public NoCopy {
+    private:
+        Cube *m_model;
+        Field *m_field;
+    private:
+        void writeModel(Cube *model, Cube *toOverride);
+        bool canGo(Dir::eDir dir) const;
+        bool isInRoom() const;
+    public:
+        MarkMask(Cube *model, Field *field);
 
-private:
-	void writeModel(Cube* model, Cube* toOverride);
-	bool canGo(Dir::eDir dir) const;
-	bool isInRoom() const;
+        Cube::t_models getResist(Dir::eDir dir) const;
+        Cube::t_models getPlacedResist(const V2 &loc) const;
+        void mask();
+        void unmask();
 
-public:
-	MarkMask(Cube* model, Field* field);
+        Dir::eDir getBorderDir() const;
+        bool isFullyOut() const;
 
-	Cube::t_models getResist(Dir::eDir dir) const;
-	Cube::t_models getPlacedResist(const V2& loc) const;
-	void mask();
-	void unmask();
-
-	Dir::eDir getBorderDir() const;
-	bool isFullyOut() const;
-
-	static void unique(Cube::t_models* models);
+        static void unique(Cube::t_models *models);
 };
 
 #endif

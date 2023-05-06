@@ -6,10 +6,9 @@
 /**
  * Exception about SDL_image fail.
  */
-class ImgException : public BaseException
-{
-public:
-	ImgException(const ExInfo& problem);
+class ImgException : public BaseException  {
+    public:
+        ImgException(const ExInfo &problem);
 };
 
 #endif

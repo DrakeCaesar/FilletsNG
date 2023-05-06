@@ -10,15 +10,13 @@ class StepCounter;
 /**
  * Draw number of steps.
  */
-class StepDecor : public Decor
-{
-private:
-	Font m_font;
-	const StepCounter* m_counter;
-
-public:
-	StepDecor(const StepCounter* counter);
-	void drawOnScreen(const View* view, SDL_Surface* screen) override;
+class StepDecor : public Decor {
+    private:
+        Font m_font;
+        const StepCounter *m_counter;
+    public:
+        StepDecor(const StepCounter *counter);
+        virtual void drawOnScreen(const View *view, SDL_Surface *screen);
 };
 
 #endif

@@ -17,37 +17,32 @@
  */
 RoomAccess::RoomAccess()
 {
-	m_room = nullptr;
+    m_room = NULL;
 }
-
 //-----------------------------------------------------------------
 RoomAccess::~RoomAccess()
 {
-	cleanRoom();
+    cleanRoom();
 }
-
 //-----------------------------------------------------------------
-void
-RoomAccess::takeRoom(Room* new_room)
+    void
+RoomAccess::takeRoom(Room *new_room)
 {
-	cleanRoom();
-	m_room = new_room;
+    cleanRoom();
+    m_room = new_room;
 }
-
 //-----------------------------------------------------------------
 /**
  * Remove old room.
  */
-void
+    void
 RoomAccess::cleanRoom()
 {
-	if (m_room)
-	{
-		delete m_room;
-		m_room = nullptr;
-	}
+    if (m_room) {
+        delete m_room;
+        m_room = NULL;
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Check whether room is ready.
@@ -56,30 +51,28 @@ RoomAccess::cleanRoom()
 void
 RoomAccess::checkRoom() const
 {
-	if (nullptr == m_room)
-	{
-		throw LogicException(ExInfo("room is not ready"));
-	}
+    if (NULL == m_room) {
+        throw LogicException(ExInfo("room is not ready"));
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns room or throws exception.
  */
-Room*
+    Room *
 RoomAccess::room()
 {
-	checkRoom();
-	return m_room;
+    checkRoom();
+    return m_room;
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns room or throws exception.
  */
-const Room*
+    const Room *
 RoomAccess::const_room() const
 {
-	checkRoom();
-	return m_room;
+    checkRoom();
+    return m_room;
 }
+

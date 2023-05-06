@@ -7,25 +7,18 @@
 /**
  * Simple text messgage.
  */
-class SimpleMsg : public BaseMsg
-{
-public:
-	CLONE(SimpleMsg);
+class SimpleMsg : public BaseMsg {
+    public:
+        CLONE(SimpleMsg);
+        SimpleMsg(BaseListener *listener, const std::string &name)
+            : BaseMsg(listener->getName(), name) {}
+        SimpleMsg(const std::string &listenerName, const std::string &name)
+            : BaseMsg(listenerName, name) {}
 
-	SimpleMsg(BaseListener* listener, const std::string& name)
-		: BaseMsg(listener->getName(), name)
-	{
-	}
-
-	SimpleMsg(const std::string& listenerName, const std::string& name)
-		: BaseMsg(listenerName, name)
-	{
-	}
-
-	void sendActual(BaseListener* listener) const override
-	{
-		listener->receiveSimple(this);
-	}
+        virtual void sendActual(BaseListener *listener) const
+        {
+            listener->receiveSimple(this);
+        }
 };
 
 

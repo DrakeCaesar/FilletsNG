@@ -6,35 +6,22 @@
 /**
  * NO sound and music.
  */
-class DummySoundAgent : public SoundAgent
-{
-protected:
-	void setSoundVolume(int) override
-	{
-	}
+class DummySoundAgent : public SoundAgent {
+    protected:
+        virtual void setSoundVolume(int ) {}
+        virtual void setMusicVolume(int ) {}
+    public:
+        virtual int playSound(Mix_Chunk *, int /*volume*/, int /*loops*/)
+        { return -1; }
 
-	void setMusicVolume(int) override
-	{
-	}
-
-public:
-	int playSound(Mix_Chunk*, int /*volume*/, int /*loops*/) override
-	{
-		return -1;
-	}
-
-	void playMusic(const Path&,
-	               BaseMsg* finished) override
-	{
-		if (finished)
-		{
-			delete finished;
-		}
-	}
-
-	void stopMusic() override
-	{
-	}
+        virtual void playMusic(const Path &,
+                BaseMsg *finished)
+        {
+            if (finished) {
+                delete finished;
+            }
+        }
+        virtual void stopMusic() {}
 };
 
 #endif

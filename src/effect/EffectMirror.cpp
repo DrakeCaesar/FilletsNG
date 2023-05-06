@@ -11,7 +11,7 @@
 #include "SurfaceLock.h"
 #include "PixelTool.h"
 
-const char* EffectMirror::NAME = "mirror";
+const char *EffectMirror::NAME = "mirror";
 //-----------------------------------------------------------------
 /**
  * Mirror effect. Draw left side inside.
@@ -19,32 +19,28 @@ const char* EffectMirror::NAME = "mirror";
  * NOTE: mirror object should be drawn as the last.
  */
 void
-EffectMirror::blit(SDL_Surface* screen, SDL_Surface* surface, int x, int y)
+EffectMirror::blit(SDL_Surface *screen, SDL_Surface *surface, int x, int y)
 {
-	SurfaceLock lock1(screen);
-	SurfaceLock lock2(surface);
+    SurfaceLock lock1(screen);
+    SurfaceLock lock2(surface);
 
-	SDL_Color mask = PixelTool::getColor(surface,
-	                                     surface->w / 2, surface->h / 2);
+    SDL_Color mask = PixelTool::getColor(surface,
+            surface->w / 2, surface->h / 2);
 
-	for (int py = 0; py < surface->h; ++py)
-	{
-		for (int px = 0; px < surface->w; ++px)
-		{
-			SDL_Color pixel = PixelTool::getColor(surface, px, py);
-			if (px > MIRROR_BORDER && PixelTool::colorEquals(pixel, mask))
-			{
-				SDL_Color sample = PixelTool::getColor(screen,
-				                                       x - px + MIRROR_BORDER, y + py);
-				PixelTool::putColor(screen, x + px, y + py, sample);
-			}
-			else
-			{
-				if (pixel.a == 255)
-				{
-					PixelTool::putColor(screen, x + px, y + py, pixel);
-				}
-			}
-		}
-	}
+    for (int py = 0; py < surface->h; ++py) {
+        for (int px = 0; px < surface->w; ++px) {
+            SDL_Color pixel = PixelTool::getColor(surface, px, py);
+            if (px > MIRROR_BORDER && PixelTool::colorEquals(pixel, mask)) {
+                SDL_Color sample = PixelTool::getColor(screen,
+                        x - px + MIRROR_BORDER, y + py);
+                PixelTool::putColor(screen, x + px, y + py, sample);
+            }
+            else {
+                if (pixel.a == 255) {
+                    PixelTool::putColor(screen, x + px, y + py, pixel);
+                }
+            }
+        }
+    }
 }
+

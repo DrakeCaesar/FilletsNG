@@ -11,25 +11,23 @@ class BaseAgent;
 /**
  * List of agents.
  */
-class AgentPack : public NoCopy
-{
-private:
-	using t_agents = std::map<std::string, BaseAgent*>;
-	t_agents m_agents;
-	static AgentPack* ms_singleton;
+class AgentPack : public NoCopy {
+    private:
+        typedef std::map<std::string,BaseAgent*> t_agents;
+        t_agents m_agents;
+        static AgentPack *ms_singleton;
+    public:
+        AgentPack();
+        ~AgentPack();
 
-public:
-	AgentPack();
-	~AgentPack() override;
+        void addAgent(BaseAgent *agent);
+        void removeAgent(const std::string &name);
 
-	void addAgent(BaseAgent* agent);
-	void removeAgent(const std::string& name);
+        static BaseAgent *getAgent(const std::string &name);
 
-	static BaseAgent* getAgent(const std::string& name);
-
-	void init(const std::string& stopAgent = "");
-	void update();
-	void shutdown();
+        void init(const std::string &stopAgent="");
+        void update();
+        void shutdown();
 };
 
 #endif

@@ -9,10 +9,11 @@
 #include "LevelDesc.h"
 
 //-----------------------------------------------------------------
-LevelDesc::LevelDesc(const std::string& lang,
-                     const std::string& levelname,
-                     const std::string& desc)
-	: Dialog(lang, "", desc)
+LevelDesc::LevelDesc(const std::string &lang,
+                const std::string &levelname,
+                const std::string &desc)
+: Dialog(lang, "", desc)
 {
-	m_levelname = levelname;
+    m_levelname = levelname;
 }
+

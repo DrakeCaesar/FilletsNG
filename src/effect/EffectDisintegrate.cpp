@@ -12,30 +12,26 @@
 #include "PixelTool.h"
 #include "Random.h"
 
-const char* EffectDisintegrate::NAME = "disintegrate";
+const char *EffectDisintegrate::NAME = "disintegrate";
 //-----------------------------------------------------------------
 /**
  * Start as not disintegrated.
  */
 EffectDisintegrate::EffectDisintegrate()
 {
-	m_disint = DISINT_START;
+    m_disint = DISINT_START;
 }
-
 //-----------------------------------------------------------------
 void
 EffectDisintegrate::updateEffect()
 {
-	if (m_disint > 0)
-	{
-		m_disint -= DISINT_SPEED;
-		if (m_disint < 0)
-		{
-			m_disint = 0;
-		}
-	}
+    if (m_disint > 0) {
+        m_disint -= DISINT_SPEED;
+        if (m_disint < 0) {
+            m_disint = 0;
+        }
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns true for object for who the disint effect is finished.
@@ -43,40 +39,35 @@ EffectDisintegrate::updateEffect()
 bool
 EffectDisintegrate::isDisintegrated() const
 {
-	return 0 == m_disint;
+    return 0 == m_disint;
 }
-
 //-----------------------------------------------------------------
 bool
 EffectDisintegrate::isInvisible() const
 {
-	return isDisintegrated();
+    return isDisintegrated();
 }
-
 //-----------------------------------------------------------------
 /**
  * Disintegration effect.
  * Draw only some pixels.
  */
 void
-EffectDisintegrate::blit(SDL_Surface* screen, SDL_Surface* surface,
-                         int x, int y)
+EffectDisintegrate::blit(SDL_Surface *screen, SDL_Surface *surface,
+        int x, int y)
 {
-	SurfaceLock lock1(screen);
-	SurfaceLock lock2(surface);
+    SurfaceLock lock1(screen);
+    SurfaceLock lock2(surface);
 
-	for (int py = 0; py < surface->h; ++py)
-	{
-		for (int px = 0; px < surface->w; ++px)
-		{
-			if (Random::aByte(py * surface->w + px) < m_disint)
-			{
-				SDL_Color pixel = PixelTool::getColor(surface, px, py);
-				if (pixel.a == 255)
-				{
-					PixelTool::putColor(screen, x + px, y + py, pixel);
-				}
-			}
-		}
-	}
+    for (int py = 0; py < surface->h; ++py) {
+        for (int px = 0; px < surface->w; ++px) {
+            if (Random::aByte(py * surface->w + px) < m_disint) {
+                SDL_Color pixel = PixelTool::getColor(surface, px, py);
+                if (pixel.a == 255) {
+                    PixelTool::putColor(screen, x + px, y + py, pixel);
+                }
+            }
+        }
+    }
 }
+

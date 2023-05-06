@@ -15,24 +15,22 @@
 #include "MouseStroke.h"
 
 //-----------------------------------------------------------------
-PedoInput::PedoInput(Pedometer* pedometer)
-	: GameInput(pedometer)
+PedoInput::PedoInput(Pedometer *pedometer)
+    : GameInput(pedometer)
 {
 }
-
 //-----------------------------------------------------------------
-Pedometer*
+Pedometer *
 PedoInput::getPedo()
 {
-	return dynamic_cast<Pedometer*>(m_state);
+    return dynamic_cast<Pedometer*>(m_state);
 }
-
 //-----------------------------------------------------------------
 void
-PedoInput::mouseEvent(const MouseStroke& buttons)
+PedoInput::mouseEvent(const MouseStroke &buttons)
 {
-	if (buttons.isLeft())
-	{
-		getPedo()->runSelected();
-	}
+    if (buttons.isLeft()) {
+        getPedo()->runSelected();
+    }
 }
+

@@ -4,14 +4,10 @@
 /**
  * Interface - named object.
  */
-class INamed
-{
-public:
-	virtual ~INamed()
-	{
-	}
-
-	virtual const char* getName() const = 0;
+class INamed {
+    public:
+        virtual ~INamed() {}
+        virtual const char *getName() const = 0;
 };
 
 #endif

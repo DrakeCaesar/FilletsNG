@@ -19,66 +19,58 @@
  * Create list of drivers.
  * @param locker shared locker for anim
  */
-Controls::Controls(PhaseLocker* locker)
-	: m_units(), m_moves()
+Controls::Controls(PhaseLocker *locker)
+    : m_units(), m_moves()
 {
-	m_locker = locker;
-	m_active = m_units.begin();
-	m_speedup = 0;
-	m_switch = true;
-	m_strokeSymbol = ControlSym::SYM_NONE;
+    m_locker = locker;
+    m_active = m_units.begin();
+    m_speedup = 0;
+    m_switch = true;
+    m_strokeSymbol = ControlSym::SYM_NONE;
 }
-
 //-----------------------------------------------------------------
 /**
  * Delete drivers.
  */
 Controls::~Controls()
 {
-	auto end = m_units.end();
-	for (auto i = m_units.begin(); i != end; ++i)
-	{
-		delete (*i);
-	}
+    t_units::iterator end = m_units.end();
+    for (t_units::iterator i = m_units.begin(); i != end; ++i) {
+        delete (*i);
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Add unit under our control.
  * @return model index
  */
-void
-Controls::addUnit(Unit* unit)
+    void
+Controls::addUnit(Unit *unit)
 {
-	m_units.push_back(unit);
-	//NOTE: insertion invalidates m_active
-	auto end = m_units.end();
-	for (auto i = m_units.begin(); i != end; ++i)
-	{
-		if ((*i)->startActive())
-		{
-			setActive(i);
-			return;
-		}
-	}
-	setActive(m_units.begin());
+    m_units.push_back(unit);
+    //NOTE: insertion invalidates m_active
+    t_units::iterator end = m_units.end();
+    for (t_units::iterator i = m_units.begin(); i != end; ++i) {
+        if ((*i)->startActive()) {
+            setActive(i);
+            return;
+        }
+    }
+    setActive(m_units.begin());
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns active unit or NULL.
  */
-const Unit*
+const Unit *
 Controls::getActive()
 {
-	Unit* result = nullptr;
-	if (m_active != m_units.end())
-	{
-		result = *m_active;
-	}
-	return result;
+    Unit *result = NULL;
+    if (m_active != m_units.end()) {
+        result = *m_active;
+    }
+    return result;
 }
-
 //-----------------------------------------------------------------
 /**
  * Let drivers to drive.
@@ -86,24 +78,20 @@ Controls::getActive()
  * @param input wrapped input
  * @return true when a fish has moved (switch does not count)
  */
-bool
-Controls::driving(const InputProvider* input)
+    bool
+Controls::driving(const InputProvider *input)
 {
-	bool moved = false;
-	if (!useSwitch())
-	{
-		if (!useStroke())
-		{
-			moved = driveUnit(input);
-		}
-		else
-		{
-			moved = true;
-		}
-	}
-	return moved;
+    bool moved = false;
+    if (!useSwitch()) {
+        if (!useStroke()) {
+            moved = driveUnit(input);
+        }
+        else {
+            moved = true;
+        }
+    }
+    return moved;
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns true when a switch was done.
@@ -111,25 +99,21 @@ Controls::driving(const InputProvider* input)
 bool
 Controls::useSwitch()
 {
-	bool result = false;
-	if (m_active != m_units.end())
-	{
-		if (!(*m_active)->willMove())
-		{
-			checkActive();
-		}
+    bool result = false;
+    if (m_active != m_units.end()) {
+        if (!(*m_active)->willMove()) {
+            checkActive();
+        }
 
-		if (m_switch && m_active != m_units.end())
-		{
-			m_locker->ensurePhases(3 * speedup);
-			(*m_active)->activate();
-			result = true;
-		}
-	}
-	m_switch = false;
-	return result;
+        if (m_switch && m_active != m_units.end()) {
+            m_locker->ensurePhases(3*speedup);
+            (*m_active)->activate();
+            result = true;
+        }
+    }
+    m_switch = false;
+    return result;
 }
-
 //-----------------------------------------------------------------
 /**
  * Use gathered stroke.
@@ -139,103 +123,86 @@ Controls::useSwitch()
 bool
 Controls::useStroke()
 {
-	bool result = false;
-	if (m_strokeSymbol != ControlSym::SYM_NONE)
-	{
-		makeMove(m_strokeSymbol);
-		m_strokeSymbol = ControlSym::SYM_NONE;
-		result = true;
-	}
-	return result;
+    bool result = false;
+    if (m_strokeSymbol != ControlSym::SYM_NONE) {
+       makeMove(m_strokeSymbol);
+       m_strokeSymbol = ControlSym::SYM_NONE;
+       result = true;
+    }
+    return result;
 }
-
 //-----------------------------------------------------------------
-bool
-Controls::driveUnit(const InputProvider* input)
+    bool
+Controls::driveUnit(const InputProvider *input)
 {
-	char moved = ControlSym::SYM_NONE;
-	if (m_active != m_units.end())
-	{
-		moved = (*m_active)->driveBorrowed(input, m_arrows);
-	}
+    char moved = ControlSym::SYM_NONE;
+    if (m_active != m_units.end()) {
+        moved = (*m_active)->driveBorrowed(input, m_arrows);
+    }
 
-	if (ControlSym::SYM_NONE == moved)
-	{
-		auto end = m_units.end();
-		for (auto i = m_units.begin(); i != end; ++i)
-		{
-			moved = (*i)->drive(input);
-			if (moved != ControlSym::SYM_NONE)
-			{
-				setActive(i);
-				break;
-			}
-		}
-	}
+    if (ControlSym::SYM_NONE == moved) {
+        t_units::iterator end = m_units.end();
+        for (t_units::iterator i = m_units.begin(); i != end; ++i) {
+            moved = (*i)->drive(input);
+            if (moved != ControlSym::SYM_NONE) {
+                setActive(i);
+                break;
+            }
+        }
+    }
 
-	if (moved != ControlSym::SYM_NONE)
-	{
-		m_moves.append(1, moved);
-	}
-	return (moved != ControlSym::SYM_NONE);
+    if (moved != ControlSym::SYM_NONE) {
+        m_moves.append(1, moved);
+    }
+    return (moved != ControlSym::SYM_NONE);
 }
-
 //-----------------------------------------------------------------
-void
+    void
 Controls::lockPhases()
 {
-	if (m_active != m_units.end() && (*m_active)->isMoving())
-	{
-		if ((*m_active)->isPushing())
-		{
-			m_speedup = 0;
-		}
-		else if (!(*m_active)->isTurning())
-		{
-			m_speedup++;
-		}
+    if (m_active != m_units.end() && (*m_active)->isMoving()) {
+        if ((*m_active)->isPushing()) {
+            m_speedup = 0;
+        }
+        else if (!(*m_active)->isTurning()) {
+            m_speedup++;
+        }
 
-		m_locker->ensurePhases(getNeededPhases(m_speedup));
-		movingfish = true;
-	}
-	else
-	{
-		m_speedup = 0;
-		movingfish = false;
-	}
+        m_locker->ensurePhases(getNeededPhases(m_speedup));
+            movingfish = true;
+        
+    }
+    else {
+        m_speedup = 0;
+        movingfish = false;
+    }
 }
-
 int test = 0;
 //-----------------------------------------------------------------
 int
 Controls::getNeededPhases(int n_speedup) const
 {
-	static const int SPEED_WARP1 = 6;
-	static const int SPEED_WARP2 = 10;
+    static const int SPEED_WARP1 = 6;
+    static const int SPEED_WARP2 = 10;
 
-	int phases = 3 * speedup;
-	if (m_active != m_units.end())
-	{
-		if ((*m_active)->isTurning())
-		{
-			phases = (*m_active)->countAnimPhases("turn") * 3;
-		}
-		else if (n_speedup > SPEED_WARP2)
-		{
-			phases = (*m_active)->countAnimPhases("swam") * speedup / 6;
-		}
-		else if (n_speedup > SPEED_WARP1)
-		{
-			phases = (*m_active)->countAnimPhases("swam") * speedup / 3;
-		}
-		else
-		{
-			phases = (*m_active)->countAnimPhases("swam") * speedup / 2;
-		}
-	}
-	return phases;
+    int phases = 3*speedup;
+    if (m_active != m_units.end()) {
+        if ((*m_active)->isTurning()) {
+            phases = (*m_active)->countAnimPhases("turn")*3;
+        }
+        else if (n_speedup > SPEED_WARP2) {
+            phases = (*m_active)->countAnimPhases("swam")*speedup / 6;
+        }
+        else if (n_speedup > SPEED_WARP1) {
+            phases = (*m_active)->countAnimPhases("swam")*speedup / 3;
+        }
+        else {
+            phases = (*m_active)->countAnimPhases("swam")*speedup / 2;
+        }
+        
+    }
+    return phases;
 }
-
 //-----------------------------------------------------------------
 /**
  * Check whether active unit can still drive,
@@ -244,12 +211,10 @@ Controls::getNeededPhases(int n_speedup) const
 void
 Controls::checkActive()
 {
-	if (m_active == m_units.end() || !(*m_active)->canDrive())
-	{
-		switchActive();
-	}
+    if (m_active == m_units.end() || !(*m_active)->canDrive()) {
+        switchActive();
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Switch active unit.
@@ -258,62 +223,49 @@ Controls::checkActive()
 void
 Controls::switchActive()
 {
-	if (!m_units.empty())
-	{
-		auto start = m_active;
+    if (!m_units.empty()) {
+        t_units::iterator start = m_active;
 
-		do
-		{
-			if (m_active == m_units.end() || m_active + 1 == m_units.end())
-			{
-				m_active = m_units.begin();
-			}
-			else
-			{
-				++m_active;
-			}
-		}
-		while (m_active != start && !(*m_active)->canDrive());
+        do {
+            if (m_active == m_units.end() || m_active + 1 == m_units.end()) {
+                m_active = m_units.begin();
+            }
+            else {
+                ++m_active;
+            }
+        } while (m_active != start && !(*m_active)->canDrive());
 
-		if (start != m_active)
-		{
-			m_speedup = 0;
-			m_switch = true;
-		}
-	}
+        if (start != m_active) {
+            m_speedup = 0;
+            m_switch = true;
+        }
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Obtain first control symbol from keyboard events.
  */
 void
-Controls::controlEvent(const KeyStroke& stroke)
+Controls::controlEvent(const KeyStroke &stroke)
 {
-	SDL_Keycode key = stroke.getKey();
+    SDL_Keycode key = stroke.getKey();
 
-	if (m_strokeSymbol == ControlSym::SYM_NONE)
-	{
-		if (m_active != m_units.end())
-		{
-			m_strokeSymbol = (*m_active)->mySymbolBorrowed(key, m_arrows);
-		}
+    if (m_strokeSymbol == ControlSym::SYM_NONE) {
+        if (m_active != m_units.end()) {
+            m_strokeSymbol = (*m_active)->mySymbolBorrowed(key, m_arrows);
+        }
 
-		if (m_strokeSymbol == ControlSym::SYM_NONE)
-		{
-			auto end = m_units.end();
-			for (auto i = m_units.begin(); i != end; ++i)
-			{
-				m_strokeSymbol = (*i)->mySymbol(key);
-				if (m_strokeSymbol != ControlSym::SYM_NONE)
-				{
-					return;
-				}
-			}
-		}
-	}
+        if (m_strokeSymbol == ControlSym::SYM_NONE) {
+            t_units::iterator end = m_units.end();
+            for (t_units::iterator i = m_units.begin(); i != end; ++i) {
+                m_strokeSymbol = (*i)->mySymbol(key);
+                if (m_strokeSymbol != ControlSym::SYM_NONE) {
+                    return;
+                }
+            }
+        }
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Activate fish under cursor.
@@ -321,32 +273,27 @@ Controls::controlEvent(const KeyStroke& stroke)
  * @return true when fish was selected
  */
 bool
-Controls::activateSelected(const Cube* occupant)
+Controls::activateSelected(const Cube *occupant)
 {
-	auto end = m_units.end();
-	for (auto i = m_units.begin(); i != end; ++i)
-	{
-		if ((*i)->equalsModel(occupant))
-		{
-			m_active = i;
-			m_switch = true;
-			return true;
-		}
-	}
-	return false;
+    t_units::iterator end = m_units.end();
+    for (t_units::iterator i = m_units.begin(); i != end; ++i) {
+        if ((*i)->equalsModel(occupant)) {
+            m_active = i;
+            m_switch = true;
+            return true;
+        }
+    }
+    return false;
 }
-
 //-----------------------------------------------------------------
-void
-Controls::setMoves(const std::string& moves)
+    void
+Controls::setMoves(const std::string &moves)
 {
-	m_moves = moves;
-	if (!m_moves.empty())
-	{
-		activateDriven(m_moves[m_moves.size() - 1]);
-	}
+    m_moves = moves;
+    if (!m_moves.empty()) {
+        activateDriven(m_moves[m_moves.size() - 1]);
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Activate fish driven by given symbol.
@@ -356,19 +303,16 @@ Controls::setMoves(const std::string& moves)
 bool
 Controls::activateDriven(char symbol)
 {
-	auto end = m_units.end();
-	for (auto i = m_units.begin(); i != end; ++i)
-	{
-		if ((*i)->isDrivenBy(symbol))
-		{
-			m_active = i;
-			m_switch = true;
-			return true;
-		}
-	}
-	return false;
+    t_units::iterator end = m_units.end();
+    for (t_units::iterator i = m_units.begin(); i != end; ++i) {
+        if ((*i)->isDrivenBy(symbol)) {
+            m_active = i;
+            m_switch = true;
+            return true;
+        }
+    }
+    return false;
 }
-
 //-----------------------------------------------------------------
 /**
  * Change active unit.
@@ -377,13 +321,12 @@ Controls::activateDriven(char symbol)
 void
 Controls::setActive(t_units::iterator active)
 {
-	//TODO: check vector comparison 
-	//if (m_active != active) {
-	m_speedup = 0;
-	m_active = active;
-	//}
+    //TODO: check vector comparison 
+    //if (m_active != active) {
+        m_speedup = 0;
+        m_active = active;
+    //}
 }
-
 //-----------------------------------------------------------------
 /**
  * Make this move.
@@ -392,19 +335,16 @@ Controls::setActive(t_units::iterator active)
 bool
 Controls::makeMove(char move)
 {
-	auto end = m_units.end();
-	for (auto i = m_units.begin(); i != end; ++i)
-	{
-		if ((*i)->driveOrder(move) == move)
-		{
-			setActive(i);
-			m_moves.append(1, move);
-			return true;
-		}
-	}
-	return false;
+    t_units::iterator end = m_units.end();
+    for (t_units::iterator i = m_units.begin(); i != end; ++i) {
+        if ((*i)->driveOrder(move) == move) {
+            setActive(i);
+            m_moves.append(1, move);
+            return true;
+        }
+    }
+    return false;
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns true when there is no unit which will be able to move.
@@ -412,17 +352,14 @@ Controls::makeMove(char move)
 bool
 Controls::cannotMove() const
 {
-	auto end = m_units.end();
-	for (auto i = m_units.begin(); i != end; ++i)
-	{
-		if ((*i)->willMove())
-		{
-			return false;
-		}
-	}
-	return true;
+    t_units::const_iterator end = m_units.end();
+    for (t_units::const_iterator i = m_units.begin(); i != end; ++i) {
+        if ((*i)->willMove()) {
+            return false;
+        }
+    }
+    return true;
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns true when active fish is powerful.
@@ -430,14 +367,12 @@ Controls::cannotMove() const
 bool
 Controls::isPowerful() const
 {
-	bool result = false;
-	if (m_active != m_units.end())
-	{
-		result = (*m_active)->isPowerful();
-	}
-	return result;
+    bool result = false;
+    if (m_active != m_units.end()) {
+        result = (*m_active)->isPowerful();
+    }
+    return result;
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns true when the active fish is doing a dangerous move.
@@ -445,10 +380,11 @@ Controls::isPowerful() const
 bool
 Controls::isDangerousMove() const
 {
-	bool result = false;
-	if (m_active != m_units.end())
-	{
-		result = (*m_active)->isPushing();
-	}
-	return result;
+    bool result = false;
+    if (m_active != m_units.end()) {
+        result = (*m_active)->isPushing();
+    }
+    return result;
 }
+
+

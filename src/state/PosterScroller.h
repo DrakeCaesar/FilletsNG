@@ -9,20 +9,17 @@ class Picture;
 /**
  * Scroll very height picture.
  */
-class PosterScroller : public PosterState
-{
-private:
-	static const int SHIFT_SPEED = 4;
-	int m_shift;
-	int m_screenH;
-
-protected:
-	void own_initState() override;
-	void own_updateState() override;
-
-public:
-	PosterScroller(const Path& picture);
-	bool allowBg() const override { return true; }
+class PosterScroller : public PosterState {
+    private:
+        static const int SHIFT_SPEED = 4;
+        int m_shift;
+        int m_screenH;
+    protected:
+        virtual void own_initState();
+        virtual void own_updateState();
+    public:
+        PosterScroller(const Path &picture);
+        virtual bool allowBg() const { return true; }
 };
 
 #endif

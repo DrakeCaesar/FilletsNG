@@ -9,24 +9,16 @@ class Pedometer;
 /**
  * Handle input for pedometer.
  */
-class PedoInput : public GameInput
-{
-private:
-	Pedometer* getPedo();
+class PedoInput : public GameInput {
+    private:
+        Pedometer *getPedo();
+    protected:
+        virtual void enableSubtitles() {}
+        virtual void enableHelp() {}
+    public:
+        PedoInput(Pedometer *pedometer);
 
-protected:
-	void enableSubtitles() override
-	{
-	}
-
-	void enableHelp() override
-	{
-	}
-
-public:
-	PedoInput(Pedometer* pedometer);
-
-	void mouseEvent(const MouseStroke& buttons) override;
+        virtual void mouseEvent(const MouseStroke &buttons);
 };
 
 #endif

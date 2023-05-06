@@ -24,12 +24,12 @@ catch (...) { \
     luaL_error(L, "unknown exception"); \
 }
 
-inline const char* script_getLeaderName() { return "script_leader"; }
-extern Scripter* script_getLeader(lua_State* L);
-extern int script_debugStack(lua_State* L);
+inline const char *script_getLeaderName() { return "script_leader"; }
+extern Scripter *script_getLeader(lua_State *L);
+extern int script_debugStack(lua_State *L);
 
-extern int script_file_include(lua_State* L) throw();
-extern int script_file_exists(lua_State* L) throw();
+extern int script_file_include(lua_State *L) throw();
+extern int script_file_exists(lua_State *L) throw();
 
 
 #endif

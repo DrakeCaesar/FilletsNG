@@ -16,40 +16,36 @@
 //-----------------------------------------------------------------
 DialogStack::DialogStack()
 {
-	m_dialogs = new ResDialogPack();
-	m_activeDialog = nullptr;
+    m_dialogs = new ResDialogPack();
+    m_activeDialog = NULL;
 }
-
 //-----------------------------------------------------------------
 /**
  * Releases resources and stops all cycling dialogs.
  */
 DialogStack::~DialogStack()
 {
-	removeAll();
-	delete m_dialogs;
+    removeAll();
+    delete m_dialogs;
 }
-
 //-----------------------------------------------------------------
 /**
  * Removes finished dialogs from stack.
  */
-void
+    void
 DialogStack::updateStack()
 {
-	removeFirstNotTalking();
+    removeFirstNotTalking();
 }
-
 //-----------------------------------------------------------------
 /**
  * Store new dialog.
  */
-void
-DialogStack::addDialog(const std::string& name, Dialog* dialog)
+    void
+DialogStack::addDialog(const std::string &name, Dialog *dialog)
 {
-	m_dialogs->addRes(name, dialog);
+    m_dialogs->addRes(name, dialog);
 }
-
 //-----------------------------------------------------------------
 /**
  * Run talk.
@@ -62,159 +58,137 @@ DialogStack::addDialog(const std::string& name, Dialog* dialog)
  * @param loops number of loops, 0=play once, 1=play twice, -1=play infinite
  * @param dialogFlag whether it is blocking dialog
  */
-void
-DialogStack::actorTalk(int actor, const std::string& name,
-                       int volume, int loops, bool dialogFlag)
+    void
+DialogStack::actorTalk(int actor, const std::string &name,
+        int volume, int loops, bool dialogFlag)
 {
-	StringTool::t_args args = StringTool::split(name, '@');
+    StringTool::t_args args = StringTool::split(name, '@');
 
-	const Dialog* subtitle = m_dialogs->findDialogHard(args[0]);
-	if (subtitle)
-	{
-		subtitle->runSubtitle(args);
+    const Dialog *subtitle = m_dialogs->findDialogHard(args[0]);
+    if (subtitle) {
+        subtitle->runSubtitle(args);
 
-		const Dialog* dialog = m_dialogs->findDialogSpeech(args[0]);
-		if (dialog)
-		{
-			auto talker = new PlannedDialog(actor, dialog,
-			                                subtitle->getMinTime());
-			talker->talk(volume, loops);
+        const Dialog *dialog = m_dialogs->findDialogSpeech(args[0]);
+        if (dialog) {
+            PlannedDialog *talker = new PlannedDialog(actor, dialog,
+                subtitle->getMinTime());
+            talker->talk(volume, loops);
 
-			if (loops == -1)
-			{
-				m_cycling.push_back(talker);
-			}
-			else
-			{
-				m_running.push_back(talker);
-			}
+            if (loops == -1) {
+                m_cycling.push_back(talker);
+            }
+            else {
+                m_running.push_back(talker);
+            }
 
-			if (dialogFlag)
-			{
-				m_activeDialog = talker;
-			}
-		}
-	}
+            if (dialogFlag) {
+                m_activeDialog = talker;
+            }
+        }
+    }
 }
-
 //-----------------------------------------------------------------
-bool
+    bool
 DialogStack::isTalking(int actor) const
 {
-	return isTalkingIn(actor, m_running) ||
-		isTalkingIn(actor, m_cycling);
+    return isTalkingIn(actor, m_running) ||
+        isTalkingIn(actor, m_cycling);
 }
-
 //-----------------------------------------------------------------
-bool
-DialogStack::isTalkingIn(int actor, const t_running& fifo) const
+    bool
+DialogStack::isTalkingIn(int actor, const t_running &fifo) const
 {
-	auto end = fifo.end();
-	for (auto i = fifo.begin(); i != end; ++i)
-	{
-		if ((*i)->equalsActor(actor) && (*i)->isTalking())
-		{
-			return true;
-		}
-	}
-	return false;
+    t_running::const_iterator end = fifo.end();
+    for (t_running::const_iterator i = fifo.begin(); i != end; ++i) {
+        if ((*i)->equalsActor(actor) && (*i)->isTalking()) {
+            return true;
+        }
+    }
+    return false;
 }
-
 //-----------------------------------------------------------------
 /**
  * Remove first not talking dialog from m_running.
  */
-void
+    void
 DialogStack::removeFirstNotTalking()
 {
-	auto end = m_running.end();
-	for (auto i = m_running.begin(); i != end; ++i)
-	{
-		if (!(*i)->isTalking())
-		{
-			releaseDialog(*i);
-			m_running.erase(i);
-			return;
-		}
-	}
+    t_running::iterator end = m_running.end();
+    for (t_running::iterator i = m_running.begin(); i != end; ++i) {
+        if (!(*i)->isTalking()) {
+            releaseDialog(*i);
+            m_running.erase(i);
+            return;
+        }
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Delete all running dialogs made by this actor.
  */
-void
+    void
 DialogStack::killSound(int actor)
 {
-	killSoundIn(actor, m_running);
-	killSoundIn(actor, m_cycling);
+    killSoundIn(actor, m_running);
+    killSoundIn(actor, m_cycling);
 }
-
 //-----------------------------------------------------------------
 void
-DialogStack::killSoundIn(int actor, t_running& fifo)
+DialogStack::killSoundIn(int actor, t_running &fifo)
 {
-	//NOTE: erase on list invalidates only the erased iterator
-	auto run_end = fifo.end();
-	for (auto i = fifo.begin(); i != run_end; /* empty */)
-	{
-		auto toKill = i;
-		++i;
+    //NOTE: erase on list invalidates only the erased iterator
+    t_running::iterator run_end = fifo.end();
+    for (t_running::iterator i = fifo.begin(); i != run_end; /* empty */) {
+        t_running::iterator toKill = i;
+        ++i;
 
-		if ((*toKill)->equalsActor(actor))
-		{
-			releaseDialog(*toKill);
-			fifo.erase(toKill);
-		}
-	}
+        if ((*toKill)->equalsActor(actor)) {
+            releaseDialog(*toKill);
+            fifo.erase(toKill);
+        }
+    }
 }
 
 //-----------------------------------------------------------------
 /**
  * Kill all running dialogs.
  */
-void
+    void
 DialogStack::killTalks()
 {
-	killTalksIn(m_running);
-	killTalksIn(m_cycling);
+    killTalksIn(m_running);
+    killTalksIn(m_cycling);
 }
-
 //-----------------------------------------------------------------
 void
-DialogStack::killTalksIn(t_running& fifo)
+DialogStack::killTalksIn(t_running &fifo)
 {
-	auto end = fifo.end();
-	for (auto i = fifo.begin(); i != end; ++i)
-	{
-		releaseDialog(*i);
-	}
-	fifo.clear();
+    t_running::iterator end = fifo.end();
+    for (t_running::iterator i = fifo.begin(); i != end; ++i) {
+        releaseDialog(*i);
+    }
+    fifo.clear();
 }
-
 //-----------------------------------------------------------------
 void
-DialogStack::releaseDialog(PlannedDialog* dialog)
+DialogStack::releaseDialog(PlannedDialog *dialog)
 {
-	if (dialog == m_activeDialog)
-	{
-		m_activeDialog = nullptr;
-	}
-	dialog->killTalk();
-	delete dialog;
+    if (dialog == m_activeDialog) {
+        m_activeDialog = NULL;
+    }
+    dialog->killTalk();
+    delete dialog;
 }
-
 //-----------------------------------------------------------------
 /**
  * Delete all shared dialogs and kill talks.
  */
-void
+    void
 DialogStack::removeAll()
 {
-	killTalks();
-	m_dialogs->removeAll();
+    killTalks();
+    m_dialogs->removeAll();
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns true when there is active dialog.
@@ -222,5 +196,6 @@ DialogStack::removeAll()
 bool
 DialogStack::isDialog() const
 {
-	return m_activeDialog && m_activeDialog->isTalking();
+    return m_activeDialog && m_activeDialog->isTalking();
 }
+

@@ -5,6 +5,6 @@ extern "C" {
 #include "lua.h"
 }
 
-extern int script_demo_display(lua_State* L) throw();
+extern int script_demo_display(lua_State *L) throw();
 
 #endif

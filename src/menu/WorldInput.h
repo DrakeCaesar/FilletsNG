@@ -9,30 +9,20 @@ class WorldMap;
 /**
  * Handle input for worldmap.
  */
-class WorldInput : public GameInput
-{
-private:
-	static const int KEY_TAB = 101;
-	static const int KEY_ENTER = 102;
+class WorldInput : public GameInput {
+    private:
+        static const int KEY_TAB = 101;
+        static const int KEY_ENTER = 102;
+    private:
+        WorldMap *getWorld();
+    protected:
+        virtual void enableSubtitles() {}
+        virtual void enableHelp() {}
+        virtual void specKey(int keyIndex);
+    public:
+        WorldInput(WorldMap *world);
 
-private:
-	WorldMap* getWorld();
-
-protected:
-	void enableSubtitles() override
-	{
-	}
-
-	void enableHelp() override
-	{
-	}
-
-	void specKey(int keyIndex) override;
-
-public:
-	WorldInput(WorldMap* world);
-
-	void mouseEvent(const MouseStroke& buttons) override;
+        virtual void mouseEvent(const MouseStroke &buttons);
 };
 
 #endif

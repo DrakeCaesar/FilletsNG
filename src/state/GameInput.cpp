@@ -18,9 +18,8 @@
 void
 GameInput::enableHelp()
 {
-	m_state->pushState(new MenuHelp());
+    m_state->pushState(new MenuHelp());
 }
-
 //-----------------------------------------------------------------
 /**
  * Push menu state at top.
@@ -28,5 +27,6 @@ GameInput::enableHelp()
 void
 GameInput::enableMenu()
 {
-	m_state->pushState(new MenuOptions());
+    m_state->pushState(new MenuOptions());
 }
+

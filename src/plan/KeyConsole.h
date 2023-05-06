@@ -13,45 +13,28 @@ class Font;
 /**
  * Debug console.
  */
-class KeyConsole : public GameState, public Drawable
-{
-private:
-	Font* m_font;
-	Color m_color;
-	std::string m_input;
+class KeyConsole : public GameState, public Drawable {
+    private:
+        Font *m_font;
+        Color m_color;
+        std::string m_input;
+    protected:
+        virtual void own_initState() {};
+        virtual void own_updateState() {};
+        virtual void own_pauseState() {};
+        virtual void own_resumeState() {};
+        virtual void own_cleanState() {};
+    public:
+        KeyConsole();
+        virtual ~KeyConsole();
+        virtual const char *getName() const { return "state_console"; };
+        virtual bool allowBg() const { return true; }
 
-protected:
-	void own_initState() override
-	{
-	};
+        void setInput(const std::string &input) { m_input = input; }
+        std::string getInput() const { return m_input; }
 
-	void own_updateState() override
-	{
-	};
-
-	void own_pauseState() override
-	{
-	};
-
-	void own_resumeState() override
-	{
-	};
-
-	void own_cleanState() override
-	{
-	};
-
-public:
-	KeyConsole();
-	~KeyConsole() override;
-	const char* getName() const override { return "state_console"; };
-	bool allowBg() const override { return true; }
-
-	void setInput(const std::string& input) { m_input = input; }
-	std::string getInput() const { return m_input; }
-
-	bool sendCommand();
-	void drawOn(SDL_Surface* screen) override;
+        bool sendCommand();
+        virtual void drawOn(SDL_Surface *screen);
 };
 
 #endif

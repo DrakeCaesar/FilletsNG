@@ -6,13 +6,11 @@
 /**
  * Exception about name fail.
  */
-class NameException : public BaseException
-{
-public:
-	NameException(const ExInfo& problem)
-		: BaseException(problem)
-	{
-	}
+class NameException : public BaseException  {
+    public:
+        NameException(const ExInfo &problem)
+            : BaseException(problem)
+            {}
 };
 
 #endif

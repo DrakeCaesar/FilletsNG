@@ -14,13 +14,12 @@
 /**
  * Create new keystroke from event.
  */
-KeyStroke::KeyStroke(const SDL_Keysym& keysym)
+KeyStroke::KeyStroke(const SDL_Keysym &keysym)
 {
-	m_sym = keysym.sym;
-	m_mod = modStrip(keysym.mod);
-	m_unicode = 0; //keysym.unicode;
+    m_sym = keysym.sym;
+    m_mod = modStrip(keysym.mod);
+    m_unicode = 0;//keysym.unicode;
 }
-
 //-----------------------------------------------------------------
 /**
  * Create new keystroke.
@@ -32,22 +31,20 @@ KeyStroke::KeyStroke(const SDL_Keysym& keysym)
  */
 KeyStroke::KeyStroke(SDL_Keycode sym, int mod)
 {
-	m_sym = sym;
-	m_mod = modStrip(mod);
-	m_unicode = 0;
+    m_sym = sym;
+    m_mod = modStrip(mod);
+    m_unicode = 0;
 }
-
 //-----------------------------------------------------------------
 /**
  * Strip ignored modes.
  * KMOD_SHIFT|KMOD_NUM|KMOD_CAPS|KMOD_MODE are ignored.
  */
-int
+    int
 KeyStroke::modStrip(int mod)
 {
-	return mod & ~STROKE_IGNORE;
+    return mod & ~STROKE_IGNORE;
 }
-
 //-----------------------------------------------------------------
 /**
  * KeyStroke comparation.
@@ -56,16 +53,14 @@ KeyStroke::modStrip(int mod)
  * @return this < other
  */
 bool
-KeyStroke::less(const KeyStroke& other) const
+KeyStroke::less(const KeyStroke &other) const
 {
-	bool result = m_sym < other.m_sym;
-	if (m_sym == other.m_sym)
-	{
-		result = m_mod < other.m_mod;
-	}
-	return result;
+    bool result = m_sym < other.m_sym;
+    if (m_sym == other.m_sym) {
+        result = m_mod < other.m_mod;
+    }
+    return result;
 }
-
 //-----------------------------------------------------------------
 /**
  * Test keyStroke equality.
@@ -75,12 +70,11 @@ KeyStroke::less(const KeyStroke& other) const
  * @return this == other
  */
 bool
-KeyStroke::equals(const KeyStroke& other) const
+KeyStroke::equals(const KeyStroke &other) const
 {
-	return m_sym == other.m_sym &&
-		m_mod == other.m_mod;
+    return m_sym == other.m_sym &&
+        m_mod == other.m_mod;
 }
-
 //-----------------------------------------------------------------
 /**
  * Return text fashion.
@@ -88,7 +82,8 @@ KeyStroke::equals(const KeyStroke& other) const
 std::string
 KeyStroke::toString() const
 {
-	std::string result = SDL_GetKeyName(m_sym);
-	result.append("+" + StringTool::toString(m_mod));
-	return result;
+    std::string result = SDL_GetKeyName(m_sym);
+    result.append("+" + StringTool::toString(m_mod));
+    return result;
 }
+

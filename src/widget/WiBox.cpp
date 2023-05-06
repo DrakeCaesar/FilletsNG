@@ -14,61 +14,55 @@
  */
 WiBox::~WiBox()
 {
-	auto end = m_widgets.end();
-	for (auto i = m_widgets.begin(); i != end; ++i)
-	{
-		delete *i;
-	}
+    t_widgets::iterator end = m_widgets.end();
+    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i) {
+        delete *i;
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Draw all subwidgets.
  */
 void
-WiBox::drawOn(SDL_Surface* screen)
+WiBox::drawOn(SDL_Surface *screen)
 {
-	auto end = m_widgets.end();
-	for (auto i = m_widgets.begin(); i != end; ++i)
-	{
-		(*i)->drawOn(screen);
-	}
+    t_widgets::iterator end = m_widgets.end();
+    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i) {
+        (*i)->drawOn(screen);
+    }
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns tooltip for active subwidget.
  */
 std::string
-WiBox::own_getTip(const V2& loc)
+WiBox::own_getTip(const V2 &loc)
 {
-	std::string result = m_tip;
-	auto end = m_widgets.end();
-	for (auto i = m_widgets.begin(); i != end; ++i)
-	{
-		std::string subtip = (*i)->getTip(loc);
-		if (!subtip.empty())
-		{
-			if (result.empty())
-			{
-				return subtip;
-			}
-			return result + " - " + subtip;
-		}
-	}
-	return result;
+    std::string result = m_tip;
+    t_widgets::iterator end = m_widgets.end();
+    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i) {
+        std::string subtip = (*i)->getTip(loc);
+        if (!subtip.empty()) {
+            if (result.empty()) {
+                return subtip;
+            }
+            else {
+                return result + " - " + subtip;
+            }
+        }
+    }
+    return result;
 }
-
 //-----------------------------------------------------------------
 /**
  * Let all subwidgets to react on button press.
  */
 void
-WiBox::own_mouseButton(const MouseStroke& stroke)
+WiBox::own_mouseButton(const MouseStroke &stroke)
 {
-	auto end = m_widgets.end();
-	for (auto i = m_widgets.begin(); i != end; ++i)
-	{
-		(*i)->mouseButton(stroke);
-	}
+    t_widgets::iterator end = m_widgets.end();
+    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i) {
+        (*i)->mouseButton(stroke);
+    }
 }
+

@@ -12,8 +12,8 @@
 std::string
 StringMsg::toString() const
 {
-	std::string result = m_listenerName;
-	result.append("->" + m_name);
-	result.append("(\"" + m_value + "\")");
-	return result;
+    std::string result = m_listenerName;
+    result.append("->" + m_name);
+    result.append("(\"" + m_value + "\")");
+    return result;
 }

@@ -18,86 +18,71 @@
 /**
  * Initialize the player for a specific piece of music.
  */
-SDLMusicLooper::SDLMusicLooper(const Path& file)
-	: m_volume(MIX_MAX_VOLUME), m_position(0)
+    SDLMusicLooper::SDLMusicLooper(const Path &file)
+: m_volume(MIX_MAX_VOLUME), m_position(0)
 {
-	Uint16 fmt;
-	int freq, channels;
-	Mix_QuerySpec(&freq, &fmt, &channels);
+    Uint16 fmt;
+    int freq, channels;
+    Mix_QuerySpec(&freq, &fmt, &channels);
 
-	int sampleSize;
-	if (fmt == AUDIO_S8 || fmt == AUDIO_U8)
-	{
-		sampleSize = 1;
-	}
-	else if (fmt == AUDIO_S16LSB || fmt == AUDIO_S16MSB || fmt == AUDIO_U16LSB || fmt == AUDIO_U16MSB)
-	{
-		sampleSize = 2;
-	}
-	else if (fmt == AUDIO_F32SYS)
-	{
-		sampleSize = 4;
-	}
-	else
-	{
-		LOG_WARNING(ExInfo("unhandled audio format"));
-		sampleSize = 4;
-	}
-	m_music = Mix_LoadWAV(file.getNative().c_str());
-	if (m_music)
-	{
-		lookupLoopData(file, sampleSize * channels * freq / 22050);
-	}
-	else
-	{
-		LOG_WARNING(ExInfo("cannot play music")
-			.addInfo("music", file.getNative())
-			.addInfo("Mix", Mix_GetError()));
-	}
+    int sampleSize;
+    if (fmt == AUDIO_S8 || fmt == AUDIO_U8) {
+        sampleSize = 1;
+    }
+    else if (fmt == AUDIO_S16LSB || fmt == AUDIO_S16MSB || fmt == AUDIO_U16LSB || fmt == AUDIO_U16MSB) {
+        sampleSize = 2;
+    }
+    else if (fmt == AUDIO_F32SYS) {
+        sampleSize = 4;
+    }
+    else {
+        LOG_WARNING(ExInfo("unhandled audio format"));
+        sampleSize = 4;
+    }
+    m_music = Mix_LoadWAV(file.getNative().c_str());
+    if (m_music) {
+        lookupLoopData(file, sampleSize * channels * freq / 22050);
+    }
+    else {
+        LOG_WARNING(ExInfo("cannot play music")
+                .addInfo("music", file.getNative())
+                .addInfo("Mix", Mix_GetError()));
+    }
 }
-
 //-----------------------------------------------------------------
 SDLMusicLooper::~SDLMusicLooper()
 {
-	stop();
-	if (m_music)
-	{
-		Mix_FreeChunk(m_music);
-	}
+    stop();
+    if (m_music) {
+        Mix_FreeChunk(m_music);
+    }
 }
-
 //-----------------------------------------------------------------
 void
 SDLMusicLooper::setVolume(int volume)
 {
-	m_volume = volume;
-	if (m_volume > MIX_MAX_VOLUME)
-	{
-		m_volume = MIX_MAX_VOLUME;
-	}
-	else if (m_volume < 0)
-	{
-		m_volume = 0;
-	}
+    m_volume = volume;
+    if (m_volume > MIX_MAX_VOLUME) {
+        m_volume = MIX_MAX_VOLUME;
+    }
+    else if (m_volume < 0) {
+        m_volume = 0;
+    }
 }
-
 //-----------------------------------------------------------------
 void
 SDLMusicLooper::start()
 {
-	if (m_music)
-	{
-		Mix_HookMusic(musicOutput, this);
-	}
+    if (m_music) {
+        Mix_HookMusic(musicOutput, (void*)this);
+    }
 }
-
 //-----------------------------------------------------------------
 void
 SDLMusicLooper::stop()
 {
-	Mix_HookMusic(nullptr, nullptr);
+    Mix_HookMusic(NULL, NULL);
 }
-
 //-----------------------------------------------------------------
 /**
  * Check for a loop associated with this filename. If not, then
@@ -112,67 +97,61 @@ SDLMusicLooper::stop()
  * loop_end
  */
 void
-SDLMusicLooper::lookupLoopData(const Path& file, int multiplier)
+SDLMusicLooper::lookupLoopData(const Path &file, int multiplier)
 {
-	m_startLoop = 0;
-	m_endLoop = m_music->alen;
+    m_startLoop = 0;
+    m_endLoop = m_music->alen;
 
-	std::string metafile = file.getNative() + ".meta";
-	char buffer[1024];
-	memset(buffer, 0, sizeof(buffer));
-	FILE* meta = fopen(metafile.c_str(), "r");
-	if (!meta)
-	{
-		return;
-	}
+    std::string metafile = file.getNative() + ".meta";
+    char buffer[1024];
+    memset(buffer, 0, sizeof(buffer));
+    FILE *meta = fopen(metafile.c_str(), "r");
+    if(!meta) {
+        return;
+    }
 
-	if (!fread(&buffer, 1, sizeof(buffer) - 1, meta))
-	{
-		LOG_WARNING(ExInfo("unable to read music meta data")
-			.addInfo("file", metafile));
-		return;
-	}
+    if (!fread(&buffer, 1, sizeof(buffer) - 1, meta)) {
+        LOG_WARNING(ExInfo("unable to read music meta data")
+                .addInfo("file", metafile));
+        return;
+    }
 
-	StringTool::t_args lines = StringTool::split(buffer, '\n');
-	if (lines.size() < 2)
-	{
-		LOG_WARNING(ExInfo("unrecognized music meta data format")
-			.addInfo("file", metafile));
-		return;
-	}
+    StringTool::t_args lines = StringTool::split(buffer, '\n');
+    if (lines.size() < 2) {
+        LOG_WARNING(ExInfo("unrecognized music meta data format")
+                .addInfo("file", metafile));
+        return;
+    }
 
-	m_startLoop = static_cast<int>(strtol(lines[0].c_str(), NULL, 10)) * multiplier;
-	m_endLoop = static_cast<int>(strtol(lines[1].c_str(), NULL, 10)) * multiplier;
-	if (static_cast<unsigned int>(m_endLoop) > m_music->alen)
-	{
-		m_endLoop = m_music->alen;
-	}
-	LOG_DEBUG(ExInfo("looping music")
-		.addInfo("start", m_startLoop / multiplier)
-		.addInfo("end", m_endLoop / multiplier));
+    m_startLoop = (int)strtol(lines[0].c_str(), NULL, 10) * multiplier;
+    m_endLoop = (int)strtol(lines[1].c_str(), NULL, 10) * multiplier;
+    if ((unsigned int)m_endLoop > m_music->alen) {
+        m_endLoop = m_music->alen;
+    }
+    LOG_DEBUG(ExInfo("looping music")
+            .addInfo("start", m_startLoop / multiplier)
+            .addInfo("end", m_endLoop / multiplier));
 }
-
 //-----------------------------------------------------------------
 /**
  * Callback function that provides the music data to the mixer.
  */
 void
-SDLMusicLooper::musicOutput(void* udata, Uint8* stream, int length)
+SDLMusicLooper::musicOutput(void *udata, Uint8 *stream, int length)
 {
-	auto that = static_cast<SDLMusicLooper*>(udata);
-	int n;
+    SDLMusicLooper *that = (SDLMusicLooper*)udata;
+    int n;
 
-	memset(stream, 0, length);
-	while (length >= that->m_endLoop - that->m_position)
-	{
-		n = that->m_endLoop - that->m_position;
-		SDL_MixAudio(stream, that->m_music->abuf + that->m_position, n,
-		             that->m_volume);
-		stream += n;
-		length -= n;
-		that->m_position = that->m_startLoop;
-	}
-	SDL_MixAudio(stream, that->m_music->abuf + that->m_position, length,
-	             that->m_volume);
-	that->m_position += length;
+    memset(stream, 0, length);
+    while (length >= that->m_endLoop - that->m_position) {
+        n = that->m_endLoop - that->m_position;
+        SDL_MixAudio(stream, that->m_music->abuf + that->m_position, n,
+                     that->m_volume);
+        stream += n;
+        length -= n;
+        that->m_position = that->m_startLoop;
+    }
+    SDL_MixAudio(stream, that->m_music->abuf + that->m_position, length,
+                 that->m_volume);
+    that->m_position += length;
 }

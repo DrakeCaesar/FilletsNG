@@ -6,18 +6,16 @@
 /**
  * Horizontal box.
  */
-class HBox : public WiBox
-{
-private:
-	int m_w;
-	int m_h;
-
-public:
-	HBox();
-	int getW() const override { return m_w; }
-	int getH() const override { return m_h; }
-	void addWidget(IWidget* new_widget) override;
-	void setShift(const V2& shift) override;
+class HBox : public WiBox {
+    private:
+        int m_w;
+        int m_h;
+    public:
+        HBox();
+        virtual int getW() const { return m_w; }
+        virtual int getH() const { return m_h; }
+        virtual void addWidget(IWidget *new_widget);
+        virtual void setShift(const V2 &shift);
 };
 
 #endif

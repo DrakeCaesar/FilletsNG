@@ -11,38 +11,35 @@
 #include "Font.h"
 
 //-----------------------------------------------------------------
-WiStatusBar::WiStatusBar(Font* new_font, const SDL_Color& color, int width)
-	: m_color(color)
+WiStatusBar::WiStatusBar(Font *new_font, const SDL_Color &color, int width)
+: m_color(color)
 {
-	m_font = new_font;
-	m_w = width;
+    m_font = new_font;
+    m_w = width;
 }
-
 //-----------------------------------------------------------------
 WiStatusBar::~WiStatusBar()
 {
-	delete m_font;
+    delete m_font;
 }
-
 //-----------------------------------------------------------------
 int
 WiStatusBar::getH() const
 {
-	return m_font->getHeight();
+    return m_font->getHeight();
 }
-
 //-----------------------------------------------------------------
 void
-WiStatusBar::drawOn(SDL_Surface* screen)
+WiStatusBar::drawOn(SDL_Surface *screen)
 {
-	if (!m_label.empty())
-	{
-		SDL_Rect rect;
-		rect.x = m_shift.getX();
-		rect.y = m_shift.getY();
+    if (!m_label.empty()) {
+        SDL_Rect rect;
+        rect.x = m_shift.getX();
+        rect.y = m_shift.getY();
 
-		SDL_Surface* rendered = m_font->renderTextOutlined(m_label, m_color);
-		SDL_BlitSurface(rendered, nullptr, screen, &rect);
-		SDL_FreeSurface(rendered);
-	}
+        SDL_Surface *rendered = m_font->renderTextOutlined(m_label, m_color);
+        SDL_BlitSurface(rendered, NULL, screen, &rect);
+        SDL_FreeSurface(rendered);
+    }
 }
+

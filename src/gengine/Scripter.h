@@ -11,17 +11,15 @@ class ScriptState;
 /**
  * Base class using a script.
  */
-class Scripter : public NoCopy
-{
-protected:
-	ScriptState* m_script;
+class Scripter : public NoCopy {
+    protected:
+        ScriptState *m_script;
+    public:
+        Scripter();
+        virtual ~Scripter();
 
-public:
-	Scripter();
-	~Scripter() override;
-
-	void scriptInclude(const Path& filename);
-	void scriptDo(const std::string& input);
+        void scriptInclude(const Path &filename);
+        void scriptDo(const std::string &input);
 };
 
 #endif

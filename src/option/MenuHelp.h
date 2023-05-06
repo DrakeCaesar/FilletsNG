@@ -9,35 +9,22 @@ class IWidget;
 /**
  * Help screen.
  */
-class MenuHelp : public GameState, public Drawable
-{
-private:
-	IWidget* m_help;
+class MenuHelp : public GameState, public Drawable {
+    private:
+        IWidget *m_help;
+    protected:
+        virtual void own_initState();
+        virtual void own_updateState() {}
+        virtual void own_pauseState() {}
+        virtual void own_resumeState();
+        virtual void own_cleanState() {}
+    public:
+        MenuHelp();
+        virtual ~MenuHelp();
+        virtual const char *getName() const { return "state_help"; };
+        virtual bool allowBg() const { return true; }
 
-protected:
-	void own_initState() override;
-
-	void own_updateState() override
-	{
-	}
-
-	void own_pauseState() override
-	{
-	}
-
-	void own_resumeState() override;
-
-	void own_cleanState() override
-	{
-	}
-
-public:
-	MenuHelp();
-	~MenuHelp() override;
-	const char* getName() const override { return "state_help"; };
-	bool allowBg() const override { return true; }
-
-	void drawOn(SDL_Surface* screen) override;
+        virtual void drawOn(SDL_Surface *screen);
 };
 
 #endif

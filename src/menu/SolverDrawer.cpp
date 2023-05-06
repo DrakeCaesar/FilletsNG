@@ -21,40 +21,38 @@
  * Prepares to draw info about best solver.
  * @param status shared level status
  */
-SolverDrawer::SolverDrawer(LevelStatus* status)
+SolverDrawer::SolverDrawer(LevelStatus *status)
 {
-	try
-	{
-		Font usedFont(Path::dataReadPath("font/font_menu.ttf"), 14);
-		SDL_Color usedColor = {255, 255, 255, 255};
+    try {
+        Font usedFont(Path::dataReadPath("font/font_menu.ttf"), 14);
+        SDL_Color usedColor = {255, 255, 255, 255};
 
-		Labels labels(Path::dataReadPath("script/labels.lua"));
-		const char* labelName;
-		switch (status->compareToBest())
-		{
-		case 1:
-			labelName = "solver_better";
-			break;
-		case 0:
-			labelName = "solver_equals";
-			break;
-		default:
-			labelName = "solver_worse";
-		}
-		StringTool::t_args args;
-		args.push_back("");
-		args.push_back(StringTool::toString(status->getBestMoves()));
-		args.push_back(status->getBestAuthor());
+        Labels labels(Path::dataReadPath("script/labels.lua"));
+        const char *labelName;
+        switch (status->compareToBest()) {
+            case 1:
+                labelName = "solver_better";
+                break;
+            case 0:
+                labelName = "solver_equals";
+                break;
+            default:
+                labelName = "solver_worse";
+        }
+        StringTool::t_args args;
+        args.push_back("");
+        args.push_back(StringTool::toString(status->getBestMoves()));
+        args.push_back(status->getBestAuthor());
 
-		auto para = new WiPara(
-			labels.getFormatedLabel(labelName, args),
-			usedFont, usedColor);
-		para->enableCentered();
-		para->recenter();
-		addWidget(para);
-	}
-	catch (BaseException& e)
-	{
-		LOG_WARNING(e.info());
-	}
+        WiPara *para = new WiPara(
+                labels.getFormatedLabel(labelName, args),
+                usedFont, usedColor);
+        para->enableCentered();
+        para->recenter();
+        addWidget(para);
+    }
+    catch (BaseException &e) {
+        LOG_WARNING(e.info());
+    }
 }
+

@@ -14,8 +14,9 @@
  * @param index key index should be unique in one GameState
  * @param desc text description
  */
-KeyDesc::KeyDesc(int index, const std::string& desc)
-	: m_desc(desc)
+KeyDesc::KeyDesc(int index, const std::string &desc)
+    : m_desc(desc)
 {
-	m_index = index;
+    m_index = index;
 }
+

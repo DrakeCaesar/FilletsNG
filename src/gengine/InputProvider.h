@@ -9,19 +9,15 @@
 /**
  * Interface to pressed keys and mouse location.
  */
-class InputProvider
-{
-public:
-	virtual ~InputProvider()
-	{
-	}
-
-	virtual bool isPressed(Uint8 key) const = 0;
-	virtual bool isLeftPressed() const = 0;
-	virtual bool isRightPressed() const = 0;
-	virtual bool isMiddlePressed() const = 0;
-	virtual V2 getMouseLoc() const = 0;
-	virtual std::string toString() const = 0;
+class InputProvider {
+    public:
+        virtual ~InputProvider() {}
+        virtual bool isPressed(Uint8 key) const = 0;
+        virtual bool isLeftPressed() const = 0;
+        virtual bool isRightPressed() const = 0;
+        virtual bool isMiddlePressed() const = 0;
+        virtual V2 getMouseLoc() const = 0;
+        virtual std::string toString() const = 0;
 };
 
 #endif

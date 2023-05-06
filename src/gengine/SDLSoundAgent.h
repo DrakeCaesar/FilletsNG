@@ -11,36 +11,33 @@
 /**
  * Sound and music.
  */
-class SDLSoundAgent : public SoundAgent
-{
-private:
-	static BaseMsg* ms_finished;
-	Mix_Music* m_music;
-	SDLMusicLooper* m_looper;
-	std::string m_playingPath;
-	int m_soundVolume;
-	int m_musicVolume;
+class SDLSoundAgent : public SoundAgent {
+    private:
+    static BaseMsg *ms_finished;
+    Mix_Music *m_music;
+    SDLMusicLooper *m_looper;
+    std::string m_playingPath;
+    int m_soundVolume;
+    int m_musicVolume;
 
-private:
-	std::string generateIdName(const Path& file);
-	Mix_Chunk* findChunk(const std::string& name);
+    private:
+        std::string generateIdName(const Path &file);
+        Mix_Chunk *findChunk(const std::string &name);
 
-	static void musicFinished();
+        static void musicFinished();
+    protected:
+        virtual void own_init();
+        virtual void own_shutdown();
+        virtual void reinit();
 
-protected:
-	void own_init() override;
-	void own_shutdown() override;
-	void reinit() override;
+        virtual void setSoundVolume(int volume);
+        virtual void setMusicVolume(int volume);
+    public:
+        virtual int playSound(Mix_Chunk *sound, int volume, int loops=0);
 
-	void setSoundVolume(int volume) override;
-	void setMusicVolume(int volume) override;
-
-public:
-	int playSound(Mix_Chunk* sound, int volume, int loops = 0) override;
-
-	void playMusic(const Path& file,
-	               BaseMsg* finished) override;
-	void stopMusic() override;
+        virtual void playMusic(const Path &file,
+                BaseMsg *finished);
+        virtual void stopMusic();
 };
 
 #endif

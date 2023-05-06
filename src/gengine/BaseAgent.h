@@ -12,36 +12,21 @@
 /**
  * Ancestor for all agents.
  */
-class BaseAgent : public NoCopy, public BaseListener
-{
-private:
-	bool m_initialized;
+class BaseAgent : public NoCopy, public BaseListener {
+    private:
+        bool m_initialized;
+    protected:
+        virtual void own_init() {}
+        virtual void own_update() {}
+        virtual void own_shutdown() {}
+    public:
+        BaseAgent();
+        virtual ~BaseAgent() {}
+        bool isInitialized() { return m_initialized; }
 
-protected:
-	virtual void own_init()
-	{
-	}
-
-	virtual void own_update()
-	{
-	}
-
-	virtual void own_shutdown()
-	{
-	}
-
-public:
-	BaseAgent();
-
-	~BaseAgent() override
-	{
-	}
-
-	bool isInitialized() { return m_initialized; }
-
-	void init();
-	void update();
-	void shutdown();
+        void init();
+        void update();
+        void shutdown();
 };
 
 /**

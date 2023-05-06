@@ -22,202 +22,179 @@
 //-----------------------------------------------------------------
 GameState::GameState()
 {
-	m_nextState = nullptr;
-	m_handler = nullptr;
-	m_active = false;
-	m_onBg = false;
-	m_drawer = new MultiDrawer();
+    m_nextState = NULL;
+    m_handler = NULL;
+    m_active = false;
+    m_onBg = false;
+    m_drawer = new MultiDrawer();
 }
-
 //-----------------------------------------------------------------
 GameState::~GameState()
 {
-	if (m_handler)
-	{
-		delete m_handler;
-	}
-	delete m_drawer;
+    if (m_handler) {
+        delete m_handler;
+    }
+    delete m_drawer;
 }
-
 //-----------------------------------------------------------------
 /**
  * Obtain input handler.
  * @param new_handler new input handler
  */
-void
-GameState::takeHandler(InputHandler* new_handler)
+    void
+GameState::takeHandler(InputHandler *new_handler)
 {
-	if (m_handler)
-	{
-		delete m_handler;
-	}
-	m_handler = new_handler;
+    if (m_handler) {
+        delete m_handler;
+    }
+    m_handler = new_handler;
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns wrapped input.
  */
-const InputProvider*
+    const InputProvider *
 GameState::getInput()
 {
-	return m_handler;
+    return m_handler;
 }
-
 //-----------------------------------------------------------------
-void
-GameState::initState(StateManager* manager)
+    void
+GameState::initState(StateManager *manager)
 {
-	LOG_DEBUG(ExInfo("initState").addInfo("name", getName()));
-	MessagerAgent::agent()->addListener(this);
-	m_manager = manager;
-	m_active = true;
-	m_onBg = false;
-	own_initState();
+    LOG_DEBUG(ExInfo("initState").addInfo("name", getName()));
+    MessagerAgent::agent()->addListener(this);
+    m_manager = manager;
+    m_active = true;
+    m_onBg = false;
+    own_initState();
 }
-
 //-----------------------------------------------------------------
 /**
  * @throws LogicException when state is not active
  */
-void
+    void
 GameState::updateState()
 {
-	if (!m_active)
-	{
-		throw LogicException(ExInfo("update - state is not active")
-			.addInfo("name", getName()));
-	}
+    if (!m_active) {
+        throw LogicException(ExInfo("update - state is not active")
+                .addInfo("name", getName()));
+    }
 
-	own_updateState();
+    own_updateState();
 }
-
 //-----------------------------------------------------------------
 /**
  * @throws LogicException when state is not active
  */
-void
+    void
 GameState::pauseState()
 {
-	if (!m_active)
-	{
-		throw LogicException(ExInfo("pause - state is not active")
-			.addInfo("name", getName()));
-	}
+    if (!m_active) {
+        throw LogicException(ExInfo("pause - state is not active")
+                .addInfo("name", getName()));
+    }
 
-	own_pauseState();
-	m_active = false;
-	m_onBg = false;
+    own_pauseState();
+    m_active = false;
+    m_onBg = false;
 }
-
 //-----------------------------------------------------------------
 /**
  * Reactivate state after pause.
  * @throws LogicException when state is already active
  */
-void
+    void
 GameState::resumeState()
 {
-	if (m_active)
-	{
-		throw LogicException(ExInfo("resume - state is already active")
-			.addInfo("name", getName()));
-	}
-	m_active = true;
-	own_resumeState();
+    if (m_active) {
+        throw LogicException(ExInfo("resume - state is already active")
+                .addInfo("name", getName()));
+    }
+    m_active = true;
+    own_resumeState();
 }
-
 //-----------------------------------------------------------------
 /**
  * Clean state after run.
  * @throws LogicException when state is not active
  */
-void
+    void
 GameState::cleanState()
 {
-	LOG_DEBUG(ExInfo("cleanState").addInfo("name", getName()));
-	if (!m_active)
-	{
-		throw LogicException(ExInfo("clean - state is not active")
-			.addInfo("name", getName()));
-	}
-	own_cleanState();
-	unHandlers();
+    LOG_DEBUG(ExInfo("cleanState").addInfo("name", getName()));
+    if (!m_active) {
+        throw LogicException(ExInfo("clean - state is not active")
+                .addInfo("name", getName()));
+    }
+    own_cleanState();
+    unHandlers();
 
-	m_active = false;
-	m_onBg = false;
-	m_manager = nullptr;
-	removeWatchers();
-	MessagerAgent::agent()->removeListener(getName());
+    m_active = false;
+    m_onBg = false;
+    m_manager = NULL;
+    removeWatchers();
+    MessagerAgent::agent()->removeListener(getName());
 }
-
 //-----------------------------------------------------------------
-void
+    void
 GameState::quitState()
 {
-	if (m_nextState)
-	{
-		changeState(m_nextState);
-	}
-	else
-	{
-		m_manager->popState(this);
-	}
+    if (m_nextState) {
+        changeState(m_nextState);
+    }
+    else {
+        m_manager->popState(this);
+    }
 }
-
 //-----------------------------------------------------------------
-void
-GameState::pushState(GameState* new_state)
+    void
+GameState::pushState(GameState *new_state)
 {
-	m_manager->pushState(this, new_state);
+    m_manager->pushState(this, new_state);
 }
-
 //-----------------------------------------------------------------
-void
-GameState::changeState(GameState* new_state)
+    void
+GameState::changeState(GameState *new_state)
 {
-	m_manager->changeState(this, new_state);
+    m_manager->changeState(this, new_state);
 }
-
 //-----------------------------------------------------------------
-void
+    void
 GameState::noteBg()
 {
-	LOG_DEBUG(ExInfo("noteBg").addInfo("name", getName()));
-	own_noteBg();
-	m_onBg = true;
+    LOG_DEBUG(ExInfo("noteBg").addInfo("name", getName()));
+    own_noteBg();
+    m_onBg = true;
 }
-
 //-----------------------------------------------------------------
-void
+    void
 GameState::noteFg()
 {
-	LOG_DEBUG(ExInfo("noteFg").addInfo("name", getName()));
-	m_onBg = false;
-	own_noteFg();
+    LOG_DEBUG(ExInfo("noteFg").addInfo("name", getName()));
+    m_onBg = false;
+    own_noteFg();
 }
-
 //-----------------------------------------------------------------
 /**
  * Install own video and input handler.
  */
-void
+    void
 GameState::installHandlers()
 {
-	LOG_DEBUG(ExInfo("installHandlers").addInfo("state", getName()));
-	InputAgent::agent()->installHandler(m_handler);
-	VideoAgent::agent()->acceptDrawer(m_drawer);
+    LOG_DEBUG(ExInfo("installHandlers").addInfo("state", getName()));
+    InputAgent::agent()->installHandler(m_handler);
+    VideoAgent::agent()->acceptDrawer(m_drawer);
 }
-
 //-----------------------------------------------------------------
 /**
  * Uninstall own video and input handler.
  */
-void
+    void
 GameState::unHandlers()
 {
-	InputAgent::agent()->installHandler(nullptr);
-	VideoAgent::agent()->removeDrawer(m_drawer);
+    InputAgent::agent()->installHandler(NULL);
+    VideoAgent::agent()->removeDrawer(m_drawer);
 }
 
 //-----------------------------------------------------------------
@@ -226,35 +203,33 @@ GameState::unHandlers()
  * NOTE: order is important,
  * the first inserted drawer will be on background
  */
-void
-GameState::registerDrawable(Drawable* drawable)
+    void
+GameState::registerDrawable(Drawable *drawable)
 {
-	m_drawer->acceptDrawer(drawable);
+    m_drawer->acceptDrawer(drawable);
 }
-
 //-----------------------------------------------------------------
-void
-GameState::deregisterDrawable(const Drawable* drawable)
+    void
+GameState::deregisterDrawable(const Drawable *drawable)
 {
-	m_drawer->removeDrawer(drawable);
+    m_drawer->removeDrawer(drawable);
 }
-
 //-----------------------------------------------------------------
 /**
  * Handle incoming message.
  * Messages:
  * - quit ... quit state
  */
-void
-GameState::receiveSimple(const SimpleMsg* msg)
+    void
+GameState::receiveSimple(const SimpleMsg *msg)
 {
-	if (msg->equalsName("quit"))
-	{
-		quitState();
-	}
-	else
-	{
-		LOG_WARNING(ExInfo("unknown msg")
-			.addInfo("msg", msg->toString()));
-	}
+    if (msg->equalsName("quit")) {
+        quitState();
+    }
+    else {
+        LOG_WARNING(ExInfo("unknown msg")
+                .addInfo("msg", msg->toString()));
+    }
 }
+
+

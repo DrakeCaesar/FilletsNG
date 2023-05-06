@@ -16,12 +16,11 @@
 #include <algorithm>
 
 //-----------------------------------------------------------------
-MarkMask::MarkMask(Cube* model, Field* field)
+MarkMask::MarkMask(Cube *model, Field *field)
 {
-	m_model = model;
-	m_field = field;
+    m_model = model;
+    m_field = field;
 }
-
 //-----------------------------------------------------------------
 /**
  * Return others which resist us to move this direction.
@@ -32,12 +31,11 @@ MarkMask::MarkMask(Cube* model, Field* field)
 Cube::t_models
 MarkMask::getResist(Dir::eDir dir) const
 {
-	V2 shift = Dir::dir2xy(dir);
-	V2 shift_loc = shift.plus(m_model->getLocation());
+    V2 shift = Dir::dir2xy(dir);
+    V2 shift_loc = shift.plus(m_model->getLocation());
 
-	return getPlacedResist(shift_loc);
+    return getPlacedResist(shift_loc);
 }
-
 //-----------------------------------------------------------------
 /**
  * Return others which resist at given location.
@@ -46,26 +44,23 @@ MarkMask::getResist(Dir::eDir dir) const
  * @return unique pointers, not NULL
  */
 Cube::t_models
-MarkMask::getPlacedResist(const V2& loc) const
+MarkMask::getPlacedResist(const V2 &loc) const
 {
-	Cube::t_models models;
-	const Shape* shape = m_model->shape();
-	auto end = shape->marksEnd();
-	for (auto i = shape->marksBegin(); i != end; ++i)
-	{
-		V2 mark = loc.plus(*i);
+    Cube::t_models models;
+    const Shape *shape = m_model->shape();
+    Shape::const_iterator end = shape->marksEnd();
+    for (Shape::const_iterator i = shape->marksBegin(); i != end; ++i) {
+        V2 mark = loc.plus(*i);
 
-		Cube* resist = m_field->getModel(mark);
-		if (nullptr != resist && m_model != resist)
-		{
-			models.push_back(resist);
-		}
-	}
+        Cube *resist = m_field->getModel(mark);
+        if (NULL != resist && m_model != resist) {
+            models.push_back(resist);
+        }
+    }
 
-	unique(&models);
-	return models;
+    unique(&models);
+    return models;
 }
-
 //-----------------------------------------------------------------
 /**
  * Write our position to the field.
@@ -73,9 +68,8 @@ MarkMask::getPlacedResist(const V2& loc) const
 void
 MarkMask::mask()
 {
-	writeModel(m_model, nullptr);
+    writeModel(m_model, NULL);
 }
-
 //-----------------------------------------------------------------
 /**
  * Clear our position from the field.
@@ -83,21 +77,19 @@ MarkMask::mask()
 void
 MarkMask::unmask()
 {
-	writeModel(nullptr, m_model);
+    writeModel(NULL, m_model);
 }
-
 //-----------------------------------------------------------------
 void
-MarkMask::writeModel(Cube* model, Cube* toOverride)
+MarkMask::writeModel(Cube *model, Cube *toOverride)
 {
-	V2 loc = m_model->getLocation();
-	const Shape* shape = m_model->shape();
-	auto end = shape->marksEnd();
-	for (auto i = shape->marksBegin(); i != end; ++i)
-	{
-		V2 mark = loc.plus(*i);
-		m_field->setModel(mark, model, toOverride);
-	}
+    V2 loc = m_model->getLocation();
+    const Shape *shape = m_model->shape();
+    Shape::const_iterator end = shape->marksEnd();
+    for (Shape::const_iterator i = shape->marksBegin(); i != end; ++i) {
+        V2 mark = loc.plus(*i);
+        m_field->setModel(mark, model, toOverride);
+    }
 }
 
 //-----------------------------------------------------------------
@@ -106,80 +98,72 @@ MarkMask::writeModel(Cube* model, Cube* toOverride)
  * The direction must be without resist.
  * @return return dir or DIR_NO when model is not at the border.
  */
-Dir::eDir
+    Dir::eDir
 MarkMask::getBorderDir() const
 {
-	V2 loc = m_model->getLocation();
-	const Shape* shape = m_model->shape();
-	auto end = shape->marksEnd();
-	for (auto i = shape->marksBegin(); i != end; ++i)
-	{
-		V2 mark = loc.plus(*i);
-		if (mark.getX() == 0 && canGo(Dir::DIR_LEFT))
-		{
-			return Dir::DIR_LEFT;
-		}
-		if (mark.getX() == m_field->getW() - 1 &&
-			canGo(Dir::DIR_RIGHT))
-		{
-			return Dir::DIR_RIGHT;
-		}
-		if (mark.getY() == 0 && canGo(Dir::DIR_UP))
-		{
-			return Dir::DIR_UP;
-		}
-		if (mark.getY() == m_field->getH() - 1 &&
-			canGo(Dir::DIR_DOWN))
-		{
-			return Dir::DIR_DOWN;
-		}
-	}
+    V2 loc = m_model->getLocation();
+    const Shape *shape = m_model->shape();
+    Shape::const_iterator end = shape->marksEnd();
+    for (Shape::const_iterator i = shape->marksBegin(); i != end; ++i) {
+        V2 mark = loc.plus(*i);
+        if (mark.getX() == 0 && canGo(Dir::DIR_LEFT)) {
+            return Dir::DIR_LEFT;
+        }
+        else if (mark.getX() == m_field->getW() - 1 &&
+                canGo(Dir::DIR_RIGHT))
+        {
+            return Dir::DIR_RIGHT;
+        }
+        else if (mark.getY() == 0 && canGo(Dir::DIR_UP)) {
+            return Dir::DIR_UP;
+        }
+        else if (mark.getY() == m_field->getH() - 1 &&
+                canGo(Dir::DIR_DOWN))
+        {
+            return Dir::DIR_DOWN;
+        }
+    }
 
-	return Dir::DIR_NO;
+    return Dir::DIR_NO;
 }
-
 //-----------------------------------------------------------------
 /**
  * Test whether there is only border
  * or other unblocked objects that should go out
  * in the given direction.
  */
-bool
+    bool
 MarkMask::canGo(Dir::eDir dir) const
 {
-	return m_model->rules()->canMoveOthers(dir, Cube::FIXED);
+   return m_model->rules()->canMoveOthers(dir, Cube::FIXED);
 }
-
 //-----------------------------------------------------------------
 /**
  * Returns true when the object is fully out of the field.
  */
-bool
+    bool
 MarkMask::isFullyOut() const
 {
-	V2 loc = m_model->getLocation();
-	const Shape* shape = m_model->shape();
-	auto end = shape->marksEnd();
-	for (auto i = shape->marksBegin(); i != end; ++i)
-	{
-		V2 mark = loc.plus(*i);
-		Cube* place = m_field->getModel(mark);
-		if (place == nullptr || !place->isBorder())
-		{
-			return false;
-		}
-	}
-	return true;
+    V2 loc = m_model->getLocation();
+    const Shape *shape = m_model->shape();
+    Shape::const_iterator end = shape->marksEnd();
+    for (Shape::const_iterator i = shape->marksBegin(); i != end; ++i) {
+        V2 mark = loc.plus(*i);
+        Cube *place = m_field->getModel(mark);
+        if (place == NULL || !place->isBorder()) {
+            return false;
+        }
+    }
+    return true;
 }
-
 //-----------------------------------------------------------------
 /**
  * Removes duplicities from the given models.
  */
-void
-MarkMask::unique(Cube::t_models* models)
+    void
+MarkMask::unique(Cube::t_models *models)
 {
-	std::sort(models->begin(), models->end());
-	auto last = std::unique(models->begin(), models->end());
-	models->erase(last, models->end());
+    std::sort(models->begin(), models->end());
+    Cube::t_models::iterator last = std::unique(models->begin(), models->end());
+    models->erase(last, models->end());
 }

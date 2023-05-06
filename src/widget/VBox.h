@@ -6,22 +6,20 @@
 /**
  * Vertical box.
  */
-class VBox : public WiBox
-{
-private:
-	int m_w;
-	int m_h;
-	bool m_centered;
+class VBox : public WiBox {
+    private:
+        int m_w;
+        int m_h;
+        bool m_centered;
+    public:
+        VBox();
+        void enableCentered() { m_centered = true; }
+        void recenter() { setShift(m_shift); }
 
-public:
-	VBox();
-	void enableCentered() { m_centered = true; }
-	void recenter() { setShift(m_shift); }
-
-	int getW() const override { return m_w; }
-	int getH() const override { return m_h; }
-	void addWidget(IWidget* new_widget) override;
-	void setShift(const V2& shift) override;
+        virtual int getW() const { return m_w; }
+        virtual int getH() const { return m_h; }
+        virtual void addWidget(IWidget *new_widget);
+        virtual void setShift(const V2 &shift);
 };
 
 #endif

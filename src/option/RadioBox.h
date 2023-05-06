@@ -8,21 +8,18 @@ class Path;
 /**
  * Radio box with picture background.
  */
-class RadioBox : public WiContainer
-{
-private:
-	static const int BORDER = 4;
-	std::string m_param;
-	std::string m_value;
+class RadioBox : public WiContainer {
+    private:
+        static const int BORDER = 4;
+        std::string m_param;
+        std::string m_value;
+    protected:
+        virtual void own_mouseButton(const MouseStroke &stroke);
+    public:
+        RadioBox(const std::string &param, const std::string &value,
+                const Path &picture);
 
-protected:
-	void own_mouseButton(const MouseStroke& stroke) override;
-
-public:
-	RadioBox(const std::string& param, const std::string& value,
-	         const Path& picture);
-
-	void drawOn(SDL_Surface* screen) override;
+        virtual void drawOn(SDL_Surface *screen);
 };
 
 #endif

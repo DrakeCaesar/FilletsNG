@@ -10,14 +10,14 @@ class Path;
 /**
  * Sound resources.
  */
-class ResSoundPack : public ResourcePack<Mix_Chunk*>
-{
-public:
-	const char* getName() const override { return "sound_pack"; }
+class ResSoundPack : public ResourcePack<Mix_Chunk*> {
+    public:
+        virtual const char *getName() const { return "sound_pack"; }
 
-	static Mix_Chunk* loadSound(const Path& file);
-	void addSound(const std::string& name, const Path& file);
-	void unloadRes(Mix_Chunk* res) override;
+        static Mix_Chunk *loadSound(const Path &file);
+        void addSound(const std::string &name, const Path &file);
+        virtual void unloadRes(Mix_Chunk *res);
 };
 
 #endif
+
