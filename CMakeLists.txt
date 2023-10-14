@@ -8,7 +8,7 @@ if(num_jobs EQUAL 0)
     set(num_jobs 1)
 endif()
 
-message("Number of available processors: " ${num_jobs})
+message("Number of available processors: ${num_jobs}")
 set(CMAKE_BUILD_PARALLEL_LEVEL ${num_jobs})
 
 include(CTest)
@@ -24,11 +24,7 @@ find_package(Lua REQUIRED)
 target_include_directories(fillets PRIVATE ${LUA_INCLUDE_DIR})
 
 if(MSVC)
-    # add_compile_options("/MP${num_jobs}")
-    # add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/MP>")
-    # set(CMAKE_BUILD_PARALLEL_LEVEL ${num_jobs})
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${num_jobs}")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP${num_jobs}")
+    target_compile_options(fillets PRIVATE "/MP${num_jobs}")
 endif()
 
 if(UNIX)
