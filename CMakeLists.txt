@@ -9,8 +9,6 @@ if(num_jobs EQUAL 0)
 endif()
 
 message("Number of available processors: " ${num_jobs})
-
-# Set the number of parallel jobs to use
 set(CMAKE_BUILD_PARALLEL_LEVEL ${num_jobs})
 
 include(CTest)
@@ -23,19 +21,18 @@ add_executable(fillets ${fillets_SRC})
 
 # Find Lua
 find_package(Lua REQUIRED)
-include_directories(${LUA_INCLUDE_DIR})
+target_include_directories(fillets PRIVATE ${LUA_INCLUDE_DIR})
 
 if(MSVC)
     # add_compile_options("/MP${num_jobs}")
     # add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/MP>")
     # set(CMAKE_BUILD_PARALLEL_LEVEL ${num_jobs})
-
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${num_jobs}")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP${num_jobs}")
 endif()
 
 if(UNIX)
-    add_definitions(-DPLATFORM_UNIX)
+    target_compile_definitions(fillets PRIVATE PLATFORM_UNIX)
 
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
@@ -43,14 +40,23 @@ if(UNIX)
     pkg_check_modules(SDL2_GFX REQUIRED SDL2_gfx)
     pkg_check_modules(SDL2_MIXER REQUIRED SDL2_mixer)
 
-    target_include_directories(fillets PUBLIC ${SDL2_IMAGE_INCLUDE_DIRS})
-    target_include_directories(fillets PUBLIC ${SDL2_GFX_INCLUDE_DIRS})
-    target_include_directories(fillets PUBLIC ${SDL2_TTF_INCLUDE_DIRS})
-    target_include_directories(fillets PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
-    target_link_libraries(fillets ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_GFX_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${LUA_LIBRARIES})
+    target_include_directories(fillets PRIVATE
+        ${SDL2_IMAGE_INCLUDE_DIRS}
+        ${SDL2_GFX_INCLUDE_DIRS}
+        ${SDL2_TTF_INCLUDE_DIRS}
+        ${SDL2_MIXER_INCLUDE_DIRS}
+    )
+    target_link_libraries(fillets PRIVATE
+        ${SDL2_LIBRARIES}
+        ${SDL2_IMAGE_LIBRARIES}
+        ${SDL2_GFX_LIBRARIES}
+        ${SDL2_MIXER_LIBRARIES}
+        ${SDL2_TTF_LIBRARIES}
+        ${LUA_LIBRARIES}
+    )
 
 elseif(WIN32)
-    add_definitions(-DPLATFORM_WINDOWS)
+    target_compile_definitions(fillets PRIVATE PLATFORM_WINDOWS)
 
     find_package(SDL2 CONFIG REQUIRED)
     find_package(sdl2-gfx CONFIG REQUIRED)
@@ -58,23 +64,24 @@ elseif(WIN32)
     find_package(SDL2_mixer CONFIG REQUIRED)
     find_package(SDL2_ttf CONFIG REQUIRED)
 
-    target_link_libraries(fillets PRIVATE SDL2::SDL2_gfx)
-    target_link_libraries(fillets PRIVATE $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main> $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>)
-    target_link_libraries(fillets PRIVATE $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>)
-    target_link_libraries(fillets PRIVATE $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>)
-    target_link_libraries(fillets PRIVATE $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
-    target_link_libraries(fillets PRIVATE ${LUA_LIBRARIES})
+    target_link_libraries(fillets PRIVATE
+        SDL2::SDL2_gfx
+        $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+        $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+        $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+        $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>
+        $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+        ${LUA_LIBRARIES}
+    )
 endif()
 
 file(GLOB fillets_INCLUDE_DIRS LIST_DIRECTORIES true "src/*/")
 
 foreach(dir ${fillets_INCLUDE_DIRS})
-    target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${dir})
+    target_include_directories(fillets SYSTEM PRIVATE ${dir})
 endforeach()
 
-include(FindLua)
-target_include_directories(fillets PRIVATE ${LUA_INCLUDE_DIR})
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-set(DCMAKE_EXPORT_COMPILE_COMMANDS 1)
