@@ -45,6 +45,18 @@ You should end up with a Fillets.app in the top level directory. You may have to
 macfiles/makefile to correspond with where your copies of the SDL2 frameworks are.
 
 
+Cmake details
+=============
+
+on Linux the required packages can be installed with:
+
+  sudo apt install build-essential libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev libsdl2-gfx-dev libsdl2-ttf-dev liblua5.4-dev
+
+on Windows the required libraries can be installed with:
+  
+  vcpkg install lua sdl2 sdl2-mixer sdl2-ttf sdl2-image sdl2-gfx
+
+
 How to run
 ==========
 
