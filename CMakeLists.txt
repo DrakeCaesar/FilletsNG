@@ -25,6 +25,15 @@ add_executable(fillets ${fillets_SRC})
 find_package(Lua REQUIRED)
 include_directories(${LUA_INCLUDE_DIR})
 
+if(MSVC)
+    # add_compile_options("/MP${num_jobs}")
+    # add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/MP>")
+    # set(CMAKE_BUILD_PARALLEL_LEVEL ${num_jobs})
+
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${num_jobs}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP${num_jobs}")
+endif()
+
 if(UNIX)
     add_definitions(-DPLATFORM_UNIX)
 
@@ -39,8 +48,6 @@ if(UNIX)
     target_include_directories(fillets PUBLIC ${SDL2_TTF_INCLUDE_DIRS})
     target_include_directories(fillets PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
     target_link_libraries(fillets ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2_GFX_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${LUA_LIBRARIES})
-
-    set(USE_LINUX_AUDIO_FORMAT 1)
 
 elseif(WIN32)
     add_definitions(-DPLATFORM_WINDOWS)
@@ -57,8 +64,6 @@ elseif(WIN32)
     target_link_libraries(fillets PRIVATE $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>)
     target_link_libraries(fillets PRIVATE $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
     target_link_libraries(fillets PRIVATE ${LUA_LIBRARIES})
-
-    set(USE_WINDOWS_AUDIO_FORMAT 1)
 endif()
 
 file(GLOB fillets_INCLUDE_DIRS LIST_DIRECTORIES true "src/*/")
