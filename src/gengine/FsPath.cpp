@@ -16,12 +16,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#define WIN32
-
-#ifdef WIN32
-    #include <direct.h>
+#ifdef PLATFORM_WINDOWS
+#include <direct.h>
 #else
-    #include <unistd.h>
+#include <unistd.h>
 #endif
 
 //-----------------------------------------------------------------
@@ -29,7 +27,7 @@
  * Get native filename.
  * @param file posix filename
  */
-    std::string
+std::string
 FsPath::getNative(const std::string &file)
 {
     return file;
@@ -39,10 +37,10 @@ FsPath::getNative(const std::string &file)
  * Returns true when file or directory exists.
  * @param file posix filename
  */
-    bool
-FsPath::exists(const std::string &file)
+bool FsPath::exists(const std::string &file)
 {
-    if (file.empty()) {
+    if (file.empty())
+    {
         return true;
     }
 
@@ -57,10 +55,11 @@ FsPath::exists(const std::string &file)
  * @param file posix filename
  * @return "dir/file"
  */
-    std::string
+std::string
 FsPath::join(const std::string &dir, const std::string &file)
 {
-    if (dir.empty()) {
+    if (dir.empty())
+    {
         return file;
     }
 
@@ -77,11 +76,13 @@ dirPath(const std::string &file)
 {
     std::string dirs = "";
     std::string::size_type pos = file.rfind('/');
-    if (pos == 0) {
-        //NOTE: root
+    if (pos == 0)
+    {
+        // NOTE: root
         dirs = "/";
     }
-    else if (pos != std::string::npos) {
+    else if (pos != std::string::npos)
+    {
         dirs = file.substr(0, pos);
     }
 
@@ -96,7 +97,8 @@ dirPath(const std::string &file)
 inline void
 createDir(const std::string &dir)
 {
-    if (dir.empty()) {
+    if (dir.empty())
+    {
         return;
     }
 
@@ -105,10 +107,11 @@ createDir(const std::string &dir)
 #else
     int error = mkdir(dir.c_str(), 0777);
 #endif
-    if (error) {
+    if (error)
+    {
         throw PathException(ExInfo("cannot create dir")
-            .addInfo("stderror", strerror(errno))
-            .addInfo("dir", dir));
+                                .addInfo("stderror", strerror(errno))
+                                .addInfo("dir", dir));
     }
 }
 //-----------------------------------------------------------------
@@ -116,13 +119,12 @@ createDir(const std::string &dir)
  * Create all directories in path (like "mkdir -p").
  * @param file posix filename
  */
-void
-FsPath::createPath(const std::string &file)
+void FsPath::createPath(const std::string &file)
 {
     std::string parent = dirPath(file);
-    if (!FsPath::exists(parent)) {
+    if (!FsPath::exists(parent))
+    {
         createPath(parent);
         createDir(parent);
     }
 }
-

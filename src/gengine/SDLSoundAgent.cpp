@@ -17,6 +17,12 @@
 #include "BaseMsg.h"
 #include "OptionAgent.h"
 
+#ifdef PLATFORM_WINDOWS
+const int audioFormat = AUDIO_F32SYS;
+#else
+const int audioFormat = AUDIO_S32SYS;
+#endif
+
 BaseMsg *SDLSoundAgent::ms_finished = NULL;
 //-----------------------------------------------------------------
 /**
@@ -24,14 +30,12 @@ BaseMsg *SDLSoundAgent::ms_finished = NULL;
  * @throws SDLException when SDL_INIT_AUDIO cannot be initialized
  * @throws MixException when SDL_mixer cannot be initialized
  */
-    void
-SDLSoundAgent::own_init()
+void SDLSoundAgent::own_init()
 {
     SoundAgent::own_init();
 }
 //-----------------------------------------------------------------
-    void
-SDLSoundAgent::own_shutdown()
+void SDLSoundAgent::own_shutdown()
 {
     stopMusic();
     Mix_CloseAudio();
@@ -41,30 +45,32 @@ SDLSoundAgent::own_shutdown()
 /**
  * Reinit the sound subsystem.
  */
-    void
-SDLSoundAgent::reinit()
+void SDLSoundAgent::reinit()
 {
     m_music = NULL;
     m_looper = NULL;
     m_soundVolume = MIX_MAX_VOLUME;
     m_musicVolume = MIX_MAX_VOLUME;
-    if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
+    if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
+    {
         throw SDLException(ExInfo("SDL_InitSubSystem"));
     }
-    
+
     SDL_AudioSpec spec, have;
-    spec.freq =48000;
-    spec.format=AUDIO_S16SYS;
+    spec.freq = 48000;
+    spec.format = AUDIO_S16SYS;
     spec.channels = 2;
-    spec.samples=4096;
+    spec.samples = 4096;
     spec.callback = 0;
     SDL_OpenAudio(&spec, &have);
 
     Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG);
-    
+
     int frequency =
-       OptionAgent::agent()->getAsInt("sound_frequency", 44100);
-    if(Mix_OpenAudio(frequency, AUDIO_F32SYS , 2, 1024) < 0) {
+        OptionAgent::agent()->getAsInt("sound_frequency", 44100);
+
+    if (Mix_OpenAudio(frequency, audioFormat, 2, 1024) < 0)
+    {
         throw MixException(ExInfo("Mix_OpenAudio"));
     }
     Mix_AllocateChannels(16);
@@ -81,18 +87,20 @@ SDLSoundAgent::reinit()
  * @return channel number where the sound is played,
  * return -1 on error or when sound is NULL
  */
-    int
-SDLSoundAgent::playSound(Mix_Chunk *sound, int volume, int loops)
+int SDLSoundAgent::playSound(Mix_Chunk *sound, int volume, int loops)
 {
     int channel = -1;
-    if (sound) {
+    if (sound)
+    {
         channel = Mix_PlayChannel(-1, sound, loops);
-        if (-1 == channel) {
-            //NOTE: maybe there are too few open channels
+        if (-1 == channel)
+        {
+            // NOTE: maybe there are too few open channels
             LOG_WARNING(ExInfo("cannot play sound")
-                    .addInfo("Mix", Mix_GetError()));
+                            .addInfo("Mix", Mix_GetError()));
         }
-        else {
+        else
+        {
             Mix_Volume(channel, m_soundVolume * volume / 100);
         }
     }
@@ -106,14 +114,15 @@ SDLSoundAgent::playSound(Mix_Chunk *sound, int volume, int loops)
  * NOTE: all already running sound will get equals volume
  * @param volume percentage volume, e.g. 30%=30
  */
-    void
-SDLSoundAgent::setSoundVolume(int volume)
+void SDLSoundAgent::setSoundVolume(int volume)
 {
     m_soundVolume = MIX_MAX_VOLUME * volume / 100;
-    if (m_soundVolume > MIX_MAX_VOLUME) {
+    if (m_soundVolume > MIX_MAX_VOLUME)
+    {
         m_soundVolume = MIX_MAX_VOLUME;
     }
-    else if (m_soundVolume < 0) {
+    else if (m_soundVolume < 0)
+    {
         m_soundVolume = 0;
     }
     Mix_Volume(-1, m_soundVolume);
@@ -129,32 +138,35 @@ SDLSoundAgent::setSoundVolume(int volume)
  * @param finished send this message when music is finished.
  * If finished is NULL, play music forever.
  */
-void
-SDLSoundAgent::playMusic(const Path &file,
-        BaseMsg *finished)
+void SDLSoundAgent::playMusic(const Path &file,
+                              BaseMsg *finished)
 {
     // The same music is not restarted when it is not needed.
-    if (m_playingPath == file.getPosixName()
-            && ms_finished == NULL && finished == NULL) {
+    if (m_playingPath == file.getPosixName() && ms_finished == NULL && finished == NULL)
+    {
         return;
     }
 
     stopMusic();
     m_playingPath = file.getPosixName();
 
-    if (finished) {
+    if (finished)
+    {
         ms_finished = finished;
         m_music = Mix_LoadMUS(file.getNative().c_str());
-        if (m_music && (0 == Mix_PlayMusic(m_music, 1))) {
+        if (m_music && (0 == Mix_PlayMusic(m_music, 1)))
+        {
             Mix_HookMusicFinished(musicFinished);
         }
-        else {
+        else
+        {
             LOG_WARNING(ExInfo("cannot play music")
-                    .addInfo("music", file.getNative())
-                    .addInfo("Mix", Mix_GetError()));
+                            .addInfo("music", file.getNative())
+                            .addInfo("Mix", Mix_GetError()));
         }
     }
-    else {
+    else
+    {
         m_looper = new SDLMusicLooper(file);
         m_looper->setVolume(m_musicVolume);
         m_looper->start();
@@ -164,40 +176,45 @@ SDLSoundAgent::playMusic(const Path &file,
 /**
  * @param volume percentage volume, e.g. 30%=30
  */
-    void
-SDLSoundAgent::setMusicVolume(int volume)
+void SDLSoundAgent::setMusicVolume(int volume)
 {
     m_musicVolume = MIX_MAX_VOLUME * volume / 100;
-    if (m_musicVolume > MIX_MAX_VOLUME) {
+    if (m_musicVolume > MIX_MAX_VOLUME)
+    {
         m_musicVolume = MIX_MAX_VOLUME;
     }
-    else if (m_musicVolume < 0) {
+    else if (m_musicVolume < 0)
+    {
         m_musicVolume = 0;
     }
     Mix_VolumeMusic(m_musicVolume);
-    if (m_looper) {
+    if (m_looper)
+    {
         m_looper->setVolume(m_musicVolume);
     }
 }
 //-----------------------------------------------------------------
-    void
-SDLSoundAgent::stopMusic()
+void SDLSoundAgent::stopMusic()
 {
-    if (m_looper) {
+    if (m_looper)
+    {
         m_looper->stop();
         delete m_looper;
         m_looper = NULL;
     }
 
-    if(Mix_PlayingMusic()) {
+    if (Mix_PlayingMusic())
+    {
         Mix_HookMusicFinished(NULL);
         Mix_HaltMusic();
     }
-    if (m_music) {
+    if (m_music)
+    {
         Mix_FreeMusic(m_music);
         m_music = NULL;
     }
-    if (ms_finished) {
+    if (ms_finished)
+    {
         delete ms_finished;
         ms_finished = NULL;
     }
@@ -208,25 +225,26 @@ SDLSoundAgent::stopMusic()
  * Callback called when music is finished.
  * NOTE: no one exception can be passed to "C" SDL_mixer code
  */
-    void
-SDLSoundAgent::musicFinished()
+void SDLSoundAgent::musicFinished()
 {
-    try {
-        if (ms_finished) {
+    try
+    {
+        if (ms_finished)
+        {
             ms_finished->sendClone();
         }
-        else {
+        else
+        {
             LOG_WARNING(ExInfo("NULL == ms_finished"));
         }
     }
-    catch (std::exception &e) {
+    catch (std::exception &e)
+    {
         LOG_WARNING(ExInfo("musicFinished error")
-                .addInfo("what", e.what()));
+                        .addInfo("what", e.what()));
     }
-    catch (...) {
+    catch (...)
+    {
         LOG_ERROR(ExInfo("musicFinished error - unknown exception"));
     }
 }
-
-
-
