@@ -102,7 +102,7 @@ createDir(const std::string &dir)
         return;
     }
 
-#ifdef WIN32
+#ifdef PLATFORM_WINDOWS
     int error = _mkdir(dir.c_str());
 #else
     int error = mkdir(dir.c_str(), 0777);
