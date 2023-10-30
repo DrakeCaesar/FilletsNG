@@ -50,15 +50,15 @@ Cmake details
 
 on Ubuntu the required packages can be installed with:
 
-  sudo apt install libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev libsdl2-gfx-dev libsdl2-ttf-dev liblua5.4-dev
+    sudo apt install libsdl2-dev libsdl2-mixer-dev libsdl2-image-dev libsdl2-gfx-dev libsdl2-ttf-dev liblua5.4-dev
   
 On Fedora the required packages can be installed with:
 
-  sudo dnf install SDL2-devel SDL2_mixer-devel SDL2_image-devel SDL2_gfx-devel SDL2_ttf-devel lua-devel
+    sudo dnf install SDL2-devel SDL2_mixer-devel SDL2_image-devel SDL2_gfx-devel SDL2_ttf-devel lua-devel
 
 on Windows the required libraries can be installed with:
   
-  vcpkg install lua sdl2 sdl2-mixer sdl2-ttf sdl2-image sdl2-gfx
+    vcpkg install sdl2 sdl2-mixer sdl2-image sdl2-gfx sdl2-ttf lua
 
 How to run
 ==========
