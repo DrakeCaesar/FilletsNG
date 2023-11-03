@@ -15,27 +15,28 @@
 #include "SimpleMsg.h"
 #include "def-script.h"
 
-
 //-----------------------------------------------------------------
 /**
  * void sendMsg(listener, msg, [value])
  */
-    int
-script_options_sendMsg(lua_State *L) throw()
+int script_options_sendMsg(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     BaseMsg *message = NULL;
     const char *listener = luaL_checkstring(L, 1);
     const char *msg = luaL_checkstring(L, 2);
-    if (lua_isstring(L, 3)) {
+    if (lua_isstring(L, 3))
+    {
         const char *string_value = luaL_checkstring(L, 3);
         message = new StringMsg(listener, msg, string_value);
     }
-    else if (lua_isnumber(L, 3)) {
+    else if (lua_isnumber(L, 3))
+    {
         int int_value = luaL_checkinteger(L, 3);
         message = new IntMsg(listener, msg, int_value);
     }
-    else {
+    else
+    {
         message = new SimpleMsg(listener, msg);
     }
 
@@ -48,13 +49,13 @@ script_options_sendMsg(lua_State *L) throw()
 /**
  * void setParam(name, value)
  */
-    int
-script_options_setParam(lua_State *L) throw()
+int script_options_setParam(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *name = luaL_checkstring(L, 1);
     const char *value = lua_tostring(L, 2);
-    if (!value) {
+    if (!value)
+    {
         value = luaL_checkstring(L, 2);
     }
     OptionAgent::agent()->setParam(name, value);
@@ -66,20 +67,20 @@ script_options_setParam(lua_State *L) throw()
  * string getParam(name)
  * Returns string or nil.
  */
-    int
-script_options_getParam(lua_State *L) throw()
+int script_options_getParam(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *name = luaL_checkstring(L, 1);
     std::string value = OptionAgent::agent()->getParam(name);
-    if (value.empty()) {
+    if (value.empty())
+    {
         lua_pushnil(L);
     }
-    else {
+    else
+    {
         lua_pushlstring(L, value.c_str(), value.size());
     }
     END_NOEXCEPTION;
-    //NOTE: return value
+    // NOTE: return value
     return 1;
 }
-
