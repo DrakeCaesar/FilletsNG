@@ -46,7 +46,7 @@ void initializeBezierMap()
         BezierCurve(301, 224, 295.28883, 233.12128, 289.24651, 242.11159, 285, 252.00008)};
     bezierCurves[make_pair(make_pair(285, 252), make_pair(279, 286))] = vector<BezierCurve>{
         BezierCurve(285, 252.00008, 280.41274, 262.68207, 278.00487, 274.41754, 279, 286.00018)};
-    bezierCurves[make_pair(make_pair(279, 286), make_pair(312, 266))] = vector<BezierCurve>{
+    bezierCurves[make_pair(make_pair(279, 286), make_pair(292, 315))] = vector<BezierCurve>{
         BezierCurve(279, 286.00018, 279.92782, 296.79938, 284.04766, 307.63524, 292, 315.00027)};
     bezierCurves[make_pair(make_pair(292, 315), make_pair(314, 338))] = vector<BezierCurve>{
         BezierCurve(292, 315.00027, 295.99084, 318.69638, 300.78758, 321.4024, 305.02862, 324.80851),
@@ -117,8 +117,8 @@ void initializeBezierMap()
     bezierCurves[make_pair(make_pair(510, 360), make_pair(539, 332))] = vector<BezierCurve>{
         BezierCurve(510.00001, 360.00041, 522.26518, 353.9914, 532.5645, 344.04719, 539, 332.00033)};
 
-    bezierCurves[make_pair(make_pair(279, 286), make_pair(292, 315))] = vector<BezierCurve>{
-        BezierCurve(279, 286.00018, 287.37318, 275.92168, 299.19092, 268.7594, 312, 266.00013)};
+    bezierCurves[make_pair(make_pair(279, 286), make_pair(312, 266))] = vector<BezierCurve>{
+        BezierCurve(279, 286.00018, 287.30379, 275.84995, 299.15943, 268.66469, 312, 266.00013)};
     bezierCurves[make_pair(make_pair(312, 266), make_pair(350, 265))] = vector<BezierCurve>{
         BezierCurve(312, 266.00013, 324.43564, 263.41959, 337.29943, 264.99268, 350, 265.00012)};
     bezierCurves[make_pair(make_pair(350, 265), make_pair(388, 264))] = vector<BezierCurve>{
@@ -134,11 +134,11 @@ void initializeBezierMap()
     bezierCurves[make_pair(make_pair(525, 286), make_pair(567, 297))] = vector<BezierCurve>{
         BezierCurve(525.00002, 286.00018, 532.35919, 286.30869, 539.75364, 286.66698, 546.9633, 288.17488),
         BezierCurve(546.9633, 288.17488, 554.17296, 289.68279, 561.24708, 292.40058, 566.99999, 297.00022)};
-    bezierCurves[make_pair(make_pair(567, 297), make_pair(574, 267))] = vector<BezierCurve>{
+    bezierCurves[make_pair(make_pair(567, 297), make_pair(580, 330))] = vector<BezierCurve>{
         BezierCurve(566.99999, 297.00022, 571.83281, 300.86422, 575.63091, 306.01038, 577.89882, 311.7674),
         BezierCurve(577.89882, 311.7674, 580.16674, 317.52442, 580.89895, 323.87835, 579.99998, 330.00032)};
 
-    bezierCurves[make_pair(make_pair(567, 297), make_pair(580, 330))] = vector<BezierCurve>{
+    bezierCurves[make_pair(make_pair(567, 297), make_pair(574, 267))] = vector<BezierCurve>{
         BezierCurve(567.00002, 297.00022, 567.00002, 297.00022, 573.99999, 267.00013, 573.99999, 267.00013)};
 
     bezierCurves[make_pair(make_pair(285, 252), make_pair(247, 234))] = vector<BezierCurve>{

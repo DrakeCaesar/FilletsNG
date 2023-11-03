@@ -8,7 +8,7 @@ fi
 
 # Use grep to extract lines that contain "M ", then use sed to perform the replacements
 # and output the results to list.txt
-cat Fillets-broken.svg | grep -E "M " | \
+cat fillets-curves.svg | grep -E "M " | \
 sed -e 's/       d="M /BezierCurve(/g' \
     -e 's/ C /, /g' \
     -e 's/"/)/' \
