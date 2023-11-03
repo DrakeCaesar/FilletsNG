@@ -29,16 +29,16 @@ WavyPicture::WavyPicture(const Path &file, const V2 &loc)
  * Blit entire surface to [x,y].
  * Do vertical waves with phase shift.
  */
-void
-WavyPicture::drawOn(SDL_Surface *screen)
+void WavyPicture::drawOn(SDL_Surface *screen)
 {
-    if (m_amp == 0) {
+    if (m_amp == 0)
+    {
         Picture::drawOn(screen);
         return;
     }
     Picture::drawOn(screen);
-    //NOTE: Wamp = Wamp_in_orig/2.0
-    //NOTE: Wspeed = 1.0/Wspd_in_orig
+    // NOTE: Wamp = Wamp_in_orig/2.0
+    // NOTE: Wspeed = 1.0/Wspd_in_orig
     SDL_Rect dest_rect;
     SDL_Rect line_rect;
     line_rect.w = m_surface->w;
@@ -48,14 +48,15 @@ WavyPicture::drawOn(SDL_Surface *screen)
 
     float shift = TimerAgent::agent()->getCycles() * m_speed;
     shift = shift / speedup;
-    for (int py = 0; py < m_surface->h; ++py) {
-        //NOTE: C99 has lrintf and sinf
+    for (int py = 0; py < m_surface->h; ++py)
+    {
+        // NOTE: C99 has lrintf and sinf
         Sint16 shiftX = static_cast<Sint16>(0.5 +
-                m_amp * sin(py / m_periode + shift));
+                                            m_amp * sin(py / m_periode + shift));
         line_rect.x = shiftX;
         line_rect.y = py;
-        dest_rect.x = m_loc.getX()+offset;
-        dest_rect.y = m_loc.getY() + py+offset;
+        dest_rect.x = m_loc.getX() + offset;
+        dest_rect.y = m_loc.getY() + py + offset;
         SDL_BlitSurface(m_surface, &line_rect, screen, &dest_rect);
 
         pad.x = (shiftX < 0) ? 0 : m_surface->w - shiftX;
@@ -66,5 +67,3 @@ WavyPicture::drawOn(SDL_Surface *screen)
         SDL_BlitSurface(m_surface, &pad, screen, &dest_rect);
     }
 }
-
-

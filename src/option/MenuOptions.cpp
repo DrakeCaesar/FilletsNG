@@ -48,8 +48,7 @@ MenuOptions::~MenuOptions()
 /**
  * Display menu.
  */
-    void
-MenuOptions::own_initState()
+void MenuOptions::own_initState()
 {
     registerWatcher("lang");
     own_resumeState();
@@ -59,8 +58,7 @@ MenuOptions::own_initState()
  * Display options menu.
  * Menu will be centred on screen.
  */
-    void
-MenuOptions::own_resumeState()
+void MenuOptions::own_resumeState()
 {
     int contentW = m_container->getW();
     int contentH = m_container->getH();
@@ -69,16 +67,16 @@ MenuOptions::own_resumeState()
     int screenH = options->getAsInt("screen_height");
 
     m_container->setShift(
-            V2((screenW - contentW) / 2, (screenH - contentH) / 2));
+        V2((screenW - contentW) / 2, (screenH - contentH) / 2));
 }
 //-----------------------------------------------------------------
 /**
  * Update statusbar.
  */
-    void
-MenuOptions::own_updateState()
+void MenuOptions::own_updateState()
 {
-    if (m_needRefresh) {
+    if (m_needRefresh)
+    {
         m_needRefresh = false;
         prepareMenu();
         own_resumeState();
@@ -86,15 +84,14 @@ MenuOptions::own_updateState()
 
     V2 mouseLoc = VideoAgent::agent()->scaleMouseLoc(getInput()->getMouseLoc());
 
-
     std::string tooltip = m_container->getTip(mouseLoc);
     m_statusBar->setLabel(tooltip);
 }
 //-----------------------------------------------------------------
-void
-MenuOptions::prepareMenu()
+void MenuOptions::prepareMenu()
 {
-    if (m_container) {
+    if (m_container)
+    {
         deregisterDrawable(m_container);
         delete m_container;
         m_container = NULL;
@@ -131,7 +128,7 @@ MenuOptions::createSoundPanel(const Labels &labels)
 {
     HBox *soundBox = new HBox();
     soundBox->addWidget(new WiPicture(
-                Path::dataReadPath("images/menu/volume_sound.png")));
+        Path::dataReadPath("images/menu/volume_sound.png")));
     soundBox->addWidget(new WiSpace(10, 0));
     soundBox->addWidget(new Slider("volume_sound", 0, 100));
     soundBox->setTip(labels.getLabel("menu_sound"));
@@ -143,7 +140,7 @@ MenuOptions::createMusicPanel(const Labels &labels)
 {
     HBox *musicBox = new HBox();
     musicBox->addWidget(new WiPicture(
-                Path::dataReadPath("images/menu/volume_music.png")));
+        Path::dataReadPath("images/menu/volume_music.png")));
     musicBox->addWidget(new WiSpace(10, 0));
     musicBox->addWidget(new Slider("volume_music", 0, 100));
     musicBox->setTip(labels.getLabel("menu_music"));
@@ -155,10 +152,10 @@ MenuOptions::createLangPanel(const Labels &labels)
 {
     HBox *langBox = new HBox();
     langBox->addWidget(new WiPicture(
-                Path::dataReadPath("images/menu/lang.png")));
+        Path::dataReadPath("images/menu/lang.png")));
     langBox->addWidget(new WiSpace(10, 0));
     langBox->addWidget(new SelectLang("lang",
-                Path::dataReadPath("script/select_lang.lua")));
+                                      Path::dataReadPath("script/select_lang.lua")));
     langBox->setTip(labels.getLabel("menu_lang"));
     return langBox;
 }
@@ -172,10 +169,10 @@ MenuOptions::createSpeechPanel(const Labels &labels)
 {
     HBox *speechBox = new HBox();
     speechBox->addWidget(new WiPicture(
-                Path::dataReadPath("images/menu/speech.png")));
+        Path::dataReadPath("images/menu/speech.png")));
     speechBox->addWidget(new WiSpace(10, 0));
     speechBox->addWidget(new SelectLang("speech",
-            Path::dataReadPath("script/select_speech.lua")));
+                                        Path::dataReadPath("script/select_speech.lua")));
     speechBox->setTip(labels.getLabel("menu_speech"));
     return speechBox;
 }
@@ -185,12 +182,12 @@ MenuOptions::createSubtitlesPanel(const Labels &labels)
 {
     HBox *chooseBox = new HBox();
     chooseBox->addWidget(new WiPicture(
-                Path::dataReadPath("images/menu/subtitle.png")));
+        Path::dataReadPath("images/menu/subtitle.png")));
     chooseBox->addWidget(new WiSpace(10, 0));
     chooseBox->addWidget(new RadioBox("subtitles", "1",
-                Path::dataReadPath("images/menu/subtitles/yes.png")));
+                                      Path::dataReadPath("images/menu/subtitles/yes.png")));
     chooseBox->addWidget(new RadioBox("subtitles", "0",
-                Path::dataReadPath("images/menu/subtitles/no.png")));
+                                      Path::dataReadPath("images/menu/subtitles/no.png")));
     chooseBox->setTip(labels.getLabel("menu_subtitles"));
     return chooseBox;
 }
@@ -199,8 +196,8 @@ IWidget *
 MenuOptions::createBackButton(const Labels &labels)
 {
     IWidget *button = new WiButton(
-            new WiPicture(Path::dataReadPath("images/menu/back.png")),
-            new SimpleMsg(this, "quit"));
+        new WiPicture(Path::dataReadPath("images/menu/back.png")),
+        new SimpleMsg(this, "quit"));
     button->setTip(labels.getLabel("menu_back"));
     return button;
 }
@@ -217,14 +214,12 @@ MenuOptions::createStatusBar(int width)
  * Start level under pressed button.
  * Start pedometer when level is solved already.
  */
-    void
-MenuOptions::mouseButton(const MouseStroke &stroke)
+void MenuOptions::mouseButton(const MouseStroke &stroke)
 {
     m_container->mouseButton(stroke);
 }
 //-----------------------------------------------------------------
-void
-MenuOptions::drawOn(SDL_Surface *screen)
+void MenuOptions::drawOn(SDL_Surface *screen)
 {
     SDL_Color gray = {0xf0, 0xf0, 0xf0, 129};
     SurfaceTool::alphaFill(screen, NULL, gray);
@@ -237,20 +232,22 @@ MenuOptions::drawOn(SDL_Surface *screen)
  *
  * @throws UnknownMsgException
  */
-    void
-MenuOptions::receiveString(const StringMsg *msg)
+void MenuOptions::receiveString(const StringMsg *msg)
 {
-    if (msg->equalsName("param_changed")) {
+    if (msg->equalsName("param_changed"))
+    {
         std::string param = msg->getValue();
-        if ("lang" == param) {
+        if ("lang" == param)
+        {
             m_needRefresh = true;
         }
-        else {
+        else
+        {
             throw UnknownMsgException(msg);
         }
     }
-    else {
+    else
+    {
         throw UnknownMsgException(msg);
     }
 }
-

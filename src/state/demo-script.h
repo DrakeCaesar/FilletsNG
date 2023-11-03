@@ -1,7 +1,8 @@
 #ifndef HEADER_DEMO_SCRIPT_H
 #define HEADER_DEMO_SCRIPT_H
 
-extern "C" {
+extern "C"
+{
 #include "lua.h"
 }
 

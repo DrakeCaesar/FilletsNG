@@ -22,13 +22,13 @@ class Actor;
 #include "def-script.h"
 
 //-----------------------------------------------------------------
-    inline Planner *
+inline Planner *
 getPlanner(lua_State *L)
 {
-    return dynamic_cast<Planner*>(script_getLeader(L));
+    return dynamic_cast<Planner *>(script_getLeader(L));
 }
 //-----------------------------------------------------------------
-    inline DialogStack *
+inline DialogStack *
 getDialogs(lua_State *L)
 {
     return getPlanner(L)->dialogs();
@@ -38,8 +38,7 @@ getDialogs(lua_State *L)
 /**
  * void game_planAction(func)
  */
-    int
-script_game_planAction(lua_State *L) throw()
+int script_game_planAction(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     luaL_checktype(L, 1, LUA_TFUNCTION);
@@ -53,22 +52,20 @@ script_game_planAction(lua_State *L) throw()
 /**
  * bool game_isPlanning()
  */
-    int
-script_game_isPlanning(lua_State *L) throw()
+int script_game_isPlanning(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     bool planning = getPlanner(L)->isPlanning();
     lua_pushboolean(L, planning);
     END_NOEXCEPTION;
-    //NOTE: return planning
+    // NOTE: return planning
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * bool game_killPlan()
  */
-    int
-script_game_killPlan(lua_State *L) throw()
+int script_game_killPlan(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     getPlanner(L)->interruptPlan();
@@ -80,22 +77,20 @@ script_game_killPlan(lua_State *L) throw()
 /**
  * bool dialog_isDialog()
  */
-    int
-script_dialog_isDialog(lua_State *L) throw()
+int script_dialog_isDialog(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     bool isDialog = getDialogs(L)->isDialog();
     lua_pushboolean(L, isDialog);
     END_NOEXCEPTION;
-    //NOTE: return isDialog
+    // NOTE: return isDialog
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * void dialog_addFont(fontname, red, green, blue)
  */
-    int
-script_dialog_addFont(lua_State *L) throw()
+int script_dialog_addFont(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *name = luaL_checkstring(L, 1);
@@ -112,8 +107,7 @@ script_dialog_addFont(lua_State *L) throw()
 /**
  * void dialog_addDialog(name, lang, soundfile, fontname="", subtitle="")
  */
-    int
-script_dialog_addDialog(lua_State *L) throw()
+int script_dialog_addDialog(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *name = luaL_checkstring(L, 1);
@@ -133,8 +127,7 @@ script_dialog_addDialog(lua_State *L) throw()
 /**
  * bool model_isTalking(model_index)
  */
-    int
-script_model_isTalking(lua_State *L) throw()
+int script_model_isTalking(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -142,15 +135,14 @@ script_model_isTalking(lua_State *L) throw()
     bool talking = getDialogs(L)->isTalking(model_index);
     lua_pushboolean(L, talking);
     END_NOEXCEPTION;
-    //NOTE: return talking
+    // NOTE: return talking
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * void model_talk(model_index, name, volume, loops=0, dialogFlag=false)
  */
-    int
-script_model_talk(lua_State *L) throw()
+int script_model_talk(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -167,8 +159,7 @@ script_model_talk(lua_State *L) throw()
 /**
  * void model_killSound(model_index)
  */
-    int
-script_model_killSound(lua_State *L) throw()
+int script_model_killSound(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -182,8 +173,7 @@ script_model_killSound(lua_State *L) throw()
 /**
  * void sound_playMusic(music_name)
  */
-    int
-script_sound_playMusic(lua_State *L) throw()
+int script_sound_playMusic(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *music_name = luaL_checkstring(L, 1);
@@ -196,12 +186,10 @@ script_sound_playMusic(lua_State *L) throw()
 /**
  * void sound_stopMusic()
  */
-    int
-script_sound_stopMusic(lua_State *L) throw()
+int script_sound_stopMusic(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     SoundAgent::agent()->stopMusic();
     END_NOEXCEPTION;
     return 0;
 }
-

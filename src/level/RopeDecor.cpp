@@ -16,8 +16,8 @@
 
 //-----------------------------------------------------------------
 RopeDecor::RopeDecor(const Cube *model1, const Cube *model2,
-        const V2 &shift1, const V2 &shift2)
-: m_shift1(shift1), m_shift2(shift2)
+                     const V2 &shift1, const V2 &shift2)
+    : m_shift1(shift1), m_shift2(shift2)
 {
     m_model1 = model1;
     m_model2 = model2;
@@ -26,21 +26,18 @@ RopeDecor::RopeDecor(const Cube *model1, const Cube *model2,
 /**
  * Draw line from one model to second model.
  */
-void
-RopeDecor::drawOnScreen(const View *view, SDL_Surface *screen)
+void RopeDecor::drawOnScreen(const View *view, SDL_Surface *screen)
 {
     V2 loc1 = view->getScreenPos(m_model1).plus(m_shift1);
     V2 loc2 = view->getScreenPos(m_model2).plus(m_shift2);
-    //NOTE: steel color
-    //Uint32 colorRGBA = 0x30404eff;
+    // NOTE: steel color
+    // Uint32 colorRGBA = 0x30404eff;
     Uint32 colorRGBA = 0xff4e4030;
 
-    SDL_Renderer* renderer = SDL_CreateSoftwareRenderer(screen);
+    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(screen);
 
-    
     lineColor(renderer, loc1.getX(), loc1.getY(),
-            loc2.getX(), loc2.getY(), colorRGBA);
+              loc2.getX(), loc2.getY(), colorRGBA);
 
     SDL_DestroyRenderer(renderer);
 }
-

@@ -6,11 +6,13 @@
 /**
  * Exception about program fail.
  */
-class LogicException : public BaseException  {
-    public:
-        LogicException(const ExInfo &problem)
-            : BaseException(problem)
-            {}
+class LogicException : public BaseException
+{
+public:
+    LogicException(const ExInfo &problem)
+        : BaseException(problem)
+    {
+    }
 };
 
 #endif

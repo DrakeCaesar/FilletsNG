@@ -17,7 +17,7 @@
  * @param exinfo detail info about problem
  */
 BaseException::BaseException(const ExInfo &exinfo)
-: std::exception(), m_info(exinfo)
+    : std::exception(), m_info(exinfo)
 {
     /* empty */
 }

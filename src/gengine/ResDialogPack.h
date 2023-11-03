@@ -11,13 +11,15 @@ class Dialog;
 /**
  * Multi-language dialogs pack.
  */
-class ResDialogPack : public ResourcePack<Dialog*> {
-    private:
+class ResDialogPack : public ResourcePack<Dialog *>
+{
+private:
         int matchScore(const std::string &first,
-                const std::string &second) const;
+                       const std::string &second) const;
         const Dialog *findDialog(const std::string &name,
-                const std::string &lang);
-    public:
+                                 const std::string &lang);
+
+public:
         virtual const char *getName() const { return "dialog_pack"; }
         const Dialog *findDialogHard(const std::string &name);
         const Dialog *findDialogSpeech(const std::string &name);
@@ -25,4 +27,3 @@ class ResDialogPack : public ResourcePack<Dialog*> {
 };
 
 #endif
-

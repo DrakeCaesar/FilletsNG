@@ -28,8 +28,8 @@
  * @param color subtitle color (shared)
  */
 Title::Title(int baseY, int finalY, int bonusTime, int limitY,
-        const std::string &content, Font *font, const Color *color)
-: m_content(content)
+             const std::string &content, Font *font, const Color *color)
+    : m_content(content)
 {
     m_font = font;
     m_surface = m_font->renderTextOutlined(content, *color);
@@ -43,7 +43,8 @@ Title::Title(int baseY, int finalY, int bonusTime, int limitY,
     m_finalY = m_screenH - finalY;
     m_limitY = m_screenH - limitY;
     m_mintime = StringTool::utf8Length(m_content) * TIME_PER_CHAR;
-    if (m_mintime < TIME_MIN) {
+    if (m_mintime < TIME_MIN)
+    {
         m_mintime = TIME_MIN;
     }
     m_mintime += bonusTime;
@@ -57,10 +58,9 @@ Title::~Title()
 /**
  * Draw model.
  */
-    void
-Title::drawOn(SDL_Surface *screen)
+void Title::drawOn(SDL_Surface *screen)
 {
-    //TODO: wavy text
+    // TODO: wavy text
     SDL_Rect rect;
     rect.x = m_x;
     rect.y = m_y;
@@ -72,18 +72,17 @@ Title::drawOn(SDL_Surface *screen)
  * Shift up until title is on limit.
  * Decrease m_mintime.
  */
-    void
-Title::shiftUp(int rate)
+void Title::shiftUp(int rate)
 {
     m_mintime--;
     m_y -= rate;
-    if (m_y < m_finalY) {
+    if (m_y < m_finalY)
+    {
         m_y = m_finalY;
     }
 }
 //-----------------------------------------------------------------
-    void
-Title::shiftFinalUp(int rate)
+void Title::shiftFinalUp(int rate)
 {
     m_finalY -= rate;
 }
@@ -91,8 +90,7 @@ Title::shiftFinalUp(int rate)
 /**
  * Return Y position from the bottom border.
  */
-int
-Title::getY() const
+int Title::getY() const
 {
     return m_screenH - m_y;
 }
@@ -100,9 +98,7 @@ Title::getY() const
 /**
  * Whether title was long enough on screen.
  */
-    bool
-Title::isGone()
+bool Title::isGone()
 {
     return (m_mintime < 0 || m_y < m_limitY);
 }
-

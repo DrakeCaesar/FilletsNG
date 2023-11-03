@@ -11,10 +11,9 @@
 #include "OptionAgent.h"
 #include "Application.h"
 //-----------------------------------------------------------------
-    void
-TimerAgent::own_init()
+void TimerAgent::own_init()
 {
-    m_timeinterval = OptionAgent::agent()->getAsInt("timeinterval", 100/speedup);
+    m_timeinterval = OptionAgent::agent()->getAsInt("timeinterval", 100 / speedup);
     m_lastTime = SDL_GetTicks();
     m_nextTime = m_lastTime;
     m_deltaTime = 1;
@@ -24,12 +23,12 @@ TimerAgent::own_init()
 /**
  * Game is faster with pressed Shift.
  */
-int
-TimerAgent::getTimeInterval()
+int TimerAgent::getTimeInterval()
 {
     int result = m_timeinterval;
 
-    if (SDL_GetModState() & KMOD_SHIFT) {
+    if (SDL_GetModState() & KMOD_SHIFT)
+    {
         result = m_timeinterval * 4;
     }
     return result;
@@ -38,18 +37,18 @@ TimerAgent::getTimeInterval()
 /**
  * Sleep fixed number miliseconds.
  */
-    void
-TimerAgent::own_update()
+void TimerAgent::own_update()
 {
     m_count++;
 
     Uint32 now = SDL_GetTicks();
-    if (now < m_nextTime) {
+    if (now < m_nextTime)
+    {
         SDL_Delay(m_nextTime - now);
     }
 
     now = SDL_GetTicks();
-    //NOTE: every cycle have fixed time interval
+    // NOTE: every cycle have fixed time interval
     m_nextTime = now + getTimeInterval();
 
     m_deltaTime = now - m_lastTime;

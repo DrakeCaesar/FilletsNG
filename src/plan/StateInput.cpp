@@ -34,7 +34,7 @@ StateInput::StateInput(GameState *state)
     m_keymap->registerKey(KeyStroke(SDLK_F1, KMOD_NONE), key_help);
     m_keymap->registerKey(KeyStroke(SDLK_F10, KMOD_NONE), key_menu);
     m_keymap->registerKey(KeyStroke(SDLK_F6, KMOD_NONE),
-            KeyDesc(KEY_SUBTITLES, "enable subtitles"));
+                          KeyDesc(KEY_SUBTITLES, "enable subtitles"));
 }
 //-----------------------------------------------------------------
 StateInput::~StateInput()
@@ -48,66 +48,60 @@ StateInput::~StateInput()
  * - specKey() for defined keystroke but unknown for us
  * - specStroke() for other keys
  */
-    void
-StateInput::keyEvent(const KeyStroke &stroke)
+void StateInput::keyEvent(const KeyStroke &stroke)
 {
     int index = m_keymap->indexPressed(stroke);
-    switch (index) {
-        case KEY_QUIT:
-            quitState();
-            break;
-        case KEY_CONSOLE:
-            enableConsole();
-            break;
-        case KEY_HELP:
-            enableHelp();
-            break;
-        case KEY_MENU:
-            enableMenu();
-            break;
-        case KEY_SUBTITLES:
-            enableSubtitles();
-            break;
-        case -1:
-            specStroke(stroke);
-            break;
-        default:
-            specKey(index);
-            break;
+    switch (index)
+    {
+    case KEY_QUIT:
+        quitState();
+        break;
+    case KEY_CONSOLE:
+        enableConsole();
+        break;
+    case KEY_HELP:
+        enableHelp();
+        break;
+    case KEY_MENU:
+        enableMenu();
+        break;
+    case KEY_SUBTITLES:
+        enableSubtitles();
+        break;
+    case -1:
+        specStroke(stroke);
+        break;
+    default:
+        specKey(index);
+        break;
     }
 }
 //-----------------------------------------------------------------
-    void
-StateInput::specKey(int keyIndex)
+void StateInput::specKey(int keyIndex)
 {
     LOG_WARNING(ExInfo("unknown key")
-            .addInfo("keyIndex", keyIndex));
+                    .addInfo("keyIndex", keyIndex));
 }
 //-----------------------------------------------------------------
-void
-StateInput::quitState()
+void StateInput::quitState()
 {
     m_state->quitState();
 }
 //-----------------------------------------------------------------
-    void
-StateInput::enableConsole()
+void StateInput::enableConsole()
 {
     m_state->pushState(new KeyConsole());
 }
 //-----------------------------------------------------------------
-    void
-StateInput::enableSubtitles()
+void StateInput::enableSubtitles()
 {
     toggleParam("subtitles");
 }
 //-----------------------------------------------------------------
-    void
-StateInput::toggleParam(const std::string &param)
+void StateInput::toggleParam(const std::string &param)
 {
     OptionAgent *option = OptionAgent::agent();
     bool enable = option->getAsBool(param);
 
     option->setPersistent(param, !enable);
 }
-

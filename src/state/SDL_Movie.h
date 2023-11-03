@@ -42,74 +42,77 @@ public:
     // Free our movie
     virtual ~SDL_Movie()
     {
-        if (movie) {
+        if (movie)
+        {
             Stop();
-            SMPEG_delete( movie );
+            SMPEG_delete(movie);
             movie = 0;
         }
-        if (movieSurface) {
-            SDL_FreeSurface( movieSurface );
+        if (movieSurface)
+        {
+            SDL_FreeSurface(movieSurface);
             movieSurface = 0;
         }
     }
 
     void ClearScreen()
     {
-        SDL_FillRect( movieSurface, 0, 0 );
+        SDL_FillRect(movieSurface, 0, 0);
     }
 
     // Set's the volume on a scale of 0 - 100
-    void SetVolume( int vol )
+    void SetVolume(int vol)
     {
-        SMPEG_setvolume( movie, vol );
+        SMPEG_setvolume(movie, vol);
     }
 
     // Scale the movie by the desired factors
-    void Scale( int w, int h )
+    void Scale(int w, int h)
     {
         // Prevent a divide by 0
-        if( w == 0 )
+        if (w == 0)
             w = 1;
-        if( h == 0 )
+        if (h == 0)
             h = 1;
 
-        SMPEG_scaleXY( movie, w, h );
+        SMPEG_scaleXY(movie, w, h);
         CheckErrors();
     }
 
     // Scale the movie by the desired factor
-    void ScaleBy( int factor )
+    void ScaleBy(int factor)
     {
         // Prevent a divide by 0
-        if( factor == 0 )
+        if (factor == 0)
             factor = 1;
         // Make sure we don't scale larger than the surface size
-        if( factor > MaxScale )
+        if (factor > MaxScale)
             factor = MaxScale;
 
-        SMPEG_scale( movie, factor );
+        SMPEG_scale(movie, factor);
         CheckErrors();
     }
 
     // Sets the region of the video to be shown
-    void SetDisplayRegion( int x, int y, int w, int h )
+    void SetDisplayRegion(int x, int y, int w, int h)
     {
-        SMPEG_setdisplayregion( movie, x, y, w, h );
+        SMPEG_setdisplayregion(movie, x, y, w, h);
         CheckErrors();
     }
 
     // Check for any errors
     void CheckErrors()
     {
-        char* error = SMPEG_error( movie );
-        if( error ) {
+        char *error = SMPEG_error(movie);
+        if (error)
+        {
             LOG_WARNING(ExInfo("SMPEG_error")
-                    .addInfo("error", error));
+                            .addInfo("error", error));
         }
     }
 
     // Load the movie
-    void Load( const char* fileName, int maxscalex = 1, int maxscaley = 1 )
+    void Load(const char *fileName, int maxscalex = 1, int maxscaley = 1)
     {
         MaxScaleX = maxscalex;
         MaxScaleY = maxscaley;
@@ -118,95 +121,96 @@ public:
         MaxScale = (maxscalex > maxscaley ? maxscaley : maxscalex);
 
         // Load the movie and store the information about it
-        movie = SMPEG_new( fileName, &movieInfo, true );
+        movie = SMPEG_new(fileName, &movieInfo, true);
         CheckErrors();
 
         SDL_Surface *screen = SDL_GetVideoSurface();
         // Create a temporary surface to render the movie to
-        SDL_Surface *tempSurface2 = SDL_CreateRGBSurface( SDL_SWSURFACE, movieInfo.width * MaxScaleX, movieInfo.height * MaxScaleY, 32, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask );
+        SDL_Surface *tempSurface2 = SDL_CreateRGBSurface(SDL_SWSURFACE, movieInfo.width * MaxScaleX, movieInfo.height * MaxScaleY, 32, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
 
         // Now make a surface optimized for the main screen
-        movieSurface = SDL_DisplayFormat( tempSurface2 );
+        movieSurface = SDL_DisplayFormat(tempSurface2);
 
         // Free the temporary surface
-        SDL_FreeSurface( tempSurface2 );
+        SDL_FreeSurface(tempSurface2);
 
         // Set the surface to draw to
-        SMPEG_setdisplay( movie, movieSurface, 0, 0 );
+        SMPEG_setdisplay(movie, movieSurface, 0, 0);
         CheckErrors();
 
         // Set the display region
-        SMPEG_setdisplayregion( movie, 0, 0, movieInfo.width, movieInfo.height );
+        SMPEG_setdisplayregion(movie, 0, 0, movieInfo.width, movieInfo.height);
         CheckErrors();
     }
 
     // Set the looping of hte movie
-    void SetLoop( int val )
+    void SetLoop(int val)
     {
-        SMPEG_loop( movie, val );
+        SMPEG_loop(movie, val);
         CheckErrors();
     }
 
     // Play the movie
     void Play()
     {
-        SMPEG_play( movie );
+        SMPEG_play(movie);
         CheckErrors();
     }
 
     // Pause the movie
     void Pause()
     {
-        SMPEG_pause( movie );
+        SMPEG_pause(movie);
         CheckErrors();
     }
 
     // Stops the movie, but keeps current position
     void Stop()
     {
-        SMPEG_stop( movie );
+        SMPEG_stop(movie);
         CheckErrors();
     }
 
     // Rewind the movie back to 0:00:00
     void Rewind()
     {
-        SMPEG_rewind( movie );
+        SMPEG_rewind(movie);
         CheckErrors();
     }
 
     // Seek a number of bytes into the movie
-    void Seek( int bytes )
+    void Seek(int bytes)
     {
-        SMPEG_seek( movie, bytes );
+        SMPEG_seek(movie, bytes);
         CheckErrors();
     }
 
     // Skip a number of seconds
-    void Skip( float seconds )
+    void Skip(float seconds)
     {
-        SMPEG_skip( movie, seconds );
+        SMPEG_skip(movie, seconds);
         CheckErrors();
     }
 
     // Render some frame of the movie
-    void RenderFrame( int frame )
+    void RenderFrame(int frame)
     {
-        SMPEG_renderFrame( movie, frame );
+        SMPEG_renderFrame(movie, frame);
         CheckErrors();
     }
 
     // Render the final frame of the movie
     void RenderFinal()
     {
-        SMPEG_renderFinal( movie, movieSurface, 0, 0 );
+        SMPEG_renderFinal(movie, movieSurface, 0, 0);
         CheckErrors();
     }
 
     // Draw the movie surface to the screen
     virtual void drawOn(SDL_Surface *screen)
     {
-        if (movieSurface) {
+        if (movieSurface)
+        {
             SDL_BlitSurface(movieSurface, NULL, screen, NULL);
         }
     }
@@ -214,7 +218,7 @@ public:
     // Return the current info for the movie
     SMPEG_Info GetInfo()
     {
-        SMPEG_getinfo( movie, &movieInfo );
+        SMPEG_getinfo(movie, &movieInfo);
         return movieInfo;
     }
 
@@ -227,4 +231,3 @@ public:
 
 #endif
 #endif
-

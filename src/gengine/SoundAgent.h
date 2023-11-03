@@ -15,19 +15,22 @@ class BaseMsg;
 /**
  * Sound and music interface.
  */
-class SoundAgent : public BaseAgent {
-    AGENT(SoundAgent, Name::SOUND_NAME);
-    protected:
+class SoundAgent : public BaseAgent
+{
+        AGENT(SoundAgent, Name::SOUND_NAME);
+
+protected:
         virtual void own_init();
         virtual void setSoundVolume(int volume) = 0;
         virtual void setMusicVolume(int volume) = 0;
-    public:
+
+public:
         virtual void reinit();
         virtual int playSound(Mix_Chunk *sound, int volume,
-                int loops=0) = 0;
+                              int loops = 0) = 0;
 
         virtual void playMusic(const Path &file,
-                BaseMsg *finished) = 0;
+                               BaseMsg *finished) = 0;
         virtual void stopMusic() = 0;
         void receiveString(const StringMsg *msg);
 };

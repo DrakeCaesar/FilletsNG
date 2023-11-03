@@ -31,92 +31,95 @@ EffectZx::EffectZx()
 /**
  * Update sprite height as ZX Spectrum does.
  */
-    void
-EffectZx::updateEffect()
+void EffectZx::updateEffect()
 {
     m_phase = (m_phase + 1) % 500;
-    if (m_phase == 1) {
+    if (m_phase == 1)
+    {
         m_zx = ZX1;
         m_stripeHeight = STRIPE_STANDARD;
     }
-    else if (2 <= m_phase && m_phase <= 51) {
-        m_stripeHeight = (m_stripeHeight * 3
-                * (0.97 + Random::randomReal(0.06))
-                + STRIPE_STANDARD) / 4.0;
+    else if (2 <= m_phase && m_phase <= 51)
+    {
+        m_stripeHeight = (m_stripeHeight * 3 * (0.97 + Random::randomReal(0.06)) + STRIPE_STANDARD) / 4.0;
     }
-    else if (m_phase == 52) {
+    else if (m_phase == 52)
+    {
         m_zx = ZX3;
         m_stripeHeight = STRIPE_NARROW;
     }
-    else {
-        m_stripeHeight = (m_stripeHeight * 3
-                * (0.95 + Random::randomReal(0.1))
-                + STRIPE_NARROW) / 4.0;
+    else
+    {
+        m_stripeHeight = (m_stripeHeight * 3 * (0.95 + Random::randomReal(0.1)) + STRIPE_NARROW) / 4.0;
     }
 }
 //-----------------------------------------------------------------
 /**
  * Draw ZX spectrum loading.
  */
-    void
-EffectZx::blit(SDL_Surface *screen, SDL_Surface *surface, int x, int y)
+void EffectZx::blit(SDL_Surface *screen, SDL_Surface *surface, int x, int y)
 {
     SurfaceLock lock1(screen);
     SurfaceLock lock2(surface);
 
     Uint32 colorZX1 = PixelTool::convertColor(screen->format,
-            PixelTool::getColor(surface, 0, 0));
+                                              PixelTool::getColor(surface, 0, 0));
     Uint32 colorZX2 = PixelTool::convertColor(screen->format,
-            PixelTool::getColor(surface, 0, surface->h - 1));
+                                              PixelTool::getColor(surface, 0, surface->h - 1));
     Uint32 colorZX3 = PixelTool::convertColor(screen->format,
-            PixelTool::getColor(surface, surface->w - 1, 0));
+                                              PixelTool::getColor(surface, surface->w - 1, 0));
     Uint32 colorZX4 = PixelTool::convertColor(screen->format,
-            PixelTool::getColor(surface, surface->w - 1, surface->h - 1));
+                                              PixelTool::getColor(surface, surface->w - 1, surface->h - 1));
 
     PixelIterator pit(surface);
-    for (int py = 0; py < surface->h; ++py) {
+    for (int py = 0; py < surface->h; ++py)
+    {
         m_countHeight++;
-        if (m_countHeight > m_stripeHeight) {
+        if (m_countHeight > m_stripeHeight)
+        {
             m_countHeight -= m_stripeHeight;
-            switch (m_zx) {
-                case ZX1:
-                    m_zx = ZX2;
-                    break;
-                case ZX2:
-                    m_zx = ZX1;
-                    break;
-                case ZX3:
-                    m_zx = ZX4;
-                    break;
-                default:
-                    m_zx = ZX3;
-                    break;
+            switch (m_zx)
+            {
+            case ZX1:
+                m_zx = ZX2;
+                break;
+            case ZX2:
+                m_zx = ZX1;
+                break;
+            case ZX3:
+                m_zx = ZX4;
+                break;
+            default:
+                m_zx = ZX3;
+                break;
             }
         }
 
         Uint32 usedColor;
-        switch (m_zx) {
-            case ZX1:
-                usedColor = colorZX1;
-                break;
-            case ZX2:
-                usedColor = colorZX2;
-                break;
-            case ZX3:
-                usedColor = colorZX3;
-                break;
-            default:
-                usedColor = colorZX4;
-                break;
+        switch (m_zx)
+        {
+        case ZX1:
+            usedColor = colorZX1;
+            break;
+        case ZX2:
+            usedColor = colorZX2;
+            break;
+        case ZX3:
+            usedColor = colorZX3;
+            break;
+        default:
+            usedColor = colorZX4;
+            break;
         }
 
-        for (int px = 0; px < surface->w; ++px) {
-            if (!pit.isTransparent()) {
+        for (int px = 0; px < surface->w; ++px)
+        {
+            if (!pit.isTransparent())
+            {
                 PixelTool::putPixel(screen,
-                        x + px, y + py, usedColor);
+                                    x + px, y + py, usedColor);
             }
             pit.inc();
         }
     }
 }
-

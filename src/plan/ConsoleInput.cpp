@@ -36,67 +36,69 @@ ConsoleInput::ConsoleInput(KeyConsole *console)
 KeyConsole *
 ConsoleInput::getConsole()
 {
-    return dynamic_cast<KeyConsole*>(m_state);
+    return dynamic_cast<KeyConsole *>(m_state);
 }
 //-----------------------------------------------------------------
 /**
  * Toggle console.
  */
-void
-ConsoleInput::enableConsole()
+void ConsoleInput::enableConsole()
 {
     quitState();
 }
 //-----------------------------------------------------------------
-    void
-ConsoleInput::specKey(int keyIndex)
+void ConsoleInput::specKey(int keyIndex)
 {
-    //TODO: simulate key repeat in console
-    switch (keyIndex) {
-        case KEY_HISTORY:
-            getConsole()->setInput(m_history);
-            break;
-        case KEY_BACKSPACE:
+    // TODO: simulate key repeat in console
+    switch (keyIndex)
+    {
+    case KEY_HISTORY:
+        getConsole()->setInput(m_history);
+        break;
+    case KEY_BACKSPACE:
+    {
+        std::string input = getConsole()->getInput();
+        if (!input.empty())
+        {
+            input.erase(input.end() - 1);
+            getConsole()->setInput(input);
+        }
+    }
+    break;
+    case KEY_CLEAR:
+        getConsole()->setInput("");
+        break;
+    case KEY_ENTER:
+    {
+        std::string input = getConsole()->getInput();
+        if (!input.empty())
+        {
+            if (getConsole()->sendCommand())
             {
-                std::string input = getConsole()->getInput();
-                if (!input.empty()) {
-                    input.erase(input.end() - 1);
-                    getConsole()->setInput(input);
-                }
+                m_history = input;
+                getConsole()->setInput("");
             }
-            break;
-        case KEY_CLEAR:
-            getConsole()->setInput("");
-            break;
-        case KEY_ENTER:
-            {
-                std::string input = getConsole()->getInput();
-                if (!input.empty()) {
-                    if (getConsole()->sendCommand()) {
-                        m_history = input;
-                        getConsole()->setInput("");
-                    }
-                }
-                else {
-                    quitState();
-                }
-            }
-            break;
-        default:
-            StateInput::specKey(keyIndex);
-            break;
+        }
+        else
+        {
+            quitState();
+        }
+    }
+    break;
+    default:
+        StateInput::specKey(keyIndex);
+        break;
     }
 }
 //-----------------------------------------------------------------
-void
-ConsoleInput::specStroke(const KeyStroke &stroke)
+void ConsoleInput::specStroke(const KeyStroke &stroke)
 {
-    //TODO: support UTF-8
+    // TODO: support UTF-8
     char c = stroke.getUnicode() & 0x7F;
-    if (isprint(c)) {
+    if (isprint(c))
+    {
         std::string input = getConsole()->getInput();
         input.append(1, c);
         getConsole()->setInput(input);
     }
 }
-

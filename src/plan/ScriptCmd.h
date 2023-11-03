@@ -9,15 +9,17 @@ class ScriptState;
 /**
  * Command which execute script function.
  */
-class ScriptCmd : public Command, public NoCopy {
-    private:
-        int m_funcRef;
-        ScriptState *m_script;
-    public:
-        ScriptCmd(ScriptState *script, int funcRef);
-        virtual ~ScriptCmd();
+class ScriptCmd : public Command, public NoCopy
+{
+private:
+    int m_funcRef;
+    ScriptState *m_script;
 
-        virtual bool finish(int count);
+public:
+    ScriptCmd(ScriptState *script, int funcRef);
+    virtual ~ScriptCmd();
+
+    virtual bool finish(int count);
 };
 
 #endif

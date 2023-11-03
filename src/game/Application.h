@@ -14,27 +14,29 @@ class AgentPack;
 /**
  * Main application
  */
-class Application : public NoCopy, public BaseListener {
-    private:
-        AgentPack *m_agents;
-        bool m_quit;
+class Application : public NoCopy, public BaseListener
+{
+private:
+    AgentPack *m_agents;
+    bool m_quit;
 
-    private:
-        void prepareLogLevel();
-        void prepareOptions(int argc, char *argv[]);
-        void customizeGame();
-        void addSoundAgent();
-    public:
-        Application();
-        virtual ~Application();
-        virtual const char *getName() const { return Name::APP_NAME; }
+private:
+    void prepareLogLevel();
+    void prepareOptions(int argc, char *argv[]);
+    void customizeGame();
+    void addSoundAgent();
 
-        void init(int argc, char *argv[]);
-        void run();
-        void shutdown();
-        
-        virtual void receiveSimple(const SimpleMsg *msg);
-        virtual void receiveString(const StringMsg *msg);
+public:
+    Application();
+    virtual ~Application();
+    virtual const char *getName() const { return Name::APP_NAME; }
+
+    void init(int argc, char *argv[]);
+    void run();
+    void shutdown();
+
+    virtual void receiveSimple(const SimpleMsg *msg);
+    virtual void receiveString(const StringMsg *msg);
 };
 
 #endif

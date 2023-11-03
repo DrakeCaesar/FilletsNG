@@ -19,5 +19,3 @@ max(int one, int second)
 }
 
 #endif
-
-

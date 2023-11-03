@@ -22,8 +22,7 @@
  *
  * @param listener listener, borowed pointer
  */
-    void
-MessagerAgent::addListener(BaseListener *listener)
+void MessagerAgent::addListener(BaseListener *listener)
 {
     m_listeners[listener->getName()] = listener;
 }
@@ -32,8 +31,7 @@ MessagerAgent::addListener(BaseListener *listener)
  * Forget listener.
  * @param listenerName listener name
  */
-    void
-MessagerAgent::removeListener(const std::string &listenerName)
+void MessagerAgent::removeListener(const std::string &listenerName)
 {
     m_listeners.erase(listenerName);
 }
@@ -43,22 +41,20 @@ MessagerAgent::removeListener(const std::string &listenerName)
  * @param msg message, will be deleted
  * @throws NameException when listener cannot be found
  */
-void
-MessagerAgent::forwardNewMsg(BaseMsg *msg)
+void MessagerAgent::forwardNewMsg(BaseMsg *msg)
 {
     std::auto_ptr<BaseMsg> sure_delete(msg);
 
     const std::string &listenerName = msg->getListenerName();
     LOG_DEBUG(ExInfo("received new message")
-            .addInfo("msg", msg->toString()));
+                  .addInfo("msg", msg->toString()));
 
     t_listeners::iterator it = m_listeners.find(listenerName);
-    if (m_listeners.end() == it) {
+    if (m_listeners.end() == it)
+    {
         throw NameException(ExInfo("cannot find listener")
-                .addInfo("name", listenerName));
+                                .addInfo("name", listenerName));
     }
 
     msg->sendActual(it->second);
 }
-
-

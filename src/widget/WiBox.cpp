@@ -15,7 +15,8 @@
 WiBox::~WiBox()
 {
     t_widgets::iterator end = m_widgets.end();
-    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i) {
+    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i)
+    {
         delete *i;
     }
 }
@@ -23,11 +24,11 @@ WiBox::~WiBox()
 /**
  * Draw all subwidgets.
  */
-void
-WiBox::drawOn(SDL_Surface *screen)
+void WiBox::drawOn(SDL_Surface *screen)
 {
     t_widgets::iterator end = m_widgets.end();
-    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i) {
+    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i)
+    {
         (*i)->drawOn(screen);
     }
 }
@@ -40,13 +41,17 @@ WiBox::own_getTip(const V2 &loc)
 {
     std::string result = m_tip;
     t_widgets::iterator end = m_widgets.end();
-    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i) {
+    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i)
+    {
         std::string subtip = (*i)->getTip(loc);
-        if (!subtip.empty()) {
-            if (result.empty()) {
+        if (!subtip.empty())
+        {
+            if (result.empty())
+            {
                 return subtip;
             }
-            else {
+            else
+            {
                 return result + " - " + subtip;
             }
         }
@@ -57,12 +62,11 @@ WiBox::own_getTip(const V2 &loc)
 /**
  * Let all subwidgets to react on button press.
  */
-void
-WiBox::own_mouseButton(const MouseStroke &stroke)
+void WiBox::own_mouseButton(const MouseStroke &stroke)
 {
     t_widgets::iterator end = m_widgets.end();
-    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i) {
+    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i)
+    {
         (*i)->mouseButton(stroke);
     }
 }
-

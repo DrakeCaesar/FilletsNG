@@ -43,9 +43,9 @@ Application::Application()
     Font::init();
 
     m_agents = new AgentPack();
-    //NOTE: MessagerAgent is added by AgentPack
-    //NOTE: creating order is not significant, names are significant,
-    // like rc.d scripts
+    // NOTE: MessagerAgent is added by AgentPack
+    // NOTE: creating order is not significant, names are significant,
+    //  like rc.d scripts
     m_agents->addAgent(new ScriptAgent());
     m_agents->addAgent(new OptionAgent());
     m_agents->addAgent(new VideoAgent());
@@ -64,8 +64,7 @@ Application::~Application()
     Font::shutdown();
 }
 //-----------------------------------------------------------------
-    void
-Application::init(int argc, char *argv[])
+void Application::init(int argc, char *argv[])
 {
     MessagerAgent::agent()->addListener(this);
     m_agents->init(Name::VIDEO_NAME);
@@ -79,17 +78,16 @@ Application::init(int argc, char *argv[])
     m_agents->init();
 }
 //-----------------------------------------------------------------
-    void
-Application::run()
+void Application::run()
 {
-    while (!m_quit) {
+    while (!m_quit)
+    {
         ++tick;
         m_agents->update();
     }
 }
 //-----------------------------------------------------------------
-    void
-Application::shutdown()
+void Application::shutdown()
 {
     m_agents->shutdown();
 }
@@ -98,8 +96,7 @@ Application::shutdown()
  * Set loglevel according option.
  * Prepare to change.
  */
-    void
-Application::prepareLogLevel()
+void Application::prepareLogLevel()
 {
     OptionAgent *options = OptionAgent::agent();
     StringMsg *event = new StringMsg(this, "param_changed", "loglevel");
@@ -107,42 +104,41 @@ Application::prepareLogLevel()
     options->setDefault("loglevel", Log::getLogLevel());
 }
 //-----------------------------------------------------------------
-    void
-Application::prepareOptions(int argc, char *argv[])
+void Application::prepareOptions(int argc, char *argv[])
 {
     OptionParams params;
     params.addParam("loglevel", OptionParams::TYPE_NUMBER,
-            "Debug with loglevel 7 (default=6)");
+                    "Debug with loglevel 7 (default=6)");
     params.addParam("systemdir", OptionParams::TYPE_PATH,
-            "Path to game data");
+                    "Path to game data");
     params.addParam("userdir", OptionParams::TYPE_PATH,
-            "Path to game data");
+                    "Path to game data");
     params.addParam("lang", OptionParams::TYPE_STRING,
-            "2-letter code (e.g., en, cs, fr, de)");
+                    "2-letter code (e.g., en, cs, fr, de)");
     params.addParam("speech", OptionParams::TYPE_STRING,
-            "Lang for speech");
+                    "Lang for speech");
     params.addParam("subtitles", OptionParams::TYPE_BOOLEAN,
-            "Enable subtitles");
+                    "Enable subtitles");
     params.addParam("fullscreen", OptionParams::TYPE_BOOLEAN,
-            "Turn fullscreen on/off");
+                    "Turn fullscreen on/off");
     params.addParam("show_steps", OptionParams::TYPE_BOOLEAN,
-            "Show a step counter in levels");
+                    "Show a step counter in levels");
     params.addParam("sound", OptionParams::TYPE_BOOLEAN,
-            "Turn sound on/off");
+                    "Turn sound on/off");
     params.addParam("volume_sound", OptionParams::TYPE_NUMBER,
-            "Sound volume in percentage");
+                    "Sound volume in percentage");
     params.addParam("volume_music", OptionParams::TYPE_NUMBER,
-            "Music volume in percentage");
+                    "Music volume in percentage");
     params.addParam("worldmap", OptionParams::TYPE_STRING,
-            "Path to the worldmap file");
+                    "Path to the worldmap file");
     params.addParam("cache_images", OptionParams::TYPE_BOOLEAN,
-            "Cache images (default=true)");
+                    "Cache images (default=true)");
     params.addParam("sound_frequency", OptionParams::TYPE_NUMBER,
-            "Sound sample rate (default=44100)");
+                    "Sound sample rate (default=44100)");
     params.addParam("strict_rules", OptionParams::TYPE_BOOLEAN,
-            "Disallow pushing of partially supported objects (default=true)");
+                    "Disallow pushing of partially supported objects (default=true)");
     params.addParam("replay_level", OptionParams::TYPE_STRING,
-            "Replay the solution for the given level codename");
+                    "Replay the solution for the given level codename");
     OptionAgent::agent()->parseCmdOpt(argc, argv, params);
 }
 //-----------------------------------------------------------------
@@ -150,22 +146,23 @@ Application::prepareOptions(int argc, char *argv[])
  * Run init script.
  * @throws ResourceException when data are not available
  */
-    void
-Application::customizeGame()
+void Application::customizeGame()
 {
     Path initfile = Path::dataReadPath("script/init.lua");
-    if (initfile.exists()) {
+    if (initfile.exists())
+    {
         ScriptAgent::agent()->scriptInclude(initfile);
     }
-    else {
+    else
+    {
         throw ResourceException(ExInfo("init file not found")
-                .addInfo("path", initfile.getNative())
-                .addInfo("systemdir",
-                    OptionAgent::agent()->getParam("systemdir"))
-                .addInfo("userdir",
-                    OptionAgent::agent()->getParam("userdir"))
-                .addInfo("hint",
-                    "try command line option \"systemdir=path/to/data\""));
+                                    .addInfo("path", initfile.getNative())
+                                    .addInfo("systemdir",
+                                             OptionAgent::agent()->getParam("systemdir"))
+                                    .addInfo("userdir",
+                                             OptionAgent::agent()->getParam("userdir"))
+                                    .addInfo("hint",
+                                             "try command line option \"systemdir=path/to/data\""));
     }
 }
 //-----------------------------------------------------------------
@@ -173,24 +170,27 @@ Application::customizeGame()
  * Choose SDL or Dummy sound agent.
  * Reads 'sound' config option.
  */
-    void
-Application::addSoundAgent()
+void Application::addSoundAgent()
 {
-    //TODO: better setting sound on/off
-    //TODO: move to the SoundAgent
+    // TODO: better setting sound on/off
+    // TODO: move to the SoundAgent
     SoundAgent *soundAgent = NULL;
-    if (OptionAgent::agent()->getAsBool("sound", true)) {
+    if (OptionAgent::agent()->getAsBool("sound", true))
+    {
         soundAgent = new SDLSoundAgent();
-        try {
+        try
+        {
             soundAgent->init();
         }
-        catch (BaseException &e) {
+        catch (BaseException &e)
+        {
             LOG_WARNING(e.info());
             delete soundAgent;
             soundAgent = new DummySoundAgent();
         }
     }
-    else {
+    else
+    {
         soundAgent = new DummySoundAgent();
     }
     m_agents->addAgent(soundAgent);
@@ -204,30 +204,36 @@ Application::addSoundAgent()
  * - inc_loglevel ... inc loglevel by 1 (max LEVEL_DEBUG)
  * - dec_loglevel ... dec loglevel by 1 (min LEVEL_ERROR)
  */
-    void
-Application::receiveSimple(const SimpleMsg *msg)
+void Application::receiveSimple(const SimpleMsg *msg)
 {
-    if (msg->equalsName("quit")) {
+    if (msg->equalsName("quit"))
+    {
         m_quit = true;
     }
-    else if (msg->equalsName("inc_loglevel")) {
+    else if (msg->equalsName("inc_loglevel"))
+    {
         int level = Log::getLogLevel() + 1;
-        if (level <= Log::LEVEL_DEBUG) {
+        if (level <= Log::LEVEL_DEBUG)
+        {
             OptionAgent::agent()->setParam("loglevel", level);
         }
     }
-    else if (msg->equalsName("dec_loglevel")) {
+    else if (msg->equalsName("dec_loglevel"))
+    {
         int level = Log::getLogLevel() - 1;
-        if (level >= Log::LEVEL_ERROR) {
+        if (level >= Log::LEVEL_ERROR)
+        {
             OptionAgent::agent()->setParam("loglevel", level);
         }
     }
-    else if (msg->equalsName("flush_stdout")) {
+    else if (msg->equalsName("flush_stdout"))
+    {
         fflush(stdout);
     }
-    else {
+    else
+    {
         LOG_WARNING(ExInfo("unknown msg")
-                .addInfo("msg", msg->toString()));
+                        .addInfo("msg", msg->toString()));
     }
 }
 //-----------------------------------------------------------------
@@ -236,18 +242,19 @@ Application::receiveSimple(const SimpleMsg *msg)
  * Messages:
  * - param_changed(loglevel) ... set loglevel
  */
-    void
-Application::receiveString(const StringMsg *msg)
+void Application::receiveString(const StringMsg *msg)
 {
-    if (msg->equalsName("param_changed")) {
+    if (msg->equalsName("param_changed"))
+    {
         std::string param = msg->getValue();
-        if ("loglevel" == param) {
+        if ("loglevel" == param)
+        {
             Log::setLogLevel(OptionAgent::agent()->getAsInt("loglevel"));
         }
     }
-    else {
+    else
+    {
         LOG_WARNING(ExInfo("unknown msg")
-                .addInfo("msg", msg->toString()));
+                        .addInfo("msg", msg->toString()));
     }
 }
-

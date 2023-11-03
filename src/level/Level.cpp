@@ -42,8 +42,8 @@
 /**
  * Create new level.
  */
-    Level::Level(const std::string &codename, const Path &datafile, int depth)
-: m_codename(codename), m_datafile(datafile)
+Level::Level(const std::string &codename, const Path &datafile, int depth)
+    : m_codename(codename), m_datafile(datafile)
 {
     m_desc = NULL;
     m_restartCounter = 1;
@@ -68,8 +68,8 @@ Level::~Level()
 {
     own_cleanState();
     delete m_locker;
-    //NOTE: m_show must be removed before levelScript
-    // because it uses the same script
+    // NOTE: m_show must be removed before levelScript
+    //  because it uses the same script
     delete m_show;
     delete m_countdown;
     delete m_loading;
@@ -78,8 +78,7 @@ Level::~Level()
     delete m_statusDisplay;
 }
 //-----------------------------------------------------------------
-void
-Level::fillStatus(LevelStatus *status)
+void Level::fillStatus(LevelStatus *status)
 {
     m_countdown->fillStatus(status);
 }
@@ -88,22 +87,23 @@ Level::fillStatus(LevelStatus *status)
  * Start gameplay.
  * fillDesc() and fillStatus() must be called before.
  */
-    void
-Level::own_initState()
+void Level::own_initState()
 {
-    if (NULL == m_desc) {
+    if (NULL == m_desc)
+    {
         throw LogicException(ExInfo("level description is NULL")
-                .addInfo("codename", m_codename));
+                                 .addInfo("codename", m_codename));
     }
     m_countdown->reset();
     m_loading->reset();
-    //NOTE: let level first to draw and then play
+    // NOTE: let level first to draw and then play
     m_locker->reset();
-    m_locker->ensurePhases(1*speedup);
-    if (!isUndoing()) {
+    m_locker->ensurePhases(1 * speedup);
+    if (!isUndoing())
+    {
         SoundAgent::agent()->stopMusic();
     }
-    //TODO: escape "codename"
+    // TODO: escape "codename"
     m_levelScript->scriptDo("CODENAME = [[" + m_codename + "]]");
     m_levelScript->scriptInclude(m_datafile);
 }
@@ -111,33 +111,33 @@ Level::own_initState()
 /**
  * Update level.
  */
-    void
-Level::own_updateState()
+void Level::own_updateState()
 {
     m_newRound = false;
-    if (m_locker->getLocked() == 0) {
+    if (m_locker->getLocked() == 0)
+    {
         m_newRound = true;
         nextAction();
     }
     updateLevel();
     m_locker->decLock();
 
-    if (m_countdown->countDown(this)) {
+    if (m_countdown->countDown(this))
+    {
         finishLevel();
     }
 }
 //-----------------------------------------------------------------
-    void
-Level::own_pauseState()
+void Level::own_pauseState()
 {
     m_levelScript->killPlan();
     action_undo_finish();
 }
 //-----------------------------------------------------------------
-    void
-Level::own_resumeState()
+void Level::own_resumeState()
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         initScreen();
     }
 }
@@ -145,8 +145,7 @@ Level::own_resumeState()
 /**
  * Clean room after visit.
  */
-    void
-Level::own_cleanState()
+void Level::own_cleanState()
 {
     m_levelScript->cleanRoom();
 }
@@ -154,47 +153,43 @@ Level::own_cleanState()
 /**
  * Loading is paused on background.
  */
-    void
-Level::own_noteBg()
+void Level::own_noteBg()
 {
-    if (m_loading->isLoading() && !m_loading->isPaused()) {
+    if (m_loading->isLoading() && !m_loading->isPaused())
+    {
         m_loading->togglePause();
     }
     action_undo_finish();
 }
 //-----------------------------------------------------------------
-    void
-Level::own_noteFg()
+void Level::own_noteFg()
 {
     initScreen();
-    if (m_loading->isLoading() && m_loading->isPaused()) {
+    if (m_loading->isLoading() && m_loading->isPaused())
+    {
         m_loading->togglePause();
     }
-    //NOTE: ensure that an unwanted mouse press will not move a fish
-    m_locker->ensurePhases(3*speedup);
+    // NOTE: ensure that an unwanted mouse press will not move a fish
+    m_locker->ensurePhases(3 * speedup);
 }
 
 //-----------------------------------------------------------------
-bool
-Level::isUndoing() const
+bool Level::isUndoing() const
 {
     return m_undoSteps != 0;
 }
 //-----------------------------------------------------------------
-bool
-Level::isActing() const
+bool Level::isActing() const
 {
     return isShowing() || isLoading() || isUndoing();
 }
 //-----------------------------------------------------------------
-bool
-Level::isLoading() const
+bool Level::isLoading() const
 {
     return m_loading->isLoading();
 }
 //-----------------------------------------------------------------
-void
-Level::togglePause()
+void Level::togglePause()
 {
     return m_loading->togglePause();
 }
@@ -202,19 +197,22 @@ Level::togglePause()
 /**
  * Process next action.
  */
-    void
-Level::nextAction()
+void Level::nextAction()
 {
-    if (isUndoing()) {
+    if (isUndoing())
+    {
         nextUndoAction();
     }
-    else if (isLoading()) {
+    else if (isLoading())
+    {
         nextLoadAction();
     }
-    else if (isShowing()) {
+    else if (isShowing())
+    {
         nextShowAction();
     }
-    else {
+    else
+    {
         nextPlayerAction();
     }
 }
@@ -222,10 +220,10 @@ Level::nextAction()
 /**
  * Update level (plan dialogs, do anim, ...).
  */
-    void
-Level::updateLevel()
+void Level::updateLevel()
 {
-    if (!isUndoing() && !isLoading()) {
+    if (!isUndoing() && !isLoading())
+    {
         m_levelScript->updateScript();
     }
 }
@@ -236,17 +234,16 @@ Level::updateLevel()
  * but still before level script update.
  * @param oldMoves moves before the last move
  */
-    void
-Level::saveUndo(const std::string &oldMoves)
+void Level::saveUndo(const std::string &oldMoves)
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         Room *room = m_levelScript->room();
         bool keepLast = m_wasDangerousMove;
         m_wasDangerousMove = room->stepCounter()->isDangerousMove();
 
         std::string keepLastValue = keepLast ? "true" : "false";
-        m_levelScript->scriptDo("script_saveUndo(\""
-                + oldMoves + "\"," + keepLastValue + ")");
+        m_levelScript->scriptDo("script_saveUndo(\"" + oldMoves + "\"," + keepLastValue + ")");
     }
 }
 //-----------------------------------------------------------------
@@ -254,20 +251,23 @@ Level::saveUndo(const std::string &oldMoves)
  * Finish complete level.
  * Save solution.
  */
-    void
-Level::finishLevel()
+void Level::finishLevel()
 {
-    if (m_countdown->isFinishedEnough()) {
+    if (m_countdown->isFinishedEnough())
+    {
         m_countdown->saveSolution();
         GameState *nextState = m_countdown->createNextState();
-        if (nextState) {
+        if (nextState)
+        {
             changeState(nextState);
         }
-        else {
+        else
+        {
             quitState();
         }
     }
-    else if (m_countdown->isWrongEnough()) {
+    else if (m_countdown->isWrongEnough())
+    {
         action_restart(1);
     }
 }
@@ -276,10 +276,10 @@ Level::finishLevel()
  * Update room.
  * Let objects to move.
  */
-    void
-Level::nextPlayerAction()
+void Level::nextPlayerAction()
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         Room *room = m_levelScript->room();
         std::string oldMoves = room->stepCounter()->getMoves();
         room->nextRound(getInput());
@@ -287,7 +287,8 @@ Level::nextPlayerAction()
         bool wasSolvable = room->isSolvable();
         m_wasDangerousMove = m_wasDangerousMove || room->isFalling();
 
-        if (wasSolvable && !room->isFalling()) {
+        if (wasSolvable && !room->isFalling())
+        {
             saveUndo(oldMoves);
         }
     }
@@ -299,13 +300,14 @@ Level::nextPlayerAction()
  * Save moves and models state.
  * @param models saved models
  */
-    void
-Level::saveGame(const std::string &models)
+void Level::saveGame(const std::string &models)
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         Path file = Path::dataWritePath("saves/" + m_codename + ".lua");
         FILE *saveFile = fopen(file.getNative().c_str(), "w");
-        if (saveFile) {
+        if (saveFile)
+        {
             std::string moves =
                 m_levelScript->room()->stepCounter()->getMoves();
             fputs("\nsaved_moves = '", saveFile);
@@ -317,37 +319,40 @@ Level::saveGame(const std::string &models)
             fclose(saveFile);
             displaySaveStatus();
         }
-        else {
+        else
+        {
             LOG_WARNING(ExInfo("cannot save game")
-                    .addInfo("file", file.getNative()));
+                            .addInfo("file", file.getNative()));
         }
     }
 }
 //-----------------------------------------------------------------
-    void
-Level::displaySaveStatus()
+void Level::displaySaveStatus()
 {
     static const int TIME = 3;
     LOG_INFO(ExInfo("game is saved")
-            .addInfo("codename", m_codename));
+                 .addInfo("codename", m_codename));
     m_statusDisplay->displayStatus(
-            new Picture(Path::dataReadPath("images/menu/status/saved.png"),
-                V2(0, 0)), TIME);
+        new Picture(Path::dataReadPath("images/menu/status/saved.png"),
+                    V2(0, 0)),
+        TIME);
 }
 //-----------------------------------------------------------------
 /**
  * Start loading mode.
  * @param moves saved moves to load
  */
-    void
-Level::loadGame(const std::string &moves)
+void Level::loadGame(const std::string &moves)
 {
-    if (isUndoing()) {
-        if (m_levelScript->isRoom()) {
+    if (isUndoing())
+    {
+        if (m_levelScript->isRoom())
+        {
             m_levelScript->room()->setMoves(moves);
         }
     }
-    else {
+    else
+    {
         m_loading->loadGame(moves);
     }
 }
@@ -356,8 +361,7 @@ Level::loadGame(const std::string &moves)
  * Start replay mode.
  * @param moves saved moves to load
  */
-    void
-Level::loadReplay(const std::string &moves)
+void Level::loadReplay(const std::string &moves)
 {
     m_loading->loadReplay(moves);
 }
@@ -366,11 +370,11 @@ Level::loadReplay(const std::string &moves)
 /**
  * Load next move.
  */
-    void
-Level::nextLoadAction()
+void Level::nextLoadAction()
 {
     m_loading->nextLoadAction();
-    if (!isLoading()) {
+    if (!isLoading())
+    {
         m_levelScript->scriptDo("script_loadState()");
     }
 }
@@ -378,10 +382,10 @@ Level::nextLoadAction()
 /**
  * Let show execute.
  */
-    void
-Level::nextShowAction()
+void Level::nextShowAction()
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         m_levelScript->room()->beginFall();
         m_show->executeFirst();
         m_levelScript->room()->finishRound();
@@ -391,14 +395,13 @@ Level::nextShowAction()
 /**
  * Do the next undo step.
  */
-    void
-Level::nextUndoAction()
+void Level::nextUndoAction()
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         std::string moves = m_levelScript->room()->stepCounter()->getMoves();
         std::string strSteps = StringTool::toString(m_undoSteps);
-        m_levelScript->scriptDo("script_loadUndo(\""
-               + moves + "\"," + strSteps + ")");
+        m_levelScript->scriptDo("script_loadUndo(\"" + moves + "\"," + strSteps + ")");
     }
 }
 //-----------------------------------------------------------------
@@ -406,16 +409,16 @@ Level::nextUndoAction()
  * (re)start room.
  * @return true
  */
-    bool
-Level::action_restart(int increment)
+bool Level::action_restart(int increment)
 {
-    if (increment > 0) {
+    if (increment > 0)
+    {
         m_undoSteps = 0;
     }
     own_cleanState();
     m_restartCounter += increment;
-    //NOTE: The script is just overridden by itself,
-    // so planned shows and undo remain after restart.
+    // NOTE: The script is just overridden by itself,
+    //  so planned shows and undo remain after restart.
     own_initState();
     return true;
 }
@@ -425,8 +428,7 @@ Level::action_restart(int increment)
  * @param symbol move symbol, e.g. 'U', 'D', 'L', 'R'
  * @return true when move is done
  */
-    bool
-Level::action_move(char symbol)
+bool Level::action_move(char symbol)
 {
     return m_levelScript->room()->makeMove(symbol);
 }
@@ -435,15 +437,16 @@ Level::action_move(char symbol)
  * Save position.
  * @return true
  */
-    bool
-Level::action_save()
+bool Level::action_save()
 {
-    if (m_levelScript->room()->isSolvable()) {
+    if (m_levelScript->room()->isSolvable())
+    {
         m_levelScript->scriptDo("script_save()");
     }
-    else {
+    else
+    {
         LOG_INFO(ExInfo("bad level condition, level cannot be finished, "
-                    "no save is made"));
+                        "no save is made"));
     }
     return true;
 }
@@ -452,20 +455,21 @@ Level::action_save()
  * Load position.
  * @return true
  */
-    bool
-Level::action_load()
+bool Level::action_load()
 {
     Path file = Path::dataReadPath("saves/" + m_codename + ".lua");
-    if (file.exists()) {
+    if (file.exists())
+    {
         m_undoSteps = 0;
         m_restartCounter--;
         action_restart(1);
         m_levelScript->scriptInclude(file);
         m_levelScript->scriptDo("script_load()");
     }
-    else {
+    else
+    {
         LOG_INFO(ExInfo("there is no file to load")
-                .addInfo("file", file.getNative()));
+                     .addInfo("file", file.getNative()));
     }
     return true;
 }
@@ -474,8 +478,7 @@ Level::action_load()
  * Start the undoing.
  * @param steps 1 for undo, -1 for redo
  */
-    void
-Level::action_undo(int steps)
+void Level::action_undo(int steps)
 {
     m_undoSteps = steps;
     m_levelScript->killPlan();
@@ -486,10 +489,10 @@ Level::action_undo(int steps)
 /**
  * Restart the room at the current undo position.
  */
-    void
-Level::action_undo_finish()
+void Level::action_undo_finish()
 {
-    if (!isUndoing()) {
+    if (!isUndoing())
+    {
         return;
     }
 
@@ -498,26 +501,26 @@ Level::action_undo_finish()
     m_undoSteps = 0;
 }
 //-----------------------------------------------------------------
-    void
-Level::switchFish()
+void Level::switchFish()
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         m_levelScript->room()->switchFish();
     }
 }
 //-----------------------------------------------------------------
-    void
-Level::controlEvent(const KeyStroke &stroke)
+void Level::controlEvent(const KeyStroke &stroke)
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         m_levelScript->room()->controlEvent(stroke);
     }
 }
 //-----------------------------------------------------------------
-    void
-Level::controlMouse(const MouseStroke &button)
+void Level::controlMouse(const MouseStroke &button)
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         m_levelScript->room()->controlMouse(button);
     }
 }
@@ -526,8 +529,7 @@ Level::controlMouse(const MouseStroke &button)
  * Create new room
  * and change screen resolution.
  */
-    void
-Level::createRoom(int w, int h, const std::string &picture)
+void Level::createRoom(int w, int h, const std::string &picture)
 {
     Room *room = new Room(w, h, picture, m_locker, m_levelScript);
     room->addDecor(new StepDecor(room->stepCounter()));
@@ -538,25 +540,24 @@ Level::createRoom(int w, int h, const std::string &picture)
     initScreen();
 }
 //-----------------------------------------------------------------
-void
-Level::initScreen()
+void Level::initScreen()
 {
-    if (m_levelScript->isRoom()) {
+    if (m_levelScript->isRoom())
+    {
         std::string title = m_desc->findDesc(m_codename);
         title.append(": " + m_desc->findLevelName(m_codename));
 
         OptionAgent *options = OptionAgent::agent();
         options->setParam("caption", title);
         options->setParam("screen_width",
-                m_levelScript->room()->getW() * View::SCALE);
+                          m_levelScript->room()->getW() * View::SCALE);
         options->setParam("screen_height",
-                m_levelScript->room()->getH() * View::SCALE);
+                          m_levelScript->room()->getH() * View::SCALE);
         VideoAgent::agent()->initVideoMode();
     }
 }
 //-----------------------------------------------------------------
-    void
-Level::newDemo(const Path &demofile)
+void Level::newDemo(const Path &demofile)
 {
     m_levelScript->interruptPlan();
     DemoMode *demo = new DemoMode(demofile);
@@ -564,20 +565,17 @@ Level::newDemo(const Path &demofile)
 }
 
 //-----------------------------------------------------------------
-bool
-Level::isShowing() const
+bool Level::isShowing() const
 {
     return !m_show->empty();
 }
 //-----------------------------------------------------------------
-void
-Level::interruptShow()
+void Level::interruptShow()
 {
     m_show->removeAll();
 }
 //-----------------------------------------------------------------
-void
-Level::planShow(Command *new_command)
+void Level::planShow(Command *new_command)
 {
     m_show->planCommand(new_command);
 }
@@ -588,26 +586,26 @@ Level::getLevelName() const
     return m_desc->findLevelName(m_codename);
 }
 //-----------------------------------------------------------------
-int
-Level::getCountForSolved() const
+int Level::getCountForSolved() const
 {
     int countdown = 10;
-    if (isUndoing()) {
+    if (isUndoing())
+    {
         countdown = -1;
     }
-    else if (isLoading()) {
+    else if (isLoading())
+    {
         countdown = 0;
     }
-    else if (m_levelScript->dialogs()->areRunning()) {
+    else if (m_levelScript->dialogs()->areRunning())
+    {
         countdown = 30;
     }
     return countdown;
 }
 //-----------------------------------------------------------------
-int
-Level::getCountForWrong() const
+int Level::getCountForWrong() const
 {
-    //NOTE: don't forget to change briefcase_help_demo too
+    // NOTE: don't forget to change briefcase_help_demo too
     return 75;
 }
-

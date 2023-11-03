@@ -19,4 +19,3 @@ KeyDesc::KeyDesc(int index, const std::string &desc)
 {
     m_index = index;
 }
-

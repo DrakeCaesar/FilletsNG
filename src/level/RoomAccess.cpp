@@ -25,8 +25,7 @@ RoomAccess::~RoomAccess()
     cleanRoom();
 }
 //-----------------------------------------------------------------
-    void
-RoomAccess::takeRoom(Room *new_room)
+void RoomAccess::takeRoom(Room *new_room)
 {
     cleanRoom();
     m_room = new_room;
@@ -35,10 +34,10 @@ RoomAccess::takeRoom(Room *new_room)
 /**
  * Remove old room.
  */
-    void
-RoomAccess::cleanRoom()
+void RoomAccess::cleanRoom()
 {
-    if (m_room) {
+    if (m_room)
+    {
         delete m_room;
         m_room = NULL;
     }
@@ -48,10 +47,10 @@ RoomAccess::cleanRoom()
  * Check whether room is ready.
  * @throws LogicException when room is not ready
  */
-void
-RoomAccess::checkRoom() const
+void RoomAccess::checkRoom() const
 {
-    if (NULL == m_room) {
+    if (NULL == m_room)
+    {
         throw LogicException(ExInfo("room is not ready"));
     }
 }
@@ -59,7 +58,7 @@ RoomAccess::checkRoom() const
 /**
  * Returns room or throws exception.
  */
-    Room *
+Room *
 RoomAccess::room()
 {
     checkRoom();
@@ -69,10 +68,9 @@ RoomAccess::room()
 /**
  * Returns room or throws exception.
  */
-    const Room *
+const Room *
 RoomAccess::const_room() const
 {
     checkRoom();
     return m_room;
 }
-

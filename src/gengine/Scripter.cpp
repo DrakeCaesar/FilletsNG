@@ -30,8 +30,7 @@ Scripter::~Scripter()
 /**
  * Include this script file.
  */
-    void
-Scripter::scriptInclude(const Path &filename)
+void Scripter::scriptInclude(const Path &filename)
 {
     m_script->doFile(filename);
 }
@@ -39,9 +38,7 @@ Scripter::scriptInclude(const Path &filename)
 /**
  * Run this command.
  */
-    void
-Scripter::scriptDo(const std::string &input)
+void Scripter::scriptDo(const std::string &input)
 {
     m_script->doString(input);
 }
-

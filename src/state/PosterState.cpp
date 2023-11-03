@@ -28,8 +28,7 @@ PosterState::~PosterState()
     delete m_bg;
 }
 //-----------------------------------------------------------------
-    void
-PosterState::own_initState()
+void PosterState::own_initState()
 {
     OptionAgent *options = OptionAgent::agent();
     options->setParam("screen_width", m_bg->getW());

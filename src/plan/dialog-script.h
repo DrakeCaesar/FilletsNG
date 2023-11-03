@@ -1,7 +1,8 @@
 #ifndef HEADER_DIALOG_SCRIPT_H
 #define HEADER_DIALOG_SCRIPT_H
 
-extern "C" {
+extern "C"
+{
 #include "lua.h"
 }
 

@@ -8,7 +8,6 @@
  */
 #include "KeyControl.h"
 
-
 //-----------------------------------------------------------------
 /**
  * Default control are arrows.
@@ -20,4 +19,3 @@ KeyControl::KeyControl()
     m_left = SDLK_LEFT;
     m_right = SDLK_RIGHT;
 }
-

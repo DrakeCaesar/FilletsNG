@@ -29,25 +29,27 @@ Shape::Shape(const std::string &shape)
     int max_x = -1;
     int max_y = -1;
 
-    for (unsigned int i = 0; i < shape.size(); ++i) {
-        switch (shape[i]) {
-            case '\n':
-                ++y;
-                x = 0;
-                break;
-            case 'X':
-                m_marks.push_back(V2(x, y));
-                max_x = max(max_x, x);
-                max_y = max(max_y, y);
-                ++x;
-                break;
-            case '.':
-                ++x;
-                break;
-            default:
-                throw LayoutException(ExInfo("bad shape char")
-                        .addInfo("char", shape[i])
-                        .addInfo("shape", shape));
+    for (unsigned int i = 0; i < shape.size(); ++i)
+    {
+        switch (shape[i])
+        {
+        case '\n':
+            ++y;
+            x = 0;
+            break;
+        case 'X':
+            m_marks.push_back(V2(x, y));
+            max_x = max(max_x, x);
+            max_y = max(max_y, y);
+            ++x;
+            break;
+        case '.':
+            ++x;
+            break;
+        default:
+            throw LayoutException(ExInfo("bad shape char")
+                                      .addInfo("char", shape[i])
+                                      .addInfo("shape", shape));
         }
     }
 
@@ -62,12 +64,9 @@ Shape::toString() const
     std::string result;
 
     t_marks::const_iterator end = m_marks.end();
-    for (t_marks::const_iterator i = m_marks.begin(); i != end; ++i) {
+    for (t_marks::const_iterator i = m_marks.begin(); i != end; ++i)
+    {
         result.append(i->toString());
     }
     return result;
 }
-
-
-
-

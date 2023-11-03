@@ -23,8 +23,7 @@ MovieState::MovieState(const Path &file)
     takeHandler(new DemoInput(this));
 }
 //-----------------------------------------------------------------
-    void
-MovieState::own_initState()
+void MovieState::own_initState()
 {
     SoundAgent::agent()->stopMusic();
     Mix_CloseAudio();
@@ -41,16 +40,15 @@ MovieState::own_initState()
     registerDrawable(m_movie);
 }
 //-----------------------------------------------------------------
-    void
-MovieState::own_updateState()
+void MovieState::own_updateState()
 {
-    if(m_movie->GetStatus() != SMPEG_PLAYING) {
+    if (m_movie->GetStatus() != SMPEG_PLAYING)
+    {
         quitState();
     }
 }
 //-----------------------------------------------------------------
-    void
-MovieState::own_cleanState()
+void MovieState::own_cleanState()
 {
     delete m_movie;
     SoundAgent::agent()->reinit();

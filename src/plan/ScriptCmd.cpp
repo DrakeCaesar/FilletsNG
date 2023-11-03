@@ -36,9 +36,7 @@ ScriptCmd::~ScriptCmd()
  * @return true for finish
  * @throws ScriptException when error occures
  */
-bool
-ScriptCmd::finish(int count)
+bool ScriptCmd::finish(int count)
 {
     return m_script->callCommand(m_funcRef, count);
 }
-

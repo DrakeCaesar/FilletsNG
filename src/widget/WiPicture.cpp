@@ -21,12 +21,10 @@ WiPicture::~WiPicture()
     SDL_FreeSurface(m_surface);
 }
 //-----------------------------------------------------------------
-void
-WiPicture::drawOn(SDL_Surface *screen)
+void WiPicture::drawOn(SDL_Surface *screen)
 {
     SDL_Rect rect;
     rect.x = m_shift.getX();
     rect.y = m_shift.getY();
     SDL_BlitSurface(m_surface, NULL, screen, &rect);
 }
-

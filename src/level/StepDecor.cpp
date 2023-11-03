@@ -24,18 +24,20 @@ StepDecor::StepDecor(const StepCounter *counter)
 /**
  * Draw number of steps in right-top corner.
  */
-void
-StepDecor::drawOnScreen(const View * /*view*/, SDL_Surface *screen)
+void StepDecor::drawOnScreen(const View * /*view*/, SDL_Surface *screen)
 {
     static const SDL_Color COLOR_ORANGE = {255, 197, 102, 255};
     static const SDL_Color COLOR_BLUE = {162, 244, 255, 255};
 
-    if (OptionAgent::agent()->getAsBool("show_steps")) {
+    if (OptionAgent::agent()->getAsBool("show_steps"))
+    {
         SDL_Color color;
-        if (m_counter->isPowerful()) {
+        if (m_counter->isPowerful())
+        {
             color = COLOR_BLUE;
         }
-        else {
+        else
+        {
             color = COLOR_ORANGE;
         }
 
@@ -49,4 +51,3 @@ StepDecor::drawOnScreen(const View * /*view*/, SDL_Surface *screen)
         SDL_FreeSurface(text_surface);
     }
 }
-

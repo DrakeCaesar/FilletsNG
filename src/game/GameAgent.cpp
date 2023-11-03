@@ -25,18 +25,20 @@
 #include "SDL2/SDL.h"
 
 //-----------------------------------------------------------------
-    void
-GameAgent::own_init()
+void GameAgent::own_init()
 {
     m_manager = new StateManager();
     std::string replayLevel = OptionAgent::agent()->getParam("replay_level");
-    if (replayLevel == "") {
+    if (replayLevel == "")
+    {
         Path pathMap = Path::dataReadPath(OptionAgent::agent()->getParam(
-                    "worldmap", "script/worldmap.lua"));
+            "worldmap", "script/worldmap.lua"));
         WorldMap *worldmap = new WorldMap();
         worldmap->initMap(pathMap);
         m_manager->pushState(NULL, worldmap);
-    } else {
+    }
+    else
+    {
         replaySolution(replayLevel);
     }
 
@@ -47,12 +49,12 @@ GameAgent::own_init()
  * Replays the given solution instead of starting the game.
  * It is used only for testing.
  */
-    void
-GameAgent::replaySolution(const std::string &codename)
+void GameAgent::replaySolution(const std::string &codename)
 {
     static LevelStatus *levelStatus = NULL;
     static DescFinder *desc = NULL;
-    if (levelStatus == NULL) {
+    if (levelStatus == NULL)
+    {
         levelStatus = new LevelStatus();
         desc = new WorldMap();
     }
@@ -74,8 +76,7 @@ GameAgent::replaySolution(const std::string &codename)
  * Update game.
  * Play level or show menu.
  */
-    void
-GameAgent::own_update()
+void GameAgent::own_update()
 {
     m_manager->updateGame();
 }
@@ -83,8 +84,7 @@ GameAgent::own_update()
 /**
  * Remember playtime.
  */
-    void
-GameAgent::own_shutdown()
+void GameAgent::own_shutdown()
 {
     OptionAgent *options = OptionAgent::agent();
     int playtime = options->getAsInt("playtime");
@@ -98,8 +98,7 @@ GameAgent::own_shutdown()
 /**
  * Global keystrokes.
  */
-    void
-GameAgent::keyBinding()
+void GameAgent::keyBinding()
 {
     BaseMsg *msg;
     KeyBinder *keyBinder = InputAgent::agent()->keyBinder();
@@ -117,4 +116,3 @@ GameAgent::keyBinding()
     msg = new SimpleMsg(Name::APP_NAME, "dec_loglevel");
     keyBinder->addStroke(log_minus, msg);
 }
-

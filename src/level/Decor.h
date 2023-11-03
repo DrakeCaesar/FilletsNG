@@ -8,10 +8,11 @@ class View;
 /**
  * Screen decoration.
  */
-class Decor {
-    public:
-        virtual ~Decor() {}
-        virtual void drawOnScreen(const View *view, SDL_Surface *screen) = 0;
+class Decor
+{
+public:
+    virtual ~Decor() {}
+    virtual void drawOnScreen(const View *view, SDL_Surface *screen) = 0;
 };
 
 #endif

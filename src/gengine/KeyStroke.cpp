@@ -18,7 +18,7 @@ KeyStroke::KeyStroke(const SDL_Keysym &keysym)
 {
     m_sym = keysym.sym;
     m_mod = modStrip(keysym.mod);
-    m_unicode = 0;//keysym.unicode;
+    m_unicode = 0; // keysym.unicode;
 }
 //-----------------------------------------------------------------
 /**
@@ -40,8 +40,7 @@ KeyStroke::KeyStroke(SDL_Keycode sym, int mod)
  * Strip ignored modes.
  * KMOD_SHIFT|KMOD_NUM|KMOD_CAPS|KMOD_MODE are ignored.
  */
-    int
-KeyStroke::modStrip(int mod)
+int KeyStroke::modStrip(int mod)
 {
     return mod & ~STROKE_IGNORE;
 }
@@ -52,11 +51,11 @@ KeyStroke::modStrip(int mod)
  * @param other other keystroke
  * @return this < other
  */
-bool
-KeyStroke::less(const KeyStroke &other) const
+bool KeyStroke::less(const KeyStroke &other) const
 {
     bool result = m_sym < other.m_sym;
-    if (m_sym == other.m_sym) {
+    if (m_sym == other.m_sym)
+    {
         result = m_mod < other.m_mod;
     }
     return result;
@@ -69,11 +68,10 @@ KeyStroke::less(const KeyStroke &other) const
  * @param other other keystroke
  * @return this == other
  */
-bool
-KeyStroke::equals(const KeyStroke &other) const
+bool KeyStroke::equals(const KeyStroke &other) const
 {
     return m_sym == other.m_sym &&
-        m_mod == other.m_mod;
+           m_mod == other.m_mod;
 }
 //-----------------------------------------------------------------
 /**
@@ -86,4 +84,3 @@ KeyStroke::toString() const
     result.append("+" + StringTool::toString(m_mod));
     return result;
 }
-

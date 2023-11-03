@@ -28,19 +28,19 @@ NodeDrawer::NodeDrawer()
 
     m_imagePack = new ResImagePack();
     m_imagePack->addImage("solved",
-            Path::dataReadPath("images/menu/n0.png"));
+                          Path::dataReadPath("images/menu/n0.png"));
 
     m_imagePack->addImage("open",
-            Path::dataReadPath("images/menu/n1.png"));
+                          Path::dataReadPath("images/menu/n1.png"));
     m_imagePack->addImage("open",
-            Path::dataReadPath("images/menu/n2.png"));
+                          Path::dataReadPath("images/menu/n2.png"));
     m_imagePack->addImage("open",
-            Path::dataReadPath("images/menu/n3.png"));
+                          Path::dataReadPath("images/menu/n3.png"));
     m_imagePack->addImage("open",
-            Path::dataReadPath("images/menu/n4.png"));
+                          Path::dataReadPath("images/menu/n4.png"));
 
     m_imagePack->addImage("far",
-            Path::dataReadPath("images/menu/n_far.png"));
+                          Path::dataReadPath("images/menu/n_far.png"));
 }
 //-----------------------------------------------------------------
 NodeDrawer::~NodeDrawer()
@@ -53,38 +53,41 @@ NodeDrawer::~NodeDrawer()
 /**
  * Draw blinking dot centred on node position.
  */
-void
-NodeDrawer::drawNode(const LevelNode *node) const
+void NodeDrawer::drawNode(const LevelNode *node) const
 {
     V2 loc = node->getLoc();
     drawDot(m_imagePack->getRes("far"), loc);
 
     SDL_Surface *dot = NULL;
-    switch (node->getState()) {
-        case LevelNode::STATE_FAR:
-            return;
-        case LevelNode::STATE_OPEN:
-            {
-                int phase = (TimerAgent::agent()->getCycles()/speedup) % 10;
-                if (phase > 4) {
-                    phase--;
-                }
-                if (phase > 7) {
-                    phase--;
-                }
-                if (phase >= 4) {
-                    phase = 7 - phase;
-                }
-                dot = m_imagePack->getRes("open", phase);
-            }
-            break;
-        case LevelNode::STATE_SOLVED:
-            dot = m_imagePack->getRes("solved");
-            break;
-        default:
-            LOG_WARNING(ExInfo("don't know how to draw node")
-                    .addInfo("state", node->getState()));
-            return;
+    switch (node->getState())
+    {
+    case LevelNode::STATE_FAR:
+        return;
+    case LevelNode::STATE_OPEN:
+    {
+        int phase = (TimerAgent::agent()->getCycles() / speedup) % 10;
+        if (phase > 4)
+        {
+            phase--;
+        }
+        if (phase > 7)
+        {
+            phase--;
+        }
+        if (phase >= 4)
+        {
+            phase = 7 - phase;
+        }
+        dot = m_imagePack->getRes("open", phase);
+    }
+    break;
+    case LevelNode::STATE_SOLVED:
+        dot = m_imagePack->getRes("solved");
+        break;
+    default:
+        LOG_WARNING(ExInfo("don't know how to draw node")
+                        .addInfo("state", node->getState()));
+        return;
     }
     drawDot(dot, loc);
 }
@@ -94,8 +97,7 @@ NodeDrawer::drawNode(const LevelNode *node) const
  * @param x x cord. or centre
  * @param x y cord. or centre
  */
-void
-NodeDrawer::drawDot(SDL_Surface *dot, const V2 &loc) const
+void NodeDrawer::drawDot(SDL_Surface *dot, const V2 &loc) const
 {
     SDL_Rect rect;
     rect.x = loc.getX() - dot->w / 2;
@@ -106,15 +108,13 @@ NodeDrawer::drawDot(SDL_Surface *dot, const V2 &loc) const
 /**
  * Highlightes selected node.
  */
-void
-NodeDrawer::drawSelect(const V2 &loc) const
+void NodeDrawer::drawSelect(const V2 &loc) const
 {
 
     const SDL_Surface *dot = m_imagePack->getRes("solved");
     int radius = max(dot->w, dot->h) / 2 + 1;
     Uint32 colorRGBA = 0x8018c6ff;
-    SDL_Renderer* renderer = SDL_CreateSoftwareRenderer(m_screen);
-
+    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(m_screen);
 
     filledCircleColor(renderer, loc.getX(), loc.getY(), radius, colorRGBA);
 
@@ -124,10 +124,9 @@ NodeDrawer::drawSelect(const V2 &loc) const
 /**
  * Draws name of selected level.
  */
-void
-NodeDrawer::drawSelected(const std::string &levelname) const
+void NodeDrawer::drawSelected(const std::string &levelname) const
 {
-    //TODO: draw deflected text
+    // TODO: draw deflected text
     int text_width = m_font->calcTextWidth(levelname);
 
     SDL_Rect rect;
@@ -140,26 +139,24 @@ NodeDrawer::drawSelected(const std::string &levelname) const
     SDL_FreeSurface(surface);
 }
 //-----------------------------------------------------------------
-void
-NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
+void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
 {
-    //TODO: nice curves
+    // TODO: nice curves
     Sint16 x1 = start->getLoc().getX();
     Sint16 y1 = start->getLoc().getY();
     Sint16 x2 = end->getLoc().getX();
     Sint16 y2 = end->getLoc().getY();
-    
-    SDL_Renderer * renderer = SDL_CreateSoftwareRenderer(m_screen);
+
+    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(m_screen);
 
     Uint32 colorRGBA = 0xff00ffff;
 
     aalineColor(renderer, x1, y1, x2, y2, colorRGBA);
-    aalineColor(renderer, x1 - 1, y1 - 1 , x2 - 1, y2 - 1, colorRGBA);
-    aalineColor(renderer, x1 + 1, y1 + 1 , x2 + 1, y2 + 1, colorRGBA);
-    aalineColor(renderer, x1 - 1, y1 + 1 , x2 - 1, y2 + 1, colorRGBA);
-    aalineColor(renderer, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
-    aalineColor(renderer, x1 + 1, y1 - 1 , x2 + 1, y2 - 1, colorRGBA);
+    aalineColor(renderer, x1 - 1, y1 - 1, x2 - 1, y2 - 1, colorRGBA);
+    aalineColor(renderer, x1 + 1, y1 + 1, x2 + 1, y2 + 1, colorRGBA);
+    aalineColor(renderer, x1 - 1, y1 + 1, x2 - 1, y2 + 1, colorRGBA);
+    aalineColor(renderer, x1 + 1, y1 - 1, x2 + 1, y2 - 1, colorRGBA);
+    aalineColor(renderer, x1 + 1, y1 - 1, x2 + 1, y2 - 1, colorRGBA);
 
     SDL_DestroyRenderer(renderer);
 }
-

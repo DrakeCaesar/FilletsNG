@@ -19,13 +19,13 @@
 #include "def-script.h"
 
 //-----------------------------------------------------------------
-    inline LevelScript *
+inline LevelScript *
 getLevelScript(lua_State *L)
 {
-    return dynamic_cast<LevelScript*>(script_getLeader(L));
+    return dynamic_cast<LevelScript *>(script_getLeader(L));
 }
 //-----------------------------------------------------------------
-    inline Level *
+inline Level *
 getLevel(lua_State *L)
 {
     return getLevelScript(L)->level();
@@ -35,8 +35,7 @@ getLevel(lua_State *L)
 /**
  * void level_save(serialized)
  */
-    int
-script_level_save(lua_State *L) throw()
+int script_level_save(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *serialized = luaL_checkstring(L, 1);
@@ -48,8 +47,7 @@ script_level_save(lua_State *L) throw()
 /**
  * void level_load(moves)
  */
-    int
-script_level_load(lua_State *L) throw()
+int script_level_load(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *moves = luaL_checkstring(L, 1);
@@ -62,16 +60,16 @@ script_level_load(lua_State *L) throw()
 /**
  * bool level_action_move(symbol)
  */
-    int
-script_level_action_move(lua_State *L) throw()
+int script_level_action_move(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     size_t size;
     const char *symbol = luaL_checklstring(L, 1, &size);
-    if (size != 1) {
+    if (size != 1)
+    {
         ExInfo error = ExInfo("bad symbol length")
-            .addInfo("length", size)
-            .addInfo("symbol", symbol);
+                           .addInfo("length", size)
+                           .addInfo("symbol", symbol);
         LOG_WARNING(error);
         luaL_error(L, error.what());
     }
@@ -79,52 +77,48 @@ script_level_action_move(lua_State *L) throw()
     bool sucess = getLevel(L)->action_move(symbol[0]);
     lua_pushboolean(L, sucess);
     END_NOEXCEPTION;
-    //NOTE: return sucess
+    // NOTE: return sucess
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * bool level_action_save()
  */
-    int
-script_level_action_save(lua_State *L) throw()
+int script_level_action_save(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     bool sucess = getLevel(L)->action_save();
     lua_pushboolean(L, sucess);
     END_NOEXCEPTION;
-    //NOTE: return sucess
+    // NOTE: return sucess
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * bool level_action_load()
  */
-    int
-script_level_action_load(lua_State *L) throw()
+int script_level_action_load(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     bool sucess = getLevel(L)->action_load();
     lua_pushboolean(L, sucess);
     END_NOEXCEPTION;
-    //NOTE: return sucess
+    // NOTE: return sucess
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * bool level_action_restart()
  */
-    int
-script_level_action_restart(lua_State *L) throw()
+int script_level_action_restart(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     bool sucess = getLevel(L)->action_restart(1);
     lua_pushboolean(L, sucess);
     END_NOEXCEPTION;
-    //NOTE: return sucess
+    // NOTE: return sucess
     return 1;
 }
-
 
 //-----------------------------------------------------------------
 /**
@@ -132,8 +126,7 @@ script_level_action_restart(lua_State *L) throw()
  * Example:
  *  createRoom(40, 50, "kitchen-bg.png")
  */
-    int
-script_level_createRoom(lua_State *L) throw()
+int script_level_createRoom(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int w = luaL_checkinteger(L, 1);
@@ -147,70 +140,65 @@ script_level_createRoom(lua_State *L) throw()
 //-----------------------------------------------------------------
 /**
  * int level_getRestartCounter()
- * 
- * Returns number of attemps, starts from 1. 
+ *
+ * Returns number of attemps, starts from 1.
  */
-    int
-script_level_getRestartCounter(lua_State *L) throw()
+int script_level_getRestartCounter(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int counter = getLevel(L)->getRestartCounter();
     lua_pushnumber(L, counter);
     END_NOEXCEPTION;
-    //NOTE: return counter
+    // NOTE: return counter
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * int level_getDepth()
- * 
+ *
  */
-    int
-script_level_getDepth(lua_State *L) throw()
+int script_level_getDepth(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int depth = getLevel(L)->getDepth();
     lua_pushnumber(L, depth);
     END_NOEXCEPTION;
-    //NOTE: return depth
+    // NOTE: return depth
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * bool level_isNewRound()
- * 
+ *
  */
-    int
-script_level_isNewRound(lua_State *L) throw()
+int script_level_isNewRound(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     bool newRound = getLevel(L)->isNewRound();
     lua_pushboolean(L, newRound);
     END_NOEXCEPTION;
-    //NOTE: return newRound
+    // NOTE: return newRound
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * bool level_isSolved()
- * 
+ *
  */
-    int
-script_level_isSolved(lua_State *L) throw()
+int script_level_isSolved(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     bool solved = getLevelScript(L)->room()->isSolved();
     lua_pushboolean(L, solved);
     END_NOEXCEPTION;
-    //NOTE: return solved
+    // NOTE: return solved
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * void level_newDemo(demofile)
  */
-    int
-script_level_newDemo(lua_State *L) throw()
+int script_level_newDemo(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *demofile = luaL_checkstring(L, 1);
@@ -223,8 +211,7 @@ script_level_newDemo(lua_State *L) throw()
 /**
  * void level_planShow(func)
  */
-    int
-script_level_planShow(lua_State *L) throw()
+int script_level_planShow(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     luaL_checktype(L, 1, LUA_TFUNCTION);
@@ -239,14 +226,12 @@ script_level_planShow(lua_State *L) throw()
 /**
  * bool level_isShowing()
  */
-    int
-script_level_isShowing(lua_State *L) throw()
+int script_level_isShowing(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     bool showing = getLevel(L)->isShowing();
     lua_pushboolean(L, showing);
     END_NOEXCEPTION;
-    //NOTE: return showing
+    // NOTE: return showing
     return 1;
 }
-

@@ -15,8 +15,8 @@
  * Info about problem.
  * @param problem short info
  */
-    ExInfo::ExInfo(const std::string &problem) throw()
-: m_what(problem)
+ExInfo::ExInfo(const std::string &problem) throw()
+    : m_what(problem)
 {
     /* empty */
 }
@@ -25,7 +25,7 @@
  * Return info about problem.
  * @return pointer to info which is valid only with this ExInfo
  */
-    const char *
+const char *
 ExInfo::what() const throw()
 {
     return m_what.c_str();
@@ -39,7 +39,7 @@ ExInfo::what() const throw()
  */
 ExInfo &
 ExInfo::addInfo(const std::string &name,
-        const std::string &value) throw()
+                const std::string &value) throw()
 {
     m_what.append("; ");
     m_what.append(name);
@@ -55,7 +55,7 @@ ExInfo::addInfo(const std::string &name,
  * @param value value
  * @return *this
  */
-    ExInfo &
+ExInfo &
 ExInfo::addInfo(const std::string &name, long value) throw()
 {
     m_what.append("; ");
@@ -64,4 +64,3 @@ ExInfo::addInfo(const std::string &name, long value) throw()
     m_what.append(StringTool::toString(value));
     return *this;
 }
-

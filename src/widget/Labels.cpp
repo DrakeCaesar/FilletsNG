@@ -15,17 +15,16 @@
 #include "def-script.h"
 
 //-----------------------------------------------------------------
-    inline Labels *
+inline Labels *
 getLabels(lua_State *L)
 {
-    return dynamic_cast<Labels*>(script_getLeader(L));
+    return dynamic_cast<Labels *>(script_getLeader(L));
 }
 //-----------------------------------------------------------------
 /**
  * void label_text(labelName, lang, text)
  */
-    int
-script_label_text(lua_State *L) throw()
+int script_label_text(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *labelName = luaL_checkstring(L, 1);
@@ -51,9 +50,8 @@ Labels::~Labels()
     delete m_labels;
 }
 //-----------------------------------------------------------------
-void
-Labels::addLabel(const std::string &name, const std::string &lang,
-        const std::string &text)
+void Labels::addLabel(const std::string &name, const std::string &lang,
+                      const std::string &text)
 {
     m_labels->addRes(name, new Dialog(lang, "", text));
 }
@@ -63,10 +61,12 @@ Labels::getLabel(const std::string &name) const
 {
     std::string result;
     const Dialog *dialog = m_labels->findDialogHard(name);
-    if (dialog) {
+    if (dialog)
+    {
         result = dialog->getSubtitle();
     }
-    else {
+    else
+    {
         result = "???";
     }
     return result;
@@ -74,16 +74,17 @@ Labels::getLabel(const std::string &name) const
 //-----------------------------------------------------------------
 std::string
 Labels::getFormatedLabel(const std::string &name,
-        const StringTool::t_args &args) const
+                         const StringTool::t_args &args) const
 {
     std::string result;
     const Dialog *dialog = m_labels->findDialogHard(name);
-    if (dialog) {
+    if (dialog)
+    {
         result = dialog->getFormatedSubtitle(args);
     }
-    else {
+    else
+    {
         result = "???";
     }
     return result;
 }
-

@@ -43,46 +43,50 @@ WorldBranch::WorldBranch(LevelNode *root)
  */
 LevelNode *
 WorldBranch::parseMap(const Path &datafile, LevelNode **outEnding,
-        ResDialogPack *destPack)
+                      ResDialogPack *destPack)
 {
     m_outPack = destPack;
     scriptInclude(datafile);
     m_outPack = NULL;
 
-    if (m_ending) {
-        if (outEnding) {
+    if (m_ending)
+    {
+        if (outEnding)
+        {
             *outEnding = m_ending;
         }
-        else {
+        else
+        {
             throw LogicException(ExInfo("cannot export ending node")
-                    .addInfo("ending", m_ending->getCodename()));
+                                     .addInfo("ending", m_ending->getCodename()));
         }
     }
 
-    if (m_root && m_root->getState() < LevelNode::STATE_OPEN) {
+    if (m_root && m_root->getState() < LevelNode::STATE_OPEN)
+    {
         m_root->setState(LevelNode::STATE_OPEN);
     }
     return m_root;
 }
 //-----------------------------------------------------------------
-    void
-WorldBranch::addDesc(const std::string &codename, LevelDesc *desc)
+void WorldBranch::addDesc(const std::string &codename, LevelDesc *desc)
 {
-    if (m_outPack) {
+    if (m_outPack)
+    {
         m_outPack->addRes(codename, desc);
     }
-    else {
+    else
+    {
         throw LogicException(ExInfo("cannot export level description")
-                .addInfo("codename", codename));
+                                 .addInfo("codename", codename));
     }
 }
 //-----------------------------------------------------------------
 /**
  * Add new node to branch.
  */
-void
-WorldBranch::addNode(const std::string &parent, LevelNode *new_node,
-        bool hidden)
+void WorldBranch::addNode(const std::string &parent, LevelNode *new_node,
+                          bool hidden)
 {
     prepareNode(new_node, hidden);
     insertNode(parent, new_node);
@@ -91,17 +95,19 @@ WorldBranch::addNode(const std::string &parent, LevelNode *new_node,
 /**
  * Take ending node.
  */
-void
-WorldBranch::setEnding(LevelNode *new_node)
+void WorldBranch::setEnding(LevelNode *new_node)
 {
-    if (m_ending) {
+    if (m_ending)
+    {
         delete m_ending;
     }
     m_ending = new_node;
-    if (wasSolved(m_ending->getCodename())) {
+    if (wasSolved(m_ending->getCodename()))
+    {
         m_ending->setState(LevelNode::STATE_SOLVED);
     }
-    else {
+    else
+    {
         m_ending->setState(LevelNode::STATE_OPEN);
     }
     m_ending->setDepth(-1);
@@ -113,27 +119,27 @@ WorldBranch::setEnding(LevelNode *new_node)
  * @param moves number of moves in solution
  * @param author solution author
  */
-void
-WorldBranch::bestSolution(const std::string &codename, int moves,
-                const std::string &author)
+void WorldBranch::bestSolution(const std::string &codename, int moves,
+                               const std::string &author)
 {
     LevelNode *node = m_root->findNamed(codename);
-    if (node) {
+    if (node)
+    {
         node->bestSolution(moves, author);
     }
-    else {
+    else
+    {
         LOG_WARNING(ExInfo("there is no such node")
-                .addInfo("codename", codename)
-                .addInfo("moves", moves)
-                .addInfo("author", author));
+                        .addInfo("codename", codename)
+                        .addInfo("moves", moves)
+                        .addInfo("author", author));
     }
 }
 //-----------------------------------------------------------------
 /**
  * Returns true when level will solved in the past.
  */
-bool
-WorldBranch::wasSolved(const std::string &codename)
+bool WorldBranch::wasSolved(const std::string &codename)
 {
     Path solved =
         Path::dataReadPath(LevelStatus::getSolutionFilename(codename));
@@ -144,16 +150,18 @@ WorldBranch::wasSolved(const std::string &codename)
  * Set node state.
  * @param hidden whether node is start node of hidden branch
  */
-    void
-WorldBranch::prepareNode(LevelNode *node, bool hidden)
+void WorldBranch::prepareNode(LevelNode *node, bool hidden)
 {
-    if (wasSolved(node->getCodename())) {
+    if (wasSolved(node->getCodename()))
+    {
         node->setState(LevelNode::STATE_SOLVED);
     }
-    else if (hidden) {
+    else if (hidden)
+    {
         node->setState(LevelNode::STATE_HIDDEN);
     }
-    else {
+    else
+    {
         node->setState(LevelNode::STATE_FAR);
     }
 }
@@ -162,39 +170,45 @@ WorldBranch::prepareNode(LevelNode *node, bool hidden)
  * Insert node as parent child.
  * @throws LogicException when error occurs
  */
-void
-WorldBranch::insertNode(const std::string &parent, LevelNode *new_node)
+void WorldBranch::insertNode(const std::string &parent, LevelNode *new_node)
 {
-    try {
-        if (parent == "" && m_root) {
+    try
+    {
+        if (parent == "" && m_root)
+        {
             throw LogicException(ExInfo("there is a one root node already")
-                    .addInfo("root", m_root->getCodename())
-                    .addInfo("new_node", new_node->getCodename()));
+                                     .addInfo("root", m_root->getCodename())
+                                     .addInfo("new_node", new_node->getCodename()));
         }
 
-        if (m_root) {
+        if (m_root)
+        {
             LevelNode *parentNode = m_root->findNamed(parent);
-            if (parentNode) {
+            if (parentNode)
+            {
                 parentNode->addChild(new_node);
             }
-            else {
+            else
+            {
                 throw LogicException(ExInfo("there is no such parent node")
-                        .addInfo("parent", parent)
-                        .addInfo("new_node", new_node->getCodename()));
+                                         .addInfo("parent", parent)
+                                         .addInfo("new_node", new_node->getCodename()));
             }
         }
-        else {
-            if (parent != "") {
+        else
+        {
+            if (parent != "")
+            {
                 LOG_WARNING(ExInfo("root node should have empty parent")
-                        .addInfo("parent", parent)
-                        .addInfo("new_node", new_node->getCodename()));
+                                .addInfo("parent", parent)
+                                .addInfo("new_node", new_node->getCodename()));
             }
             m_root = new_node;
         }
     }
-    catch (...) {
+    catch (...)
+    {
         delete new_node;
         throw;
     }
 }
-

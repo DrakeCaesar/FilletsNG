@@ -15,8 +15,7 @@
 /**
  * Push help screen at top.
  */
-void
-GameInput::enableHelp()
+void GameInput::enableHelp()
 {
     m_state->pushState(new MenuHelp());
 }
@@ -24,9 +23,7 @@ GameInput::enableHelp()
 /**
  * Push menu state at top.
  */
-void
-GameInput::enableMenu()
+void GameInput::enableMenu()
 {
     m_state->pushState(new MenuOptions());
 }
-

@@ -17,13 +17,14 @@ AgentPack *AgentPack::ms_singleton = NULL;
 //-----------------------------------------------------------------
 AgentPack::AgentPack()
 {
-    //NOTE: this is not thread safe
-    if (ms_singleton) {
+    // NOTE: this is not thread safe
+    if (ms_singleton)
+    {
         throw LogicException(ExInfo("AgentPack is singleton"));
     }
 
     ms_singleton = this;
-    //NOTE: MessagerAgent must be the first
+    // NOTE: MessagerAgent must be the first
     MessagerAgent *messager = new MessagerAgent();
     messager->init();
     addAgent(messager);
@@ -32,7 +33,8 @@ AgentPack::AgentPack()
 AgentPack::~AgentPack()
 {
     t_agents::iterator end = m_agents.end();
-    for (t_agents::iterator i = m_agents.begin(); i != end; ++i) {
+    for (t_agents::iterator i = m_agents.begin(); i != end; ++i)
+    {
         delete i->second;
     }
     ms_singleton = NULL;
@@ -46,15 +48,15 @@ AgentPack::~AgentPack()
  * @param agent agent
  * @throws NameEception if agent with this name already exists.
  */
-    void
-AgentPack::addAgent(BaseAgent *agent)
+void AgentPack::addAgent(BaseAgent *agent)
 {
-    std::pair<t_agents::iterator,bool> status =
+    std::pair<t_agents::iterator, bool> status =
         m_agents.insert(
-                std::pair<std::string,BaseAgent*>(agent->getName(), agent));
-    if (!status.second) {
+            std::pair<std::string, BaseAgent *>(agent->getName(), agent));
+    if (!status.second)
+    {
         throw NameException(ExInfo("agent already exists")
-                .addInfo("name", agent->getName()));
+                                .addInfo("name", agent->getName()));
     }
 
     MessagerAgent::agent()->addListener(agent);
@@ -65,11 +67,11 @@ AgentPack::addAgent(BaseAgent *agent)
  * and remove his from listeners too.
  * @param name agent's name
  */
-void
-AgentPack::removeAgent(const std::string &name)
+void AgentPack::removeAgent(const std::string &name)
 {
     t_agents::iterator it = m_agents.find(name);
-    if (m_agents.end() != it) {
+    if (m_agents.end() != it)
+    {
         MessagerAgent::agent()->removeListener(name);
         delete it->second;
         m_agents.erase(it);
@@ -83,22 +85,25 @@ AgentPack::removeAgent(const std::string &name)
  * @throws NameException when agent cannot be found
  * @throws LogicException when agent is not initialized
  */
-    BaseAgent *
+BaseAgent *
 AgentPack::getAgent(const std::string &name)
 {
-    if (NULL == ms_singleton) {
+    if (NULL == ms_singleton)
+    {
         throw LogicException(ExInfo("AgentPack is not ready"));
     }
 
     t_agents::iterator it = ms_singleton->m_agents.find(name);
-    if (ms_singleton->m_agents.end() == it) {
+    if (ms_singleton->m_agents.end() == it)
+    {
         throw NameException(ExInfo("cannot find agent")
-                .addInfo("name", name));
+                                .addInfo("name", name));
     }
 
-    if (!it->second->isInitialized()) {
+    if (!it->second->isInitialized())
+    {
         throw LogicException(ExInfo("agent is not initialized")
-                .addInfo("name", name));
+                                 .addInfo("name", name));
     }
     return it->second;
 }
@@ -107,23 +112,24 @@ AgentPack::getAgent(const std::string &name)
  * Init all agents bellow stopAgent.
  * Init all agents when stopAgent is not found.
  */
-void
-AgentPack::init(const std::string &stopAgent)
+void AgentPack::init(const std::string &stopAgent)
 {
     t_agents::iterator stop = m_agents.find(stopAgent);
 
-    for (t_agents::iterator i = m_agents.begin(); i != stop; ++i) {
-        if (!i->second->isInitialized()) {
+    for (t_agents::iterator i = m_agents.begin(); i != stop; ++i)
+    {
+        if (!i->second->isInitialized())
+        {
             i->second->init();
         }
     }
 }
 //-----------------------------------------------------------------
-void
-AgentPack::update()
+void AgentPack::update()
 {
     t_agents::iterator end = m_agents.end();
-    for (t_agents::iterator i = m_agents.begin(); i != end; ++i) {
+    for (t_agents::iterator i = m_agents.begin(); i != end; ++i)
+    {
         i->second->update();
     }
 }
@@ -131,16 +137,15 @@ AgentPack::update()
 /**
  * Shutdown initialized agents in reverse order.
  */
-void
-AgentPack::shutdown()
+void AgentPack::shutdown()
 {
     t_agents::reverse_iterator rend = m_agents.rend();
     for (t_agents::reverse_iterator i = m_agents.rbegin();
-            i != rend; ++i)
+         i != rend; ++i)
     {
-        if (i->second->isInitialized()) {
+        if (i->second->isInitialized())
+        {
             i->second->shutdown();
         }
     }
 }
-

@@ -12,8 +12,7 @@
 /**
  * Store drawer at the end of list.
  */
-    void
-MultiDrawer::acceptDrawer(Drawable *drawer)
+void MultiDrawer::acceptDrawer(Drawable *drawer)
 {
     m_drawers.push_back(drawer);
 }
@@ -22,12 +21,13 @@ MultiDrawer::acceptDrawer(Drawable *drawer)
  * Remove equal drawer from list.
  * Drawer will not be deleted.
  */
-    void
-MultiDrawer::removeDrawer(const Drawable *drawer)
+void MultiDrawer::removeDrawer(const Drawable *drawer)
 {
     t_drawers::iterator end = m_drawers.end();
-    for (t_drawers::iterator i = m_drawers.begin(); i != end; ++i) {
-        if (*i == drawer) {
+    for (t_drawers::iterator i = m_drawers.begin(); i != end; ++i)
+    {
+        if (*i == drawer)
+        {
             m_drawers.erase(i);
             return;
         }
@@ -37,8 +37,7 @@ MultiDrawer::removeDrawer(const Drawable *drawer)
 /**
  * Remove all drawers from list.
  */
-void
-MultiDrawer::removeAll()
+void MultiDrawer::removeAll()
 {
     m_drawers.clear();
 }
@@ -46,12 +45,11 @@ MultiDrawer::removeAll()
 /**
  * Let every registred drawer to draw.
  */
-void
-MultiDrawer::drawOn(SDL_Surface *screen)
+void MultiDrawer::drawOn(SDL_Surface *screen)
 {
     t_drawers::iterator end = m_drawers.end();
-    for (t_drawers::iterator i = m_drawers.begin(); i != end; ++i) {
+    for (t_drawers::iterator i = m_drawers.begin(); i != end; ++i)
+    {
         (*i)->drawOn(screen);
     }
 }
-

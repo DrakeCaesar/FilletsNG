@@ -24,7 +24,7 @@
  * @param models wrapper arount models
  */
 View::View(const ModelList &models)
-     : m_models(models), m_screenShift(0, 0)
+    : m_models(models), m_screenShift(0, 0)
 {
     m_animShift = 0;
     m_shiftSize = SCALE;
@@ -36,21 +36,21 @@ View::~View()
     removeDecors();
 }
 //-----------------------------------------------------------------
-void
-View::removeDecors()
+void View::removeDecors()
 {
     t_decors::iterator end = m_decors.end();
-    for (t_decors::iterator i = m_decors.begin(); i != end; ++i) {
+    for (t_decors::iterator i = m_decors.begin(); i != end; ++i)
+    {
         delete *i;
     }
     m_decors.clear();
 }
 //-----------------------------------------------------------------
-void
-View::drawDecors()
+void View::drawDecors()
 {
     t_decors::iterator end = m_decors.end();
-    for (t_decors::iterator i = m_decors.begin(); i != end; ++i) {
+    for (t_decors::iterator i = m_decors.begin(); i != end; ++i)
+    {
         (*i)->drawOnScreen(this, m_screen);
     }
 }
@@ -59,20 +59,18 @@ View::drawDecors()
 /**
  * Prepare new anim.
  */
-    void
-View::noteNewRound(int phases)
+void View::noteNewRound(int phases)
 {
     m_animShift = 0;
     computeShiftSize(phases);
 }
 //-----------------------------------------------------------------
-void
-View::drawOn(SDL_Surface *screen)
-{ 
+void View::drawOn(SDL_Surface *screen)
+{
     m_screen = screen;
     m_animShift = min(SCALE, m_animShift + m_shiftSize);
     if (!movingfish)
-        m_animShift = (tick-1)%speedup*3;
+        m_animShift = (tick - 1) % speedup * 3;
     m_models.drawOn(this);
     drawDecors();
 }
@@ -81,31 +79,33 @@ View::drawOn(SDL_Surface *screen)
  * Draw model.
  * Care about model shift during move.
  */
-    void
-View::drawModel(Cube *model)
+void View::drawModel(Cube *model)
 {
-    if (!model->isLost()) {
+    if (!model->isLost())
+    {
         V2 screenPos = getScreenPos(model);
 
         Anim::eSide side = Anim::SIDE_LEFT;
-        if (!model->isLeft()) {
+        if (!model->isLeft())
+        {
             side = Anim::SIDE_RIGHT;
         }
         model->anim()->drawAt(m_screen,
-                screenPos.getX(), screenPos.getY(), side);
+                              screenPos.getX(), screenPos.getY(), side);
     }
 }
 //-----------------------------------------------------------------
 /**
  * Split move in a few phases.
  */
-    void
-View::computeShiftSize(int phases)
+void View::computeShiftSize(int phases)
 {
-    if (phases > 0) {
+    if (phases > 0)
+    {
         m_shiftSize = SCALE / phases;
     }
-    else {
+    else
+    {
         m_shiftSize = SCALE;
     }
 }
@@ -113,12 +113,12 @@ View::computeShiftSize(int phases)
 /**
  * Returns position on screen when model will be drawn.
  */
-V2
-View::getScreenPos(const Cube *model) const
+V2 View::getScreenPos(const Cube *model) const
 {
     V2 shift(0, 0);
     Dir::eDir dir = model->getLastMoveDir();
-    if (dir != Dir::DIR_NO) {
+    if (dir != Dir::DIR_NO)
+    {
         shift = Dir::dir2xy(dir);
         shift = shift.scale(m_animShift);
     }
@@ -131,9 +131,7 @@ View::getScreenPos(const Cube *model) const
 /**
  * Returns position of tile under cursor.
  */
-V2
-View::getFieldPos(const V2 &cursor) const
+V2 View::getFieldPos(const V2 &cursor) const
 {
     return cursor.minus(m_screenShift).shrink(SCALE);
 }
-

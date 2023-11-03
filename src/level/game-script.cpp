@@ -25,13 +25,13 @@
 #include "def-script.h"
 
 //-----------------------------------------------------------------
-    inline LevelScript *
+inline LevelScript *
 getLevelScript(lua_State *L)
 {
-    return dynamic_cast<LevelScript*>(script_getLeader(L));
+    return dynamic_cast<LevelScript *>(script_getLeader(L));
 }
 //-----------------------------------------------------------------
-    inline Cube *
+inline Cube *
 getModel(lua_State *L, int model_index)
 {
     return getLevelScript(L)->getModel(model_index);
@@ -41,8 +41,7 @@ getModel(lua_State *L, int model_index)
 /**
  * void game_setRoomWaves(amplitude, periode, speed)
  */
-    int
-script_game_setRoomWaves(lua_State *L) throw()
+int script_game_setRoomWaves(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     float amp = luaL_checknumber(L, 1);
@@ -65,8 +64,7 @@ script_game_setRoomWaves(lua_State *L) throw()
  *  ..X
  *  ]])
  */
-    int
-script_game_addModel(lua_State *L) throw()
+int script_game_addModel(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *kind = luaL_checkstring(L, 1);
@@ -79,21 +77,20 @@ script_game_addModel(lua_State *L) throw()
     int model_index = getLevelScript(L)->addModel(model, unit);
     lua_pushnumber(L, model_index);
     END_NOEXCEPTION;
-    //NOTE: return model_index
+    // NOTE: return model_index
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * int game_getCycles()
  */
-    int
-script_game_getCycles(lua_State *L) throw()
+int script_game_getCycles(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int cycles = getLevelScript(L)->room()->getCycles();
     lua_pushnumber(L, cycles);
     END_NOEXCEPTION;
-    //NOTE: return cycles
+    // NOTE: return cycles
     return 1;
 }
 //-----------------------------------------------------------------
@@ -105,12 +102,12 @@ script_game_getCycles(lua_State *L) throw()
  *          params = (model_index1, model_index2,
  *              shift_x1, shift_y1, shift_x2, shift_y2)
  */
-    int
-script_game_addDecor(lua_State *L) throw()
+int script_game_addDecor(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     std::string decor_name = luaL_checkstring(L, 1);
-    if ("rope" == decor_name) {
+    if ("rope" == decor_name)
+    {
         int model_index1 = luaL_checkinteger(L, 2);
         int model_index2 = luaL_checkinteger(L, 3);
         int shift_x1 = luaL_checkinteger(L, 4);
@@ -121,11 +118,12 @@ script_game_addDecor(lua_State *L) throw()
         Cube *model1 = getModel(L, model_index1);
         Cube *model2 = getModel(L, model_index2);
         getLevelScript(L)->room()->addDecor(new RopeDecor(model1, model2,
-                    V2(shift_x1, shift_y1), V2(shift_x2, shift_y2)));
+                                                          V2(shift_x1, shift_y1), V2(shift_x2, shift_y2)));
     }
-    else {
+    else
+    {
         LOG_WARNING(ExInfo("unknown decor")
-                .addInfo("decor_name", decor_name));
+                        .addInfo("decor_name", decor_name));
     }
 
     END_NOEXCEPTION;
@@ -135,8 +133,7 @@ script_game_addDecor(lua_State *L) throw()
 /**
  * void game_setScreenShift(x, y)
  */
-    int
-script_game_setScreenShift(lua_State *L) throw()
+int script_game_setScreenShift(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int x = luaL_checkinteger(L, 1);
@@ -149,8 +146,7 @@ script_game_setScreenShift(lua_State *L) throw()
 /**
  * void game_changeBg(picture)
  */
-    int
-script_game_changeBg(lua_State *L) throw()
+int script_game_changeBg(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *picture = luaL_checkstring(L, 1);
@@ -163,13 +159,12 @@ script_game_changeBg(lua_State *L) throw()
  * string game_getBg()
  * Return the name of the currently used bg picture.
  */
-    int
-script_game_getBg(lua_State *L) throw()
+int script_game_getBg(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     lua_pushstring(L, getLevelScript(L)->room()->getBg().c_str());
     END_NOEXCEPTION;
-    //NOTE: return bg
+    // NOTE: return bg
     return 1;
 }
 //-----------------------------------------------------------------
@@ -177,8 +172,7 @@ script_game_getBg(lua_State *L) throw()
  * void game_checkActive()
  * Check active fish, switch to non busy alive fish.
  */
-    int
-script_game_checkActive(lua_State *L) throw()
+int script_game_checkActive(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     getLevelScript(L)->room()->checkActive();
@@ -190,8 +184,7 @@ script_game_checkActive(lua_State *L) throw()
  * void game_setFastFalling(value)
  * Value==true sets fast falling for all objets.
  */
-    int
-script_game_setFastFalling(lua_State *L) throw()
+int script_game_setFastFalling(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     bool value = lua_toboolean(L, 1);
@@ -207,22 +200,24 @@ script_game_setFastFalling(lua_State *L) throw()
  * LOOK_LEFT = 0
  * LOOK_RIGHT = 1
  */
-    int
-script_model_addAnim(lua_State *L) throw()
+int script_model_addAnim(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
     const char *anim_name = luaL_checkstring(L, 2);
     const char *picture = luaL_checkstring(L, 3);
     Anim::eSide lookDir = static_cast<Anim::eSide>(
-            luaL_optinteger(L, 4, Anim::SIDE_LEFT));
+        luaL_optinteger(L, 4, Anim::SIDE_LEFT));
 
     Cube *model = getModel(L, model_index);
-    if (picture[0] == '\0') {
+    if (picture[0] == '\0')
+    {
         model->anim()->addAnim(anim_name,
-                ShapeBuilder::createImage(model->shape(), model->getWeight()),
-                lookDir);
-    } else {
+                               ShapeBuilder::createImage(model->shape(), model->getWeight()),
+                               lookDir);
+    }
+    else
+    {
         model->anim()->addAnim(anim_name, Path::dataReadPath(picture), lookDir);
     }
     END_NOEXCEPTION;
@@ -232,8 +227,7 @@ script_model_addAnim(lua_State *L) throw()
 /**
  * void model_runAnim(model_index, anim_name, phase=0)
  */
-    int
-script_model_runAnim(lua_State *L) throw()
+int script_model_runAnim(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -249,8 +243,7 @@ script_model_runAnim(lua_State *L) throw()
 /**
  * void model_setAnim(model_index, anim_name, phase)
  */
-    int
-script_model_setAnim(lua_State *L) throw()
+int script_model_setAnim(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -268,8 +261,7 @@ script_model_setAnim(lua_State *L) throw()
  *
  * Set special anim for one phase.
  */
-    int
-script_model_useSpecialAnim(lua_State *L) throw()
+int script_model_useSpecialAnim(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -285,8 +277,7 @@ script_model_useSpecialAnim(lua_State *L) throw()
 /**
  * int model_countAnims(model_index, anim_name)
  */
-    int
-script_model_countAnims(lua_State *L) throw()
+int script_model_countAnims(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -296,7 +287,7 @@ script_model_countAnims(lua_State *L) throw()
     int anims = model->anim()->countAnimPhases(anim_name);
     lua_pushnumber(L, anims);
     END_NOEXCEPTION;
-    //NOTE: return anims
+    // NOTE: return anims
     return 1;
 }
 //-----------------------------------------------------------------
@@ -306,8 +297,7 @@ script_model_countAnims(lua_State *L) throw()
  * Set special view effect.
  * available effects: "none", "mirror", "invisible", "reverse", "zx"
  */
-    int
-script_model_setEffect(lua_State *L) throw()
+int script_model_setEffect(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -322,8 +312,7 @@ script_model_setEffect(lua_State *L) throw()
 /**
  * (x, y) model_getLoc(model_index)
  */
-    int
-script_model_getLoc(lua_State *L) throw()
+int script_model_getLoc(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -334,7 +323,7 @@ script_model_getLoc(lua_State *L) throw()
     lua_pushnumber(L, loc.getX());
     lua_pushnumber(L, loc.getY());
     END_NOEXCEPTION;
-    //NOTE: return (x, y)
+    // NOTE: return (x, y)
     return 2;
 }
 
@@ -342,8 +331,7 @@ script_model_getLoc(lua_State *L) throw()
 /**
  * string model_getAction(model_index)
  */
-    int
-script_model_getAction(lua_State *L) throw()
+int script_model_getAction(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -352,15 +340,14 @@ script_model_getAction(lua_State *L) throw()
 
     lua_pushlstring(L, action.c_str(), action.size());
     END_NOEXCEPTION;
-    //NOTE: return action
+    // NOTE: return action
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * string model_getState(model_index)
  */
-    int
-script_model_getState(lua_State *L) throw()
+int script_model_getState(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -369,15 +356,14 @@ script_model_getState(lua_State *L) throw()
 
     lua_pushlstring(L, state.c_str(), state.size());
     END_NOEXCEPTION;
-    //NOTE: return state
+    // NOTE: return state
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * Dir::eDir model_getDir(model_index)
  */
-    int
-script_model_getDir(lua_State *L) throw()
+int script_model_getDir(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -386,15 +372,14 @@ script_model_getDir(lua_State *L) throw()
 
     lua_pushnumber(L, dir);
     END_NOEXCEPTION;
-    //NOTE: return dir
+    // NOTE: return dir
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * Dir::eDir model_getTouchDir(model_index)
  */
-    int
-script_model_getTouchDir(lua_State *L) throw()
+int script_model_getTouchDir(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -403,15 +388,14 @@ script_model_getTouchDir(lua_State *L) throw()
 
     lua_pushnumber(L, dir);
     END_NOEXCEPTION;
-    //NOTE: return dir
+    // NOTE: return dir
     return 1;
 }
 //-----------------------------------------------------------------
 /**
  * bool model_isAlive(model_index)
  */
-    int
-script_model_isAlive(lua_State *L) throw()
+int script_model_isAlive(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -420,7 +404,7 @@ script_model_isAlive(lua_State *L) throw()
 
     lua_pushboolean(L, alive);
     END_NOEXCEPTION;
-    //NOTE: return alive
+    // NOTE: return alive
     return 1;
 }
 //-----------------------------------------------------------------
@@ -429,8 +413,7 @@ script_model_isAlive(lua_State *L) throw()
  *
  * Returns true when model is out of room.
  */
-    int
-script_model_isOut(lua_State *L) throw()
+int script_model_isOut(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -439,7 +422,7 @@ script_model_isOut(lua_State *L) throw()
 
     lua_pushboolean(L, out);
     END_NOEXCEPTION;
-    //NOTE: return out
+    // NOTE: return out
     return 1;
 }
 //-----------------------------------------------------------------
@@ -448,8 +431,7 @@ script_model_isOut(lua_State *L) throw()
  *
  * Returns true when model is looking to the left.
  */
-    int
-script_model_isLeft(lua_State *L) throw()
+int script_model_isLeft(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -458,7 +440,7 @@ script_model_isLeft(lua_State *L) throw()
 
     lua_pushboolean(L, left);
     END_NOEXCEPTION;
-    //NOTE: return left
+    // NOTE: return left
     return 1;
 }
 //-----------------------------------------------------------------
@@ -467,8 +449,7 @@ script_model_isLeft(lua_State *L) throw()
  *
  * Returns true when model is at room border.
  */
-    int
-script_model_isAtBorder(lua_State *L) throw()
+int script_model_isAtBorder(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -477,7 +458,7 @@ script_model_isAtBorder(lua_State *L) throw()
 
     lua_pushboolean(L, atBorder);
     END_NOEXCEPTION;
-    //NOTE: return atBorder
+    // NOTE: return atBorder
     return 1;
 }
 //-----------------------------------------------------------------
@@ -486,8 +467,7 @@ script_model_isAtBorder(lua_State *L) throw()
  *
  * Returns model width.
  */
-    int
-script_model_getW(lua_State *L) throw()
+int script_model_getW(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -496,7 +476,7 @@ script_model_getW(lua_State *L) throw()
 
     lua_pushnumber(L, width);
     END_NOEXCEPTION;
-    //NOTE: return width
+    // NOTE: return width
     return 1;
 }
 //-----------------------------------------------------------------
@@ -505,8 +485,7 @@ script_model_getW(lua_State *L) throw()
  *
  * Returns model height.
  */
-    int
-script_model_getH(lua_State *L) throw()
+int script_model_getH(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -515,7 +494,7 @@ script_model_getH(lua_State *L) throw()
 
     lua_pushnumber(L, height);
     END_NOEXCEPTION;
-    //NOTE: return height
+    // NOTE: return height
     return 1;
 }
 //-----------------------------------------------------------------
@@ -526,31 +505,35 @@ script_model_getH(lua_State *L) throw()
  * - "goal_out" ... go out
  * - "goal_escape" ... go alive out
  */
-    int
-script_model_setGoal(lua_State *L) throw()
+int script_model_setGoal(lua_State *L) throw()
 {
-    //NOTE: (const char*)== does not compare string equality
+    // NOTE: (const char*)== does not compare string equality
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
     std::string goalname = luaL_checkstring(L, 2);
 
     Cube *model = getModel(L, model_index);
     Goal goal = Goal::noGoal();
-    if ("goal_no" == goalname) {
+    if ("goal_no" == goalname)
+    {
         goal = Goal::noGoal();
     }
-    else if ("goal_out" == goalname) {
+    else if ("goal_out" == goalname)
+    {
         goal = Goal::outGoal();
     }
-    else if ("goal_escape" == goalname) {
+    else if ("goal_escape" == goalname)
+    {
         goal = Goal::escapeGoal();
     }
-    else if ("goal_alive" == goalname) {
+    else if ("goal_alive" == goalname)
+    {
         goal = Goal::aliveGoal();
     }
-    else {
+    else
+    {
         ExInfo error = ExInfo("unknown goal")
-            .addInfo("goal", goalname);
+                           .addInfo("goal", goalname);
         LOG_WARNING(error);
         luaL_error(L, error.what());
     }
@@ -566,8 +549,7 @@ script_model_setGoal(lua_State *L) throw()
  *
  * Change look side.
  */
-    int
-script_model_change_turnSide(lua_State *L) throw()
+int script_model_change_turnSide(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -582,8 +564,7 @@ script_model_change_turnSide(lua_State *L) throw()
  * void model_change_setLocation(model_index, x, y)
  * Change model position (used to load undo).
  */
-    int
-script_model_change_setLocation(lua_State *L) throw()
+int script_model_change_setLocation(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -600,8 +581,7 @@ script_model_change_setLocation(lua_State *L) throw()
  * void model_setViewShift(model_index, shift_x, shift_y)
  * Shift view (used for obsolete animation effects).
  */
-    int
-script_model_setViewShift(lua_State *L) throw()
+int script_model_setViewShift(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -617,8 +597,7 @@ script_model_setViewShift(lua_State *L) throw()
 /**
  * shift_x, shift_y model_getViewShift(model_index)
  */
-    int
-script_model_getViewShift(lua_State *L) throw()
+int script_model_getViewShift(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -628,15 +607,14 @@ script_model_getViewShift(lua_State *L) throw()
     lua_pushnumber(L, shift.getX());
     lua_pushnumber(L, shift.getY());
     END_NOEXCEPTION;
-    //NOTE: return shift_x, shift_y
+    // NOTE: return shift_x, shift_y
     return 2;
 }
 //-----------------------------------------------------------------
 /**
  * void model_setBusy(model_index, value)
  */
-    int
-script_model_setBusy(lua_State *L) throw()
+int script_model_setBusy(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -653,8 +631,7 @@ script_model_setBusy(lua_State *L) throw()
  *
  * Returns extra parameters needed to restore after undo.
  */
-    int
-script_model_getExtraParams(lua_State *L) throw()
+int script_model_getExtraParams(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -686,8 +663,7 @@ script_model_getExtraParams(lua_State *L) throw()
  *
  * Restores extra parameters after undo.
  */
-    int
-script_model_change_setExtraParams(lua_State *L) throw()
+int script_model_change_setExtraParams(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -725,8 +701,7 @@ script_model_change_setExtraParams(lua_State *L) throw()
  * NOTE: model_index can be -1 for empty water.
  * NOTE: boder is as wall (even thought border.index == -1)
  */
-    int
-script_model_equals(lua_State *L) throw()
+int script_model_equals(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     int model_index = luaL_checkinteger(L, 1);
@@ -735,35 +710,38 @@ script_model_equals(lua_State *L) throw()
     Cube *other = getLevelScript(L)->askField(V2(x, y));
 
     bool equals = false;
-    if (other) {
-        if (model_index == -1) {
+    if (other)
+    {
+        if (model_index == -1)
+        {
             equals = false;
         }
-        else {
+        else
+        {
             equals = (model_index == other->getIndex());
         }
     }
-    else {
-        if (model_index == -1) {
+    else
+    {
+        if (model_index == -1)
+        {
             equals = true;
         }
     }
 
     lua_pushboolean(L, equals);
     END_NOEXCEPTION;
-    //NOTE: return equals
+    // NOTE: return equals
     return 1;
 }
-
 
 //-----------------------------------------------------------------
 /**
  * void sound_addSound(name, file)
- * 
+ *
  * Store this sound resource under this name.
  */
-    int
-script_sound_addSound(lua_State *L) throw()
+int script_sound_addSound(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *name = luaL_checkstring(L, 1);
@@ -777,8 +755,7 @@ script_sound_addSound(lua_State *L) throw()
 /**
  * void sound_playSound(name, volume)
  */
-    int
-script_sound_playSound(lua_State *L) throw()
+int script_sound_playSound(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *name = luaL_checkstring(L, 1);
@@ -788,4 +765,3 @@ script_sound_playSound(lua_State *L) throw()
     END_NOEXCEPTION;
     return 0;
 }
-

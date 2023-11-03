@@ -24,7 +24,7 @@ boostPath(const std::string &file)
     return boost::filesystem::path(file);
 #else
     return boost::filesystem::path(file,
-            boost::filesystem::portable_posix_name);
+                                   boost::filesystem::portable_posix_name);
 #endif
 }
 
@@ -33,7 +33,7 @@ boostPath(const std::string &file)
  * Get native filename.
  * @param file posix filename
  */
-    std::string
+std::string
 FsPath::getNative(const std::string &file)
 {
     return boostPath(file).string();
@@ -43,8 +43,7 @@ FsPath::getNative(const std::string &file)
  * Returns true when file or directory exists.
  * @param file posix filename
  */
-    bool
-FsPath::exists(const std::string &file)
+bool FsPath::exists(const std::string &file)
 {
     return boost::filesystem::exists(boostPath(file));
 }
@@ -55,7 +54,7 @@ FsPath::exists(const std::string &file)
  * @param file posix filename
  * @return "dir/file"
  */
-    std::string
+std::string
 FsPath::join(const std::string &dir, const std::string &file)
 {
     return (boostPath(dir) / boostPath(file)).string();
@@ -65,9 +64,7 @@ FsPath::join(const std::string &dir, const std::string &file)
  * Create all directories in path (like "mkdir -p").
  * @param file posix filename
  */
-void
-FsPath::createPath(const std::string &file)
+void FsPath::createPath(const std::string &file)
 {
     boost::filesystem::create_directories(boostPath(file).branch_path());
 }
-

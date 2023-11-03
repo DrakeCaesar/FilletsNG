@@ -25,9 +25,7 @@ DemoInput::DemoInput(GameState *demo)
     m_keymap->registerKey(KeyStroke(SDLK_SPACE, KMOD_NONE), key_quit);
 }
 //-----------------------------------------------------------------
-void
-DemoInput::mouseEvent(const MouseStroke &/*buttons*/)
+void DemoInput::mouseEvent(const MouseStroke & /*buttons*/)
 {
     quitState();
 }
-

@@ -41,8 +41,7 @@ DemoMode::~DemoMode()
 /**
  * Run demo.
  */
-    void
-DemoMode::own_initState()
+void DemoMode::own_initState()
 {
     m_oldLimitY = SubTitleAgent::agent()->getLimitY();
     m_script->doFile(m_demoscript);
@@ -51,23 +50,24 @@ DemoMode::own_initState()
 /**
  * Execute next demo command.
  */
-void
-DemoMode::own_updateState()
+void DemoMode::own_updateState()
 {
-    if (satisfyPlan()) {
+    if (satisfyPlan())
+    {
         quitState();
     }
 }
 //-----------------------------------------------------------------
-void
-DemoMode::own_cleanState()
+void DemoMode::own_cleanState()
 {
-    //NOTE: loaded dialogs are released by ~Planner()
-    if (m_surfaceBuffer) {
+    // NOTE: loaded dialogs are released by ~Planner()
+    if (m_surfaceBuffer)
+    {
         SDL_FreeSurface(m_surfaceBuffer);
         m_surfaceBuffer = NULL;
     }
-    if (m_display) {
+    if (m_display)
+    {
         delete m_display;
         m_display = NULL;
     }
@@ -82,15 +82,16 @@ DemoMode::own_cleanState()
  * NOTE: limitY for long subtitles are prepared when display is set
  * before planning start
  */
-    bool
-DemoMode::action_display(Picture *picture)
+bool DemoMode::action_display(Picture *picture)
 {
-    if (m_display) {
+    if (m_display)
+    {
         delete m_display;
     }
     m_display = picture;
 
-    if (NULL == m_surfaceBuffer) {
+    if (NULL == m_surfaceBuffer)
+    {
         OptionAgent *options = OptionAgent::agent();
         options->setParam("screen_width", m_display->getW());
         options->setParam("screen_height", m_display->getH());
@@ -101,18 +102,16 @@ DemoMode::action_display(Picture *picture)
     return true;
 }
 //-----------------------------------------------------------------
-void
-DemoMode::drawOn(SDL_Surface *screen)
+void DemoMode::drawOn(SDL_Surface *screen)
 {
-    if (NULL == m_surfaceBuffer) {
+    if (NULL == m_surfaceBuffer)
+    {
         m_surfaceBuffer = SurfaceTool::createEmpty(screen);
     }
 
-    if (m_display) {
+    if (m_display)
+    {
         m_display->drawOn(m_surfaceBuffer);
     }
     SDL_BlitSurface(m_surfaceBuffer, NULL, screen, NULL);
 }
-
-
-

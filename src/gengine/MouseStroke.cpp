@@ -28,4 +28,3 @@ MouseStroke::toString() const
 {
     return StringTool::toString(m_button);
 }
-

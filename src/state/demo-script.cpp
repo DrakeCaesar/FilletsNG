@@ -15,18 +15,17 @@
 #include "def-script.h"
 
 //-----------------------------------------------------------------
-    inline DemoMode *
+inline DemoMode *
 getDemo(lua_State *L)
 {
-    return dynamic_cast<DemoMode*>(script_getLeader(L));
+    return dynamic_cast<DemoMode *>(script_getLeader(L));
 }
 
 //-----------------------------------------------------------------
 /**
  * void demo_display(picture, x, y)
  */
-    int
-script_demo_display(lua_State *L) throw()
+int script_demo_display(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *filename = luaL_checkstring(L, 1);
@@ -38,4 +37,3 @@ script_demo_display(lua_State *L) throw()
     END_NOEXCEPTION;
     return 0;
 }
-

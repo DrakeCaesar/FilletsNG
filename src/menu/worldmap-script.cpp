@@ -14,18 +14,17 @@
 #include "def-script.h"
 
 //-----------------------------------------------------------------
-    inline WorldBranch *
+inline WorldBranch *
 getWorld(lua_State *L)
 {
-    return dynamic_cast<WorldBranch*>(script_getLeader(L));
+    return dynamic_cast<WorldBranch *>(script_getLeader(L));
 }
 
 //-----------------------------------------------------------------
 /**
  * void worldmap_addDesc(codename, lang, levelname, desc)
  */
-    int
-script_worldmap_addDesc(lua_State *L) throw()
+int script_worldmap_addDesc(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *codename = luaL_checkstring(L, 1);
@@ -43,8 +42,7 @@ script_worldmap_addDesc(lua_State *L) throw()
  * void branch_addNode(parent, codename, datafile, x, y,
  *          hidden=false, poster="")
  */
-    int
-script_branch_addNode(lua_State *L) throw()
+int script_branch_addNode(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *parent = luaL_checkstring(L, 1);
@@ -56,7 +54,7 @@ script_branch_addNode(lua_State *L) throw()
     const char *poster = luaL_optstring(L, 7, "");
 
     LevelNode *node = new LevelNode(codename,
-                Path::dataReadPath(datafile), V2(nodeX, nodeY), poster);
+                                    Path::dataReadPath(datafile), V2(nodeX, nodeY), poster);
     getWorld(L)->addNode(parent, node, hidden);
     END_NOEXCEPTION;
     return 0;
@@ -65,8 +63,7 @@ script_branch_addNode(lua_State *L) throw()
 /**
  * void branch_setEnding(codename, datafile, poster="")
  */
-    int
-script_branch_setEnding(lua_State *L) throw()
+int script_branch_setEnding(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *codename = luaL_checkstring(L, 1);
@@ -74,7 +71,7 @@ script_branch_setEnding(lua_State *L) throw()
     const char *poster = luaL_optstring(L, 3, "");
 
     LevelNode *node = new LevelNode(codename,
-                Path::dataReadPath(datafile), V2(-1, -1), poster);
+                                    Path::dataReadPath(datafile), V2(-1, -1), poster);
     getWorld(L)->setEnding(node);
     END_NOEXCEPTION;
     return 0;
@@ -83,8 +80,7 @@ script_branch_setEnding(lua_State *L) throw()
 /**
  * void node_bestSolution(codename, moves, author)
  */
-    int
-script_node_bestSolution(lua_State *L) throw()
+int script_node_bestSolution(lua_State *L) throw()
 {
     BEGIN_NOEXCEPTION;
     const char *codename = luaL_checkstring(L, 1);
@@ -95,5 +91,3 @@ script_node_bestSolution(lua_State *L) throw()
     END_NOEXCEPTION;
     return 0;
 }
-
-

@@ -52,10 +52,12 @@ WorldMap::WorldMap()
 //-----------------------------------------------------------------
 WorldMap::~WorldMap()
 {
-    if (m_startNode) {
+    if (m_startNode)
+    {
         delete m_startNode;
     }
-    if (m_ending) {
+    if (m_ending)
+    {
         delete m_ending;
     }
     delete m_bg;
@@ -68,14 +70,13 @@ WorldMap::~WorldMap()
 /**
  * Prepare background with buttons.
  */
-    void
-WorldMap::prepareBg()
+void WorldMap::prepareBg()
 {
     m_bg = new LayeredPicture(
-            Path::dataReadPath("images/menu/map.png"),
-            V2(0, 0),
-            Path::dataReadPath("images/menu/map_lower.png"),
-            Path::dataReadPath("images/menu/map_mask.png"));
+        Path::dataReadPath("images/menu/map.png"),
+        V2(0, 0),
+        Path::dataReadPath("images/menu/map_lower.png"),
+        Path::dataReadPath("images/menu/map_mask.png"));
 
     m_maskIntro = m_bg->getMaskAt(V2(0, 0));
     m_maskExit = m_bg->getMaskAt(V2(m_bg->getW() - 1, 0));
@@ -88,34 +89,34 @@ WorldMap::prepareBg()
  * Read dots postions and level descriptions.
  * @throws LogicException when cannot parse data file
  */
-    void
-WorldMap::initMap(const Path &mapfile)
+void WorldMap::initMap(const Path &mapfile)
 {
     WorldBranch parser(NULL);
     m_startNode = parser.parseMap(mapfile, &m_ending, m_descPack);
-    if (NULL == m_startNode) {
+    if (NULL == m_startNode)
+    {
         throw LogicException(ExInfo("cannot create world map")
-                .addInfo("file", mapfile.getNative()));
+                                 .addInfo("file", mapfile.getNative()));
     }
 }
 //-----------------------------------------------------------------
 /**
  * Display menu and play menu music.
  */
-    void
-WorldMap::own_initState()
+void WorldMap::own_initState()
 {
     m_levelStatus->setRunning(true);
     own_resumeState();
 }
 //-----------------------------------------------------------------
-    void
-WorldMap::own_updateState()
+void WorldMap::own_updateState()
 {
-    if (m_ending && m_selected == m_ending) {
+    if (m_ending && m_selected == m_ending)
+    {
         runSelected();
     }
-    else {
+    else
+    {
         watchCursor();
     }
 }
@@ -123,14 +124,16 @@ WorldMap::own_updateState()
 /**
  * Display menu and play menu music.
  */
-    void
-WorldMap::own_resumeState()
+void WorldMap::own_resumeState()
 {
     LevelNode *nextLevel = NULL;
-    if (m_levelStatus->wasRunning()) {
-        if (m_levelStatus->isComplete()) {
+    if (m_levelStatus->wasRunning())
+    {
+        if (m_levelStatus->isComplete())
+        {
             markSolved();
-            if (checkEnding()) {
+            if (checkEnding())
+            {
                 nextLevel = m_ending;
             }
         }
@@ -145,14 +148,13 @@ WorldMap::own_resumeState()
     m_selected = nextLevel;
 
     SoundAgent::agent()->playMusic(
-            Path::dataReadPath("music/menu.ogg"), NULL);
+        Path::dataReadPath("music/menu.ogg"), NULL);
 }
 //-----------------------------------------------------------------
 /**
  * Stop music.
  */
-    void
-WorldMap::own_cleanState()
+void WorldMap::own_cleanState()
 {
     SoundAgent::agent()->stopMusic();
 }
@@ -160,25 +162,23 @@ WorldMap::own_cleanState()
 /**
  * Mark node or mask under cursor as selected.
  */
-    void
-WorldMap::watchCursor()
+void WorldMap::watchCursor()
 {
     V2 mouseLoc = VideoAgent::agent()->scaleMouseLoc(getInput()->getMouseLoc());
 
-    if (!m_lastMouseLoc.equals(mouseLoc)) {
+    if (!m_lastMouseLoc.equals(mouseLoc))
+    {
         m_lastMouseLoc = mouseLoc;
         m_selected = m_startNode->findSelected(mouseLoc);
     }
 
     m_activeMask = m_bg->getMaskAtWorld(mouseLoc);
-    if (m_activeMask == m_maskIntro
-            || m_activeMask == m_maskExit
-            || m_activeMask == m_maskCredits
-            || m_activeMask == m_maskOptions)
+    if (m_activeMask == m_maskIntro || m_activeMask == m_maskExit || m_activeMask == m_maskCredits || m_activeMask == m_maskOptions)
     {
         m_bg->setActiveMask(m_activeMask);
     }
-    else {
+    else
+    {
         m_bg->setNoActive();
     }
 }
@@ -186,8 +186,7 @@ WorldMap::watchCursor()
 /**
  * Select next unsolved level.
  */
-    void
-WorldMap::selectNextLevel()
+void WorldMap::selectNextLevel()
 {
     m_selected = m_startNode->findNextOpen(m_selected);
 }
@@ -196,36 +195,43 @@ WorldMap::selectNextLevel()
  * Start level under pressed button.
  * Start pedometer when level is solved already.
  */
-    void
-WorldMap::runSelected()
+void WorldMap::runSelected()
 {
     Level *level = createSelected();
-    if (level) {
+    if (level)
+    {
         m_levelStatus->prepareRun(m_selected->getCodename(),
-                m_selected->getPoster(),
-                m_selected->getBestMoves(),
-                m_selected->getBestAuthor());
+                                  m_selected->getPoster(),
+                                  m_selected->getBestMoves(),
+                                  m_selected->getBestAuthor());
         level->fillStatus(m_levelStatus);
 
-        if (m_selected->getState() == LevelNode::STATE_SOLVED) {
+        if (m_selected->getState() == LevelNode::STATE_SOLVED)
+        {
             Pedometer *pedometer = new Pedometer(m_levelStatus, level);
             pushState(pedometer);
         }
-        else {
+        else
+        {
             pushState(level);
         }
     }
-    else {
-        if (m_activeMask == m_maskIntro) {
+    else
+    {
+        if (m_activeMask == m_maskIntro)
+        {
             runIntro();
         }
-        else if (m_activeMask == m_maskExit) {
+        else if (m_activeMask == m_maskExit)
+        {
             quitState();
         }
-        else if (m_activeMask == m_maskCredits) {
+        else if (m_activeMask == m_maskCredits)
+        {
             runCredits();
         }
-        else if (m_activeMask == m_maskOptions) {
+        else if (m_activeMask == m_maskOptions)
+        {
             runOptions();
         }
     }
@@ -238,17 +244,18 @@ Level *
 WorldMap::createSelected() const
 {
     Level *result = NULL;
-    if (m_selected) {
+    if (m_selected)
+    {
         result = m_selected->createLevel();
         result->fillDesc(this);
     }
     return result;
 }
 //-----------------------------------------------------------------
-    void
-WorldMap::markSolved()
+void WorldMap::markSolved()
 {
-    if (m_selected) {
+    if (m_selected)
+    {
         m_selected->setState(LevelNode::STATE_SOLVED);
     }
 }
@@ -258,13 +265,15 @@ WorldMap::markSolved()
  * Ending node is started when all levels were solved.
  * @return true when ending is started
  */
-    bool
-WorldMap::checkEnding() const
+bool WorldMap::checkEnding() const
 {
     bool result = false;
-    if (m_ending && m_selected != m_ending) {
-        if (m_selected->isLeaf()) {
-            if (m_startNode->areAllSolved()) {
+    if (m_ending && m_selected != m_ending)
+    {
+        if (m_selected->isLeaf())
+        {
+            if (m_startNode->areAllSolved())
+            {
                 result = true;
             }
         }
@@ -272,12 +281,12 @@ WorldMap::checkEnding() const
     return result;
 }
 //-----------------------------------------------------------------
-    void
-WorldMap::drawOn(SDL_Surface *screen)
+void WorldMap::drawOn(SDL_Surface *screen)
 {
     m_drawer->setScreen(screen);
     m_startNode->drawPath(m_drawer);
-    if (m_selected) {
+    if (m_selected)
+    {
         m_drawer->drawSelect(m_selected->getLoc());
         m_drawer->drawSelected(findLevelName(m_selected->getCodename()));
     }
@@ -288,11 +297,13 @@ WorldMap::findLevelName(const std::string &codename) const
 {
     std::string result;
     const LevelDesc *desc =
-        dynamic_cast<const LevelDesc*>(m_descPack->findDialogHard(codename));
-    if (desc) {
+        dynamic_cast<const LevelDesc *>(m_descPack->findDialogHard(codename));
+    if (desc)
+    {
         result = desc->getLevelName();
     }
-    else {
+    else
+    {
         result = codename;
     }
     return result;
@@ -303,44 +314,43 @@ WorldMap::findDesc(const std::string &codename) const
 {
     std::string result;
     const LevelDesc *desc =
-        dynamic_cast<const LevelDesc*>(m_descPack->findDialogHard(codename));
-    if (desc) {
+        dynamic_cast<const LevelDesc *>(m_descPack->findDialogHard(codename));
+    if (desc)
+    {
         result = desc->getDesc();
     }
-    else {
+    else
+    {
         result = "???";
     }
     return result;
 }
 //-----------------------------------------------------------------
-    void
-WorldMap::runIntro()
+void WorldMap::runIntro()
 {
 #ifdef HAVE_SMPEG
     Path movieFile = Path::dataReadPath("images/menu/intro.mpg");
-    if (movieFile.exists()) {
+    if (movieFile.exists())
+    {
         pushState(new MovieState(movieFile));
         return;
     }
 
     LOG_WARNING(ExInfo("cannot find intro")
-            .addInfo("file", movieFile.getNative()));
+                    .addInfo("file", movieFile.getNative()));
 #endif
 
     pushState(new DemoMode(Path::dataReadPath("script/share/demo_intro.lua")));
 }
 //-----------------------------------------------------------------
-    void
-WorldMap::runCredits()
+void WorldMap::runCredits()
 {
     pushState(new PosterScroller(
-                Path::dataReadPath("images/menu/credits.png")));
+        Path::dataReadPath("images/menu/credits.png")));
 }
 //-----------------------------------------------------------------
-    void
-WorldMap::runOptions()
+void WorldMap::runOptions()
 {
     MenuOptions *options = new MenuOptions();
     pushState(options);
 }
-

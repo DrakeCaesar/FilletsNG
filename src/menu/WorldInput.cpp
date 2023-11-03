@@ -18,7 +18,7 @@
 WorldInput::WorldInput(WorldMap *world)
     : GameInput(world)
 {
-    //TODO: 'O' ... options, 'I' ... intro, 'E' ... exit, 'C' ... credits
+    // TODO: 'O' ... options, 'I' ... intro, 'E' ... exit, 'C' ... credits
     KeyDesc key_tab(KEY_TAB, "select next level");
     KeyDesc key_enter(KEY_ENTER, "run selected");
 
@@ -29,29 +29,28 @@ WorldInput::WorldInput(WorldMap *world)
 WorldMap *
 WorldInput::getWorld()
 {
-    return dynamic_cast<WorldMap*>(m_state);
+    return dynamic_cast<WorldMap *>(m_state);
 }
 //-----------------------------------------------------------------
-void
-WorldInput::specKey(int keyIndex)
+void WorldInput::specKey(int keyIndex)
 {
-    switch (keyIndex) {
-        case KEY_TAB:
-            getWorld()->selectNextLevel();
-            break;
-        case KEY_ENTER:
-            getWorld()->runSelected();
-            break;
-        default:
-            GameInput::specKey(keyIndex);
+    switch (keyIndex)
+    {
+    case KEY_TAB:
+        getWorld()->selectNextLevel();
+        break;
+    case KEY_ENTER:
+        getWorld()->runSelected();
+        break;
+    default:
+        GameInput::specKey(keyIndex);
     }
 }
 //-----------------------------------------------------------------
-void
-WorldInput::mouseEvent(const MouseStroke &buttons)
+void WorldInput::mouseEvent(const MouseStroke &buttons)
 {
-    if (buttons.isLeft()) {
+    if (buttons.isLeft())
+    {
         getWorld()->runSelected();
     }
 }
-

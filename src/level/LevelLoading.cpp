@@ -21,8 +21,7 @@ LevelLoading::LevelLoading(RoomAccess *access)
     reset();
 }
 //-----------------------------------------------------------------
-    void
-LevelLoading::reset()
+void LevelLoading::reset()
 {
     m_paused = false;
     m_replayMode = false;
@@ -30,8 +29,7 @@ LevelLoading::reset()
     m_loadedMoves = "";
 }
 //-----------------------------------------------------------------
-bool
-LevelLoading::isLoading() const
+bool LevelLoading::isLoading() const
 {
     return !m_loadedMoves.empty() || m_replayMode;
 }
@@ -40,8 +38,7 @@ LevelLoading::isLoading() const
  * Start loading mode.
  * @param moves saved moves to load
  */
-    void
-LevelLoading::loadGame(const std::string &moves)
+void LevelLoading::loadGame(const std::string &moves)
 {
     m_loadedMoves = moves;
     m_loadSpeed = min(50, max(5, m_loadedMoves.size() / 150));
@@ -52,8 +49,7 @@ LevelLoading::loadGame(const std::string &moves)
  * Start replay mode.
  * @param moves saved moves to load
  */
-    void
-LevelLoading::loadReplay(const std::string &moves)
+void LevelLoading::loadReplay(const std::string &moves)
 {
     m_loadedMoves = moves;
     m_loadSpeed = 1;
@@ -64,32 +60,34 @@ LevelLoading::loadReplay(const std::string &moves)
  * Load a few moves.
  * @throws LoadException for bad load
  */
-    void
-LevelLoading::nextLoadAction()
+void LevelLoading::nextLoadAction()
 {
-    if (m_paused || tick%(speedup) != 0) {
+    if (m_paused || tick % (speedup) != 0)
+    {
         return;
     }
 
-    if (m_loadedMoves.empty()) {
+    if (m_loadedMoves.empty())
+    {
         m_access->room()->beginFall(false);
         m_access->room()->finishRound(false);
     }
-    else {
-        for (int i = 0; i < m_loadSpeed
-                && !m_loadedMoves.empty(); ++i)
+    else
+    {
+        for (int i = 0; i < m_loadSpeed && !m_loadedMoves.empty(); ++i)
         {
-            try {
+            try
+            {
                 char symbol = m_loadedMoves[0];
                 m_loadedMoves.erase(0, 1);
 
                 m_access->room()->loadMove(symbol);
             }
-            catch (LoadException &e) {
+            catch (LoadException &e)
+            {
                 throw LoadException(ExInfo(e.info())
-                        .addInfo("remain", m_loadedMoves));
+                                        .addInfo("remain", m_loadedMoves));
             }
         }
     }
 }
-
