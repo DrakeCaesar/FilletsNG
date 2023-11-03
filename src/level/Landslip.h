@@ -8,8 +8,7 @@
 /**
  * Landslip for every round.
  */
-class Landslip : public NoCopy
-{
+class Landslip : public NoCopy {
 private:
     ModelList m_models;
     Cube::eWeight m_impact;
@@ -17,18 +16,24 @@ private:
 
 private:
     bool isOnPad(const Cube *model) const;
+
     bool isFixed(const Cube *model) const;
+
     bool isStoned(const Cube *model) const;
+
     void stone(const Cube *model);
 
 public:
     Landslip(const ModelList &models);
+
     ~Landslip();
 
     bool computeFall();
+
     Cube::eWeight getImpact() { return m_impact; }
 
     bool stoneModel(const Cube *model);
+
     bool fallModel(Cube *model);
 };
 

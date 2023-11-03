@@ -15,7 +15,6 @@
  * @param desc text description
  */
 KeyDesc::KeyDesc(int index, const std::string &desc)
-    : m_desc(desc)
-{
+        : m_desc(desc) {
     m_index = index;
 }

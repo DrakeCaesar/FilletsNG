@@ -11,8 +11,7 @@ class Font;
 /**
  * Constant text label.
  */
-class WiLabel : public WiPicture
-{
+class WiLabel : public WiPicture {
 public:
     WiLabel(const std::string &text, const Font &font,
             const SDL_Color &color);

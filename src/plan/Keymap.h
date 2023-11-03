@@ -11,14 +11,14 @@
 /**
  * Table of defined keys.
  */
-class Keymap
-{
+class Keymap {
 private:
     typedef std::map<KeyStroke, KeyDesc, stroke_less> t_keys;
     t_keys m_keys;
 
 public:
     void registerKey(const KeyStroke &stroke, const KeyDesc &desc);
+
     int indexPressed(const KeyStroke &stroke) const;
 };
 

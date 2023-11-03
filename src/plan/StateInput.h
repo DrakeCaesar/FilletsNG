@@ -2,6 +2,7 @@
 #define HEADER_STATEINPUT_H
 
 class Keymap;
+
 class GameState;
 
 #include "InputHandler.h"
@@ -9,8 +10,7 @@ class GameState;
 /**
  * Handle input for game state.
  */
-class StateInput : public InputHandler
-{
+class StateInput : public InputHandler {
 protected:
     static const int KEY_QUIT = 1;
     static const int KEY_CONSOLE = 2;
@@ -22,16 +22,24 @@ protected:
 
 protected:
     virtual void quitState();
+
     virtual void enableConsole();
-    virtual void enableHelp(){};
-    virtual void enableMenu(){};
+
+    virtual void enableHelp() {};
+
+    virtual void enableMenu() {};
+
     virtual void enableSubtitles();
+
     virtual void specStroke(const KeyStroke & /*stroke*/) {}
+
     virtual void specKey(int keyIndex);
+
     void toggleParam(const std::string &param);
 
 public:
     StateInput(GameState *state);
+
     ~StateInput();
 
     virtual void keyEvent(const KeyStroke &stroke);

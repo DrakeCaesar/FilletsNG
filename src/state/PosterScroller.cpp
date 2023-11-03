@@ -14,26 +14,24 @@
 
 //-----------------------------------------------------------------
 PosterScroller::PosterScroller(const Path &picture)
-    : PosterState(picture)
-{
+        : PosterState(picture) {
     m_shift = 0;
     m_screenH = 0;
 }
+
 //-----------------------------------------------------------------
-void PosterScroller::own_initState()
-{
+void PosterScroller::own_initState() {
     m_screenH = OptionAgent::agent()->getAsInt("screen_height");
     m_shift = -m_screenH + SHIFT_SPEED;
 }
+
 //-----------------------------------------------------------------
-void PosterScroller::own_updateState()
-{
+void PosterScroller::own_updateState() {
     int maxShift = min(m_shift, m_bg->getH() - m_screenH / 3);
 
     m_bg->setLoc(V2(0, -maxShift));
     m_shift += SHIFT_SPEED;
-    if (m_shift > m_bg->getH())
-    {
+    if (m_shift > m_bg->getH()) {
         quitState();
     }
 }

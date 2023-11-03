@@ -8,10 +8,10 @@
 /**
  * Interface - draw able object.
  */
-class Drawable : public NoCopy
-{
+class Drawable : public NoCopy {
 public:
     virtual ~Drawable() {}
+
     virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer) = 0;
 };
 

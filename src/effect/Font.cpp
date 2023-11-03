@@ -19,8 +19,7 @@
 #endif
 
 std::string
-Font::biditize(const std::string &text)
-{
+Font::biditize(const std::string &text) {
 #ifdef HAVE_FRIBIDI
     FriBidiCharType base = FRIBIDI_TYPE_ON;
     FriBidiChar *logicalString = new FriBidiChar[text.length() + 1];
@@ -59,22 +58,20 @@ Font::biditize(const std::string &text)
  * @param height font height
  * @throws TTFException when cannot open font
  */
-Font::Font(const Path &file_ttf, int height)
-{
+Font::Font(const Path &file_ttf, int height) {
     m_ttfont = TTF_OpenFont(file_ttf.getNative().c_str(), height);
-    if (!m_ttfont)
-    {
+    if (!m_ttfont) {
         throw TTFException(ExInfo("OpenFont")
-                               .addInfo("file", file_ttf.getNative()));
+                                   .addInfo("file", file_ttf.getNative()));
     }
 
     // NOTE: bg color will be set to be transparent
     SDL_Color bg = {10, 10, 10, 0};
     m_bg = bg;
 }
+
 //-----------------------------------------------------------------
-Font::~Font()
-{
+Font::~Font() {
     TTF_CloseFont(m_ttfont);
 }
 //-----------------------------------------------------------------
@@ -82,10 +79,8 @@ Font::~Font()
  * Prepare font rendering.
  * @throws TTFException when cannot init SDL_ttf.
  */
-void Font::init()
-{
-    if (TTF_Init() < 0)
-    {
+void Font::init() {
+    if (TTF_Init() < 0) {
         throw TTFException(ExInfo("Init"));
     }
 }
@@ -93,14 +88,12 @@ void Font::init()
 /**
  * Deinit font subsystem.
  */
-void Font::shutdown()
-{
+void Font::shutdown() {
     TTF_Quit();
 }
 
 //-----------------------------------------------------------------
-int Font::calcTextWidth(const std::string &text)
-{
+int Font::calcTextWidth(const std::string &text) {
     int w;
     TTF_SizeUTF8(m_ttfont, text.c_str(), &w, NULL);
     return w;
@@ -115,37 +108,32 @@ int Font::calcTextWidth(const std::string &text)
  * @throws SDLException when converting fails
  */
 SDL_Surface *
-Font::renderText(const std::string &text, const SDL_Color &color) const
-{
+Font::renderText(const std::string &text, const SDL_Color &color) const {
     std::string content = biditize(text);
-    if (text.empty())
-    {
+    if (text.empty()) {
         content = " ";
         LOG_WARNING(ExInfo("empty text to render")
-                        .addInfo("r", color.r)
-                        .addInfo("g", color.g)
-                        .addInfo("b", color.b));
+                            .addInfo("r", color.r)
+                            .addInfo("g", color.g)
+                            .addInfo("b", color.b));
     }
     SDL_Surface *raw_surface = TTF_RenderUTF8_Shaded(m_ttfont, content.c_str(),
                                                      color, m_bg);
-    if (!raw_surface)
-    {
+    if (!raw_surface) {
         throw TTFException(ExInfo("RenderUTF8")
-                               .addInfo("text", text));
+                                   .addInfo("text", text));
     }
 
     // NOTE: at index 0 is bg color
     Uint32 key = SDL_MapRGB(raw_surface->format, m_bg.r, m_bg.g, m_bg.b);
-    if (SDL_SetColorKey(raw_surface, SDL_TRUE, key) < 0)
-    {
+    if (SDL_SetColorKey(raw_surface, SDL_TRUE, key) < 0) {
         throw SDLException(ExInfo("SetColorKey"));
     }
 
     SDL_Surface *surface = SDL_ConvertSurfaceFormat(raw_surface, SDL_PIXELFORMAT_RGBA32, 0);
     key = SDL_MapRGB(surface->format, m_bg.r, m_bg.g, m_bg.b);
     SDL_SetColorKey(surface, SDL_TRUE, key);
-    if (!surface)
-    {
+    if (!surface) {
         throw SDLException(ExInfo("DisplayFormat"));
     }
     SDL_FreeSurface(raw_surface);
@@ -162,8 +150,7 @@ Font::renderText(const std::string &text, const SDL_Color &color) const
  */
 SDL_Surface *
 Font::renderTextOutlined(const std::string &text,
-                         const SDL_Color &color, int outlineWidth) const
-{
+                         const SDL_Color &color, int outlineWidth) const {
     static const SDL_Color BLACK = {0, 0, 0, 255};
     // NOTE: uses spaces to ensure space for outline
     SDL_Surface *surface = renderText(" " + text + " ", color);

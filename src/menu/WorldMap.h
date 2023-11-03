@@ -2,12 +2,19 @@
 #define HEADER_WORLDMAP_H
 
 class Path;
+
 class Level;
+
 class LevelNode;
+
 class NodeDrawer;
+
 class ResDialogPack;
+
 class LevelDesc;
+
 class LevelStatus;
+
 class LayeredPicture;
 
 #include "Drawable.h"
@@ -18,8 +25,7 @@ class LayeredPicture;
 /**
  * Map with path from one level to another.
  */
-class WorldMap : public GameState, public DescFinder, public Drawable
-{
+class WorldMap : public GameState, public DescFinder, public Drawable {
 private:
     V2 m_lastMouseLoc;
     LevelNode *m_startNode;
@@ -38,34 +44,51 @@ private:
 
 private:
     void prepareBg();
+
     void watchCursor();
+
     Level *createSelected() const;
+
     void markSolved();
+
     bool checkEnding() const;
 
     void runIntro();
+
     void runCredits();
+
     void runOptions();
 
 protected:
     virtual void own_initState();
+
     virtual void own_updateState();
+
     virtual void own_pauseState() {}
+
     virtual void own_resumeState();
+
     virtual void own_cleanState();
 
 public:
     WorldMap();
+
     virtual ~WorldMap();
+
     virtual const char *getName() const { return "state_worldmap"; };
+
     void initMap(const Path &mapfile);
 
     virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
+
     void selectNextLevel();
+
     void runSelected();
 
     void addDesc(const std::string &codename, LevelDesc *desc);
+
     virtual std::string findLevelName(const std::string &codename) const;
+
     virtual std::string findDesc(const std::string &codename) const;
 };
 

@@ -98,39 +98,31 @@
 #include <stdio.h> //printf
 
 //-----------------------------------------------------------------
-int main(int argc, char *argv[])
-{
-    try
-    {
+int main(int argc, char *argv[]) {
+    try {
         Application app;
 
-        try
-        {
+        try {
             app.init(argc, argv);
             app.run();
         }
-        catch (HelpException &e)
-        {
+        catch (HelpException &e) {
             printf("%s\n", e.what());
         }
-        catch (BaseException &e)
-        {
+        catch (BaseException &e) {
             LOG_ERROR(e.info());
         }
         app.shutdown();
         return 0;
     }
-    catch (BaseException &e)
-    {
+    catch (BaseException &e) {
         LOG_ERROR(e.info());
     }
-    catch (std::exception &e)
-    {
+    catch (std::exception &e) {
         LOG_ERROR(ExInfo("std::exception")
-                      .addInfo("what", e.what()));
+                          .addInfo("what", e.what()));
     }
-    catch (...)
-    {
+    catch (...) {
         LOG_ERROR(ExInfo("unknown exception"));
     }
 

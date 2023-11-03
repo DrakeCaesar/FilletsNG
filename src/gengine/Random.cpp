@@ -16,11 +16,9 @@ unsigned char Random::ms_randArray[];
 /**
  *  Init random generator.
  */
-void Random::init()
-{
+void Random::init() {
     srand(static_cast<unsigned>(time(NULL)));
-    for (int i = 0; i < ARRAY_SIZE; ++i)
-    {
+    for (int i = 0; i < ARRAY_SIZE; ++i) {
         ms_randArray[i] = randomInt(256);
     }
 }
@@ -29,10 +27,8 @@ void Random::init()
 /*
  * Return number from interval <0,bound).
  */
-int Random::randomInt(int bound)
-{
-    if (bound == 0)
-    {
+int Random::randomInt(int bound) {
+    if (bound == 0) {
         return 0;
     }
     return rand() % bound;
@@ -42,8 +38,7 @@ int Random::randomInt(int bound)
  * Return real number from interval <0,bound).
  */
 double
-Random::randomReal(double bound)
-{
+Random::randomReal(double bound) {
     return bound * rand() / (RAND_MAX + 1.0);
 }
 //-----------------------------------------------------------------
@@ -52,7 +47,6 @@ Random::randomReal(double bound)
  * @param index index of byte, the byte at a index is alway the same
  */
 unsigned char
-Random::aByte(unsigned int index)
-{
+Random::aByte(unsigned int index) {
     return ms_randArray[index % ARRAY_SIZE];
 }

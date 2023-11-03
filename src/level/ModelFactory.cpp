@@ -27,10 +27,8 @@
  */
 Cube *
 ModelFactory::createModel(const std::string &kind, const V2 &loc,
-                          const std::string &shape)
-{
-    if (StringTool::startsWith(kind, "output_"))
-    {
+                          const std::string &shape) {
+    if (StringTool::startsWith(kind, "output_")) {
         return createOutputItem(kind, loc, shape);
     }
 
@@ -51,52 +49,35 @@ ModelFactory::createModel(const std::string &kind, const V2 &loc,
  * @throws LogicException when kind is unkown
  */
 void ModelFactory::createParams(const std::string &kind,
-                                Cube::eWeight *out_weight, Cube::eWeight *out_power, bool *out_alive)
-{
-    if ("fish_small" == kind)
-    {
+                                Cube::eWeight *out_weight, Cube::eWeight *out_power, bool *out_alive) {
+    if ("fish_small" == kind) {
         *out_weight = Cube::LIGHT;
         *out_power = Cube::LIGHT;
         *out_alive = true;
-    }
-    else if ("fish_big" == kind)
-    {
+    } else if ("fish_big" == kind) {
         *out_weight = Cube::LIGHT;
         *out_power = Cube::HEAVY;
         *out_alive = true;
-    }
-    else if (StringTool::startsWith(kind, "fish_extra"))
-    {
+    } else if (StringTool::startsWith(kind, "fish_extra")) {
         *out_weight = Cube::LIGHT;
         *out_power = Cube::LIGHT;
         *out_alive = true;
-    }
-    else if (StringTool::startsWith(kind, "fish_EXTRA"))
-    {
+    } else if (StringTool::startsWith(kind, "fish_EXTRA")) {
         *out_weight = Cube::LIGHT;
         *out_power = Cube::HEAVY;
         *out_alive = true;
-    }
-    else
-    {
+    } else {
         *out_power = Cube::NONE;
         *out_alive = false;
-        if ("item_light" == kind)
-        {
+        if ("item_light" == kind) {
             *out_weight = Cube::LIGHT;
-        }
-        else if ("item_heavy" == kind)
-        {
+        } else if ("item_heavy" == kind) {
             *out_weight = Cube::HEAVY;
-        }
-        else if ("item_fixed" == kind)
-        {
+        } else if ("item_fixed" == kind) {
             *out_weight = Cube::FIXED;
-        }
-        else
-        {
+        } else {
             throw LogicException(ExInfo("unknown model kind")
-                                     .addInfo("kind", kind));
+                                         .addInfo("kind", kind));
         }
     }
 }
@@ -107,30 +88,24 @@ void ModelFactory::createParams(const std::string &kind,
  * @return new unit or NULL
  */
 Unit *
-ModelFactory::createUnit(const std::string &kind)
-{
+ModelFactory::createUnit(const std::string &kind) {
     Unit *result = NULL;
-    if ("fish_small" == kind)
-    {
+    if ("fish_small" == kind) {
         KeyControl smallfish;
         smallfish.setUp(SDLK_i);
         smallfish.setDown(SDLK_k);
         smallfish.setLeft(SDLK_j);
         smallfish.setRight(SDLK_l);
         result = new Unit(smallfish, ControlSym('u', 'd', 'l', 'r'), true);
-    }
-    else if ("fish_big" == kind)
-    {
+    } else if ("fish_big" == kind) {
         KeyControl bigfish;
         bigfish.setUp(SDLK_w);
         bigfish.setDown(SDLK_s);
         bigfish.setLeft(SDLK_a);
         bigfish.setRight(SDLK_d);
         result = new Unit(bigfish, ControlSym('U', 'D', 'L', 'R'));
-    }
-    else if (StringTool::startsWith(kind, "fish_extra") ||
-             StringTool::startsWith(kind, "fish_EXTRA"))
-    {
+    } else if (StringTool::startsWith(kind, "fish_extra") ||
+               StringTool::startsWith(kind, "fish_EXTRA")) {
         KeyControl extrafish;
         extrafish.setUp(0);
         extrafish.setDown(0);
@@ -146,8 +121,7 @@ ModelFactory::createUnit(const std::string &kind)
  * NOTE: hack border around field
  */
 Cube *
-ModelFactory::createBorder()
-{
+ModelFactory::createBorder() {
     Cube *border = new Cube(V2(-1, -1), Cube::FIXED, Cube::NONE, false,
                             new Shape("X\n"));
     return border;
@@ -159,29 +133,19 @@ ModelFactory::createBorder()
  */
 Cube *
 ModelFactory::createOutputItem(const std::string &kind, const V2 &loc,
-                               const std::string &shape)
-{
+                               const std::string &shape) {
     Dir::eDir outDir = Dir::DIR_NO;
-    if ("output_left" == kind)
-    {
+    if ("output_left" == kind) {
         outDir = Dir::DIR_LEFT;
-    }
-    else if ("output_right" == kind)
-    {
+    } else if ("output_right" == kind) {
         outDir = Dir::DIR_RIGHT;
-    }
-    else if ("output_up" == kind)
-    {
+    } else if ("output_up" == kind) {
         outDir = Dir::DIR_UP;
-    }
-    else if ("output_down" == kind)
-    {
+    } else if ("output_down" == kind) {
         outDir = Dir::DIR_DOWN;
-    }
-    else
-    {
+    } else {
         throw LogicException(ExInfo("unknown border dir")
-                                 .addInfo("kind", kind));
+                                     .addInfo("kind", kind));
     }
 
     Cube *model = new Cube(loc,
@@ -196,13 +160,11 @@ ModelFactory::createOutputItem(const std::string &kind, const V2 &loc,
  * @throws LogicException when symbols are not specified
  */
 ControlSym
-ModelFactory::parseExtraControlSym(const std::string &kind)
-{
+ModelFactory::parseExtraControlSym(const std::string &kind) {
     static const std::string PREFIX = "fish_extra-";
-    if (kind.size() != PREFIX.size() + 4)
-    {
+    if (kind.size() != PREFIX.size() + 4) {
         throw LogicException(ExInfo("you must specify control symbols")
-                                 .addInfo("kind", kind));
+                                     .addInfo("kind", kind));
     }
 
     char up = kind[PREFIX.size()];

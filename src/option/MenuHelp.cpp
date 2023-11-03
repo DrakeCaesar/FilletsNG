@@ -18,8 +18,7 @@
 #include "SurfaceTool.h"
 
 //-----------------------------------------------------------------
-MenuHelp::MenuHelp()
-{
+MenuHelp::MenuHelp() {
     Font usedFont(Path::dataReadPath("font/font_menu.ttf"), 14);
     SDL_Color usedColor = {255, 255, 255, 255};
 
@@ -30,25 +29,23 @@ MenuHelp::MenuHelp()
     registerDrawable(this);
     registerDrawable(m_help);
 }
+
 //-----------------------------------------------------------------
-MenuHelp::~MenuHelp()
-{
+MenuHelp::~MenuHelp() {
     delete m_help;
 }
 //-----------------------------------------------------------------
 /**
  * Display help centerd on screen.
  */
-void MenuHelp::own_initState()
-{
+void MenuHelp::own_initState() {
     own_resumeState();
 }
 //-----------------------------------------------------------------
 /**
  * Help will be centred on screen.
  */
-void MenuHelp::own_resumeState()
-{
+void MenuHelp::own_resumeState() {
     int contentW = m_help->getW();
     int contentH = m_help->getH();
     OptionAgent *options = OptionAgent::agent();
@@ -56,11 +53,11 @@ void MenuHelp::own_resumeState()
     int screenH = options->getAsInt("screen_height");
 
     m_help->setShift(
-        V2((screenW - contentW) / 2, (screenH - contentH) / 2));
+            V2((screenW - contentW) / 2, (screenH - contentH) / 2));
 }
+
 //-----------------------------------------------------------------
-void MenuHelp::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
+void MenuHelp::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     SDL_Color gray = {0x00, 0x00, 0x00, 129};
     SurfaceTool::alphaFill(screen, NULL, gray);
 }

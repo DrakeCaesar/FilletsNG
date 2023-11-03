@@ -6,8 +6,7 @@
 /**
  * Log utils.
  */
-class Log
-{
+class Log {
 private:
     static int ms_logLevel;
 
@@ -22,6 +21,7 @@ public:
 
 public:
     static void setLogLevel(int logLevel) { ms_logLevel = logLevel; }
+
     static int getLogLevel() { return ms_logLevel; }
 
     static void log(int level, const char *file, int line,

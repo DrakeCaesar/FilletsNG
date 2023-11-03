@@ -12,7 +12,6 @@
 LevelDesc::LevelDesc(const std::string &lang,
                      const std::string &levelname,
                      const std::string &desc)
-    : Dialog(lang, "", desc)
-{
+        : Dialog(lang, "", desc) {
     m_levelname = levelname;
 }

@@ -15,8 +15,7 @@
  * Load surface.
  */
 Picture::Picture(const Path &file, const V2 &loc)
-    : m_loc(loc)
-{
+        : m_loc(loc) {
     m_surface = ResImagePack::loadImage(file);
 }
 //-----------------------------------------------------------------
@@ -24,8 +23,7 @@ Picture::Picture(const Path &file, const V2 &loc)
  * Use this surface.
  */
 Picture::Picture(SDL_Surface *new_surface, const V2 &loc)
-    : m_loc(loc)
-{
+        : m_loc(loc) {
     m_surface = new_surface;
 }
 
@@ -33,19 +31,18 @@ Picture::Picture(SDL_Surface *new_surface, const V2 &loc)
 /**
  * Free surface.
  */
-Picture::~Picture()
-{
+Picture::~Picture() {
     SDL_FreeSurface(m_surface);
 }
+
 //-----------------------------------------------------------------
-void Picture::changePicture(const Path &file)
-{
+void Picture::changePicture(const Path &file) {
     SDL_FreeSurface(m_surface);
     m_surface = ResImagePack::loadImage(file);
 }
+
 //-----------------------------------------------------------------
-void Picture::changePicture(SDL_Surface *new_surface)
-{
+void Picture::changePicture(SDL_Surface *new_surface) {
     SDL_FreeSurface(m_surface);
     m_surface = new_surface;
 }
@@ -53,8 +50,7 @@ void Picture::changePicture(SDL_Surface *new_surface)
 /**
  * Blit entire surface to [x,y].
  */
-void Picture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
+void Picture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     SDL_Rect rect;
     rect.x = m_loc.getX();
     rect.y = m_loc.getY();

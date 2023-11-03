@@ -19,16 +19,14 @@
 // The set cache size allows to contain all fish images and animations
 // from level 'barrel'.
 ResCache<SDL_Surface *> *ResImagePack::CACHE = new ResCache<SDL_Surface *>(
-    265, new ResImagePack(false));
+        265, new ResImagePack(false));
 
 //-----------------------------------------------------------------
-ResImagePack::ResImagePack(bool caching_enabled)
-{
+ResImagePack::ResImagePack(bool caching_enabled) {
     m_caching_enabled = false;
-    if (caching_enabled)
-    {
+    if (caching_enabled) {
         m_caching_enabled = OptionAgent::agent()->getAsBool(
-            "cache_images", true);
+                "cache_images", true);
     }
 }
 //-----------------------------------------------------------------
@@ -41,20 +39,17 @@ ResImagePack::ResImagePack(bool caching_enabled)
  * @throws SDLException when image cannot be converted
  */
 SDL_Surface *
-ResImagePack::loadImage(const Path &file)
-{
+ResImagePack::loadImage(const Path &file) {
     SDL_Surface *raw_image = IMG_Load(file.getNative().c_str());
-    if (NULL == raw_image)
-    {
+    if (NULL == raw_image) {
         throw ImgException(ExInfo("Load")
-                               .addInfo("file", file.getNative()));
+                                   .addInfo("file", file.getNative()));
     }
 
     SDL_Surface *surface = SDL_ConvertSurfaceFormat(raw_image, SDL_PIXELFORMAT_RGBA32, 0);
-    if (NULL == surface)
-    {
+    if (NULL == surface) {
         throw SDLException(ExInfo("DisplayFormat")
-                               .addInfo("file", file.getNative()));
+                                   .addInfo("file", file.getNative()));
     }
     SDL_FreeSurface(raw_image);
 
@@ -67,34 +62,26 @@ ResImagePack::loadImage(const Path &file)
  * @throws ImgException when image cannot be loaded
  * @throws SDLException when image cannot be converted
  */
-void ResImagePack::addImage(const std::string &name, const Path &file)
-{
+void ResImagePack::addImage(const std::string &name, const Path &file) {
     SDL_Surface *surface;
-    if (m_caching_enabled)
-    {
+    if (m_caching_enabled) {
         surface = CACHE->get(file.getPosixName());
-        if (!surface)
-        {
+        if (!surface) {
             surface = loadImage(file);
             CACHE->put(file.getPosixName(), surface);
         }
-    }
-    else
-    {
+    } else {
         surface = loadImage(file);
     }
 
     addRes(name, surface);
 }
+
 //-----------------------------------------------------------------
-void ResImagePack::unloadRes(SDL_Surface *res)
-{
-    if (m_caching_enabled)
-    {
+void ResImagePack::unloadRes(SDL_Surface *res) {
+    if (m_caching_enabled) {
         CACHE->release(res);
-    }
-    else
-    {
+    } else {
         SDL_FreeSurface(res);
     }
 }

@@ -22,8 +22,7 @@
 
 //-----------------------------------------------------------------
 DemoMode::DemoMode(const Path &demoscript)
-    : m_demoscript(demoscript)
-{
+        : m_demoscript(demoscript) {
     m_oldLimitY = 0;
     m_display = NULL;
     m_surfaceBuffer = NULL;
@@ -32,17 +31,16 @@ DemoMode::DemoMode(const Path &demoscript)
     registerDrawable(this);
     registerDrawable(SubTitleAgent::agent());
 }
+
 //-----------------------------------------------------------------
-DemoMode::~DemoMode()
-{
+DemoMode::~DemoMode() {
     own_cleanState();
 }
 //-----------------------------------------------------------------
 /**
  * Run demo.
  */
-void DemoMode::own_initState()
-{
+void DemoMode::own_initState() {
     m_oldLimitY = SubTitleAgent::agent()->getLimitY();
     m_script->doFile(m_demoscript);
 }
@@ -50,24 +48,20 @@ void DemoMode::own_initState()
 /**
  * Execute next demo command.
  */
-void DemoMode::own_updateState()
-{
-    if (satisfyPlan())
-    {
+void DemoMode::own_updateState() {
+    if (satisfyPlan()) {
         quitState();
     }
 }
+
 //-----------------------------------------------------------------
-void DemoMode::own_cleanState()
-{
+void DemoMode::own_cleanState() {
     // NOTE: loaded dialogs are released by ~Planner()
-    if (m_surfaceBuffer)
-    {
+    if (m_surfaceBuffer) {
         SDL_FreeSurface(m_surfaceBuffer);
         m_surfaceBuffer = NULL;
     }
-    if (m_display)
-    {
+    if (m_display) {
         delete m_display;
         m_display = NULL;
     }
@@ -82,16 +76,13 @@ void DemoMode::own_cleanState()
  * NOTE: limitY for long subtitles are prepared when display is set
  * before planning start
  */
-bool DemoMode::action_display(Picture *picture)
-{
-    if (m_display)
-    {
+bool DemoMode::action_display(Picture *picture) {
+    if (m_display) {
         delete m_display;
     }
     m_display = picture;
 
-    if (NULL == m_surfaceBuffer)
-    {
+    if (NULL == m_surfaceBuffer) {
         OptionAgent *options = OptionAgent::agent();
         options->setParam("screen_width", m_display->getW());
         options->setParam("screen_height", m_display->getH());
@@ -101,16 +92,14 @@ bool DemoMode::action_display(Picture *picture)
     }
     return true;
 }
+
 //-----------------------------------------------------------------
-void DemoMode::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
-    if (NULL == m_surfaceBuffer)
-    {
+void DemoMode::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
+    if (NULL == m_surfaceBuffer) {
         m_surfaceBuffer = SurfaceTool::createEmpty(screen);
     }
 
-    if (m_display)
-    {
+    if (m_display) {
         m_display->drawOn(m_surfaceBuffer, renderer);
     }
     SDL_BlitSurface(m_surfaceBuffer, NULL, screen, NULL);

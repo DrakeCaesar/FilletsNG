@@ -8,8 +8,7 @@ class GameState;
 /**
  * Handle input for demo.
  */
-class DemoInput : public GameInput
-{
+class DemoInput : public GameInput {
 protected:
     virtual void enableHelp() {}
 

@@ -50,8 +50,7 @@ const char *OptionAgent::CONFIG_FILE = "script/options.lua";
  * and process "script/options.lua" - this will set user and system paths
  * and process "script/init.lua".
  */
-void OptionAgent::own_init()
-{
+void OptionAgent::own_init() {
     m_environ = new Environ();
     prepareVersion();
     prepareDataPaths();
@@ -62,16 +61,14 @@ void OptionAgent::own_init()
  * Save user config.
  * Delete left messages.
  */
-void OptionAgent::own_shutdown()
-{
+void OptionAgent::own_shutdown() {
     delete m_environ;
 }
 //-----------------------------------------------------------------
 /**
  * Set program version.
  */
-void OptionAgent::prepareVersion()
-{
+void OptionAgent::prepareVersion() {
 #ifdef VERSION
     setParam("version", VERSION);
 #else
@@ -88,8 +85,7 @@ void OptionAgent::prepareVersion()
  * Set user and sytem dir options.
  * Userdir="$HOME/.fillets-ng" or ""
  */
-void OptionAgent::prepareDataPaths()
-{
+void OptionAgent::prepareDataPaths() {
     registerWatcher("systemdir");
     registerWatcher("userdir");
 
@@ -111,13 +107,10 @@ void OptionAgent::prepareDataPaths()
 #else
     std::string userdir = "";
     const char *home = getenv("HOME");
-    if (home)
-    {
+    if (home) {
         userdir = FsPath::join(home, USER_DATA_DIR);
         OptionAgent::agent()->setParam("userdir", userdir);
-    }
-    else
-    {
+    } else {
         readUserConfig();
     }
 #endif
@@ -128,19 +121,15 @@ void OptionAgent::prepareDataPaths()
  * For 2-letter lang codes
  * see http://www.w3.org/WAI/ER/IG/ert/iso639.htm
  */
-void OptionAgent::prepareLang()
-{
+void OptionAgent::prepareLang() {
     setlocale(LC_ALL, "");
     // NOTE: '.' will be decimal point for Lua
     setlocale(LC_NUMERIC, "C");
-    if (getParam("lang").empty())
-    {
+    if (getParam("lang").empty()) {
         char *form = setlocale(LC_MESSAGES, NULL);
-        if (form)
-        {
-            int size = min(5, (int)strlen(form));
-            if (size >= 2)
-            {
+        if (form) {
+            int size = min(5, (int) strlen(form));
+            if (size >= 2) {
                 setParam("lang", std::string(form, size));
             }
         }
@@ -153,21 +142,15 @@ void OptionAgent::prepareLang()
  *
  * @throws LogicException when format is wrong
  */
-void OptionAgent::parseCmdOpt(int argc, char *argv[], const OptionParams &params)
-{
-    if (argc >= 1)
-    {
+void OptionAgent::parseCmdOpt(int argc, char *argv[], const OptionParams &params) {
+    if (argc >= 1) {
         setParam("program", argv[0]);
     }
 
-    for (int i = 1; i < argc; ++i)
-    {
-        if (argv[i][0] == '-')
-        {
+    for (int i = 1; i < argc; ++i) {
+        if (argv[i][0] == '-') {
             parseDashOpt(argv[i], params);
-        }
-        else
-        {
+        } else {
             parseParamOpt(argv[i], params);
         }
     }
@@ -179,45 +162,34 @@ void OptionAgent::parseCmdOpt(int argc, char *argv[], const OptionParams &params
  * @throws LogicException when used option is unknown
  */
 void OptionAgent::parseDashOpt(const std::string &arg,
-                               const OptionParams &params)
-{
-    if ("-h" == arg || "--help" == arg)
-    {
+                               const OptionParams &params) {
+    if ("-h" == arg || "--help" == arg) {
         throw HelpException(ExInfo(getHelpInfo(params)));
-    }
-    else if ("-v" == arg || "--version" == arg)
-    {
+    } else if ("-v" == arg || "--version" == arg) {
         throw HelpException(ExInfo(getVersionInfo()));
-    }
-    else if ("-c" == arg || "--config" == arg)
-    {
+    } else if ("-c" == arg || "--config" == arg) {
         throw HelpException(ExInfo(params.getConfig(m_environ)));
-    }
-    else
-    {
+    } else {
         throw LogicException(ExInfo("unknown option")
-                                 .addInfo("arg", arg)
-                                 .addInfo("use",
-                                          getParam("program") + " --help"));
+                                     .addInfo("arg", arg)
+                                     .addInfo("use",
+                                              getParam("program") + " --help"));
     }
 }
+
 //-----------------------------------------------------------------
 void OptionAgent::parseParamOpt(const std::string &arg,
-                                const OptionParams &params)
-{
+                                const OptionParams &params) {
     std::string name;
     std::string value;
-    if (splitOpt(arg, &name, &value))
-    {
+    if (splitOpt(arg, &name, &value)) {
         params.checkValidity(name, value);
         setParam(name, value);
-    }
-    else
-    {
+    } else {
         throw LogicException(ExInfo("unknown option")
-                                 .addInfo("arg", arg)
-                                 .addInfo("use",
-                                          getParam("program") + " --help"));
+                                     .addInfo("arg", arg)
+                                     .addInfo("use",
+                                              getParam("program") + " --help"));
     }
 }
 //-----------------------------------------------------------------
@@ -226,14 +198,11 @@ void OptionAgent::parseParamOpt(const std::string &arg,
  * @return true for success
  */
 bool OptionAgent::splitOpt(const std::string &option,
-                           std::string *out_name, std::string *out_value)
-{
+                           std::string *out_name, std::string *out_value) {
     bool result = false;
     std::string::size_type pos = option.find('=');
-    if (pos != std::string::npos)
-    {
-        if (pos + 1 < option.size())
-        {
+    if (pos != std::string::npos) {
+        if (pos + 1 < option.size()) {
             *out_name = option.substr(0, pos);
             *out_value = option.substr(pos + 1, std::string::npos);
             result = true;
@@ -251,16 +220,14 @@ bool OptionAgent::splitOpt(const std::string &option,
  * @param name param name
  * @param value param value
  */
-void OptionAgent::setParam(const std::string &name, const std::string &value)
-{
+void OptionAgent::setParam(const std::string &name, const std::string &value) {
     m_environ->setParam(name, value);
 }
 //-----------------------------------------------------------------
 /**
  * Store this integer value like string param.
  */
-void OptionAgent::setParam(const std::string &name, long value)
-{
+void OptionAgent::setParam(const std::string &name, long value) {
     m_environ->setParam(name, value);
 }
 //-----------------------------------------------------------------
@@ -274,8 +241,7 @@ void OptionAgent::setParam(const std::string &name, long value)
  */
 std::string
 OptionAgent::getParam(const std::string &name,
-                      const std::string &implicit) const
-{
+                      const std::string &implicit) const {
     return m_environ->getParam(name, implicit);
 }
 //-----------------------------------------------------------------
@@ -288,8 +254,7 @@ OptionAgent::getParam(const std::string &name,
  * @return number or implicit
  */
 int OptionAgent::getAsInt(const std::string &name,
-                          int implicit) const
-{
+                          int implicit) const {
     return m_environ->getAsInt(name, implicit);
 }
 //-----------------------------------------------------------------
@@ -302,8 +267,7 @@ int OptionAgent::getAsInt(const std::string &name,
  * @return stored boolean value or implicit value
  */
 bool OptionAgent::getAsBool(const std::string &name,
-                            bool implicit) const
-{
+                            bool implicit) const {
     return m_environ->getAsBool(name, implicit);
 }
 //-----------------------------------------------------------------
@@ -311,23 +275,19 @@ bool OptionAgent::getAsBool(const std::string &name,
  * Set param also on disk.
  * Preserve all current params in options file.
  */
-void OptionAgent::setPersistent(const std::string &name, const std::string &value)
-{
+void OptionAgent::setPersistent(const std::string &name, const std::string &value) {
     // NOTE: path must be created before change of environ
     Path config = Path::dataWritePath(CONFIG_FILE);
 
     Environ *swap_env = m_environ;
     m_environ = new Environ();
 
-    try
-    {
-        if (config.exists())
-        {
+    try {
+        if (config.exists()) {
             ScriptAgent::agent()->scriptInclude(config);
         }
     }
-    catch (ScriptException &e)
-    {
+    catch (ScriptException &e) {
         LOG_WARNING(e.info());
     }
     setParam(name, value);
@@ -337,32 +297,31 @@ void OptionAgent::setPersistent(const std::string &name, const std::string &valu
     m_environ = swap_env;
     setParam(name, value);
 }
+
 //-----------------------------------------------------------------
-void OptionAgent::setPersistent(const std::string &name, long value)
-{
+void OptionAgent::setPersistent(const std::string &name, long value) {
     setPersistent(name, StringTool::toString(value));
 }
 //-----------------------------------------------------------------
 /**
  * Set value when it is empty.
  */
-void OptionAgent::setDefault(const std::string &name, const std::string &value)
-{
+void OptionAgent::setDefault(const std::string &name, const std::string &value) {
     m_environ->setParam(name, m_environ->getParam(name, value));
 }
+
 //-----------------------------------------------------------------
-void OptionAgent::setDefault(const std::string &name, int value)
-{
+void OptionAgent::setDefault(const std::string &name, int value) {
     m_environ->setParam(name, m_environ->getAsInt(name, value));
 }
+
 //-----------------------------------------------------------------
-void OptionAgent::addWatcher(const std::string &name, BaseMsg *msg)
-{
+void OptionAgent::addWatcher(const std::string &name, BaseMsg *msg) {
     m_environ->addWatcher(name, msg);
 }
+
 //-----------------------------------------------------------------
-void OptionAgent::removeWatchers(const std::string &listenerName)
-{
+void OptionAgent::removeWatchers(const std::string &listenerName) {
     m_environ->removeWatchers(listenerName);
 }
 //-----------------------------------------------------------------
@@ -370,8 +329,7 @@ void OptionAgent::removeWatchers(const std::string &listenerName)
  * Get help text.
  */
 std::string
-OptionAgent::getHelpInfo(const OptionParams &params) const
-{
+OptionAgent::getHelpInfo(const OptionParams &params) const {
     std::string help = "Usage: " + getParam("program") + " [options] [name=value ...]\n";
     help += "  -h, --help               Show this help\n";
     help += "  -v, --version            Show version\n";
@@ -381,10 +339,10 @@ OptionAgent::getHelpInfo(const OptionParams &params) const
     help += params.getHelp(m_environ);
     return help;
 }
+
 //-----------------------------------------------------------------
 std::string
-OptionAgent::getVersionInfo() const
-{
+OptionAgent::getVersionInfo() const {
     return getParam("package") + " " + getParam("version");
 }
 //-----------------------------------------------------------------
@@ -396,58 +354,43 @@ OptionAgent::getVersionInfo() const
  *
  * @throws UnknownMsgException
  */
-void OptionAgent::receiveString(const StringMsg *msg)
-{
-    if (msg->equalsName("param_changed"))
-    {
+void OptionAgent::receiveString(const StringMsg *msg) {
+    if (msg->equalsName("param_changed")) {
         std::string param = msg->getValue();
-        if ("systemdir" == param)
-        {
+        if ("systemdir" == param) {
             readSystemConfig();
-        }
-        else if ("userdir" == param)
-        {
+        } else if ("userdir" == param) {
             readUserConfig();
-        }
-        else
-        {
+        } else {
             throw UnknownMsgException(msg);
         }
-    }
-    else
-    {
+    } else {
         throw UnknownMsgException(msg);
     }
 }
+
 //-----------------------------------------------------------------
-void OptionAgent::readSystemConfig()
-{
-    try
-    {
+void OptionAgent::readSystemConfig() {
+    try {
         Path systemConfig = Path::dataSystemPath(CONFIG_FILE);
-        if (systemConfig.exists())
-        {
+        if (systemConfig.exists()) {
             ScriptAgent::agent()->scriptInclude(systemConfig);
         }
     }
-    catch (ScriptException &e)
-    {
+    catch (ScriptException &e) {
         LOG_WARNING(e.info());
     }
 }
+
 //-----------------------------------------------------------------
-void OptionAgent::readUserConfig()
-{
-    try
-    {
+void OptionAgent::readUserConfig() {
+    try {
         Path userConfig = Path::dataUserPath(CONFIG_FILE);
-        if (userConfig.exists())
-        {
+        if (userConfig.exists()) {
             ScriptAgent::agent()->scriptInclude(userConfig);
         }
     }
-    catch (ScriptException &e)
-    {
+    catch (ScriptException &e) {
         LOG_WARNING(e.info());
     }
 }

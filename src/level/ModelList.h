@@ -2,6 +2,7 @@
 #define HEADER_MODELLIST_H
 
 class View;
+
 class Landslip;
 
 #include "Cube.h"
@@ -11,17 +12,19 @@ class Landslip;
 /**
  * Wrapper around list of models.
  */
-class ModelList
-{
+class ModelList {
 private:
     const Cube::t_models *m_models;
 
 public:
     ModelList(const Cube::t_models *models);
-    int size() const { return (int)m_models->size(); }
+
+    int size() const { return (int) m_models->size(); }
 
     void drawOn(View *view) const;
+
     bool stoneOn(Landslip *slip) const;
+
     bool fallOn(Landslip *slip) const;
 };
 

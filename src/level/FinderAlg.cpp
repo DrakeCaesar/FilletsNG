@@ -14,8 +14,7 @@
 
 //-----------------------------------------------------------------
 FinderAlg::FinderAlg(int w, int h)
-    : m_closed(w, h)
-{
+        : m_closed(w, h) {
     m_unit = NULL;
 }
 //-----------------------------------------------------------------
@@ -26,10 +25,8 @@ FinderAlg::FinderAlg(int w, int h)
  * @return direction or DIR_NO
  */
 Dir::eDir
-FinderAlg::findDir(const Unit *unit, const V2 &dest)
-{
-    if (m_unit)
-    {
+FinderAlg::findDir(const Unit *unit, const V2 &dest) {
+    if (m_unit) {
         m_closed.reset();
         m_fifo.clear();
     }
@@ -37,8 +34,7 @@ FinderAlg::findDir(const Unit *unit, const V2 &dest)
     V2 uLoc = unit->getLoc();
     int w = unit->getW();
     int h = unit->getH();
-    if (isInRect(uLoc, w, h, dest))
-    {
+    if (isInRect(uLoc, w, h, dest)) {
         return Dir::DIR_NO;
     }
     // TODO: don't compute when dest is on the wall
@@ -49,14 +45,11 @@ FinderAlg::findDir(const Unit *unit, const V2 &dest)
     m_fifo.push_back(FinderPlace(Dir::DIR_UP, uLoc.plus(V2(0, -1))));
     m_fifo.push_back(FinderPlace(Dir::DIR_DOWN, uLoc.plus(V2(0, +1))));
 
-    while (!m_fifo.empty())
-    {
+    while (!m_fifo.empty()) {
         FinderPlace place = m_fifo.front();
         m_fifo.pop_front();
-        if (tryPlace(place))
-        {
-            if (isInRect(place.getLoc(), w, h, dest))
-            {
+        if (tryPlace(place)) {
+            if (isInRect(place.getLoc(), w, h, dest)) {
                 return place.getStartDir();
             }
 
@@ -73,11 +66,9 @@ FinderAlg::findDir(const Unit *unit, const V2 &dest)
  * Push neighbour to the fifo.
  * Only open place is stored.
  */
-void FinderAlg::pushNext(const FinderPlace &parent, const V2 &shift)
-{
+void FinderAlg::pushNext(const FinderPlace &parent, const V2 &shift) {
     V2 loc = parent.getLoc().plus(shift);
-    if (!m_closed.isClosed(loc))
-    {
+    if (!m_closed.isClosed(loc)) {
         m_closed.markClosed(loc);
         m_fifo.push_back(FinderPlace(parent.getStartDir(), loc));
     }
@@ -86,16 +77,15 @@ void FinderAlg::pushNext(const FinderPlace &parent, const V2 &shift)
 /**
  * Whether dest in inside given rectangle.
  */
-bool FinderAlg::isInRect(const V2 &rectLoc, int w, int h, const V2 &dest) const
-{
+bool FinderAlg::isInRect(const V2 &rectLoc, int w, int h, const V2 &dest) const {
     int rX = rectLoc.getX();
     int rY = rectLoc.getY();
     int destX = dest.getX();
     int destY = dest.getY();
     return (rX <= destX && destX < rX + w) && (rY <= destY && destY < rY + h);
 }
+
 //-----------------------------------------------------------------
-bool FinderAlg::tryPlace(const FinderPlace &place) const
-{
+bool FinderAlg::tryPlace(const FinderPlace &place) const {
     return m_unit->isFreePlace(place.getLoc());
 }

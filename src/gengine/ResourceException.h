@@ -6,12 +6,10 @@
 /**
  * Exception about not found resource.
  */
-class ResourceException : public BaseException
-{
+class ResourceException : public BaseException {
 public:
     ResourceException(const ExInfo &problem)
-        : BaseException(problem)
-    {
+            : BaseException(problem) {
     }
 };
 

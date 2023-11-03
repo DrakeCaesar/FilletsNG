@@ -11,8 +11,7 @@
 #include "minmax.h"
 
 //-----------------------------------------------------------------
-PhaseLocker::PhaseLocker()
-{
+PhaseLocker::PhaseLocker() {
     m_lockPhases = 0;
 }
 //-----------------------------------------------------------------
@@ -20,15 +19,13 @@ PhaseLocker::PhaseLocker()
  * Reserve game cycle for blocking animation.
  * @param count how much phases we need
  */
-void PhaseLocker::ensurePhases(int count)
-{
+void PhaseLocker::ensurePhases(int count) {
     m_lockPhases = max(m_lockPhases, count);
 }
+
 //-----------------------------------------------------------------
-void PhaseLocker::decLock()
-{
-    if (m_lockPhases > 0)
-    {
+void PhaseLocker::decLock() {
+    if (m_lockPhases > 0) {
         m_lockPhases--;
     }
 }

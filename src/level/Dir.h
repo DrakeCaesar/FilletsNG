@@ -6,11 +6,9 @@
 /**
  * Direction.
  */
-class Dir
-{
+class Dir {
 public:
-    enum eDir
-    {
+    enum eDir {
         DIR_NO = 0,
         DIR_UP = 1,
         DIR_DOWN = 2,

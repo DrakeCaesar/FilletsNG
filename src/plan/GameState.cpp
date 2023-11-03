@@ -20,19 +20,17 @@
 #include "SimpleMsg.h"
 
 //-----------------------------------------------------------------
-GameState::GameState()
-{
+GameState::GameState() {
     m_nextState = NULL;
     m_handler = NULL;
     m_active = false;
     m_onBg = false;
     m_drawer = new MultiDrawer();
 }
+
 //-----------------------------------------------------------------
-GameState::~GameState()
-{
-    if (m_handler)
-    {
+GameState::~GameState() {
+    if (m_handler) {
         delete m_handler;
     }
     delete m_drawer;
@@ -42,10 +40,8 @@ GameState::~GameState()
  * Obtain input handler.
  * @param new_handler new input handler
  */
-void GameState::takeHandler(InputHandler *new_handler)
-{
-    if (m_handler)
-    {
+void GameState::takeHandler(InputHandler *new_handler) {
+    if (m_handler) {
         delete m_handler;
     }
     m_handler = new_handler;
@@ -55,13 +51,12 @@ void GameState::takeHandler(InputHandler *new_handler)
  * Returns wrapped input.
  */
 const InputProvider *
-GameState::getInput()
-{
+GameState::getInput() {
     return m_handler;
 }
+
 //-----------------------------------------------------------------
-void GameState::initState(StateManager *manager)
-{
+void GameState::initState(StateManager *manager) {
     LOG_DEBUG(ExInfo("initState").addInfo("name", getName()));
     MessagerAgent::agent()->addListener(this);
     m_manager = manager;
@@ -73,12 +68,10 @@ void GameState::initState(StateManager *manager)
 /**
  * @throws LogicException when state is not active
  */
-void GameState::updateState()
-{
-    if (!m_active)
-    {
+void GameState::updateState() {
+    if (!m_active) {
         throw LogicException(ExInfo("update - state is not active")
-                                 .addInfo("name", getName()));
+                                     .addInfo("name", getName()));
     }
 
     own_updateState();
@@ -87,12 +80,10 @@ void GameState::updateState()
 /**
  * @throws LogicException when state is not active
  */
-void GameState::pauseState()
-{
-    if (!m_active)
-    {
+void GameState::pauseState() {
+    if (!m_active) {
         throw LogicException(ExInfo("pause - state is not active")
-                                 .addInfo("name", getName()));
+                                     .addInfo("name", getName()));
     }
 
     own_pauseState();
@@ -104,12 +95,10 @@ void GameState::pauseState()
  * Reactivate state after pause.
  * @throws LogicException when state is already active
  */
-void GameState::resumeState()
-{
-    if (m_active)
-    {
+void GameState::resumeState() {
+    if (m_active) {
         throw LogicException(ExInfo("resume - state is already active")
-                                 .addInfo("name", getName()));
+                                     .addInfo("name", getName()));
     }
     m_active = true;
     own_resumeState();
@@ -119,13 +108,11 @@ void GameState::resumeState()
  * Clean state after run.
  * @throws LogicException when state is not active
  */
-void GameState::cleanState()
-{
+void GameState::cleanState() {
     LOG_DEBUG(ExInfo("cleanState").addInfo("name", getName()));
-    if (!m_active)
-    {
+    if (!m_active) {
         throw LogicException(ExInfo("clean - state is not active")
-                                 .addInfo("name", getName()));
+                                     .addInfo("name", getName()));
     }
     own_cleanState();
     unHandlers();
@@ -136,38 +123,35 @@ void GameState::cleanState()
     removeWatchers();
     MessagerAgent::agent()->removeListener(getName());
 }
+
 //-----------------------------------------------------------------
-void GameState::quitState()
-{
-    if (m_nextState)
-    {
+void GameState::quitState() {
+    if (m_nextState) {
         changeState(m_nextState);
-    }
-    else
-    {
+    } else {
         m_manager->popState(this);
     }
 }
+
 //-----------------------------------------------------------------
-void GameState::pushState(GameState *new_state)
-{
+void GameState::pushState(GameState *new_state) {
     m_manager->pushState(this, new_state);
 }
+
 //-----------------------------------------------------------------
-void GameState::changeState(GameState *new_state)
-{
+void GameState::changeState(GameState *new_state) {
     m_manager->changeState(this, new_state);
 }
+
 //-----------------------------------------------------------------
-void GameState::noteBg()
-{
+void GameState::noteBg() {
     LOG_DEBUG(ExInfo("noteBg").addInfo("name", getName()));
     own_noteBg();
     m_onBg = true;
 }
+
 //-----------------------------------------------------------------
-void GameState::noteFg()
-{
+void GameState::noteFg() {
     LOG_DEBUG(ExInfo("noteFg").addInfo("name", getName()));
     m_onBg = false;
     own_noteFg();
@@ -176,8 +160,7 @@ void GameState::noteFg()
 /**
  * Install own video and input handler.
  */
-void GameState::installHandlers()
-{
+void GameState::installHandlers() {
     LOG_DEBUG(ExInfo("installHandlers").addInfo("state", getName()));
     InputAgent::agent()->installHandler(m_handler);
     VideoAgent::agent()->acceptDrawer(m_drawer);
@@ -186,8 +169,7 @@ void GameState::installHandlers()
 /**
  * Uninstall own video and input handler.
  */
-void GameState::unHandlers()
-{
+void GameState::unHandlers() {
     InputAgent::agent()->installHandler(NULL);
     VideoAgent::agent()->removeDrawer(m_drawer);
 }
@@ -198,13 +180,12 @@ void GameState::unHandlers()
  * NOTE: order is important,
  * the first inserted drawer will be on background
  */
-void GameState::registerDrawable(Drawable *drawable)
-{
+void GameState::registerDrawable(Drawable *drawable) {
     m_drawer->acceptDrawer(drawable);
 }
+
 //-----------------------------------------------------------------
-void GameState::deregisterDrawable(const Drawable *drawable)
-{
+void GameState::deregisterDrawable(const Drawable *drawable) {
     m_drawer->removeDrawer(drawable);
 }
 //-----------------------------------------------------------------
@@ -213,15 +194,11 @@ void GameState::deregisterDrawable(const Drawable *drawable)
  * Messages:
  * - quit ... quit state
  */
-void GameState::receiveSimple(const SimpleMsg *msg)
-{
-    if (msg->equalsName("quit"))
-    {
+void GameState::receiveSimple(const SimpleMsg *msg) {
+    if (msg->equalsName("quit")) {
         quitState();
-    }
-    else
-    {
+    } else {
         LOG_WARNING(ExInfo("unknown msg")
-                        .addInfo("msg", msg->toString()));
+                            .addInfo("msg", msg->toString()));
     }
 }

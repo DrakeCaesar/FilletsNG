@@ -15,8 +15,7 @@
  * Create new stroke from MouseButtonEvent.
  */
 MouseStroke::MouseStroke(const SDL_MouseButtonEvent &event)
-    : m_loc(event.x, event.y)
-{
+        : m_loc(event.x, event.y) {
     m_button = event.button;
 }
 //-----------------------------------------------------------------
@@ -24,7 +23,6 @@ MouseStroke::MouseStroke(const SDL_MouseButtonEvent &event)
  * Return text fashion.
  */
 std::string
-MouseStroke::toString() const
-{
+MouseStroke::toString() const {
     return StringTool::toString(m_button);
 }

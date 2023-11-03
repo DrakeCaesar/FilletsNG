@@ -23,8 +23,7 @@
 #include "UnknownMsgException.h"
 
 //-----------------------------------------------------------------
-Pedometer::Pedometer(LevelStatus *status, Level *new_level)
-{
+Pedometer::Pedometer(LevelStatus *status, Level *new_level) {
     m_level = new_level;
     m_status = status;
     m_solution = m_status->readSolvedMoves();
@@ -35,18 +34,17 @@ Pedometer::Pedometer(LevelStatus *status, Level *new_level)
     prepareRack();
 
     m_numbers = ResImagePack::loadImage(
-        Path::dataReadPath("images/menu/numbers.png"));
+            Path::dataReadPath("images/menu/numbers.png"));
 
     takeHandler(new PedoInput(this));
     registerDrawable(m_bg);
     registerDrawable(m_rack);
     registerDrawable(this);
 }
+
 //-----------------------------------------------------------------
-Pedometer::~Pedometer()
-{
-    if (m_level)
-    {
+Pedometer::~Pedometer() {
+    if (m_level) {
         delete m_level;
     }
     SDL_FreeSurface(m_numbers);
@@ -57,10 +55,9 @@ Pedometer::~Pedometer()
 /**
  * Draw level name on background.
  */
-void Pedometer::prepareBg()
-{
+void Pedometer::prepareBg() {
     SDL_Surface *bgSurface = ResImagePack::loadImage(
-        Path::dataReadPath("images/menu/map.png"));
+            Path::dataReadPath("images/menu/map.png"));
     NodeDrawer drawer;
     drawer.setScreen(bgSurface);
     drawer.drawSelected(m_level->getLevelName());
@@ -71,26 +68,23 @@ void Pedometer::prepareBg()
     SDL_Renderer *dummy_renderer = NULL;
     solver.drawOn(bgSurface, dummy_renderer);
 
-    if (m_bg)
-    {
+    if (m_bg) {
         m_bg->changePicture(bgSurface);
-    }
-    else
-    {
+    } else {
         m_bg = new Picture(bgSurface, V2(0, 0));
     }
 }
+
 //-----------------------------------------------------------------
-void Pedometer::prepareRack()
-{
+void Pedometer::prepareRack() {
     static const int POS_X = 193;
     static const int POS_Y = 141;
 
     m_rack = new LayeredPicture(
-        Path::dataReadPath("images/menu/pedometer.png"),
-        V2(POS_X, POS_Y),
-        Path::dataReadPath("images/menu/pedometer_lower.png"),
-        Path::dataReadPath("images/menu/pedometer_mask.png"));
+            Path::dataReadPath("images/menu/pedometer.png"),
+            V2(POS_X, POS_Y),
+            Path::dataReadPath("images/menu/pedometer_lower.png"),
+            Path::dataReadPath("images/menu/pedometer_mask.png"));
 
     // TODO: don't use numeric constants for coordinates
     m_maskRun = m_rack->getMaskAt(V2(86, 100));
@@ -103,14 +97,13 @@ void Pedometer::prepareRack()
 /**
  * Display menu and play menu music.
  */
-void Pedometer::own_initState()
-{
+void Pedometer::own_initState() {
     registerWatcher("lang");
     own_resumeState();
 }
+
 //-----------------------------------------------------------------
-void Pedometer::own_updateState()
-{
+void Pedometer::own_updateState() {
     watchCursor();
 }
 
@@ -118,16 +111,12 @@ void Pedometer::own_updateState()
 /**
  * Mark pixel under cursor as ative mask.
  */
-void Pedometer::watchCursor()
-{
+void Pedometer::watchCursor() {
     V2 mouseLoc = VideoAgent::agent()->scaleMouseLoc(getInput()->getMouseLoc());
     m_activeMask = m_rack->getMaskAtWorld(mouseLoc);
-    if (m_activeMask == m_maskRun || m_activeMask == m_maskReplay || m_activeMask == m_maskCancel)
-    {
+    if (m_activeMask == m_maskRun || m_activeMask == m_maskReplay || m_activeMask == m_maskCancel) {
         m_rack->setActiveMask(m_activeMask);
-    }
-    else
-    {
+    } else {
         m_rack->setNoActive();
     }
 }
@@ -135,57 +124,47 @@ void Pedometer::watchCursor()
 /**
  * Start selected button.
  */
-void Pedometer::runSelected()
-{
-    if (m_activeMask == m_maskRun)
-    {
+void Pedometer::runSelected() {
+    if (m_activeMask == m_maskRun) {
         runLevel();
-    }
-    else if (m_activeMask == m_maskReplay)
-    {
+    } else if (m_activeMask == m_maskReplay) {
         runReplay();
-    }
-    else
-    {
+    } else {
         quitState();
     }
 }
+
 //-----------------------------------------------------------------
-void Pedometer::runLevel()
-{
+void Pedometer::runLevel() {
     Level *levelState = m_level;
     m_level = NULL;
     GameState *poster = m_status->createPoster();
-    if (poster)
-    {
+    if (poster) {
         poster->setNextState(levelState);
         changeState(poster);
-    }
-    else
-    {
+    } else {
         changeState(levelState);
     }
 }
+
 //-----------------------------------------------------------------
-void Pedometer::runReplay()
-{
+void Pedometer::runReplay() {
     Level *levelState = m_level;
     m_level = NULL;
     changeState(levelState);
     levelState->loadReplay(m_solution);
 }
+
 //-----------------------------------------------------------------
-void Pedometer::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
-    drawNumbers(screen, (int)m_solution.size());
+void Pedometer::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
+    drawNumbers(screen, (int) m_solution.size());
 }
 //-----------------------------------------------------------------
 /**
  * Draw number of steps.
  * Draw nice rotating numbers.
  */
-void Pedometer::drawNumbers(SDL_Surface *screen, int value)
-{
+void Pedometer::drawNumbers(SDL_Surface *screen, int value) {
     static const int CIPHERS = 5;
     static const int POS_X = 275;
     static const int POS_Y = 177;
@@ -194,8 +173,7 @@ void Pedometer::drawNumbers(SDL_Surface *screen, int value)
     int numberWidth = m_numbers->w;
     int numberHeight = m_numbers->h / 10;
 
-    for (int i = CIPHERS - 1; i >= 0; --i)
-    {
+    for (int i = CIPHERS - 1; i >= 0; --i) {
         int cipher = value % 10;
         value /= 10;
         int x = POS_X + numberWidth * i;
@@ -206,9 +184,9 @@ void Pedometer::drawNumbers(SDL_Surface *screen, int value)
         drawNumber(screen, x, POS_Y, shiftY);
     }
 }
+
 //-----------------------------------------------------------------
-void Pedometer::drawNumber(SDL_Surface *screen, int x, int y, int shiftY)
-{
+void Pedometer::drawNumber(SDL_Surface *screen, int x, int y, int shiftY) {
     SDL_Rect dest_rect;
     dest_rect.x = x;
     dest_rect.y = y;
@@ -229,22 +207,15 @@ void Pedometer::drawNumber(SDL_Surface *screen, int x, int y, int shiftY)
  *
  * @throws UnknownMsgException
  */
-void Pedometer::receiveString(const StringMsg *msg)
-{
-    if (msg->equalsName("param_changed"))
-    {
+void Pedometer::receiveString(const StringMsg *msg) {
+    if (msg->equalsName("param_changed")) {
         std::string param = msg->getValue();
-        if ("lang" == param)
-        {
+        if ("lang" == param) {
             prepareBg();
-        }
-        else
-        {
+        } else {
             throw UnknownMsgException(msg);
         }
-    }
-    else
-    {
+    } else {
         throw UnknownMsgException(msg);
     }
 }

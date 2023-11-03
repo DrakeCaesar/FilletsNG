@@ -23,15 +23,14 @@
  * Console starts as deactivated.
  */
 KeyConsole::KeyConsole()
-    : m_color(0, 200, 0)
-{
+        : m_color(0, 200, 0) {
     m_font = new Font(Path::dataReadPath("font/font_console.ttf"), 16);
     takeHandler(new ConsoleInput(this));
     registerDrawable(this);
 }
+
 //-----------------------------------------------------------------
-KeyConsole::~KeyConsole()
-{
+KeyConsole::~KeyConsole() {
     delete m_font;
 }
 //-----------------------------------------------------------------
@@ -40,18 +39,15 @@ KeyConsole::~KeyConsole()
  * NOTE: debug script fail is not critical
  * @return true for success
  */
-bool KeyConsole::sendCommand()
-{
+bool KeyConsole::sendCommand() {
     bool result = false;
-    try
-    {
+    try {
         StringMsg *msg = new StringMsg(Name::SCRIPT_NAME,
                                        "dostring", m_input);
         MessagerAgent::agent()->forwardNewMsg(msg);
         result = true;
     }
-    catch (BaseException &e)
-    {
+    catch (BaseException &e) {
         LOG_WARNING(e.info());
     }
     return result;
@@ -60,8 +56,7 @@ bool KeyConsole::sendCommand()
 /**
  * Draw console.
  */
-void KeyConsole::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
+void KeyConsole::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     SDL_Rect rect;
     rect.x = 10;
     rect.y = 10;

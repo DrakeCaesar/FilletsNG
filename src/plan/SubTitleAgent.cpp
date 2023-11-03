@@ -17,8 +17,7 @@
 #include "minmax.h"
 
 //-----------------------------------------------------------------
-void SubTitleAgent::own_init()
-{
+void SubTitleAgent::own_init() {
     m_limitY = TITLE_LIMIT_Y;
     m_colors = new ResColorPack();
 
@@ -30,33 +29,28 @@ void SubTitleAgent::own_init()
  * Shift all titles up.
  * Try remove the oldest subtitle.
  */
-void SubTitleAgent::own_update()
-{
-    if (!m_titles.empty())
-    {
+void SubTitleAgent::own_update() {
+    if (!m_titles.empty()) {
         shiftTitlesUp(TITLE_SPEED);
 
-        if (m_titles.front()->isGone())
-        {
+        if (m_titles.front()->isGone()) {
             delete m_titles.front();
             m_titles.pop_front();
         }
     }
 }
+
 //-----------------------------------------------------------------
-void SubTitleAgent::own_shutdown()
-{
+void SubTitleAgent::own_shutdown() {
     removeAll();
     delete m_colors;
-    if (m_font)
-    {
+    if (m_font) {
         delete m_font;
     }
 }
 
 //-----------------------------------------------------------------
-void SubTitleAgent::addFont(const std::string &fontname, Color *new_color)
-{
+void SubTitleAgent::addFont(const std::string &fontname, Color *new_color) {
     m_colors->addRes(fontname, new_color);
 }
 //-----------------------------------------------------------------
@@ -65,13 +59,11 @@ void SubTitleAgent::addFont(const std::string &fontname, Color *new_color)
  * Shift all existing subtitles up.
  */
 void SubTitleAgent::newSubtitle(const std::string &original,
-                                const std::string &fontname)
-{
+                                const std::string &fontname) {
     const Color *color = m_colors->getRes(fontname);
 
     std::string subtitle = original;
-    while (!subtitle.empty())
-    {
+    while (!subtitle.empty()) {
         subtitle = splitAndCreate(subtitle, color);
     }
 }
@@ -82,25 +74,21 @@ void SubTitleAgent::newSubtitle(const std::string &original,
  */
 std::string
 SubTitleAgent::splitAndCreate(const std::string &original,
-                              const Color *color)
-{
+                              const Color *color) {
     std::string subtitle = original;
     int screen_width = OptionAgent::agent()->getAsInt("screen_width");
 
     int text_width = m_font->calcTextWidth(subtitle);
-    while (text_width > screen_width - 2 * TITLE_BORDER)
-    {
+    while (text_width > screen_width - 2 * TITLE_BORDER) {
         trimRest(subtitle);
         text_width = m_font->calcTextWidth(subtitle);
     }
 
     std::string rest = "";
-    if (!subtitle.empty())
-    {
+    if (!subtitle.empty()) {
         newShortSubtitle(subtitle, color);
 
-        if (original.size() > subtitle.size())
-        {
+        if (original.size() > subtitle.size()) {
             rest = original.substr(subtitle.size());
         }
     }
@@ -114,40 +102,31 @@ SubTitleAgent::splitAndCreate(const std::string &original,
  *
  * @param buffer buffer to change
  */
-void SubTitleAgent::trimRest(std::string &buffer)
-{
+void SubTitleAgent::trimRest(std::string &buffer) {
     int i;
-    for (i = (int)buffer.size() - 1; i >= 0; --i)
-    {
+    for (i = (int) buffer.size() - 1; i >= 0; --i) {
         if (buffer[i] == ' ' &&
-            !(i - 2 >= 0 && buffer[i - 2] == ' '))
-        {
+            !(i - 2 >= 0 && buffer[i - 2] == ' ')) {
             break;
         }
     }
 
-    if (i <= 0)
-    {
+    if (i <= 0) {
         LOG_WARNING(ExInfo("unbreakable string")
-                        .addInfo("string", buffer));
-        if (buffer.size() > 4)
-        {
+                            .addInfo("string", buffer));
+        if (buffer.size() > 4) {
             buffer.erase(buffer.size() - 4);
-        }
-        else
-        {
+        } else {
             buffer = "";
         }
-    }
-    else
-    {
+    } else {
         buffer.erase(i);
     }
 }
+
 //-----------------------------------------------------------------
 void SubTitleAgent::newShortSubtitle(const std::string &subtitle,
-                                     const Color *color)
-{
+                                     const Color *color) {
     int startY = lowestY();
     int finalY = TITLE_BASE + TITLE_ROW;
     int bonusTime = (TITLE_BASE - startY + m_limitY - TITLE_LIMIT_Y) / TITLE_SPEED;
@@ -160,11 +139,9 @@ void SubTitleAgent::newShortSubtitle(const std::string &subtitle,
 /**
  * Increase Y for all existing titles.
  */
-void SubTitleAgent::shiftTitlesUp(int rate)
-{
+void SubTitleAgent::shiftTitlesUp(int rate) {
     t_titles::iterator end = m_titles.end();
-    for (t_titles::iterator i = m_titles.begin(); i != end; ++i)
-    {
+    for (t_titles::iterator i = m_titles.begin(); i != end; ++i) {
         (*i)->shiftUp(rate);
     }
 }
@@ -172,11 +149,9 @@ void SubTitleAgent::shiftTitlesUp(int rate)
 /**
  * Increase finalY for all existing titles.
  */
-void SubTitleAgent::shiftFinalsUp(int rate)
-{
+void SubTitleAgent::shiftFinalsUp(int rate) {
     t_titles::iterator end = m_titles.end();
-    for (t_titles::iterator i = m_titles.begin(); i != end; ++i)
-    {
+    for (t_titles::iterator i = m_titles.begin(); i != end; ++i) {
         (*i)->shiftFinalUp(rate);
     }
 }
@@ -185,11 +160,9 @@ void SubTitleAgent::shiftFinalsUp(int rate)
  * Get lowest possible Y.
  * It can be negative.
  */
-int SubTitleAgent::lowestY()
-{
+int SubTitleAgent::lowestY() {
     int lowest = TITLE_BASE;
-    if (!m_titles.empty())
-    {
+    if (!m_titles.empty()) {
         int lastest = m_titles.back()->getY() - TITLE_ROW;
         lowest = min(lowest, lastest);
     }
@@ -199,11 +172,9 @@ int SubTitleAgent::lowestY()
 /**
  * Kill all running subtitles.
  */
-void SubTitleAgent::killTalks()
-{
+void SubTitleAgent::killTalks() {
     t_titles::iterator end = m_titles.end();
-    for (t_titles::iterator i = m_titles.begin(); i != end; ++i)
-    {
+    for (t_titles::iterator i = m_titles.begin(); i != end; ++i) {
         delete *i;
     }
     m_titles.clear();
@@ -212,8 +183,7 @@ void SubTitleAgent::killTalks()
 /**
  * Kill all subtitles and remove fonts.
  */
-void SubTitleAgent::removeAll()
-{
+void SubTitleAgent::removeAll() {
     killTalks();
     m_colors->removeAll();
 }
@@ -222,13 +192,10 @@ void SubTitleAgent::removeAll()
 /**
  * Draw all subtitles.
  */
-void SubTitleAgent::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
-    if (OptionAgent::agent()->getAsBool("subtitles", true))
-    {
+void SubTitleAgent::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
+    if (OptionAgent::agent()->getAsBool("subtitles", true)) {
         t_titles::iterator end = m_titles.end();
-        for (t_titles::iterator i = m_titles.begin(); i != end; ++i)
-        {
+        for (t_titles::iterator i = m_titles.begin(); i != end; ++i) {
             (*i)->drawOn(screen, renderer);
         }
     }

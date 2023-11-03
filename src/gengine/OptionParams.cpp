@@ -14,61 +14,56 @@
 
 //-----------------------------------------------------------------
 void OptionParams::addParam(const std::string &name, eType type,
-                            const std::string &help)
-{
+                            const std::string &help) {
     Param param(type, help);
     m_params.insert(
-        std::pair<std::string, Param>(name, param));
-    int paramSize = (int)(name.size() + getType(type).size());
-    if (paramSize > m_maxSize)
-    {
+            std::pair<std::string, Param>(name, param));
+    int paramSize = (int) (name.size() + getType(type).size());
+    if (paramSize > m_maxSize) {
         m_maxSize = paramSize;
     }
 }
+
 //-----------------------------------------------------------------
 std::string
-OptionParams::getHelp(const Environ * /*options*/) const
-{
+OptionParams::getHelp(const Environ * /*options*/) const {
     std::string help;
     t_params::const_iterator end = m_params.end();
-    for (t_params::const_iterator i = m_params.begin(); i != end; ++i)
-    {
-        int paramSize = (int)(i->first.size() + getType(i->second.type).size());
+    for (t_params::const_iterator i = m_params.begin(); i != end; ++i) {
+        int paramSize = (int) (i->first.size() + getType(i->second.type).size());
         std::string space = std::string(m_maxSize - paramSize, ' ');
         help += "  " + i->first + "=<" + getType(i->second.type) + ">";
         help += space + "    " + i->second.help + "\n";
     }
     return help;
 }
+
 //-----------------------------------------------------------------
 std::string
-OptionParams::getConfig(const Environ *options) const
-{
+OptionParams::getConfig(const Environ *options) const {
     std::string config;
     t_params::const_iterator end = m_params.end();
-    for (t_params::const_iterator i = m_params.begin(); i != end; ++i)
-    {
+    for (t_params::const_iterator i = m_params.begin(); i != end; ++i) {
         config += i->first + "='" + options->getParam(i->first) + "'\n";
     }
     return config;
 }
+
 //-----------------------------------------------------------------
 std::string
-OptionParams::getType(eType type) const
-{
-    switch (type)
-    {
-    case TYPE_NUMBER:
-        return "number";
-    case TYPE_BOOLEAN:
-        return "boolean";
-    case TYPE_STRING:
-        return "string";
-    case TYPE_PATH:
-        return "path";
-    default:
-        LOG_WARNING(ExInfo("unknown param type")
-                        .addInfo("type", type));
+OptionParams::getType(eType type) const {
+    switch (type) {
+        case TYPE_NUMBER:
+            return "number";
+        case TYPE_BOOLEAN:
+            return "boolean";
+        case TYPE_STRING:
+            return "string";
+        case TYPE_PATH:
+            return "path";
+        default:
+            LOG_WARNING(ExInfo("unknown param type")
+                                .addInfo("type", type));
     }
     return "unknown";
 }
@@ -76,13 +71,11 @@ OptionParams::getType(eType type) const
 /**
  * Throws LogicException when the given option name or value is invalid.
  */
-void OptionParams::checkValidity(const std::string &name, const std::string & /*value*/) const
-{
+void OptionParams::checkValidity(const std::string &name, const std::string & /*value*/) const {
     t_params::const_iterator it = m_params.find(name);
-    if (m_params.end() == it)
-    {
+    if (m_params.end() == it) {
         throw LogicException(ExInfo("unknown option")
-                                 .addInfo("name", name));
+                                     .addInfo("name", name));
     }
 
     // TODO: check value type

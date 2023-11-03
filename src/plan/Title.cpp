@@ -29,8 +29,7 @@
  */
 Title::Title(int baseY, int finalY, int bonusTime, int limitY,
              const std::string &content, Font *font, const Color *color)
-    : m_content(content)
-{
+        : m_content(content) {
     m_font = font;
     m_surface = m_font->renderTextOutlined(content, *color);
 
@@ -43,23 +42,21 @@ Title::Title(int baseY, int finalY, int bonusTime, int limitY,
     m_finalY = m_screenH - finalY;
     m_limitY = m_screenH - limitY;
     m_mintime = StringTool::utf8Length(m_content) * TIME_PER_CHAR;
-    if (m_mintime < TIME_MIN)
-    {
+    if (m_mintime < TIME_MIN) {
         m_mintime = TIME_MIN;
     }
     m_mintime += bonusTime;
 }
+
 //-----------------------------------------------------------------
-Title::~Title()
-{
+Title::~Title() {
     SDL_FreeSurface(m_surface);
 }
 //-----------------------------------------------------------------
 /**
  * Draw model.
  */
-void Title::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
+void Title::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     // TODO: wavy text
     SDL_Rect rect;
     rect.x = m_x;
@@ -72,33 +69,29 @@ void Title::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
  * Shift up until title is on limit.
  * Decrease m_mintime.
  */
-void Title::shiftUp(int rate)
-{
+void Title::shiftUp(int rate) {
     m_mintime--;
     m_y -= rate;
-    if (m_y < m_finalY)
-    {
+    if (m_y < m_finalY) {
         m_y = m_finalY;
     }
 }
+
 //-----------------------------------------------------------------
-void Title::shiftFinalUp(int rate)
-{
+void Title::shiftFinalUp(int rate) {
     m_finalY -= rate;
 }
 //-----------------------------------------------------------------
 /**
  * Return Y position from the bottom border.
  */
-int Title::getY() const
-{
+int Title::getY() const {
     return m_screenH - m_y;
 }
 //-----------------------------------------------------------------
 /**
  * Whether title was long enough on screen.
  */
-bool Title::isGone()
-{
+bool Title::isGone() {
     return (m_mintime < 0 || m_y < m_limitY);
 }

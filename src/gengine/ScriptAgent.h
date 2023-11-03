@@ -2,6 +2,7 @@
 #define HEADER_SCRIPTAGENT_H
 
 class Path;
+
 class ScriptState;
 
 #include "BaseAgent.h"
@@ -19,9 +20,8 @@ extern "C"
  * Global scripting.
  * It is used by OptionAgent and debug console.
  */
-class ScriptAgent : public BaseAgent, public Scripter
-{
-    AGENT(ScriptAgent, Name::SCRIPT_NAME);
+class ScriptAgent : public BaseAgent, public Scripter {
+AGENT(ScriptAgent, Name::SCRIPT_NAME);
 
 protected:
     virtual void own_init();

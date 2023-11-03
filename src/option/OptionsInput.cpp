@@ -12,25 +12,23 @@
 
 //-----------------------------------------------------------------
 OptionsInput::OptionsInput(MenuOptions *menu)
-    : StateInput(menu)
-{
+        : StateInput(menu) {
 }
+
 //-----------------------------------------------------------------
 MenuOptions *
-OptionsInput::getMenu()
-{
+OptionsInput::getMenu() {
     return dynamic_cast<MenuOptions *>(m_state);
 }
 //-----------------------------------------------------------------
 /**
  * Toggle menu.
  */
-void OptionsInput::enableMenu()
-{
+void OptionsInput::enableMenu() {
     quitState();
 }
+
 //-----------------------------------------------------------------
-void OptionsInput::mouseEvent(const MouseStroke &buttons)
-{
+void OptionsInput::mouseEvent(const MouseStroke &buttons) {
     getMenu()->mouseButton(buttons);
 }

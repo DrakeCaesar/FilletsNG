@@ -2,7 +2,9 @@
 #define HEADER_VIEW_H
 
 class Cube;
+
 class PhaseLocker;
+
 class Decor;
 
 #include "Drawable.h"
@@ -12,8 +14,7 @@ class Decor;
 /**
  * View for model.
  */
-class View : public Drawable
-{
+class View : public Drawable {
 public:
     static const int SCALE = 15;
 
@@ -28,20 +29,28 @@ private:
 
 private:
     void computeShiftSize(int phases);
+
     void drawDecors();
 
 public:
     View(const ModelList &models);
+
     virtual ~View();
+
     void setScreenShift(const V2 &shift) { m_screenShift = shift; }
+
     void noteNewRound(int phases);
 
     void drawModel(Cube *model);
+
     virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 
     V2 getScreenPos(const Cube *model) const;
+
     V2 getFieldPos(const V2 &cursor) const;
+
     void addDecor(Decor *new_decor) { m_decors.push_back(new_decor); }
+
     void removeDecors();
 };
 

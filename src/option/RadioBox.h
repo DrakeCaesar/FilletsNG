@@ -8,8 +8,7 @@ class Path;
 /**
  * Radio box with picture background.
  */
-class RadioBox : public WiContainer
-{
+class RadioBox : public WiContainer {
 private:
     static const int BORDER = 4;
     std::string m_param;

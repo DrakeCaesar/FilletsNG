@@ -20,8 +20,7 @@
  */
 LevelNode::LevelNode(const std::string &codename, const Path &datafile,
                      const V2 &loc, const std::string &poster)
-    : m_codename(codename), m_poster(poster), m_datafile(datafile), m_loc(loc)
-{
+        : m_codename(codename), m_poster(poster), m_datafile(datafile), m_loc(loc) {
     m_state = STATE_FAR;
     m_depth = 1;
     m_bestMoves = -1;
@@ -30,11 +29,9 @@ LevelNode::LevelNode(const std::string &codename, const Path &datafile,
 /**
  * Free self and all children.
  */
-LevelNode::~LevelNode()
-{
+LevelNode::~LevelNode() {
     t_children::iterator end = m_children.end();
-    for (t_children::iterator i = m_children.begin(); i != end; ++i)
-    {
+    for (t_children::iterator i = m_children.begin(); i != end; ++i) {
         delete *i;
     }
 }
@@ -42,34 +39,30 @@ LevelNode::~LevelNode()
 /**
  * Set state for this node and open his followers.
  */
-void LevelNode::setState(eState state)
-{
+void LevelNode::setState(eState state) {
     t_children::iterator end = m_children.end();
-    switch (state)
-    {
-    case STATE_HIDDEN:
-    case STATE_FAR:
-    case STATE_OPEN:
-        break;
-    case STATE_SOLVED:
-        for (t_children::iterator i = m_children.begin();
-             i != end; ++i)
-        {
-            if ((*i)->getState() < STATE_OPEN)
-            {
-                (*i)->setState(STATE_OPEN);
+    switch (state) {
+        case STATE_HIDDEN:
+        case STATE_FAR:
+        case STATE_OPEN:
+            break;
+        case STATE_SOLVED:
+            for (t_children::iterator i = m_children.begin();
+                 i != end; ++i) {
+                if ((*i)->getState() < STATE_OPEN) {
+                    (*i)->setState(STATE_OPEN);
+                }
             }
-        }
-        break;
-    default:
-        assert(!"unknown level node state");
-        break;
+            break;
+        default:
+            assert(!"unknown level node state");
+            break;
     }
     m_state = state;
 }
+
 //-----------------------------------------------------------------
-void LevelNode::bestSolution(int moves, const std::string &author)
-{
+void LevelNode::bestSolution(int moves, const std::string &author) {
     m_bestMoves = moves;
     m_bestAuthor = author;
 }
@@ -77,8 +70,7 @@ void LevelNode::bestSolution(int moves, const std::string &author)
 /**
  * Returns true when cursor is in radius around node.
  */
-bool LevelNode::isUnder(const V2 &cursor) const
-{
+bool LevelNode::isUnder(const V2 &cursor) const {
     double dx = m_loc.getX() - cursor.getX();
     double dy = m_loc.getY() - cursor.getY();
 
@@ -91,23 +83,16 @@ bool LevelNode::isUnder(const V2 &cursor) const
  * @return selected node or NULL
  */
 LevelNode *
-LevelNode::findSelected(const V2 &cursor)
-{
-    if (m_state >= STATE_OPEN)
-    {
-        if (isUnder(cursor))
-        {
+LevelNode::findSelected(const V2 &cursor) {
+    if (m_state >= STATE_OPEN) {
+        if (isUnder(cursor)) {
             return this;
-        }
-        else
-        {
+        } else {
             t_children::const_iterator end = m_children.end();
             for (t_children::const_iterator i = m_children.begin();
-                 i != end; ++i)
-            {
+                 i != end; ++i) {
                 LevelNode *selected = (*i)->findSelected(cursor);
-                if (selected)
-                {
+                if (selected) {
                     return selected;
                 }
             }
@@ -122,30 +107,22 @@ LevelNode::findSelected(const V2 &cursor)
  * @return next OPEN node or NULL
  */
 LevelNode *
-LevelNode::findNextOpen(const LevelNode *current)
-{
+LevelNode::findNextOpen(const LevelNode *current) {
     bool beforeCurrent = true;
 
     t_children opened = findOpenNodes();
     t_children::const_iterator end = opened.end();
-    for (t_children::const_iterator i = opened.begin(); i != end; ++i)
-    {
-        if (*i == current)
-        {
+    for (t_children::const_iterator i = opened.begin(); i != end; ++i) {
+        if (*i == current) {
             beforeCurrent = false;
-        }
-        else if (!beforeCurrent)
-        {
+        } else if (!beforeCurrent) {
             return *i;
         }
     }
 
-    if (opened.size() > 0)
-    {
+    if (opened.size() > 0) {
         return opened[0];
-    }
-    else
-    {
+    } else {
         return NULL;
     }
 }
@@ -155,19 +132,15 @@ LevelNode::findNextOpen(const LevelNode *current)
  * @return vector of shared pointers
  */
 LevelNode::t_children
-LevelNode::findOpenNodes()
-{
+LevelNode::findOpenNodes() {
     t_children opened;
-    if (m_state >= STATE_OPEN)
-    {
-        if (m_state == STATE_OPEN)
-        {
+    if (m_state >= STATE_OPEN) {
+        if (m_state == STATE_OPEN) {
             opened.push_back(this);
         }
 
         t_children::const_iterator end = m_children.end();
-        for (t_children::const_iterator i = m_children.begin(); i != end; ++i)
-        {
+        for (t_children::const_iterator i = m_children.begin(); i != end; ++i) {
             t_children nodes = (*i)->findOpenNodes();
             opened.insert(opened.end(), nodes.begin(), nodes.end());
         }
@@ -180,21 +153,15 @@ LevelNode::findOpenNodes()
  * @return named node or NULL
  */
 LevelNode *
-LevelNode::findNamed(const std::string &codename)
-{
-    if (m_codename == codename)
-    {
+LevelNode::findNamed(const std::string &codename) {
+    if (m_codename == codename) {
         return this;
-    }
-    else
-    {
+    } else {
         t_children::const_iterator end = m_children.end();
         for (t_children::const_iterator i = m_children.begin();
-             i != end; ++i)
-        {
+             i != end; ++i) {
             LevelNode *named = (*i)->findNamed(codename);
-            if (named)
-            {
+            if (named) {
                 return named;
             }
         }
@@ -205,26 +172,22 @@ LevelNode::findNamed(const std::string &codename)
 /**
  * Returns true when all child nodes are solved.
  */
-bool LevelNode::areAllSolved() const
-{
-    if (m_state != STATE_SOLVED)
-    {
+bool LevelNode::areAllSolved() const {
+    if (m_state != STATE_SOLVED) {
         return false;
     }
     t_children::const_iterator end = m_children.end();
-    for (t_children::const_iterator i = m_children.begin(); i != end; ++i)
-    {
-        if (!(*i)->areAllSolved())
-        {
+    for (t_children::const_iterator i = m_children.begin(); i != end; ++i) {
+        if (!(*i)->areAllSolved()) {
             return false;
         }
     }
     return true;
 }
+
 //-----------------------------------------------------------------
 Level *
-LevelNode::createLevel() const
-{
+LevelNode::createLevel() const {
     return new Level(m_codename, m_datafile, m_depth);
 }
 //-----------------------------------------------------------------
@@ -232,13 +195,11 @@ LevelNode::createLevel() const
  * Add child node.
  * NOTE: cycles in graph are not supported.
  */
-void LevelNode::addChild(LevelNode *new_node)
-{
+void LevelNode::addChild(LevelNode *new_node) {
     m_children.push_back(new_node);
 
     new_node->setDepth(m_depth + 1);
-    if (m_state == STATE_SOLVED && new_node->getState() < STATE_OPEN)
-    {
+    if (m_state == STATE_SOLVED && new_node->getState() < STATE_OPEN) {
         new_node->setState(STATE_OPEN);
     }
 }
@@ -247,16 +208,12 @@ void LevelNode::addChild(LevelNode *new_node)
  * Draws self and path to all children.
  * Children are drawed recursive.
  */
-void LevelNode::drawPath(const NodeDrawer *drawer) const
-{
-    if (m_state > STATE_HIDDEN)
-    {
+void LevelNode::drawPath(const NodeDrawer *drawer) const {
+    if (m_state > STATE_HIDDEN) {
         t_children::const_iterator end = m_children.end();
         for (t_children::const_iterator i = m_children.begin();
-             i != end; ++i)
-        {
-            if ((*i)->getState() > STATE_HIDDEN)
-            {
+             i != end; ++i) {
+            if ((*i)->getState() > STATE_HIDDEN) {
                 drawer->drawEdge(this, *i);
                 (*i)->drawPath(drawer);
             }

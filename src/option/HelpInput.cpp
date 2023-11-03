@@ -17,19 +17,17 @@
  * Escape, space or mouse click quit state.
  */
 HelpInput::HelpInput(GameState *state)
-    : StateInput(state)
-{
+        : StateInput(state) {
 }
 //-----------------------------------------------------------------
 /**
  * Quits on unhandled keypress.
  */
-void HelpInput::specStroke(const KeyStroke & /*stroke*/)
-{
+void HelpInput::specStroke(const KeyStroke & /*stroke*/) {
     quitState();
 }
+
 //-----------------------------------------------------------------
-void HelpInput::mouseEvent(const MouseStroke & /*buttons*/)
-{
+void HelpInput::mouseEvent(const MouseStroke & /*buttons*/) {
     quitState();
 }

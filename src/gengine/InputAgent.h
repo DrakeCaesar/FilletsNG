@@ -2,6 +2,7 @@
 #define HEADER_INPUTAGENT_H
 
 class KeyBinder;
+
 class InputHandler;
 
 #include "BaseAgent.h"
@@ -13,9 +14,8 @@ class InputHandler;
 /**
  * Forward input events to handlers.
  */
-class InputAgent : public BaseAgent
-{
-    AGENT(InputAgent, Name::INPUT_NAME);
+class InputAgent : public BaseAgent {
+AGENT(InputAgent, Name::INPUT_NAME);
 
 private:
     Uint8 *m_keys;
@@ -27,7 +27,9 @@ private:
 
 protected:
     virtual void own_init();
+
     virtual void own_update();
+
     virtual void own_shutdown();
 
 public:

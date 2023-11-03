@@ -9,8 +9,7 @@ class Path;
 /**
  * Playing music in a loop.
  */
-class SDLMusicLooper
-{
+class SDLMusicLooper {
 private:
     int m_volume;
     int m_position;
@@ -20,13 +19,18 @@ private:
 
 private:
     void lookupLoopData(const Path &file, int multiplier);
+
     static void musicOutput(void *udata, Uint8 *stream, int length);
 
 public:
     SDLMusicLooper(const Path &file);
+
     virtual ~SDLMusicLooper();
+
     void setVolume(int volume);
+
     void start();
+
     void stop();
 };
 

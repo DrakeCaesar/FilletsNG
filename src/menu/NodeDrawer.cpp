@@ -26,8 +26,7 @@
 #include "BezierCurves.h"
 
 //-----------------------------------------------------------------
-NodeDrawer::NodeDrawer()
-{
+NodeDrawer::NodeDrawer() {
     m_font = new Font(Path::dataReadPath("font/font_menu.ttf"), 22);
 
     m_imagePack = new ResImagePack();
@@ -46,9 +45,9 @@ NodeDrawer::NodeDrawer()
     m_imagePack->addImage("far",
                           Path::dataReadPath("images/menu/n_far.png"));
 }
+
 //-----------------------------------------------------------------
-NodeDrawer::~NodeDrawer()
-{
+NodeDrawer::~NodeDrawer() {
     m_imagePack->removeAll();
     delete m_imagePack;
     delete m_font;
@@ -57,41 +56,35 @@ NodeDrawer::~NodeDrawer()
 /**
  * Draw blinking dot centred on node position.
  */
-void NodeDrawer::drawNode(const LevelNode *node) const
-{
+void NodeDrawer::drawNode(const LevelNode *node) const {
     V2 loc = node->getLoc();
     drawDot(m_imagePack->getRes("far"), loc);
 
     SDL_Surface *dot = NULL;
-    switch (node->getState())
-    {
-    case LevelNode::STATE_FAR:
-        return;
-    case LevelNode::STATE_OPEN:
-    {
-        int phase = (TimerAgent::agent()->getCycles() / speedup) % 10;
-        if (phase > 4)
-        {
-            phase--;
+    switch (node->getState()) {
+        case LevelNode::STATE_FAR:
+            return;
+        case LevelNode::STATE_OPEN: {
+            int phase = (TimerAgent::agent()->getCycles() / speedup) % 10;
+            if (phase > 4) {
+                phase--;
+            }
+            if (phase > 7) {
+                phase--;
+            }
+            if (phase >= 4) {
+                phase = 7 - phase;
+            }
+            dot = m_imagePack->getRes("open", phase);
         }
-        if (phase > 7)
-        {
-            phase--;
-        }
-        if (phase >= 4)
-        {
-            phase = 7 - phase;
-        }
-        dot = m_imagePack->getRes("open", phase);
-    }
-    break;
-    case LevelNode::STATE_SOLVED:
-        dot = m_imagePack->getRes("solved");
-        break;
-    default:
-        LOG_WARNING(ExInfo("don't know how to draw node")
-                        .addInfo("state", node->getState()));
-        return;
+            break;
+        case LevelNode::STATE_SOLVED:
+            dot = m_imagePack->getRes("solved");
+            break;
+        default:
+            LOG_WARNING(ExInfo("don't know how to draw node")
+                                .addInfo("state", node->getState()));
+            return;
     }
     drawDot(dot, loc);
 
@@ -108,8 +101,7 @@ void NodeDrawer::drawNode(const LevelNode *node) const
  * @param x x cord. or centre
  * @param x y cord. or centre
  */
-void NodeDrawer::drawDot(SDL_Surface *dot, const V2 &loc) const
-{
+void NodeDrawer::drawDot(SDL_Surface *dot, const V2 &loc) const {
     SDL_Rect rect;
     rect.x = loc.getX() - dot->w / 2;
     rect.y = loc.getY() - dot->h / 2;
@@ -119,8 +111,7 @@ void NodeDrawer::drawDot(SDL_Surface *dot, const V2 &loc) const
 /**
  * Highlightes selected node.
  */
-void NodeDrawer::drawSelect(const V2 &loc) const
-{
+void NodeDrawer::drawSelect(const V2 &loc) const {
 
     const SDL_Surface *dot = m_imagePack->getRes("solved");
     int radius = max(dot->w, dot->h) / 2 + 1;
@@ -135,8 +126,7 @@ void NodeDrawer::drawSelect(const V2 &loc) const
 /**
  * Draws name of selected level.
  */
-void NodeDrawer::drawSelected(const std::string &levelname) const
-{
+void NodeDrawer::drawSelected(const std::string &levelname) const {
     // TODO: draw deflected text
     int text_width = m_font->calcTextWidth(levelname);
 
@@ -149,9 +139,9 @@ void NodeDrawer::drawSelected(const std::string &levelname) const
     SDL_BlitSurface(surface, NULL, m_screen, &rect);
     SDL_FreeSurface(surface);
 }
+
 //-----------------------------------------------------------------
-void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
-{
+void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const {
     // TODO: nice curves
     Sint16 x1 = start->getLoc().getX();
     Sint16 y1 = start->getLoc().getY();
@@ -164,26 +154,25 @@ void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
 
     std::vector<BezierCurve> curveList = BezierCurve::getBezierCurvesForPoints(x1, y1, x2, y2);
     bool foundCurve = false;
-    for (int i = 0; i < curveList.size(); i++)
-    {
-        drawBezier(renderer, curveList[i].startX, curveList[i].startY, curveList[i].controlX1, curveList[i].controlY1, curveList[i].controlX2, curveList[i].controlY2, curveList[i].endX, curveList[i].endY, colorRGBA);
+    for (int i = 0; i < curveList.size(); i++) {
+        drawBezier(renderer, curveList[i].startX, curveList[i].startY, curveList[i].controlX1, curveList[i].controlY1,
+                   curveList[i].controlX2, curveList[i].controlY2, curveList[i].endX, curveList[i].endY, colorRGBA);
         foundCurve = true;
     }
-    if (!foundCurve)
-    {
+    if (!foundCurve) {
         drawLine(renderer, x1, y1, x2, y2, colorRGBA);
         std::cout << "need to define: " << x1 << " " << y1 << " " << x2 << " " << y2 << std::endl;
     }
     SDL_DestroyRenderer(renderer);
 }
 
-void NodeDrawer::drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, Uint32 colorRGBA) const
-{
+void NodeDrawer::drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, Uint32 colorRGBA) const {
     drawBezier(renderer, x1, y1, x1, y1, x2, y2, x2, y2, colorRGBA);
 }
 
-void NodeDrawer::drawBezier(SDL_Renderer *renderer, float startX, float startY, float c1X, float c1Y, float c2X, float c2Y, float endX, float endY, Uint32 colorRGBA) const
-{
+void
+NodeDrawer::drawBezier(SDL_Renderer *renderer, float startX, float startY, float c1X, float c1Y, float c2X, float c2Y,
+                       float endX, float endY, Uint32 colorRGBA) const {
     // Number of points on the curve to calculate
     const int numPoints = 100;
 
@@ -191,8 +180,7 @@ void NodeDrawer::drawBezier(SDL_Renderer *renderer, float startX, float startY, 
     const float thickness = 3.0f; // for example, a diameter of 3 pixels for the circles
 
     // Calculate points on the Bezier curve
-    for (int i = 0; i <= numPoints; i++)
-    {
+    for (int i = 0; i <= numPoints; i++) {
         float t = i / static_cast<float>(numPoints);
         float u = 1 - t;
         float tt = t * t;
@@ -213,8 +201,7 @@ void NodeDrawer::drawBezier(SDL_Renderer *renderer, float startX, float startY, 
     }
 }
 
-void NodeDrawer::drawText(V2 loc, const std::string &text) const
-{
+void NodeDrawer::drawText(V2 loc, const std::string &text) const {
     // Set up the color for the text.
     SDL_Color textColoFG = {255, 255, 255, 255};
     SDL_Color textColoBG = {0, 0, 0, 255};
@@ -223,8 +210,7 @@ void NodeDrawer::drawText(V2 loc, const std::string &text) const
     TTF_Font *Sans = TTF_OpenFont("FiraCodeNerdFont-Bold.ttf", 10);
     SDL_Surface *textSurface = TTF_RenderText_LCD(Sans, text.c_str(), textColoFG, textColoBG);
 
-    if (textSurface == NULL)
-    {
+    if (textSurface == NULL) {
         LOG_WARNING(ExInfo("Failed to create text surface"));
         return;
     }

@@ -10,8 +10,7 @@ class KeyConsole;
 /**
  * Debug console input handler.
  */
-class ConsoleInput : public StateInput
-{
+class ConsoleInput : public StateInput {
 private:
     static const int KEY_HISTORY = 101;
     static const int KEY_BACKSPACE = 102;
@@ -21,8 +20,11 @@ private:
 
 protected:
     virtual void enableConsole();
+
     virtual void enableSubtitles() {}
+
     virtual void specStroke(const KeyStroke &stroke);
+
     virtual void specKey(int keyIndex);
 
 private:

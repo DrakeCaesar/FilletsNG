@@ -11,8 +11,7 @@
 #include "Log.h"
 
 //-----------------------------------------------------------------
-void Keymap::registerKey(const KeyStroke &stroke, const KeyDesc &desc)
-{
+void Keymap::registerKey(const KeyStroke &stroke, const KeyDesc &desc) {
     m_keys.insert(std::pair<KeyStroke, KeyDesc>(stroke, desc));
 }
 //-----------------------------------------------------------------
@@ -20,12 +19,10 @@ void Keymap::registerKey(const KeyStroke &stroke, const KeyDesc &desc)
  * Return index of pressed key.
  * @return index or -1
  */
-int Keymap::indexPressed(const KeyStroke &stroke) const
-{
+int Keymap::indexPressed(const KeyStroke &stroke) const {
     int result = -1;
     t_keys::const_iterator it = m_keys.find(stroke);
-    if (m_keys.end() != it)
-    {
+    if (m_keys.end() != it) {
         result = it->second.getIndex();
     }
     return result;

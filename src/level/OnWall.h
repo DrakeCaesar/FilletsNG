@@ -7,16 +7,13 @@
 /**
  * Test whether model is on Wall.
  */
-class OnWall : public OnCondition
-{
+class OnWall : public OnCondition {
 public:
-    virtual bool isSatisfy(Cube *model) const
-    {
+    virtual bool isSatisfy(Cube *model) const {
         return model->isWall();
     }
 
-    virtual bool isWrong(Cube *model) const
-    {
+    virtual bool isWrong(Cube *model) const {
         return model->isAlive();
     }
 };

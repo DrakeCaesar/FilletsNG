@@ -2,11 +2,17 @@
 #define HEADER_CONTROLS_H
 
 class V2;
+
 class Unit;
+
 class Cube;
+
 class PhaseLocker;
+
 class KeyStroke;
+
 class InputProvider;
+
 class MouseStroke;
 
 #include "NoCopy.h"
@@ -19,8 +25,7 @@ class MouseStroke;
 /**
  * Keyboard and mouse controls.
  */
-class Controls : public StepCounter, public NoCopy
-{
+class Controls : public StepCounter, public NoCopy {
 private:
     typedef std::vector<Unit *> t_units;
     t_units m_units;
@@ -34,33 +39,50 @@ private:
 
 private:
     bool useSwitch();
+
     bool useStroke();
+
     bool driveUnit(const InputProvider *input);
+
     void setActive(t_units::iterator active);
+
     int getNeededPhases(int n_speedup) const;
+
     bool activateDriven(char symbol);
 
 public:
     Controls(PhaseLocker *locker);
+
     ~Controls();
+
     void setMoves(const std::string &moves);
+
     void addUnit(Unit *unit);
+
     const Unit *getActive();
 
     bool driving(const InputProvider *input);
+
     void lockPhases();
 
     void checkActive();
+
     void switchActive();
+
     bool makeMove(char move);
+
     bool cannotMove() const;
 
     void controlEvent(const KeyStroke &stroke);
+
     bool activateSelected(const Cube *occupant);
 
-    virtual int getStepCount() const { return (int)m_moves.size(); }
+    virtual int getStepCount() const { return (int) m_moves.size(); }
+
     virtual std::string getMoves() const { return m_moves; }
+
     virtual bool isPowerful() const;
+
     virtual bool isDangerousMove() const;
 };
 

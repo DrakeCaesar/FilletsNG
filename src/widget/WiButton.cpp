@@ -16,23 +16,20 @@
  * Create button which will send given message on mouse press.
  */
 WiButton::WiButton(IWidget *new_content, BaseMsg *new_msg)
-    : WiContainer(new_content)
-{
+        : WiContainer(new_content) {
     m_msg = new_msg;
 }
 //-----------------------------------------------------------------
 /**
  * Release remain message.
  */
-WiButton::~WiButton()
-{
+WiButton::~WiButton() {
     delete m_msg;
 }
+
 //-----------------------------------------------------------------
-void WiButton::own_mouseButton(const MouseStroke &stroke)
-{
-    if (stroke.isLeft())
-    {
+void WiButton::own_mouseButton(const MouseStroke &stroke) {
+    if (stroke.isLeft()) {
         m_msg->sendClone();
     }
 }

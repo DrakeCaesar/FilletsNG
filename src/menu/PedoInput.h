@@ -2,6 +2,7 @@
 #define HEADER_PEDOINPUT_H
 
 class Keymap;
+
 class Pedometer;
 
 #include "GameInput.h"
@@ -9,13 +10,13 @@ class Pedometer;
 /**
  * Handle input for pedometer.
  */
-class PedoInput : public GameInput
-{
+class PedoInput : public GameInput {
 private:
     Pedometer *getPedo();
 
 protected:
     virtual void enableSubtitles() {}
+
     virtual void enableHelp() {}
 
 public:

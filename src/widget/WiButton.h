@@ -8,8 +8,7 @@ class BaseMsg;
 /**
  * Button widget.
  */
-class WiButton : public WiContainer
-{
+class WiButton : public WiContainer {
 private:
     BaseMsg *m_msg;
 
@@ -18,6 +17,7 @@ protected:
 
 public:
     WiButton(IWidget *new_content, BaseMsg *new_msg);
+
     virtual ~WiButton();
 };
 

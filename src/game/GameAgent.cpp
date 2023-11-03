@@ -25,20 +25,16 @@
 #include "SDL2/SDL.h"
 
 //-----------------------------------------------------------------
-void GameAgent::own_init()
-{
+void GameAgent::own_init() {
     m_manager = new StateManager();
     std::string replayLevel = OptionAgent::agent()->getParam("replay_level");
-    if (replayLevel == "")
-    {
+    if (replayLevel == "") {
         Path pathMap = Path::dataReadPath(OptionAgent::agent()->getParam(
-            "worldmap", "script/worldmap.lua"));
+                "worldmap", "script/worldmap.lua"));
         WorldMap *worldmap = new WorldMap();
         worldmap->initMap(pathMap);
         m_manager->pushState(NULL, worldmap);
-    }
-    else
-    {
+    } else {
         replaySolution(replayLevel);
     }
 
@@ -49,12 +45,10 @@ void GameAgent::own_init()
  * Replays the given solution instead of starting the game.
  * It is used only for testing.
  */
-void GameAgent::replaySolution(const std::string &codename)
-{
+void GameAgent::replaySolution(const std::string &codename) {
     static LevelStatus *levelStatus = NULL;
     static DescFinder *desc = NULL;
-    if (levelStatus == NULL)
-    {
+    if (levelStatus == NULL) {
         levelStatus = new LevelStatus();
         desc = new WorldMap();
     }
@@ -63,7 +57,7 @@ void GameAgent::replaySolution(const std::string &codename)
     std::string moves = levelStatus->readSolvedMoves();
 
     Path datafile = Path::dataReadPath(
-        "script/" + codename + "/init.lua");
+            "script/" + codename + "/init.lua");
     Level *level = new Level(codename, datafile, 0);
     level->fillStatus(levelStatus);
     level->fillDesc(desc);
@@ -76,16 +70,14 @@ void GameAgent::replaySolution(const std::string &codename)
  * Update game.
  * Play level or show menu.
  */
-void GameAgent::own_update()
-{
+void GameAgent::own_update() {
     m_manager->updateGame();
 }
 //-----------------------------------------------------------------
 /**
  * Remember playtime.
  */
-void GameAgent::own_shutdown()
-{
+void GameAgent::own_shutdown() {
     OptionAgent *options = OptionAgent::agent();
     int playtime = options->getAsInt("playtime");
     playtime += SDL_GetTicks() / 1000;
@@ -98,8 +90,7 @@ void GameAgent::own_shutdown()
 /**
  * Global keystrokes.
  */
-void GameAgent::keyBinding()
-{
+void GameAgent::keyBinding() {
     BaseMsg *msg;
     KeyBinder *keyBinder = InputAgent::agent()->keyBinder();
 

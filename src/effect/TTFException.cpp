@@ -16,7 +16,6 @@
  * @param problem detail info
  */
 TTFException::TTFException(const ExInfo &problem)
-    : BaseException(ExInfo(problem).addInfo("TTF", TTF_GetError()))
-{
+        : BaseException(ExInfo(problem).addInfo("TTF", TTF_GetError())) {
     /* empty */
 }

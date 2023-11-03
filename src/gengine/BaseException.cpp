@@ -17,8 +17,7 @@
  * @param exinfo detail info about problem
  */
 BaseException::BaseException(const ExInfo &exinfo)
-    : std::exception(), m_info(exinfo)
-{
+        : std::exception(), m_info(exinfo) {
     /* empty */
 }
 //-----------------------------------------------------------------
@@ -27,8 +26,7 @@ BaseException::BaseException(const ExInfo &exinfo)
  * @return text info, valid with exception live
  */
 const char *
-BaseException::what() const throw()
-{
+BaseException::what() const throw() {
     return m_info.what();
 }
 //-----------------------------------------------------------------
@@ -37,7 +35,6 @@ BaseException::what() const throw()
  * @return detail info, valid with exception live
  */
 const ExInfo &
-BaseException::info() const throw()
-{
+BaseException::info() const throw() {
     return m_info;
 }

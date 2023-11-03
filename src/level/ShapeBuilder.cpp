@@ -18,10 +18,8 @@
  * based on the given shape and weight.
  */
 void ShapeBuilder::prepareColor(SDL_Color *color, const Shape *shape,
-                                Cube::eWeight weight)
-{
-    if (NULL == color)
-    {
+                                Cube::eWeight weight) {
+    if (NULL == color) {
         return;
     }
 
@@ -30,20 +28,19 @@ void ShapeBuilder::prepareColor(SDL_Color *color, const Shape *shape,
     color->b = 0;
     color->a = 255;
 
-    switch (weight)
-    {
-    case Cube::LIGHT:
-        color->g = ShapeBuilder::calcShapeHash(shape) % 255;
-        color->r = 255 - color->g;
-        break;
-    case Cube::HEAVY:
-        color->b = 50 + ShapeBuilder::calcShapeHash(shape) % (255 - 50);
-        break;
-    default:
-        color->r = 128;
-        color->g = 128;
-        color->b = 128;
-        break;
+    switch (weight) {
+        case Cube::LIGHT:
+            color->g = ShapeBuilder::calcShapeHash(shape) % 255;
+            color->r = 255 - color->g;
+            break;
+        case Cube::HEAVY:
+            color->b = 50 + ShapeBuilder::calcShapeHash(shape) % (255 - 50);
+            break;
+        default:
+            color->r = 128;
+            color->g = 128;
+            color->b = 128;
+            break;
     }
 }
 //-----------------------------------------------------------------
@@ -51,12 +48,10 @@ void ShapeBuilder::prepareColor(SDL_Color *color, const Shape *shape,
  * Calc an almost unique hash of the shape.
  */
 Uint32
-ShapeBuilder::calcShapeHash(const Shape *shape)
-{
+ShapeBuilder::calcShapeHash(const Shape *shape) {
     Uint32 hash = 0;
     Shape::const_iterator end = shape->marksEnd();
-    for (Shape::const_iterator i = shape->marksBegin(); i != end; ++i)
-    {
+    for (Shape::const_iterator i = shape->marksBegin(); i != end; ++i) {
         hash = 31 * hash + i->getX();
         hash = 31 * hash + i->getY();
     }
@@ -67,13 +62,12 @@ ShapeBuilder::calcShapeHash(const Shape *shape)
  * Create new image for the given shape.
  */
 SDL_Surface *
-ShapeBuilder::createImage(const Shape *shape, Cube::eWeight weight)
-{
+ShapeBuilder::createImage(const Shape *shape, Cube::eWeight weight) {
     static const SDL_Color TRANSPARENT = {255, 0, 255, 255};
 
     SDL_Surface *surface = SurfaceTool::createTransparent(
-        shape->getW() * View::SCALE, shape->getH() * View::SCALE,
-        TRANSPARENT);
+            shape->getW() * View::SCALE, shape->getH() * View::SCALE,
+            TRANSPARENT);
 
     SDL_Rect rect;
     rect.w = View::SCALE;
@@ -83,8 +77,7 @@ ShapeBuilder::createImage(const Shape *shape, Cube::eWeight weight)
     prepareColor(&color, shape, weight);
 
     Shape::const_iterator end = shape->marksEnd();
-    for (Shape::const_iterator i = shape->marksBegin(); i != end; ++i)
-    {
+    for (Shape::const_iterator i = shape->marksBegin(); i != end; ++i) {
         rect.x = i->getX() * View::SCALE;
         rect.y = i->getY() * View::SCALE;
         SurfaceTool::alphaFill(surface, &rect, color);

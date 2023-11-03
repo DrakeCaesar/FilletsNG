@@ -16,7 +16,6 @@
  * @param problem detail info
  */
 MixException::MixException(const ExInfo &problem)
-    : BaseException(ExInfo(problem).addInfo("Mix", Mix_GetError()))
-{
+        : BaseException(ExInfo(problem).addInfo("Mix", Mix_GetError())) {
     /* empty */
 }

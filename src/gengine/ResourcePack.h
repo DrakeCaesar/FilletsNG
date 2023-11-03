@@ -13,9 +13,8 @@
 /**
  * Share resources.
  */
-template <class T>
-class ResourcePack : public INamed
-{
+template<class T>
+class ResourcePack : public INamed {
 public:
     typedef std::vector<T> t_range;
 
@@ -33,12 +32,10 @@ public:
 
     // NOTE: we cannot call virtual functions from desctructor,
     //  call removeAll before delete
-    virtual ~ResourcePack()
-    {
-        if (!m_reses.empty())
-        {
+    virtual ~ResourcePack() {
+        if (!m_reses.empty()) {
             LOG_WARNING(ExInfo("resources are not released")
-                            .addInfo("pack", toString()));
+                                .addInfo("pack", toString()));
         }
     }
     //-----------------------------------------------------------------
@@ -46,11 +43,9 @@ public:
      * Free all resources.
      * NOTE: we cannot call virtual functions from desctructor
      */
-    void removeAll()
-    {
+    void removeAll() {
         t_resIterator end = m_reses.end();
-        for (t_resIterator item = m_reses.begin(); item != end; ++item)
-        {
+        for (t_resIterator item = m_reses.begin(); item != end; ++item) {
             unloadRes(item->second);
         }
         m_reses.clear();
@@ -59,47 +54,41 @@ public:
     /**
      * Unload all resources with this name.
      */
-    void removeRes(const std::string &name)
-    {
+    void removeRes(const std::string &name) {
         std::pair<t_resIterator, t_resIterator> range =
-            m_reses.equal_range(name);
-        while (range.first != range.second)
-        {
+                m_reses.equal_range(name);
+        while (range.first != range.second) {
             unloadRes(range.first->second);
             ++(range.first);
         }
         m_reses.erase(name);
         LOG_DEBUG(ExInfo("removed resources")
-                      .addInfo("name", name));
+                          .addInfo("name", name));
     }
 
     //-----------------------------------------------------------------
     /**
      * Store resource under this name.
      */
-    void addRes(const std::string &name, T res)
-    {
+    void addRes(const std::string &name, T res) {
         m_reses.insert(
-            std::pair<std::string, T>(name, res));
+                std::pair<std::string, T>(name, res));
     }
     //-----------------------------------------------------------------
     /**
      * Get resource with this name.
      */
-    T getRes(const std::string &name, int rank = 0)
-    {
+    T getRes(const std::string &name, int rank = 0) {
         std::pair<t_resIterator, t_resIterator> range =
-            m_reses.equal_range(name);
-        for (int i = 0; i < rank && range.first != range.second; ++i)
-        {
+                m_reses.equal_range(name);
+        for (int i = 0; i < rank && range.first != range.second; ++i) {
             ++(range.first);
         }
-        if (range.second == range.first)
-        {
+        if (range.second == range.first) {
             throw ResourceException(ExInfo("no such resource at index")
-                                        .addInfo("name", name)
-                                        .addInfo("index", rank)
-                                        .addInfo("pack", toString()));
+                                            .addInfo("name", name)
+                                            .addInfo("index", rank)
+                                            .addInfo("pack", toString()));
         }
         return range.first->second;
     }
@@ -108,13 +97,11 @@ public:
      * Get all resources with this name.
      * NOTE: range can be empty.
      */
-    t_range getRange(const std::string &name)
-    {
+    t_range getRange(const std::string &name) {
         t_range result;
         std::pair<t_resIterator, t_resIterator> range =
-            m_reses.equal_range(name);
-        while (range.first != range.second)
-        {
+                m_reses.equal_range(name);
+        while (range.first != range.second) {
             result.push_back(range.first->second);
             range.first++;
         }
@@ -125,19 +112,15 @@ public:
     /**
      * Get resource at random index or return NULL.
      */
-    T getRandomRes(const std::string &name)
-    {
+    T getRandomRes(const std::string &name) {
         T result = NULL;
         typename t_reses::size_type count = m_reses.count(name);
-        if (count > 0)
-        {
-            result = getRes(name, Random::randomInt((int)count));
-        }
-        else
-        {
+        if (count > 0) {
+            result = getRes(name, Random::randomInt((int) count));
+        } else {
             LOG_WARNING(ExInfo("no such resource")
-                            .addInfo("name", name)
-                            .addInfo("pack", toString()));
+                                .addInfo("name", name)
+                                .addInfo("pack", toString()));
         }
         return result;
     }
@@ -145,19 +128,17 @@ public:
     /**
      * Count resources with this name.
      */
-    int countRes(const std::string &name)
-    {
-        return (int)m_reses.count(name);
+    int countRes(const std::string &name) {
+        return (int) m_reses.count(name);
     }
+
     //-----------------------------------------------------------------
-    std::string toString() const
-    {
+    std::string toString() const {
         ExInfo available_res = ExInfo("resources")
-                                   .addInfo("name", getName());
+                .addInfo("name", getName());
 
         t_constIterator end = m_reses.end();
-        for (t_constIterator item = m_reses.begin(); item != end; ++item)
-        {
+        for (t_constIterator item = m_reses.begin(); item != end; ++item) {
             available_res.addInfo("key", item->first);
         }
         return available_res.info();

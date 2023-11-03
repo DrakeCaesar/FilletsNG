@@ -15,11 +15,9 @@
 #include "SDL2/SDL.h"
 
 //-----------------------------------------------------------------
-KeyBinder::~KeyBinder()
-{
+KeyBinder::~KeyBinder() {
     t_strokes::iterator end = m_strokes.end();
-    for (t_strokes::iterator i = m_strokes.begin(); i != end; ++i)
-    {
+    for (t_strokes::iterator i = m_strokes.begin(); i != end; ++i) {
         delete i->second;
     }
 }
@@ -30,36 +28,29 @@ KeyBinder::~KeyBinder()
  * @param msg message to raise, will be deleted
  * @throws LogicException when keystroke is occupied
  */
-void KeyBinder::addStroke(const KeyStroke &stroke, BaseMsg *msg)
-{
+void KeyBinder::addStroke(const KeyStroke &stroke, BaseMsg *msg) {
     std::pair<t_strokes::iterator, bool> status =
-        m_strokes.insert(
-            std::pair<KeyStroke, BaseMsg *>(stroke, msg));
-    if (!status.second)
-    {
+            m_strokes.insert(
+                    std::pair<KeyStroke, BaseMsg *>(stroke, msg));
+    if (!status.second) {
         throw LogicException(ExInfo("keystroke is occupied")
-                                 .addInfo("keystroke", stroke.toString()));
-    }
-    else
-    {
+                                     .addInfo("keystroke", stroke.toString()));
+    } else {
         LOG_DEBUG(ExInfo("binding keystroke")
-                      .addInfo("keystroke", stroke.toString())
-                      .addInfo("msg", msg->toString()));
+                          .addInfo("keystroke", stroke.toString())
+                          .addInfo("msg", msg->toString()));
     }
 }
+
 //-----------------------------------------------------------------
-void KeyBinder::removeStroke(const KeyStroke &stroke)
-{
+void KeyBinder::removeStroke(const KeyStroke &stroke) {
     t_strokes::iterator it = m_strokes.find(stroke);
-    if (m_strokes.end() != it)
-    {
+    if (m_strokes.end() != it) {
         delete it->second;
         m_strokes.erase(it);
-    }
-    else
-    {
+    } else {
         LOG_WARNING(ExInfo("keystroke does not exist")
-                        .addInfo("keystroke", stroke.toString()));
+                            .addInfo("keystroke", stroke.toString()));
     }
 }
 //-----------------------------------------------------------------
@@ -67,12 +58,10 @@ void KeyBinder::removeStroke(const KeyStroke &stroke)
  * Handle keydown event,
  * find keystroke and send message.
  */
-void KeyBinder::keyDown(const SDL_Keysym &keysym) const
-{
+void KeyBinder::keyDown(const SDL_Keysym &keysym) const {
     KeyStroke stroke(keysym);
     t_strokes::const_iterator it = m_strokes.find(stroke);
-    if (m_strokes.end() != it)
-    {
+    if (m_strokes.end() != it) {
         it->second->sendClone();
     }
 }

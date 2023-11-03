@@ -9,8 +9,7 @@ class Path;
 /**
  * Menu with flags to select prefered lang.
  */
-class SelectLang : public VBox, public Scripter
-{
+class SelectLang : public VBox, public Scripter {
 private:
     static const int MAX_WIDTH = 200;
     std::string m_option;

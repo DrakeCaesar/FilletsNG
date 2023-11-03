@@ -15,18 +15,17 @@
 /**
  * Room is not set.
  */
-RoomAccess::RoomAccess()
-{
+RoomAccess::RoomAccess() {
     m_room = NULL;
 }
+
 //-----------------------------------------------------------------
-RoomAccess::~RoomAccess()
-{
+RoomAccess::~RoomAccess() {
     cleanRoom();
 }
+
 //-----------------------------------------------------------------
-void RoomAccess::takeRoom(Room *new_room)
-{
+void RoomAccess::takeRoom(Room *new_room) {
     cleanRoom();
     m_room = new_room;
 }
@@ -34,10 +33,8 @@ void RoomAccess::takeRoom(Room *new_room)
 /**
  * Remove old room.
  */
-void RoomAccess::cleanRoom()
-{
-    if (m_room)
-    {
+void RoomAccess::cleanRoom() {
+    if (m_room) {
         delete m_room;
         m_room = NULL;
     }
@@ -47,10 +44,8 @@ void RoomAccess::cleanRoom()
  * Check whether room is ready.
  * @throws LogicException when room is not ready
  */
-void RoomAccess::checkRoom() const
-{
-    if (NULL == m_room)
-    {
+void RoomAccess::checkRoom() const {
+    if (NULL == m_room) {
         throw LogicException(ExInfo("room is not ready"));
     }
 }
@@ -59,8 +54,7 @@ void RoomAccess::checkRoom() const
  * Returns room or throws exception.
  */
 Room *
-RoomAccess::room()
-{
+RoomAccess::room() {
     checkRoom();
     return m_room;
 }
@@ -69,8 +63,7 @@ RoomAccess::room()
  * Returns room or throws exception.
  */
 const Room *
-RoomAccess::const_room() const
-{
+RoomAccess::const_room() const {
     checkRoom();
     return m_room;
 }

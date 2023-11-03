@@ -13,30 +13,38 @@ class Font;
 /**
  * Debug console.
  */
-class KeyConsole : public GameState, public Drawable
-{
+class KeyConsole : public GameState, public Drawable {
 private:
     Font *m_font;
     Color m_color;
     std::string m_input;
 
 protected:
-    virtual void own_initState(){};
-    virtual void own_updateState(){};
-    virtual void own_pauseState(){};
-    virtual void own_resumeState(){};
-    virtual void own_cleanState(){};
+    virtual void own_initState() {};
+
+    virtual void own_updateState() {};
+
+    virtual void own_pauseState() {};
+
+    virtual void own_resumeState() {};
+
+    virtual void own_cleanState() {};
 
 public:
     KeyConsole();
+
     virtual ~KeyConsole();
+
     virtual const char *getName() const { return "state_console"; };
+
     virtual bool allowBg() const { return true; }
 
     void setInput(const std::string &input) { m_input = input; }
+
     std::string getInput() const { return m_input; }
 
     bool sendCommand();
+
     virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 

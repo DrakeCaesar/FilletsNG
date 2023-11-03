@@ -8,8 +8,7 @@ class MenuOptions;
 /**
  * Handle input for options menu.
  */
-class OptionsInput : public StateInput
-{
+class OptionsInput : public StateInput {
 private:
     MenuOptions *getMenu();
 

@@ -14,8 +14,7 @@
 /**
  * Starts as empty box.
  */
-VBox::VBox()
-{
+VBox::VBox() {
     m_w = 0;
     m_h = 0;
     m_centered = false;
@@ -24,13 +23,11 @@ VBox::VBox()
 /**
  * Place widget to the lowest vertical place.
  */
-void VBox::addWidget(IWidget *new_widget)
-{
+void VBox::addWidget(IWidget *new_widget) {
     m_widgets.push_back(new_widget);
     m_w = max(m_w, new_widget->getW());
     int shiftX = 0;
-    if (m_centered)
-    {
+    if (m_centered) {
         shiftX = (m_w - new_widget->getW()) / 2;
     }
     new_widget->setShift(m_shift.plus(V2(shiftX, m_h)));
@@ -40,16 +37,13 @@ void VBox::addWidget(IWidget *new_widget)
 /**
  * Update shift for all subwidgets.
  */
-void VBox::setShift(const V2 &shift)
-{
+void VBox::setShift(const V2 &shift) {
     m_shift = shift;
     int height = 0;
     t_widgets::iterator end = m_widgets.end();
-    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i)
-    {
+    for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i) {
         int shiftX = 0;
-        if (m_centered)
-        {
+        if (m_centered) {
             shiftX = (m_w - (*i)->getW()) / 2;
         }
         (*i)->setShift(m_shift.plus(V2(shiftX, height)));

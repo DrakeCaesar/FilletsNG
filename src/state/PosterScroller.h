@@ -2,6 +2,7 @@
 #define HEADER_POSTERSCROLLER_H
 
 class Path;
+
 class Picture;
 
 #include "PosterState.h"
@@ -9,8 +10,7 @@ class Picture;
 /**
  * Scroll very height picture.
  */
-class PosterScroller : public PosterState
-{
+class PosterScroller : public PosterState {
 private:
     static const int SHIFT_SPEED = 4;
     int m_shift;
@@ -18,10 +18,12 @@ private:
 
 protected:
     virtual void own_initState();
+
     virtual void own_updateState();
 
 public:
     PosterScroller(const Path &picture);
+
     virtual bool allowBg() const { return true; }
 };
 

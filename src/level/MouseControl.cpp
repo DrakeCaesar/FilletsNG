@@ -17,8 +17,7 @@
 
 //-----------------------------------------------------------------
 MouseControl::MouseControl(Controls *controls, const View *view,
-                           FinderAlg *finder)
-{
+                           FinderAlg *finder) {
     m_controls = controls;
     m_view = view;
     m_finder = finder;
@@ -29,16 +28,12 @@ MouseControl::MouseControl(Controls *controls, const View *view,
  * Right button moves to the cursor.
  * @return whether a move was made
  */
-bool MouseControl::mouseDrive(const InputProvider *input) const
-{
+bool MouseControl::mouseDrive(const InputProvider *input) const {
     bool moved = false;
     V2 field = m_view->getFieldPos(VideoAgent::agent()->scaleMouseLoc(input->getMouseLoc()));
-    if (input->isLeftPressed())
-    {
+    if (input->isLeftPressed()) {
         moved = moveTo(field);
-    }
-    else if (input->isRightPressed())
-    {
+    } else if (input->isRightPressed()) {
         moved = moveHardTo(field);
     }
     return moved;
@@ -49,15 +44,12 @@ bool MouseControl::mouseDrive(const InputProvider *input) const
  * @param field destination field
  * @return whether a move was made
  */
-bool MouseControl::moveTo(const V2 &field) const
-{
+bool MouseControl::moveTo(const V2 &field) const {
     bool moved = false;
     const Unit *unit = m_controls->getActive();
-    if (unit)
-    {
+    if (unit) {
         Dir::eDir dir = m_finder->findDir(unit, field);
-        if (dir != Dir::DIR_NO)
-        {
+        if (dir != Dir::DIR_NO) {
             moved = m_controls->makeMove(unit->myOrder(dir));
         }
     }
@@ -69,27 +61,18 @@ bool MouseControl::moveTo(const V2 &field) const
  * @param field destination field
  * @return whether a move was made
  */
-bool MouseControl::moveHardTo(const V2 &field) const
-{
+bool MouseControl::moveHardTo(const V2 &field) const {
     bool moved = false;
     const Unit *unit = m_controls->getActive();
-    if (unit)
-    {
+    if (unit) {
         V2 loc = unit->getLoc();
-        if (field.getX() < loc.getX())
-        {
+        if (field.getX() < loc.getX()) {
             moved = m_controls->makeMove(unit->myOrder(Dir::DIR_LEFT));
-        }
-        else if (loc.getX() + unit->getW() <= field.getX())
-        {
+        } else if (loc.getX() + unit->getW() <= field.getX()) {
             moved = m_controls->makeMove(unit->myOrder(Dir::DIR_RIGHT));
-        }
-        else if (field.getY() < loc.getY())
-        {
+        } else if (field.getY() < loc.getY()) {
             moved = m_controls->makeMove(unit->myOrder(Dir::DIR_UP));
-        }
-        else if (loc.getY() + unit->getH() <= field.getY())
-        {
+        } else if (loc.getY() + unit->getH() <= field.getY()) {
             moved = m_controls->makeMove(unit->myOrder(Dir::DIR_DOWN));
         }
     }

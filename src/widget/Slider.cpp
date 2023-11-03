@@ -18,8 +18,7 @@
  * Create slider for this param and optinaly specify min and max value.
  */
 Slider::Slider(const std::string &param, int minValue, int maxValue)
-    : m_param(param)
-{
+        : m_param(param) {
     m_min = minValue;
     m_max = maxValue;
 }
@@ -28,8 +27,7 @@ Slider::Slider(const std::string &param, int minValue, int maxValue)
  * Scale value to slider rate.
  * @return position on slider
  */
-int Slider::value2slide(int value)
-{
+int Slider::value2slide(int value) {
     int slide = value - m_min;
     slide = max(slide, m_min);
     slide = min(slide, m_max);
@@ -40,15 +38,14 @@ int Slider::value2slide(int value)
  * Scale slider rate to param value.
  * @return integer value
  */
-int Slider::slide2value(int slide)
-{
+int Slider::slide2value(int slide) {
     int value = slide + m_min;
     double fraction = static_cast<double>(value) / PIXELS_PER_VALUE;
     return static_cast<int>(fraction + 0.5);
 }
+
 //-----------------------------------------------------------------
-void Slider::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
+void Slider::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     int value = OptionAgent::agent()->getAsInt(m_param);
     SDL_Color gray = {0x00, 0x00, 0x00, 129};
     Uint32 green = SDL_MapRGB(screen->format, 0x00, 0xff, 0x00);
@@ -66,11 +63,10 @@ void Slider::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
     rect.h = getH();
     SDL_FillRect(screen, &rect, green);
 }
+
 //-----------------------------------------------------------------
-void Slider::own_mouseButton(const MouseStroke &stroke)
-{
-    if (stroke.isLeft())
-    {
+void Slider::own_mouseButton(const MouseStroke &stroke) {
+    if (stroke.isLeft()) {
         // TODO: play click
         V2 inside = stroke.getLoc().minus(m_shift);
         int value = slide2value(inside.getX());

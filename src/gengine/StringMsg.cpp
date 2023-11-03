@@ -10,8 +10,7 @@
 
 //-----------------------------------------------------------------
 std::string
-StringMsg::toString() const
-{
+StringMsg::toString() const {
     std::string result = m_listenerName;
     result.append("->" + m_name);
     result.append("(\"" + m_value + "\")");

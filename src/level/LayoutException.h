@@ -6,12 +6,10 @@
 /**
  * Exception about placement fail.
  */
-class LayoutException : public BaseException
-{
+class LayoutException : public BaseException {
 public:
     LayoutException(const ExInfo &problem)
-        : BaseException(problem)
-    {
+            : BaseException(problem) {
     }
 };
 

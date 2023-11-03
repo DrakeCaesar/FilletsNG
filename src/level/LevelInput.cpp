@@ -18,8 +18,7 @@
 
 //-----------------------------------------------------------------
 LevelInput::LevelInput(Level *level)
-    : GameInput(level)
-{
+        : GameInput(level) {
     m_keymap->registerKey(KeyStroke(SDLK_SPACE, KMOD_NONE),
                           KeyDesc(KEY_SWITCH, "switch"));
     m_keymap->registerKey(KeyStroke(SDLK_F2, KMOD_NONE),
@@ -40,82 +39,74 @@ LevelInput::LevelInput(Level *level)
     m_keymap->registerKey(KeyStroke(SDLK_EQUALS, KMOD_NONE), redo);
     m_keymap->registerKey(KeyStroke(SDLK_KP_PLUS, KMOD_NONE), redo);
 }
+
 //-----------------------------------------------------------------
 Level *
-LevelInput::getLevel()
-{
+LevelInput::getLevel() {
     return dynamic_cast<Level *>(m_state);
 }
+
 //-----------------------------------------------------------------
-void LevelInput::specKey(int keyIndex)
-{
-    switch (keyIndex)
-    {
-    case KEY_SWITCH:
-        if (!getLevel()->isActing())
-        {
-            getLevel()->switchFish();
-        }
-        break;
-    case KEY_SAVE:
-        if (!getLevel()->isActing())
-        {
-            getLevel()->action_save();
-        }
-        break;
-    case KEY_LOAD:
-        if (!getLevel()->isShowing())
-        {
-            getLevel()->action_load();
-        }
-        break;
-    case KEY_RESTART:
-        getLevel()->interruptShow();
-        getLevel()->action_restart(1);
-        break;
-    case KEY_UNDO:
-        if (!getLevel()->isShowing())
-        {
-            getLevel()->action_undo(1);
-        }
-        break;
-    case KEY_REDO:
-        if (!getLevel()->isShowing())
-        {
-            getLevel()->action_undo(-1);
-        }
-        break;
-    case KEY_SHOW_STEPS:
-        toggleParam("show_steps");
-        break;
-    default:
-        GameInput::specKey(keyIndex);
+void LevelInput::specKey(int keyIndex) {
+    switch (keyIndex) {
+        case KEY_SWITCH:
+            if (!getLevel()->isActing()) {
+                getLevel()->switchFish();
+            }
+            break;
+        case KEY_SAVE:
+            if (!getLevel()->isActing()) {
+                getLevel()->action_save();
+            }
+            break;
+        case KEY_LOAD:
+            if (!getLevel()->isShowing()) {
+                getLevel()->action_load();
+            }
+            break;
+        case KEY_RESTART:
+            getLevel()->interruptShow();
+            getLevel()->action_restart(1);
+            break;
+        case KEY_UNDO:
+            if (!getLevel()->isShowing()) {
+                getLevel()->action_undo(1);
+            }
+            break;
+        case KEY_REDO:
+            if (!getLevel()->isShowing()) {
+                getLevel()->action_undo(-1);
+            }
+            break;
+        case KEY_SHOW_STEPS:
+            toggleParam("show_steps");
+            break;
+        default:
+            GameInput::specKey(keyIndex);
     }
 }
+
 //-----------------------------------------------------------------
-void LevelInput::specStroke(const KeyStroke &stroke)
-{
-    if (!getLevel()->isActing())
-    {
+void LevelInput::specStroke(const KeyStroke &stroke) {
+    if (!getLevel()->isActing()) {
         getLevel()->controlEvent(stroke);
     }
 }
+
 //-----------------------------------------------------------------
-void LevelInput::mouseEvent(const MouseStroke &buttons)
-{
+void LevelInput::mouseEvent(const MouseStroke &buttons) {
     getLevel()->controlMouse(buttons);
 }
+
 //-----------------------------------------------------------------
-void LevelInput::keyUp(const KeyStroke &stroke)
-{
+void LevelInput::keyUp(const KeyStroke &stroke) {
     int index = m_keymap->indexPressed(stroke);
-    switch (index)
-    {
-    case KEY_UNDO:
-    case KEY_REDO:
-        getLevel()->action_undo_finish();
-        break;
-    default:
-        break;
+    switch (index) {
+        case KEY_UNDO:
+        case KEY_REDO:
+            getLevel()->action_undo_finish();
+            break;
+        default:
+            break;
     }
 }

@@ -45,8 +45,7 @@
  * @param levelScript shared planner to interrupt
  */
 Room::Room(int w, int h, const std::string &picture,
-           PhaseLocker *locker, Planner *levelScript)
-{
+           PhaseLocker *locker, Planner *levelScript) {
     m_locker = locker;
     m_levelScript = levelScript;
     m_fastFalling = false;
@@ -64,8 +63,7 @@ Room::Room(int w, int h, const std::string &picture,
 /**
  * Delete field and models.
  */
-Room::~Room()
-{
+Room::~Room() {
     m_soundPack->removeAll();
     delete m_soundPack;
     m_levelScript->killPlan();
@@ -76,8 +74,7 @@ Room::~Room()
 
     // NOTE: models must be removed before field because they unmask self
     Cube::t_models::iterator end = m_models.end();
-    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i)
-    {
+    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i) {
         delete (*i);
     }
 
@@ -89,15 +86,14 @@ Room::~Room()
 /**
  * Set waves on background.
  */
-void Room::setWaves(float amplitude, float periode, float speed)
-{
+void Room::setWaves(float amplitude, float periode, float speed) {
     m_bg->setWamp(amplitude);
     m_bg->setWperiode(periode);
     m_bg->setWspeed(speed);
 }
+
 //-----------------------------------------------------------------
-void Room::addDecor(Decor *new_decor)
-{
+void Room::addDecor(Decor *new_decor) {
     m_view->addDecor(new_decor);
 }
 //-----------------------------------------------------------------
@@ -107,13 +103,11 @@ void Room::addDecor(Decor *new_decor)
  * @param new_unit driver for the object or NULL
  * @return model index
  */
-int Room::addModel(Cube *new_model, Unit *new_unit)
-{
+int Room::addModel(Cube *new_model, Unit *new_unit) {
     new_model->rules()->takeField(m_field);
     m_models.push_back(new_model);
 
-    if (new_unit)
-    {
+    if (new_unit) {
         new_unit->takeModel(new_model);
         m_controls->addUnit(new_unit);
     }
@@ -128,17 +122,13 @@ int Room::addModel(Cube *new_model, Unit *new_unit)
  * @throws LogicException when model_index is out of range
  */
 Cube *
-Room::getModel(int model_index)
-{
+Room::getModel(int model_index) {
     Cube *result = NULL;
-    if (0 <= model_index && model_index < (int)m_models.size())
-    {
+    if (0 <= model_index && model_index < (int) m_models.size()) {
         result = m_models[model_index];
-    }
-    else
-    {
+    } else {
         throw LogicException(ExInfo("bad model index")
-                                 .addInfo("model_index", model_index));
+                                     .addInfo("model_index", model_index));
     }
 
     return result;
@@ -148,8 +138,7 @@ Room::getModel(int model_index)
  * Return model at location.
  */
 Cube *
-Room::askField(const V2 &loc)
-{
+Room::askField(const V2 &loc) {
     return m_field->getModel(loc);
 }
 //-----------------------------------------------------------------
@@ -157,31 +146,21 @@ Room::askField(const V2 &loc)
  * Update all models.
  * Prepare new move, let models fall, let models drive, release old position.
  */
-void Room::nextRound(const InputProvider *input)
-{
-    if (m_fastFalling)
-    {
-        while (beginFall())
-        {
+void Room::nextRound(const InputProvider *input) {
+    if (m_fastFalling) {
+        while (beginFall()) {
             finishRound();
         }
-    }
-    else
-    {
+    } else {
         beginFall();
     }
 
-    if (isFresh())
-    {
-        if (m_controls->driving(input))
-        {
+    if (isFresh()) {
+        if (m_controls->driving(input)) {
             m_lastAction = Cube::ACTION_MOVE;
-        }
-        else
-        {
+        } else {
             MouseControl rat(m_controls, m_view, m_finder);
-            if (rat.mouseDrive(input))
-            {
+            if (rat.mouseDrive(input)) {
                 m_lastAction = Cube::ACTION_MOVE;
             }
         }
@@ -193,20 +172,18 @@ void Room::nextRound(const InputProvider *input)
  * Play sound like some object has fall.
  * NOTE: only one sound is played even more objects have fall
  */
-void Room::playImpact(Cube::eWeight impact)
-{
-    switch (impact)
-    {
-    case Cube::NONE:
-        break;
-    case Cube::LIGHT:
-        playSound("impact_light", 50);
-        break;
-    case Cube::HEAVY:
-        playSound("impact_heavy", 50);
-        break;
-    default:
-        assert(!"unknown impact weight");
+void Room::playImpact(Cube::eWeight impact) {
+    switch (impact) {
+        case Cube::NONE:
+            break;
+        case Cube::LIGHT:
+            playSound("impact_light", 50);
+            break;
+        case Cube::HEAVY:
+            playSound("impact_heavy", 50);
+            break;
+        default:
+            assert(!"unknown impact weight");
     }
 }
 //-----------------------------------------------------------------
@@ -214,21 +191,19 @@ void Room::playImpact(Cube::eWeight impact)
  * Play sound like a fish die.
  * @param model fresh dead fish
  */
-void Room::playDead(Cube *model)
-{
+void Room::playDead(Cube *model) {
     m_levelScript->dialogs()->killSound(model->getIndex());
-    switch (model->getPower())
-    {
-    case Cube::LIGHT:
-        playSound("dead_small");
-        break;
-    case Cube::HEAVY:
-        playSound("dead_big");
-        break;
-    default:
-        LOG_WARNING(ExInfo("curious power of dead fish")
-                        .addInfo("power", model->getPower()));
-        break;
+    switch (model->getPower()) {
+        case Cube::LIGHT:
+            playSound("dead_small");
+            break;
+        case Cube::HEAVY:
+            playSound("dead_big");
+            break;
+        default:
+            LOG_WARNING(ExInfo("curious power of dead fish")
+                                .addInfo("power", model->getPower()));
+            break;
     }
 }
 //-----------------------------------------------------------------
@@ -236,36 +211,29 @@ void Room::playDead(Cube *model)
  * Move all models to new position
  * and check dead fihes.
  */
-void Room::prepareRound()
-{
+void Room::prepareRound() {
     bool interrupt = false;
 
     // NOTE: we must call this functions sequential for all objects
     Cube::t_models::iterator end = m_models.end();
-    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i)
-    {
+    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i) {
         (*i)->rules()->freeOldPos();
     }
-    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i)
-    {
+    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i) {
         (*i)->rules()->occupyNewPos();
     }
-    for (Cube::t_models::iterator j = m_models.begin(); j != end; ++j)
-    {
+    for (Cube::t_models::iterator j = m_models.begin(); j != end; ++j) {
         bool die = (*j)->rules()->checkDead(m_lastAction);
         interrupt |= die;
-        if (die)
-        {
+        if (die) {
             playDead(*j);
         }
     }
-    for (Cube::t_models::iterator l = m_models.begin(); l != end; ++l)
-    {
+    for (Cube::t_models::iterator l = m_models.begin(); l != end; ++l) {
         (*l)->rules()->changeState();
     }
 
-    if (interrupt)
-    {
+    if (interrupt) {
         m_levelScript->interruptPlan();
     }
 }
@@ -275,25 +243,18 @@ void Room::prepareRound()
  * @param interactive whether do anim
  * @return true when a model went out
  */
-bool Room::fallout(bool interactive)
-{
+bool Room::fallout(bool interactive) {
     bool wentOut = false;
     Cube::t_models::iterator end = m_models.end();
-    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i)
-    {
-        if (!(*i)->isLost())
-        {
+    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i) {
+        if (!(*i)->isLost()) {
             int outDepth = (*i)->rules()->actionOut();
-            if (outDepth > 0)
-            {
+            if (outDepth > 0) {
                 wentOut = true;
-                if (interactive)
-                {
+                if (interactive) {
                     m_locker->ensurePhases(3 * speedup);
                 }
-            }
-            else if (outDepth == -1)
-            {
+            } else if (outDepth == -1) {
                 m_levelScript->interruptPlan();
             }
         }
@@ -306,14 +267,12 @@ bool Room::fallout(bool interactive)
  * Let things fall.
  * @return true when something is falling.
  */
-bool Room::falldown(bool interactive)
-{
+bool Room::falldown(bool interactive) {
     ModelList models(&m_models);
     Landslip slip(models);
 
     bool falling = slip.computeFall();
-    if (interactive)
-    {
+    if (interactive) {
         playImpact(slip.getImpact());
     }
     return falling;
@@ -323,30 +282,26 @@ bool Room::falldown(bool interactive)
  * Let models to release their old position.
  * @param interactive whether ensure phases for motion animation
  */
-void Room::finishRound(bool interactive)
-{
-    if (interactive)
-    {
+void Room::finishRound(bool interactive) {
+    if (interactive) {
         m_controls->lockPhases();
     }
     m_view->noteNewRound(m_locker->getLocked());
 }
 
 //-----------------------------------------------------------------
-void Room::switchFish()
-{
+void Room::switchFish() {
     m_controls->switchActive();
 }
+
 //-----------------------------------------------------------------
-void Room::controlEvent(const KeyStroke &stroke)
-{
+void Room::controlEvent(const KeyStroke &stroke) {
     m_controls->controlEvent(stroke);
 }
+
 //-----------------------------------------------------------------
-void Room::controlMouse(const MouseStroke &button)
-{
-    if (button.isLeft())
-    {
+void Room::controlMouse(const MouseStroke &button) {
+    if (button.isLeft()) {
         V2 fieldPos = m_view->getFieldPos(button.getLoc());
         Cube *model = askField(fieldPos);
         m_controls->activateSelected(model);
@@ -355,26 +310,24 @@ void Room::controlMouse(const MouseStroke &button)
 
 //-----------------------------------------------------------------
 const StepCounter *
-Room::stepCounter() const
-{
+Room::stepCounter() const {
     return m_controls;
 }
+
 //-----------------------------------------------------------------
-void Room::setMoves(const std::string &moves)
-{
+void Room::setMoves(const std::string &moves) {
     m_controls->setMoves(moves);
 }
+
 //-----------------------------------------------------------------
-void Room::checkActive()
-{
+void Room::checkActive() {
     return m_controls->checkActive();
 }
+
 //-----------------------------------------------------------------
-void Room::unBusyUnits()
-{
+void Room::unBusyUnits() {
     Cube::t_models::iterator end = m_models.end();
-    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i)
-    {
+    for (Cube::t_models::iterator i = m_models.begin(); i != end; ++i) {
         (*i)->setBusy(false);
     }
 }
@@ -384,12 +337,10 @@ void Room::unBusyUnits()
  * Don't play sound.
  * @throws LoadException for bad moves
  */
-void Room::loadMove(char move)
-{
+void Room::loadMove(char move) {
     static const bool NO_INTERACTIVE = false;
     bool falling = true;
-    while (falling)
-    {
+    while (falling) {
         falling = beginFall(NO_INTERACTIVE);
         makeMove(move);
 
@@ -406,19 +357,14 @@ void Room::loadMove(char move)
  * @param interactive whether play sound and do anim
  * @return true when something was falling
  */
-bool Room::beginFall(bool interactive)
-{
+bool Room::beginFall(bool interactive) {
     prepareRound();
     m_lastAction = Cube::ACTION_NO;
 
-    if (fallout(interactive))
-    {
+    if (fallout(interactive)) {
         m_lastAction = Cube::ACTION_MOVE;
-    }
-    else
-    {
-        if (falldown(interactive))
-        {
+    } else {
+        if (falldown(interactive)) {
             m_lastAction = Cube::ACTION_FALL;
         }
     }
@@ -430,15 +376,12 @@ bool Room::beginFall(bool interactive)
  * @return true for success or false when something has moved before
  * @throws LoadException for bad moves
  */
-bool Room::makeMove(char move)
-{
+bool Room::makeMove(char move) {
     bool result = false;
-    if (isFresh())
-    {
-        if (!m_controls->makeMove(move))
-        {
+    if (isFresh()) {
+        if (!m_controls->makeMove(move)) {
             throw LoadException(ExInfo("load error - bad move")
-                                    .addInfo("move", std::string(1, move)));
+                                        .addInfo("move", std::string(1, move)));
         }
         m_lastAction = Cube::ACTION_MOVE;
         result = true;
@@ -449,21 +392,17 @@ bool Room::makeMove(char move)
 /**
  * Returns true when there is no unit which will be able to move.
  */
-bool Room::cannotMove() const
-{
+bool Room::cannotMove() const {
     return m_controls->cannotMove();
 }
 //-----------------------------------------------------------------
 /**
  * Returns true when all goals can be solved.
  */
-bool Room::isSolvable() const
-{
+bool Room::isSolvable() const {
     Cube::t_models::const_iterator end = m_models.end();
-    for (Cube::t_models::const_iterator i = m_models.begin(); i != end; ++i)
-    {
-        if ((*i)->isWrong())
-        {
+    for (Cube::t_models::const_iterator i = m_models.begin(); i != end; ++i) {
+        if ((*i)->isWrong()) {
             return false;
         }
     }
@@ -475,17 +414,13 @@ bool Room::isSolvable() const
  * Right time to ask is after finishRound.
  * NOTE: room is not solved when somethig is still falling
  */
-bool Room::isSolved() const
-{
-    if (!isFresh())
-    {
+bool Room::isSolved() const {
+    if (!isFresh()) {
         return false;
     }
     Cube::t_models::const_iterator end = m_models.end();
-    for (Cube::t_models::const_iterator i = m_models.begin(); i != end; ++i)
-    {
-        if (!(*i)->isSatisfy())
-        {
+    for (Cube::t_models::const_iterator i = m_models.begin(); i != end; ++i) {
+        if (!(*i)->isSatisfy()) {
             return false;
         }
     }
@@ -493,32 +428,30 @@ bool Room::isSolved() const
 }
 
 //-----------------------------------------------------------------
-int Room::getW() const
-{
+int Room::getW() const {
     return m_field->getW();
 }
+
 //-----------------------------------------------------------------
-int Room::getH() const
-{
+int Room::getH() const {
     return m_field->getH();
 }
+
 //-----------------------------------------------------------------
-int Room::getCycles() const
-{
+int Room::getCycles() const {
     return TimerAgent::agent()->getCycles() - m_startTime;
 }
+
 //-----------------------------------------------------------------
-void Room::addSound(const std::string &name, const Path &file)
-{
+void Room::addSound(const std::string &name, const Path &file) {
     m_soundPack->addSound(name, file);
 }
+
 //-----------------------------------------------------------------
-void Room::playSound(const std::string &name, int volume)
-{
-    if (OptionAgent::agent()->getAsBool("sound", true))
-    {
+void Room::playSound(const std::string &name, int volume) {
+    if (OptionAgent::agent()->getAsBool("sound", true)) {
         SoundAgent::agent()->playSound(
-            m_soundPack->getRandomRes(name), volume);
+                m_soundPack->getRandomRes(name), volume);
     }
 }
 //-----------------------------------------------------------------
@@ -526,22 +459,20 @@ void Room::playSound(const std::string &name, int volume)
  * Shift room content.
  * NOTE: background is not shifted
  */
-void Room::setScreenShift(const V2 &shift)
-{
+void Room::setScreenShift(const V2 &shift) {
     m_view->setScreenShift(shift);
 }
+
 //-----------------------------------------------------------------
-void Room::changeBg(const std::string &picture)
-{
-    if (picture != m_bgFilename)
-    {
+void Room::changeBg(const std::string &picture) {
+    if (picture != m_bgFilename) {
         m_bg->changePicture(Path::dataReadPath(picture));
         m_bgFilename = picture;
     }
 }
+
 //-----------------------------------------------------------------
-void Room::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
+void Room::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     m_bg->drawOn(screen, renderer);
     m_view->drawOn(screen, renderer);
 }

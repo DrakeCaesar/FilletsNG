@@ -11,16 +11,14 @@
 #include "Picture.h"
 
 //-----------------------------------------------------------------
-StatusDisplay::StatusDisplay()
-{
+StatusDisplay::StatusDisplay() {
     m_picture = NULL;
     m_time = 0;
 }
+
 //-----------------------------------------------------------------
-StatusDisplay::~StatusDisplay()
-{
-    if (m_picture)
-    {
+StatusDisplay::~StatusDisplay() {
+    if (m_picture) {
         delete m_picture;
     }
 }
@@ -28,23 +26,19 @@ StatusDisplay::~StatusDisplay()
 /**
  * Dislay this picture the given number of times.
  */
-void StatusDisplay::displayStatus(Picture *new_picture, int time)
-{
-    if (m_picture)
-    {
+void StatusDisplay::displayStatus(Picture *new_picture, int time) {
+    if (m_picture) {
         delete m_picture;
     }
     m_picture = new_picture;
     m_time = time;
 }
+
 //-----------------------------------------------------------------
-void StatusDisplay::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
-    if (m_time > 0)
-    {
+void StatusDisplay::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
+    if (m_time > 0) {
         m_time--;
-        if (m_picture)
-        {
+        if (m_picture) {
             m_picture->drawOn(screen, renderer);
         }
     }

@@ -2,8 +2,11 @@
 #define HEADER_SUBTITLEAGENT_H
 
 class ResColorPack;
+
 class Title;
+
 class Font;
+
 class Color;
 
 #include "BaseAgent.h"
@@ -16,9 +19,8 @@ class Color;
 /**
  * Subtitles manager.
  */
-class SubTitleAgent : public BaseAgent, public Drawable
-{
-    AGENT(SubTitleAgent, Name::SUBTITLE_NAME);
+class SubTitleAgent : public BaseAgent, public Drawable {
+AGENT(SubTitleAgent, Name::SUBTITLE_NAME);
 
 public:
     static const int TITLE_ROW = 26;
@@ -35,25 +37,35 @@ public:
 
 private:
     std::string splitAndCreate(const std::string &subtitle, const Color *color);
+
     void trimRest(std::string &buffer);
+
     void newShortSubtitle(const std::string &subtitle, const Color *color);
 
     void shiftTitlesUp(int rate);
+
     void shiftFinalsUp(int rate);
+
     int lowestY();
 
 protected:
     virtual void own_init();
+
     virtual void own_update();
+
     virtual void own_shutdown();
 
 public:
     int getLimitY() const { return m_limitY; }
+
     void setLimitY(int limitY) { m_limitY = limitY; }
+
     void addFont(const std::string &fontname, Color *new_color);
+
     void newSubtitle(const std::string &subtitle, const std::string &fontname);
 
     void killTalks();
+
     void removeAll();
 
     virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);

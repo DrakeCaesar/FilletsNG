@@ -6,16 +6,14 @@
 
 #include "Log.h"
 
-template <class T>
-class CacheEntry
-{
+template<class T>
+class CacheEntry {
 public:
     std::string name;
     T value;
     int refcount;
 
-    CacheEntry()
-    {
+    CacheEntry() {
         name = "";
         value = NULL;
         refcount = 0;
@@ -25,9 +23,8 @@ public:
 /**
  * A fixed size cache for any resources.
  */
-template <class T>
-class ResCache : public NoCopy
-{
+template<class T>
+class ResCache : public NoCopy {
 private:
     typedef std::vector<class CacheEntry<T> *> t_entries;
     t_entries m_entries;
@@ -40,11 +37,9 @@ public:
      * The given unloader has to have disabled caching
      * to prevent an infinite loop.
      */
-    ResCache(int capacity, ResourcePack<T> *new_unloader)
-    {
+    ResCache(int capacity, ResourcePack<T> *new_unloader) {
         m_entries.resize(capacity);
-        for (unsigned int i = 0; i < m_entries.size(); i++)
-        {
+        for (unsigned int i = 0; i < m_entries.size(); i++) {
             m_entries[i] = new CacheEntry<T>();
         }
 
@@ -52,10 +47,8 @@ public:
         m_unloader = new_unloader;
     }
 
-    ~ResCache()
-    {
-        for (unsigned int i = 0; i < m_entries.size(); i++)
-        {
+    ~ResCache() {
+        for (unsigned int i = 0; i < m_entries.size(); i++) {
             delete m_entries[i];
         }
         delete m_unloader;
@@ -65,11 +58,9 @@ public:
      * Returns a found value or NULL.
      * The returned item should be released via release().
      */
-    T get(const std::string &name)
-    {
+    T get(const std::string &name) {
         CacheEntry<T> *entry = getEntry(name);
-        if (!entry)
-        {
+        if (!entry) {
             return NULL;
         }
 
@@ -81,18 +72,15 @@ public:
      * Notes a new value.
      * The caller should release it later via release().
      */
-    void put(const std::string &name, T value)
-    {
+    void put(const std::string &name, T value) {
         CacheEntry<T> *entry = findNextUnusedEntry();
-        if (!entry)
-        {
+        if (!entry) {
             LOG_DEBUG(ExInfo("cannot fit into cache")
-                          .addInfo("name", name));
+                              .addInfo("name", name));
             return;
         }
 
-        if (entry->value != NULL)
-        {
+        if (entry->value != NULL) {
             m_unloader->unloadRes(entry->value);
         }
         entry->name = name;
@@ -103,20 +91,15 @@ public:
     /**
      * Releases or takes responsibility for the given value.
      */
-    void release(T value)
-    {
+    void release(T value) {
         CacheEntry<T> *found = getByValue(value);
-        if (found)
-        {
+        if (found) {
             found->refcount -= 1;
-            if (found->refcount < 0)
-            {
+            if (found->refcount < 0) {
                 LOG_WARNING(ExInfo("extra release of a cache entry"));
                 found->refcount = 0;
             }
-        }
-        else
-        {
+        } else {
             m_unloader->unloadRes(value);
         }
     }
@@ -125,13 +108,10 @@ private:
     /**
      * Returns the matching CacheEntry or NULL.
      */
-    CacheEntry<T> *getEntry(const std::string &name)
-    {
-        for (unsigned int i = 0; i < m_entries.size(); i++)
-        {
+    CacheEntry<T> *getEntry(const std::string &name) {
+        for (unsigned int i = 0; i < m_entries.size(); i++) {
             CacheEntry<T> *entry = m_entries[i];
-            if (entry->value != NULL && entry->name == name)
-            {
+            if (entry->value != NULL && entry->name == name) {
                 return entry;
             }
         }
@@ -142,13 +122,10 @@ private:
     /**
      * Returns the matching CacheEntry or NULL.
      */
-    CacheEntry<T> *getByValue(T value)
-    {
-        for (unsigned int i = 0; i < m_entries.size(); i++)
-        {
+    CacheEntry<T> *getByValue(T value) {
+        for (unsigned int i = 0; i < m_entries.size(); i++) {
             CacheEntry<T> *entry = m_entries[i];
-            if (entry->value == value)
-            {
+            if (entry->value == value) {
                 return entry;
             }
         }
@@ -159,15 +136,12 @@ private:
     /**
      * Returns a next unused CacheEntry or NULL when all entries are full.
      */
-    CacheEntry<T> *findNextUnusedEntry()
-    {
-        for (unsigned int attempt = 0; attempt < m_entries.size(); attempt++)
-        {
+    CacheEntry<T> *findNextUnusedEntry() {
+        for (unsigned int attempt = 0; attempt < m_entries.size(); attempt++) {
             CacheEntry<T> *entry = m_entries[m_next_pos];
             m_next_pos = (m_next_pos + 1) % m_entries.size();
 
-            if (entry->refcount <= 0)
-            {
+            if (entry->refcount <= 0) {
                 return entry;
             }
         }

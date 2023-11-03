@@ -8,8 +8,7 @@ class Room;
 /**
  * Interface to access changing room.
  */
-class RoomAccess : public NoCopy
-{
+class RoomAccess : public NoCopy {
 private:
     Room *m_room;
 
@@ -18,12 +17,17 @@ private:
 
 public:
     RoomAccess();
+
     ~RoomAccess();
+
     void takeRoom(Room *new_room);
 
     void cleanRoom();
+
     bool isRoom() const { return !!m_room; }
+
     Room *room();
+
     const Room *const_room() const;
 };
 

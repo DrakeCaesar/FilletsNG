@@ -16,8 +16,7 @@
 /**
  * Set sound and music volume.
  */
-void SoundAgent::own_init()
-{
+void SoundAgent::own_init() {
     reinit();
 
     registerWatcher("volume_sound");
@@ -27,8 +26,7 @@ void SoundAgent::own_init()
 /**
  * Reininitalize the sound system.
  */
-void SoundAgent::reinit()
-{
+void SoundAgent::reinit() {
     OptionAgent *options = OptionAgent::agent();
     options->setDefault("volume_sound", 90);
     options->setDefault("volume_music", 50);
@@ -44,24 +42,17 @@ void SoundAgent::reinit()
  *
  * @throws UnknownMsgException
  */
-void SoundAgent::receiveString(const StringMsg *msg)
-{
-    if (msg->equalsName("param_changed"))
-    {
+void SoundAgent::receiveString(const StringMsg *msg) {
+    if (msg->equalsName("param_changed")) {
         std::string param = msg->getValue();
-        if ("volume_sound" == param)
-        {
+        if ("volume_sound" == param) {
             int volume = OptionAgent::agent()->getAsInt("volume_sound");
             setSoundVolume(volume);
-        }
-        else if ("volume_music" == param)
-        {
+        } else if ("volume_music" == param) {
             int volume = OptionAgent::agent()->getAsInt("volume_music");
             setMusicVolume(volume);
         }
-    }
-    else
-    {
+    } else {
         throw UnknownMsgException(msg);
     }
 }

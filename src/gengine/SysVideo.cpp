@@ -11,13 +11,16 @@
 #include "Log.h"
 
 #include "SDL2/SDL.h"
+
 #if !defined(HAVE_X11) && !defined(WIN32)
 void SysVideo::setCaption(const std::string &title)
 {
     //    SDL_WM_SetCaption(title.c_str(), NULL);
 }
 #else
+
 #include "SDL_syswm.h"
+
 static bool sysSetCaption(SDL_SysWMinfo *info, const std::string &title);
 
 //-----------------------------------------------------------------
@@ -25,19 +28,16 @@ static bool sysSetCaption(SDL_SysWMinfo *info, const std::string &title);
  * Set window title.
  * @param title UTF-8 string
  */
-void SysVideo::setCaption(const std::string &title)
-{
+void SysVideo::setCaption(const std::string &title) {
     bool done = false;
     SDL_SysWMinfo info;
     SDL_VERSION(&info.version);
     SDL_Window *window;
-    if (SDL_GetWindowWMInfo(window, &info) > 0)
-    {
+    if (SDL_GetWindowWMInfo(window, &info) > 0) {
         done = sysSetCaption(&info, title);
     }
 
-    if (!done)
-    {
+    if (!done) {
         //        SDL_WM_SetCaption(title.c_str(), NULL);
     }
 }
@@ -83,25 +83,24 @@ bool sysSetCaption(SDL_SysWMinfo *info, const std::string &title)
 }
 #elif defined(WIN32)
 #define WIN32_LEAN_AND_MEAN
+
 #include <windows.h>
-bool sysSetCaption(SDL_SysWMinfo *info, const std::string &title)
-{
+
+bool sysSetCaption(SDL_SysWMinfo *info, const std::string &title) {
     bool result = false;
     LPWSTR lpszW = new WCHAR[title.size()];
     if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1,
-                            lpszW, title.size()))
-    {
+                            lpszW, title.size())) {
         result = SetWindowTextW(info->info.win.window, lpszW);
-    }
-    else
-    {
+    } else {
         LOG_DEBUG(ExInfo("not supported conversion")
-                      .addInfo("error", GetLastError())
-                      .addInfo("title", title));
+                          .addInfo("error", GetLastError())
+                          .addInfo("title", title));
     }
     delete[] lpszW;
     return result;
 }
+
 #else
 bool sysSetCaption(SDL_SysWMinfo * /*info*/, const std::string & /*title*/)
 {

@@ -7,10 +7,10 @@
 /**
  * Pack of color aliases.
  */
-class ResColorPack : public ResourcePack<Color *>
-{
+class ResColorPack : public ResourcePack<Color *> {
 public:
     virtual const char *getName() const { return "color_pack"; }
+
     virtual void unloadRes(Color *res) { delete res; }
 };
 

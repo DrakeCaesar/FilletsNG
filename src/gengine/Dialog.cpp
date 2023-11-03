@@ -22,15 +22,13 @@ const std::string Dialog::DEFAULT_LANG = "en";
  */
 Dialog::Dialog(const std::string &lang,
                const std::string &soundfile, const std::string &subtitle)
-    : m_soundfile(soundfile), m_lang(lang), m_subtitle(subtitle)
-{
+        : m_soundfile(soundfile), m_lang(lang), m_subtitle(subtitle) {
     m_sound = NULL;
 }
+
 //-----------------------------------------------------------------
-Dialog::~Dialog()
-{
-    if (m_sound)
-    {
+Dialog::~Dialog() {
+    if (m_sound) {
         Mix_FreeChunk(m_sound);
     }
 }
@@ -43,10 +41,8 @@ Dialog::~Dialog()
  * @param loops numer of loops. 0=play once, 1=play twice, -1=play infinite
  * @return channel number where the sound is played or -1
  */
-int Dialog::talk(int volume, int loops) const
-{
-    if (NULL == m_sound && !m_soundfile.empty())
-    {
+int Dialog::talk(int volume, int loops) const {
+    if (NULL == m_sound && !m_soundfile.empty()) {
         Path soundPath = Path::dataReadPath(m_soundfile);
         m_sound = ResSoundPack::loadSound(soundPath);
     }
@@ -58,10 +54,9 @@ int Dialog::talk(int volume, int loops) const
 /**
  * Override this method to run subtitles.
  */
-void Dialog::runSubtitle(const StringTool::t_args &args) const
-{
+void Dialog::runSubtitle(const StringTool::t_args &args) const {
     LOG_INFO(ExInfo("subtitle")
-                 .addInfo("content", getFormatedSubtitle(args)));
+                     .addInfo("content", getFormatedSubtitle(args)));
 }
 //-----------------------------------------------------------------
 /**
@@ -69,11 +64,9 @@ void Dialog::runSubtitle(const StringTool::t_args &args) const
  * NOTE: %0 is not expanded
  */
 std::string
-Dialog::getFormatedSubtitle(const StringTool::t_args &args) const
-{
+Dialog::getFormatedSubtitle(const StringTool::t_args &args) const {
     std::string buffer = m_subtitle;
-    for (unsigned int i = 1; i < args.size(); ++i)
-    {
+    for (unsigned int i = 1; i < args.size(); ++i) {
         StringTool::replace(buffer,
                             "%" + StringTool::toString(i), args[i]);
     }
@@ -84,7 +77,6 @@ Dialog::getFormatedSubtitle(const StringTool::t_args &args) const
  * Minimal time according subtitle length.
  * @return minimal number of cycles for talk
  */
-int Dialog::getMinTime() const
-{
+int Dialog::getMinTime() const {
     return min(180, StringTool::utf8Length(m_subtitle));
 }

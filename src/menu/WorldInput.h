@@ -2,6 +2,7 @@
 #define HEADER_WORLDINPUT_H
 
 class Keymap;
+
 class WorldMap;
 
 #include "GameInput.h"
@@ -9,8 +10,7 @@ class WorldMap;
 /**
  * Handle input for worldmap.
  */
-class WorldInput : public GameInput
-{
+class WorldInput : public GameInput {
 private:
     static const int KEY_TAB = 101;
     static const int KEY_ENTER = 102;
@@ -20,7 +20,9 @@ private:
 
 protected:
     virtual void enableSubtitles() {}
+
     virtual void enableHelp() {}
+
     virtual void specKey(int keyIndex);
 
 public:

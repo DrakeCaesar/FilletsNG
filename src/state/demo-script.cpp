@@ -16,8 +16,7 @@
 
 //-----------------------------------------------------------------
 inline DemoMode *
-getDemo(lua_State *L)
-{
+getDemo(lua_State *L) {
     return dynamic_cast<DemoMode *>(script_getLeader(L));
 }
 
@@ -25,15 +24,14 @@ getDemo(lua_State *L)
 /**
  * void demo_display(picture, x, y)
  */
-int script_demo_display(lua_State *L) throw()
-{
-    BEGIN_NOEXCEPTION;
-    const char *filename = luaL_checkstring(L, 1);
-    int x = luaL_checkinteger(L, 2);
-    int y = luaL_checkinteger(L, 3);
+int script_demo_display(lua_State *L) throw() {
+    BEGIN_NOEXCEPTION ;
+        const char *filename = luaL_checkstring(L, 1);
+        int x = luaL_checkinteger(L, 2);
+        int y = luaL_checkinteger(L, 3);
 
-    Picture *picture = new Picture(Path::dataReadPath(filename), V2(x, y));
-    getDemo(L)->action_display(picture);
+        Picture *picture = new Picture(Path::dataReadPath(filename), V2(x, y));
+        getDemo(L)->action_display(picture);
     END_NOEXCEPTION;
     return 0;
 }

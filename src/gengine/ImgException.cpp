@@ -16,7 +16,6 @@
  * @param problem detail info
  */
 ImgException::ImgException(const ExInfo &problem)
-    : BaseException(ExInfo(problem).addInfo("IMG", IMG_GetError()))
-{
+        : BaseException(ExInfo(problem).addInfo("IMG", IMG_GetError())) {
     /* empty */
 }

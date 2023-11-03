@@ -14,8 +14,7 @@
  * @param new_content subwidget inside
  * @param border border around subwidget
  */
-WiContainer::WiContainer(IWidget *new_content, int border)
-{
+WiContainer::WiContainer(IWidget *new_content, int border) {
     m_content = new_content;
     m_border = border;
 }
@@ -23,23 +22,22 @@ WiContainer::WiContainer(IWidget *new_content, int border)
 /**
  * Release subwidget.
  */
-WiContainer::~WiContainer()
-{
+WiContainer::~WiContainer() {
     delete m_content;
 }
+
 //-----------------------------------------------------------------
-int WiContainer::getW() const
-{
+int WiContainer::getW() const {
     return 2 * m_border + m_content->getW();
 }
+
 //-----------------------------------------------------------------
-int WiContainer::getH() const
-{
+int WiContainer::getH() const {
     return 2 * m_border + m_content->getH();
 }
+
 //-----------------------------------------------------------------
-void WiContainer::setShift(const V2 &shift)
-{
+void WiContainer::setShift(const V2 &shift) {
     m_shift = shift;
     m_content->setShift(m_shift.plus(V2(m_border, m_border)));
 }
@@ -47,15 +45,13 @@ void WiContainer::setShift(const V2 &shift)
 /**
  * Let subwidget to draw.
  */
-void WiContainer::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
+void WiContainer::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     m_content->drawOn(screen, renderer);
 }
 //-----------------------------------------------------------------
 /**
  * Default action is to propagate mouse press to subwidget.
  */
-void WiContainer::own_mouseButton(const MouseStroke &stroke)
-{
+void WiContainer::own_mouseButton(const MouseStroke &stroke) {
     m_content->mouseButton(stroke);
 }

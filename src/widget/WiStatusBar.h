@@ -11,8 +11,7 @@ class Font;
 /**
  * Statusbar with fixed width.
  */
-class WiStatusBar : public IWidget
-{
+class WiStatusBar : public IWidget {
 private:
     Font *m_font;
     SDL_Color m_color;
@@ -21,9 +20,13 @@ private:
 
 public:
     WiStatusBar(Font *new_font, const SDL_Color &color, int width = 0);
+
     virtual ~WiStatusBar();
+
     virtual int getW() const { return m_w; }
+
     virtual int getH() const;
+
     void setLabel(const std::string &label) { m_label = label; }
 
     virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);

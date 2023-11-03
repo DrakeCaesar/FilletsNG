@@ -2,7 +2,9 @@
 #define HEADER_LEVELINPUT_H
 
 class Level;
+
 class Keymap;
+
 class KeyStroke;
 
 #include "GameInput.h"
@@ -10,8 +12,7 @@ class KeyStroke;
 /**
  * Handle input for level.
  */
-class LevelInput : public GameInput
-{
+class LevelInput : public GameInput {
 private:
     static const int KEY_SWITCH = 101;
     static const int KEY_SAVE = 102;
@@ -26,11 +27,14 @@ private:
 
 protected:
     virtual void specKey(int keyIndex);
+
     virtual void specStroke(const KeyStroke &stroke);
 
 public:
     LevelInput(Level *level);
+
     virtual void mouseEvent(const MouseStroke &buttons);
+
     virtual void keyUp(const KeyStroke &stroke);
 };
 

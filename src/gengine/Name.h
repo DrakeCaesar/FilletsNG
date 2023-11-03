@@ -4,8 +4,7 @@
 /**
  * Contains agent names.
  */
-class Name
-{
+class Name {
 public:
     static const char *APP_NAME;
     static const char *MESSAGER_NAME;

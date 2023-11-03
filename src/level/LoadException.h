@@ -6,12 +6,10 @@
 /**
  * Exception about load game fail.
  */
-class LoadException : public BaseException
-{
+class LoadException : public BaseException {
 public:
     LoadException(const ExInfo &problem)
-        : BaseException(problem)
-    {
+            : BaseException(problem) {
     }
 };
 

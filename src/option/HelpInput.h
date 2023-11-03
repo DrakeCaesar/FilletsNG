@@ -8,11 +8,12 @@ class GameState;
 /**
  * Handle input for help screen.
  */
-class HelpInput : public StateInput
-{
+class HelpInput : public StateInput {
 protected:
     virtual void enableHelp() { quitState(); }
+
     virtual void enableMenu() { quitState(); }
+
     virtual void specStroke(const KeyStroke &stroke);
 
 public:

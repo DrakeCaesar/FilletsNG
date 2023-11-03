@@ -6,11 +6,12 @@
 /**
  * Input which enables console and menu options.
  */
-class GameInput : public StateInput
-{
+class GameInput : public StateInput {
 protected:
     GameInput(GameState *state) : StateInput(state) {}
+
     virtual void enableHelp();
+
     virtual void enableMenu();
 };
 

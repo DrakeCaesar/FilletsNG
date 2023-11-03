@@ -15,17 +15,14 @@
 //-----------------------------------------------------------------
 RadioBox::RadioBox(const std::string &param, const std::string &value,
                    const Path &picture)
-    : WiContainer(new WiPicture(picture), BORDER), m_param(param), m_value(value)
-{
+        : WiContainer(new WiPicture(picture), BORDER), m_param(param), m_value(value) {
 }
 //-----------------------------------------------------------------
 /**
  * Draw border for selected button.
  */
-void RadioBox::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
-    if (OptionAgent::agent()->getParam(m_param) == m_value)
-    {
+void RadioBox::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
+    if (OptionAgent::agent()->getParam(m_param) == m_value) {
         SDL_Rect rect;
         rect.x = m_shift.getX();
         rect.y = m_shift.getY();
@@ -41,10 +38,8 @@ void RadioBox::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 /**
  * Select button and set param=value.
  */
-void RadioBox::own_mouseButton(const MouseStroke &stroke)
-{
-    if (stroke.isLeft())
-    {
+void RadioBox::own_mouseButton(const MouseStroke &stroke) {
+    if (stroke.isLeft()) {
         OptionAgent::agent()->setPersistent(m_param, m_value);
     }
 }

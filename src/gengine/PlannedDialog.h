@@ -10,8 +10,7 @@ class Dialog;
 /**
  * Active dialog.
  */
-class PlannedDialog : public NoCopy
-{
+class PlannedDialog : public NoCopy {
 private:
     int m_actor;
     const Dialog *m_dialog;
@@ -26,9 +25,11 @@ public:
     PlannedDialog(int actor, const Dialog *dialog, int minTime);
 
     void talk(int volume, int loops = 0);
+
     void killTalk();
 
     bool isTalking() const;
+
     bool equalsActor(int other) const;
 };
 

@@ -2,6 +2,7 @@
 #define HEADER_TITLE_H
 
 class Font;
+
 class Color;
 
 #include "Drawable.h"
@@ -11,8 +12,7 @@ class Color;
 /**
  * Subtitle.
  */
-class Title : public Drawable
-{
+class Title : public Drawable {
 private:
     static const int TIME_PER_CHAR = 2;
     static const int TIME_MIN = 40;
@@ -31,14 +31,19 @@ public:
     Title(int baseY, int finalY, int bonusTime, int limitY,
           const std::string &content,
           Font *font, const Color *color);
+
     virtual ~Title();
 
     void shiftUp(int rate);
+
     void shiftFinalUp(int rate);
+
     virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
+
     bool isGone();
 
     int getY() const;
+
     std::string getContent() const { return m_content; }
 };
 

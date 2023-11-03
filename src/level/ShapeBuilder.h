@@ -11,15 +11,16 @@ class Shape;
  * Creator of images from shapes.
  * Useable for testing of new levels.
  */
-class ShapeBuilder
-{
+class ShapeBuilder {
 private:
     /**
      * ShapeBuilder is not meant to be instantiated.
      */
     ShapeBuilder() {}
+
     static void prepareColor(SDL_Color *color, const Shape *shape,
                              Cube::eWeight weight);
+
     static Uint32 calcShapeHash(const Shape *shape);
 
 public:

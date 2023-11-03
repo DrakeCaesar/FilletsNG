@@ -18,8 +18,7 @@
  * Default is no waves.
  */
 WavyPicture::WavyPicture(const Path &file, const V2 &loc)
-    : Picture(file, loc)
-{
+        : Picture(file, loc) {
     m_amp = 0;
     m_periode = m_surface->w;
     m_speed = 0;
@@ -29,10 +28,8 @@ WavyPicture::WavyPicture(const Path &file, const V2 &loc)
  * Blit entire surface to [x,y].
  * Do vertical waves with phase shift.
  */
-void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
-    if (m_amp == 0)
-    {
+void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
+    if (m_amp == 0) {
         Picture::drawOn(screen, renderer);
         return;
     }
@@ -48,8 +45,7 @@ void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 
     float shift = TimerAgent::agent()->getCycles() * m_speed;
     shift = shift / speedup;
-    for (int py = 0; py < m_surface->h; ++py)
-    {
+    for (int py = 0; py < m_surface->h; ++py) {
         // NOTE: C99 has lrintf and sinf
         Sint16 shiftX = static_cast<Sint16>(0.5 +
                                             m_amp * sin(py / m_periode + shift));

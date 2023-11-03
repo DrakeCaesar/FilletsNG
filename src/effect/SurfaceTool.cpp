@@ -19,14 +19,11 @@
  * @throws SDLException when function fails
  */
 SDL_Surface *
-SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height)
-{
-    if (!width)
-    {
+SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height) {
+    if (!width) {
         width = surface->w;
     }
-    if (!height)
-    {
+    if (!height) {
         height = surface->h;
     }
 
@@ -36,8 +33,7 @@ SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height)
                                                surface->format->Gmask,
                                                surface->format->Bmask,
                                                surface->format->Amask);
-    if (NULL == result)
-    {
+    if (NULL == result) {
         throw SDLException(ExInfo("CreateRGBSurface"));
     }
     return result;
@@ -47,13 +43,11 @@ SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height)
  * Return new surface with transparent background.
  */
 SDL_Surface *
-SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent)
-{
+SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent) {
     SDL_Surface *surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
                                                 w, h, 32,
                                                 0, 0, 0, 0);
-    if (NULL == surface)
-    {
+    if (NULL == surface) {
         throw SDLException(ExInfo("CreateRGBSurface"));
     }
 
@@ -71,12 +65,10 @@ SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent)
  * @throws SDLException when function fails
  */
 SDL_Surface *
-SurfaceTool::createClone(SDL_Surface *surface)
-{
+SurfaceTool::createClone(SDL_Surface *surface) {
     SDL_Surface *clone = SDL_ConvertSurface(surface,
                                             surface->format, surface->flags);
-    if (NULL == clone)
-    {
+    if (NULL == clone) {
         throw SDLException(ExInfo("ConvertSurface"));
     }
     return clone;
@@ -91,12 +83,10 @@ SurfaceTool::createClone(SDL_Surface *surface)
  * @param color {red, green, blue, alpha}
  */
 void SurfaceTool::alphaFill(SDL_Surface *surface, SDL_Rect *dstrect,
-                            const SDL_Color &color)
-{
+                            const SDL_Color &color) {
     int w = surface->w;
     int h = surface->h;
-    if (dstrect)
-    {
+    if (dstrect) {
         w = dstrect->w;
         h = dstrect->h;
     }

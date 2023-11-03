@@ -12,26 +12,24 @@
 
 //-----------------------------------------------------------------
 WiStatusBar::WiStatusBar(Font *new_font, const SDL_Color &color, int width)
-    : m_color(color)
-{
+        : m_color(color) {
     m_font = new_font;
     m_w = width;
 }
+
 //-----------------------------------------------------------------
-WiStatusBar::~WiStatusBar()
-{
+WiStatusBar::~WiStatusBar() {
     delete m_font;
 }
+
 //-----------------------------------------------------------------
-int WiStatusBar::getH() const
-{
+int WiStatusBar::getH() const {
     return m_font->getHeight();
 }
+
 //-----------------------------------------------------------------
-void WiStatusBar::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
-{
-    if (!m_label.empty())
-    {
+void WiStatusBar::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
+    if (!m_label.empty()) {
         SDL_Rect rect;
         rect.x = m_shift.getX();
         rect.y = m_shift.getY();

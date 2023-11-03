@@ -16,7 +16,6 @@
  * @param problem detail info
  */
 SDLException::SDLException(const ExInfo &problem)
-    : BaseException(ExInfo(problem).addInfo("SDL", SDL_GetError()))
-{
+        : BaseException(ExInfo(problem).addInfo("SDL", SDL_GetError())) {
     /* empty */
 }

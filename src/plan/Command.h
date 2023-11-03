@@ -4,10 +4,10 @@
 /**
  * Command interface.
  */
-class Command
-{
+class Command {
 public:
     virtual ~Command() {}
+
     /**
      * Return true when command has finished his work.
      * @param count number of calls

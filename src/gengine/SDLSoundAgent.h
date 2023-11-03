@@ -11,8 +11,7 @@
 /**
  * Sound and music.
  */
-class SDLSoundAgent : public SoundAgent
-{
+class SDLSoundAgent : public SoundAgent {
 private:
     static BaseMsg *ms_finished;
     Mix_Music *m_music;
@@ -23,16 +22,20 @@ private:
 
 private:
     std::string generateIdName(const Path &file);
+
     Mix_Chunk *findChunk(const std::string &name);
 
     static void musicFinished();
 
 protected:
     virtual void own_init();
+
     virtual void own_shutdown();
+
     virtual void reinit();
 
     virtual void setSoundVolume(int volume);
+
     virtual void setMusicVolume(int volume);
 
 public:
@@ -40,6 +43,7 @@ public:
 
     virtual void playMusic(const Path &file,
                            BaseMsg *finished);
+
     virtual void stopMusic();
 };
 

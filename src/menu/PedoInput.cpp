@@ -16,20 +16,18 @@
 
 //-----------------------------------------------------------------
 PedoInput::PedoInput(Pedometer *pedometer)
-    : GameInput(pedometer)
-{
+        : GameInput(pedometer) {
 }
+
 //-----------------------------------------------------------------
 Pedometer *
-PedoInput::getPedo()
-{
+PedoInput::getPedo() {
     return dynamic_cast<Pedometer *>(m_state);
 }
+
 //-----------------------------------------------------------------
-void PedoInput::mouseEvent(const MouseStroke &buttons)
-{
-    if (buttons.isLeft())
-    {
+void PedoInput::mouseEvent(const MouseStroke &buttons) {
+    if (buttons.isLeft()) {
         getPedo()->runSelected();
     }
 }

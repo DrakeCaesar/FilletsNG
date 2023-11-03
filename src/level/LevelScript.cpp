@@ -26,8 +26,7 @@
 /**
  * Create new plan holder.
  */
-LevelScript::LevelScript(Level *aLevel)
-{
+LevelScript::LevelScript(Level *aLevel) {
     m_level = aLevel;
     registerGameFuncs();
 }
@@ -39,8 +38,7 @@ LevelScript::LevelScript(Level *aLevel)
  * @return new command
  */
 Command *
-LevelScript::createCommand(int funcRef)
-{
+LevelScript::createCommand(int funcRef) {
     return new ScriptCmd(m_script, funcRef);
 }
 
@@ -48,8 +46,7 @@ LevelScript::createCommand(int funcRef)
 /**
  * Update level (plan dialogs, do anim, ...).
  */
-void LevelScript::updateScript()
-{
+void LevelScript::updateScript() {
     char luacom[64];
     sprintf(luacom, "script_update(%d,%d)", tick, speedup);
     // printf("%s\n",luacom);
@@ -57,9 +54,9 @@ void LevelScript::updateScript()
     if (tick % speedup == 0)
         satisfyPlan();
 }
+
 //-----------------------------------------------------------------
-void LevelScript::interruptPlan()
-{
+void LevelScript::interruptPlan() {
     Planner::interruptPlan();
     // NOTE: checkActive is before unBusyUnits to allow script
     //  make busy unwanted fishes
@@ -74,18 +71,17 @@ void LevelScript::interruptPlan()
  * @return model index
  * @throws LogicException when room is not created yet
  */
-int LevelScript::addModel(Cube *new_model, Unit *new_unit)
-{
+int LevelScript::addModel(Cube *new_model, Unit *new_unit) {
     std::auto_ptr<Cube> ptr_model(new_model);
     std::auto_ptr<Unit> ptr_unit(new_unit);
 
     ptr_model->takeDialogs(dialogs());
     return room()->addModel(ptr_model.release(), ptr_unit.release());
 }
+
 //-----------------------------------------------------------------
 Cube *
-LevelScript::getModel(int model_index)
-{
+LevelScript::getModel(int model_index) {
     return room()->getModel(model_index);
 }
 //-----------------------------------------------------------------
@@ -93,27 +89,24 @@ LevelScript::getModel(int model_index)
  * Returns model at location.
  */
 Cube *
-LevelScript::askField(const V2 &loc)
-{
+LevelScript::askField(const V2 &loc) {
     return room()->askField(loc);
 }
 
 //-----------------------------------------------------------------
-void LevelScript::addSound(const std::string &name, const Path &file)
-{
+void LevelScript::addSound(const std::string &name, const Path &file) {
     room()->addSound(name, file);
 }
+
 //-----------------------------------------------------------------
-void LevelScript::playSound(const std::string &name, int volume)
-{
+void LevelScript::playSound(const std::string &name, int volume) {
     room()->playSound(name, volume);
 }
 //-----------------------------------------------------------------
 /**
  * Register functions usable from script.
  */
-void LevelScript::registerGameFuncs()
-{
+void LevelScript::registerGameFuncs() {
     m_script->registerFunc("game_setRoomWaves", script_game_setRoomWaves);
     m_script->registerFunc("game_addModel", script_game_addModel);
     m_script->registerFunc("game_getCycles", script_game_getCycles);
@@ -161,9 +154,9 @@ void LevelScript::registerGameFuncs()
 
     registerLevelFuncs();
 }
+
 //-----------------------------------------------------------------
-void LevelScript::registerLevelFuncs()
-{
+void LevelScript::registerLevelFuncs() {
     m_script->registerFunc("level_save", script_level_save);
     m_script->registerFunc("level_load", script_level_load);
 

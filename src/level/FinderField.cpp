@@ -16,24 +16,21 @@
 /**
  * Two dimensional array of booleans.
  */
-FinderField::FinderField(int w, int h)
-{
+FinderField::FinderField(int w, int h) {
     m_w = w;
     m_h = h;
 
     // NOTE: [y][x] indexes
     m_closed = new bool *[m_h];
-    for (int y = 0; y < m_h; ++y)
-    {
+    for (int y = 0; y < m_h; ++y) {
         m_closed[y] = new bool[m_w];
         memset(m_closed[y], false, sizeof(bool) * m_w);
     }
 }
+
 //-----------------------------------------------------------------
-FinderField::~FinderField()
-{
-    for (int y = 0; y < m_h; ++y)
-    {
+FinderField::~FinderField() {
+    for (int y = 0; y < m_h; ++y) {
         delete[] m_closed[y];
     }
     delete[] m_closed;
@@ -42,10 +39,8 @@ FinderField::~FinderField()
 /**
  * Erase all marks.
  */
-void FinderField::reset()
-{
-    for (int y = 0; y < m_h; ++y)
-    {
+void FinderField::reset() {
+    for (int y = 0; y < m_h; ++y) {
         memset(m_closed[y], false, sizeof(bool) * m_w);
     }
 }
@@ -53,13 +48,11 @@ void FinderField::reset()
 /**
  * Mark given place as closed.
  */
-void FinderField::markClosed(const V2 &loc)
-{
+void FinderField::markClosed(const V2 &loc) {
     int x = loc.getX();
     int y = loc.getY();
 
-    if ((0 <= x && x < m_w) && (0 <= y && y < m_h))
-    {
+    if ((0 <= x && x < m_w) && (0 <= y && y < m_h)) {
         m_closed[y][x] = true;
     }
 }
@@ -68,14 +61,12 @@ void FinderField::markClosed(const V2 &loc)
  * Returns true when place is closed.
  * NOTE: all places outside array are marked as closed
  */
-bool FinderField::isClosed(const V2 &loc) const
-{
+bool FinderField::isClosed(const V2 &loc) const {
     int x = loc.getX();
     int y = loc.getY();
 
     bool result = true;
-    if ((0 <= x && x < m_w) && (0 <= y && y < m_h))
-    {
+    if ((0 <= x && x < m_w) && (0 <= y && y < m_h)) {
         result = m_closed[y][x];
     }
     return result;
