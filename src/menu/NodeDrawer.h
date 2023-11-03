@@ -33,6 +33,9 @@ public:
     void drawEdge(const LevelNode *start, const LevelNode *end) const;
     void drawSelect(const V2 &loc) const;
     void drawSelected(const std::string &levelname) const;
+    void drawText(V2 loc, const std::string &text) const;
+    void drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, Uint32 colorRGBA) const;
+    void drawBezier(SDL_Renderer *renderer, float startX, float startY, float c1X, float c1Y, float c2X, float c2Y, float endX, float endY, Uint32 colorRGBA) const;
 };
 
 #endif

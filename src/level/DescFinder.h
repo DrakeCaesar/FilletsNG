@@ -11,11 +11,11 @@ class Level;
 class DescFinder
 {
 public:
-    virtual ~DescFinder() {}
-    virtual std::string findLevelName(
-        const std::string &codename) const = 0;
-    virtual std::string findDesc(
-        const std::string &codename) const = 0;
+        virtual ~DescFinder() {}
+        virtual std::string findLevelName(
+            const std::string &codename) const = 0;
+        virtual std::string findDesc(
+            const std::string &codename) const = 0;
 };
 
 #endif

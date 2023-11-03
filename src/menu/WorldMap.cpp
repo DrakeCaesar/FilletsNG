@@ -32,6 +32,7 @@
 #include "PosterScroller.h"
 #include "MovieState.h"
 #include "Log.h"
+#include "BezierCurves.h"
 
 //-----------------------------------------------------------------
 WorldMap::WorldMap()
@@ -48,6 +49,7 @@ WorldMap::WorldMap()
     takeHandler(new WorldInput(this));
     registerDrawable(m_bg);
     registerDrawable(this);
+    initializeBezierMap();
 }
 //-----------------------------------------------------------------
 WorldMap::~WorldMap()

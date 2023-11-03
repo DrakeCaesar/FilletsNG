@@ -20,6 +20,10 @@
 
 #include "SDL2/SDL2_gfxPrimitives.h"
 #include "Application.h"
+#include <iostream>
+#include <sstream>
+#include <string>
+#include "BezierCurves.h"
 
 //-----------------------------------------------------------------
 NodeDrawer::NodeDrawer()
@@ -90,7 +94,14 @@ void NodeDrawer::drawNode(const LevelNode *node) const
         return;
     }
     drawDot(dot, loc);
+
+    // std::stringstream ss = std::stringstream();
+    // ss << "" << loc.getX() << "," << loc.getY() << "";
+    // std::string coords = ss.str();
+    // V2 textLoc = {loc.getX(), loc.getY()};
+    // drawText(textLoc, coords);
 }
+
 //-----------------------------------------------------------------
 /**
  * Draw centred.
@@ -149,14 +160,86 @@ void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
 
     SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(m_screen);
 
-    Uint32 colorRGBA = 0xff00ffff;
+    Uint32 colorRGBA = 0xff00ffff; // RGB 0xffff00ff
 
-    aalineColor(renderer, x1, y1, x2, y2, colorRGBA);
-    aalineColor(renderer, x1 - 1, y1 - 1, x2 - 1, y2 - 1, colorRGBA);
-    aalineColor(renderer, x1 + 1, y1 + 1, x2 + 1, y2 + 1, colorRGBA);
-    aalineColor(renderer, x1 - 1, y1 + 1, x2 - 1, y2 + 1, colorRGBA);
-    aalineColor(renderer, x1 + 1, y1 - 1, x2 + 1, y2 - 1, colorRGBA);
-    aalineColor(renderer, x1 + 1, y1 - 1, x2 + 1, y2 - 1, colorRGBA);
-
+    std::vector<BezierCurve> curveList = BezierCurve::getBezierCurvesForPoints(x1, y1, x2, y2);
+    bool foundCurve = false;
+    for (int i = 0; i < curveList.size(); i++)
+    {
+        drawBezier(renderer, curveList[i].startX, curveList[i].startY, curveList[i].controlX1, curveList[i].controlY1, curveList[i].controlX2, curveList[i].controlY2, curveList[i].endX, curveList[i].endY, colorRGBA);
+        foundCurve = true;
+    }
+    if (!foundCurve)
+    {
+        drawLine(renderer, x1, y1, x2, y2, colorRGBA);
+        std::cout << "need to define: " << x1 << " " << y1 << " " << x2 << " " << y2 << std::endl;
+    }
     SDL_DestroyRenderer(renderer);
+}
+
+void NodeDrawer::drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, Uint32 colorRGBA) const
+{
+    drawBezier(renderer, x1, y1, x1, y1, x2, y2, x2, y2, colorRGBA);
+}
+
+void NodeDrawer::drawBezier(SDL_Renderer *renderer, float startX, float startY, float c1X, float c1Y, float c2X, float c2Y, float endX, float endY, Uint32 colorRGBA) const
+{
+    // Number of points on the curve to calculate
+    const int numPoints = 100;
+
+    // Thickness of the Bezier curve
+    const float thickness = 3.0f; // for example, a diameter of 3 pixels for the circles
+
+    // Calculate points on the Bezier curve
+    for (int i = 0; i <= numPoints; i++)
+    {
+        float t = i / static_cast<float>(numPoints);
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        float uuu = uu * u;
+        float ttt = tt * t;
+
+        // Bezier curve equation
+        float pointX = uuu * startX + 3 * uu * t * c1X + 3 * u * tt * c2X + ttt * endX;
+        float pointY = uuu * startY + 3 * uu * t * c1Y + 3 * u * tt * c2Y + ttt * endY;
+
+        // Draw a filled circle at each calculated point on the curve
+        filledCircleColor(renderer,
+                          static_cast<Sint16>(pointX),
+                          static_cast<Sint16>(pointY),
+                          static_cast<Sint16>(thickness / 2),
+                          colorRGBA); // Yellow color, for example
+    }
+}
+
+void NodeDrawer::drawText(V2 loc, const std::string &text) const
+{
+    // Set up the color for the text.
+    SDL_Color textColoFG = {255, 255, 255, 255};
+    SDL_Color textColoBG = {0, 0, 0, 255};
+
+    // Create a surface from the string.
+    TTF_Font *Sans = TTF_OpenFont("FiraCodeNerdFont-Bold.ttf", 10);
+    SDL_Surface *textSurface = TTF_RenderText_LCD(Sans, text.c_str(), textColoFG, textColoBG);
+
+    if (textSurface == NULL)
+    {
+        LOG_WARNING(ExInfo("Failed to create text surface"));
+        return;
+    }
+    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(m_screen);
+    // Create a texture from the surface.
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+    // Set up the rectangle where the text will be rendered.
+    SDL_Rect renderQuad = {loc.getX() - 20, loc.getY() + 10, textSurface->w, textSurface->h};
+
+    // Render the text to the screen.
+    SDL_RenderCopy(renderer, textTexture, NULL, &renderQuad);
+    SDL_DestroyRenderer(renderer);
+
+    // Clean up the surface and texture.
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
 }
