@@ -222,14 +222,14 @@ void SubTitleAgent::removeAll()
 /**
  * Draw all subtitles.
  */
-void SubTitleAgent::drawOn(SDL_Surface *screen)
+void SubTitleAgent::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     if (OptionAgent::agent()->getAsBool("subtitles", true))
     {
         t_titles::iterator end = m_titles.end();
         for (t_titles::iterator i = m_titles.begin(); i != end; ++i)
         {
-            (*i)->drawOn(screen);
+            (*i)->drawOn(screen, renderer);
         }
     }
 }

@@ -31,7 +31,7 @@ std::vector<BezierCurve> BezierCurve::getBezierCurvesForPoints(double startX, do
     }
 }
 
-static BezierMap bezierCurves;
+BezierMap bezierCurves;
 
 void initializeBezierMap()
 {

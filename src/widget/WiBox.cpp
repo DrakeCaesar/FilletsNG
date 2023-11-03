@@ -24,12 +24,12 @@ WiBox::~WiBox()
 /**
  * Draw all subwidgets.
  */
-void WiBox::drawOn(SDL_Surface *screen)
+void WiBox::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     t_widgets::iterator end = m_widgets.end();
     for (t_widgets::iterator i = m_widgets.begin(); i != end; ++i)
     {
-        (*i)->drawOn(screen);
+        (*i)->drawOn(screen, renderer);
     }
 }
 //-----------------------------------------------------------------

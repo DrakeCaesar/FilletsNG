@@ -45,11 +45,11 @@ void MultiDrawer::removeAll()
 /**
  * Let every registred drawer to draw.
  */
-void MultiDrawer::drawOn(SDL_Surface *screen)
+void MultiDrawer::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     t_drawers::iterator end = m_drawers.end();
     for (t_drawers::iterator i = m_drawers.begin(); i != end; ++i)
     {
-        (*i)->drawOn(screen);
+        (*i)->drawOn(screen, renderer);
     }
 }

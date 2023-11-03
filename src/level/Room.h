@@ -90,7 +90,7 @@ public:
     void setScreenShift(const V2 &shift);
     void changeBg(const std::string &picture);
     std::string getBg() const { return m_bgFilename; }
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

@@ -47,9 +47,9 @@ void WiContainer::setShift(const V2 &shift)
 /**
  * Let subwidget to draw.
  */
-void WiContainer::drawOn(SDL_Surface *screen)
+void WiContainer::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
-    m_content->drawOn(screen);
+    m_content->drawOn(screen, renderer);
 }
 //-----------------------------------------------------------------
 /**

@@ -28,7 +28,7 @@ int WiStatusBar::getH() const
     return m_font->getHeight();
 }
 //-----------------------------------------------------------------
-void WiStatusBar::drawOn(SDL_Surface *screen)
+void WiStatusBar::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     if (!m_label.empty())
     {

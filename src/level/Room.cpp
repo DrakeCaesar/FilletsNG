@@ -540,8 +540,8 @@ void Room::changeBg(const std::string &picture)
     }
 }
 //-----------------------------------------------------------------
-void Room::drawOn(SDL_Surface *screen)
+void Room::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
-    m_bg->drawOn(screen);
-    m_view->drawOn(screen);
+    m_bg->drawOn(screen, renderer);
+    m_view->drawOn(screen, renderer);
 }

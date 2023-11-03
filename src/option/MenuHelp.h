@@ -27,7 +27,7 @@ public:
     virtual const char *getName() const { return "state_help"; };
     virtual bool allowBg() const { return true; }
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

@@ -25,7 +25,7 @@ public:
     virtual int getW() const { return (m_max - m_min) * PIXELS_PER_VALUE; }
     virtual int getH() const { return HEIGHT; }
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

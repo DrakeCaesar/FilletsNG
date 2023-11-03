@@ -21,7 +21,7 @@ public:
     virtual ~WiBox();
     virtual void addWidget(IWidget *new_widget) = 0;
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

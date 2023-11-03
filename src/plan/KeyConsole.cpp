@@ -60,7 +60,7 @@ bool KeyConsole::sendCommand()
 /**
  * Draw console.
  */
-void KeyConsole::drawOn(SDL_Surface *screen)
+void KeyConsole::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     SDL_Rect rect;
     rect.x = 10;

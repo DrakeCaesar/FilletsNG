@@ -59,7 +59,7 @@ void MenuHelp::own_resumeState()
         V2((screenW - contentW) / 2, (screenH - contentH) / 2));
 }
 //-----------------------------------------------------------------
-void MenuHelp::drawOn(SDL_Surface *screen)
+void MenuHelp::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     SDL_Color gray = {0x00, 0x00, 0x00, 129};
     SurfaceTool::alphaFill(screen, NULL, gray);

@@ -22,7 +22,7 @@ public:
     virtual int getW() const { return m_surface->w; }
     virtual int getH() const { return m_surface->h; }
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

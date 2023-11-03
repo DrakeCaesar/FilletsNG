@@ -53,7 +53,7 @@ void Picture::changePicture(SDL_Surface *new_surface)
 /**
  * Blit entire surface to [x,y].
  */
-void Picture::drawOn(SDL_Surface *screen)
+void Picture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     SDL_Rect rect;
     rect.x = m_loc.getX();

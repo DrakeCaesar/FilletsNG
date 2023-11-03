@@ -44,7 +44,7 @@ public:
     virtual bool allowBg() const { return true; }
 
     void mouseButton(const MouseStroke &stroke);
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 
     void receiveString(const StringMsg *msg);
 };

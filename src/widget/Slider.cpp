@@ -47,7 +47,7 @@ int Slider::slide2value(int slide)
     return static_cast<int>(fraction + 0.5);
 }
 //-----------------------------------------------------------------
-void Slider::drawOn(SDL_Surface *screen)
+void Slider::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     int value = OptionAgent::agent()->getAsInt(m_param);
     SDL_Color gray = {0x00, 0x00, 0x00, 129};

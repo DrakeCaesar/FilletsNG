@@ -207,7 +207,7 @@ public:
     }
 
     // Draw the movie surface to the screen
-    virtual void drawOn(SDL_Surface *screen)
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
     {
         if (movieSurface)
         {

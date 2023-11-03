@@ -77,9 +77,9 @@ LayeredPicture::getMaskAt(const V2 &loc)
     return result;
 }
 //-----------------------------------------------------------------
-void LayeredPicture::drawOn(SDL_Surface *screen)
+void LayeredPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
-    Picture::drawOn(screen);
+    Picture::drawOn(screen, renderer);
     if (m_activeColor == MASK_NO)
     {
         return;

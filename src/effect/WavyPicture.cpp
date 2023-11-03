@@ -29,14 +29,14 @@ WavyPicture::WavyPicture(const Path &file, const V2 &loc)
  * Blit entire surface to [x,y].
  * Do vertical waves with phase shift.
  */
-void WavyPicture::drawOn(SDL_Surface *screen)
+void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     if (m_amp == 0)
     {
-        Picture::drawOn(screen);
+        Picture::drawOn(screen, renderer);
         return;
     }
-    Picture::drawOn(screen);
+    Picture::drawOn(screen, renderer);
     // NOTE: Wamp = Wamp_in_orig/2.0
     // NOTE: Wspeed = 1.0/Wspd_in_orig
     SDL_Rect dest_rect;

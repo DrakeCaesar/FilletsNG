@@ -18,7 +18,7 @@ public:
     StatusDisplay();
     virtual ~StatusDisplay();
     void displayStatus(Picture *new_picture, int time);
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

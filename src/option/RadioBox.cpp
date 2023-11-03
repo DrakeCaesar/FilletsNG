@@ -22,7 +22,7 @@ RadioBox::RadioBox(const std::string &param, const std::string &value,
 /**
  * Draw border for selected button.
  */
-void RadioBox::drawOn(SDL_Surface *screen)
+void RadioBox::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     if (OptionAgent::agent()->getParam(m_param) == m_value)
     {
@@ -35,7 +35,7 @@ void RadioBox::drawOn(SDL_Surface *screen)
         Uint32 green = SDL_MapRGB(screen->format, 0x00, 0xff, 0x00);
         SDL_FillRect(screen, &rect, green);
     }
-    WiContainer::drawOn(screen);
+    WiContainer::drawOn(screen, renderer);
 }
 //-----------------------------------------------------------------
 /**

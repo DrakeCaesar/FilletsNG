@@ -33,7 +33,7 @@ public:
     virtual const char *getName() const { return "state_demo"; };
 
     bool action_display(Picture *picture);
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

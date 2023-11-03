@@ -22,7 +22,7 @@ public:
     RadioBox(const std::string &param, const std::string &value,
              const Path &picture);
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

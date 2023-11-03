@@ -283,7 +283,7 @@ bool WorldMap::checkEnding() const
     return result;
 }
 //-----------------------------------------------------------------
-void WorldMap::drawOn(SDL_Surface *screen)
+void WorldMap::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     m_drawer->setScreen(screen);
     m_startNode->drawPath(m_drawer);

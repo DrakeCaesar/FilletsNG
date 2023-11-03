@@ -35,7 +35,7 @@ public:
 
     void shiftUp(int rate);
     void shiftFinalUp(int rate);
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
     bool isGone();
 
     int getY() const;

@@ -68,7 +68,8 @@ void Pedometer::prepareBg()
     SolverDrawer solver(m_status);
     solver.setShift(V2((bgSurface->w - solver.getW()) / 2,
                        bgSurface->h - 150));
-    solver.drawOn(bgSurface);
+    SDL_Renderer *dummy_renderer = NULL;
+    solver.drawOn(bgSurface, dummy_renderer);
 
     if (m_bg)
     {
@@ -174,7 +175,7 @@ void Pedometer::runReplay()
     levelState->loadReplay(m_solution);
 }
 //-----------------------------------------------------------------
-void Pedometer::drawOn(SDL_Surface *screen)
+void Pedometer::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     drawNumbers(screen, (int)m_solution.size());
 }

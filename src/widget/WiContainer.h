@@ -22,7 +22,7 @@ public:
     virtual int getH() const;
     virtual void setShift(const V2 &shift);
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

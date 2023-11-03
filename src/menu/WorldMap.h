@@ -60,7 +60,7 @@ public:
     virtual const char *getName() const { return "state_worldmap"; };
     void initMap(const Path &mapfile);
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
     void selectNextLevel();
     void runSelected();
 

@@ -102,7 +102,7 @@ bool DemoMode::action_display(Picture *picture)
     return true;
 }
 //-----------------------------------------------------------------
-void DemoMode::drawOn(SDL_Surface *screen)
+void DemoMode::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     if (NULL == m_surfaceBuffer)
     {
@@ -111,7 +111,7 @@ void DemoMode::drawOn(SDL_Surface *screen)
 
     if (m_display)
     {
-        m_display->drawOn(m_surfaceBuffer);
+        m_display->drawOn(m_surfaceBuffer, renderer);
     }
     SDL_BlitSurface(m_surfaceBuffer, NULL, screen, NULL);
 }

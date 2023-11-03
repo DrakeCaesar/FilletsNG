@@ -22,7 +22,7 @@ public:
 
     int getW() const { return m_surface->w; }
     int getH() const { return m_surface->h; }
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 
     void setLoc(const V2 &loc) { m_loc = loc; }
     void changePicture(const Path &file);

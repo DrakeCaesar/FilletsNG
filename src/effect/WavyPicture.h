@@ -19,7 +19,7 @@ public:
     void setWperiode(float periode) { m_periode = periode; }
     void setWspeed(float speed) { m_speed = speed; }
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *);
 };
 
 #endif

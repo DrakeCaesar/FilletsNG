@@ -16,3 +16,6 @@ script/options.lua
 /Debug
 solved
 list.txt
+cmake-build-debug/
+.idea/
+

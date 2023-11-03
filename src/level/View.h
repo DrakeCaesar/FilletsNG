@@ -37,7 +37,7 @@ public:
     void noteNewRound(int phases);
 
     void drawModel(Cube *model);
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 
     V2 getScreenPos(const Cube *model) const;
     V2 getFieldPos(const V2 &cursor) const;

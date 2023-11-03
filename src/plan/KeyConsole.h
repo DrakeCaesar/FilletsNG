@@ -37,7 +37,7 @@ public:
     std::string getInput() const { return m_input; }
 
     bool sendCommand();
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

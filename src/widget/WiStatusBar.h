@@ -26,7 +26,7 @@ public:
     virtual int getH() const;
     void setLabel(const std::string &label) { m_label = label; }
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

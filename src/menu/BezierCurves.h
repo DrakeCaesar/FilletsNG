@@ -9,7 +9,7 @@ typedef std::pair<std::pair<int, int>, std::pair<int, int>> BezierKey;
 
 typedef std::map<BezierKey, std::vector<class BezierCurve>> BezierMap;
 
-static class BezierCurve
+class BezierCurve
 {
 private:
 public:

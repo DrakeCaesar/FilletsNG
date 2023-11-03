@@ -58,7 +58,7 @@ Title::~Title()
 /**
  * Draw model.
  */
-void Title::drawOn(SDL_Surface *screen)
+void Title::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     // TODO: wavy text
     SDL_Rect rect;

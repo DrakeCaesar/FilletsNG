@@ -21,7 +21,7 @@ WiPicture::~WiPicture()
     SDL_FreeSurface(m_surface);
 }
 //-----------------------------------------------------------------
-void WiPicture::drawOn(SDL_Surface *screen)
+void WiPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     SDL_Rect rect;
     rect.x = m_shift.getX();

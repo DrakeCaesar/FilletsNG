@@ -12,7 +12,7 @@ class Drawable : public NoCopy
 {
 public:
     virtual ~Drawable() {}
-    virtual void drawOn(SDL_Surface *screen) = 0;
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer) = 0;
 };
 
 #endif

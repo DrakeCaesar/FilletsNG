@@ -51,7 +51,7 @@ void VideoAgent::own_init()
  */
 void VideoAgent::own_update()
 {
-    drawOn(m_screen);
+    drawOn(m_screen, m_renderer);
     SDL_UpdateTexture(m_texture, NULL, m_screen->pixels, m_screen->pitch);
     SDL_RenderClear(m_renderer);
     SDL_RenderCopy(m_renderer, m_texture, NULL, NULL);

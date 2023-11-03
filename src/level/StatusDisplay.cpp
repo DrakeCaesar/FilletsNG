@@ -38,14 +38,14 @@ void StatusDisplay::displayStatus(Picture *new_picture, int time)
     m_time = time;
 }
 //-----------------------------------------------------------------
-void StatusDisplay::drawOn(SDL_Surface *screen)
+void StatusDisplay::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     if (m_time > 0)
     {
         m_time--;
         if (m_picture)
         {
-            m_picture->drawOn(screen);
+            m_picture->drawOn(screen, renderer);
         }
     }
 }

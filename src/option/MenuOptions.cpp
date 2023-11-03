@@ -219,7 +219,7 @@ void MenuOptions::mouseButton(const MouseStroke &stroke)
     m_container->mouseButton(stroke);
 }
 //-----------------------------------------------------------------
-void MenuOptions::drawOn(SDL_Surface *screen)
+void MenuOptions::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     SDL_Color gray = {0xf0, 0xf0, 0xf0, 129};
     SurfaceTool::alphaFill(screen, NULL, gray);

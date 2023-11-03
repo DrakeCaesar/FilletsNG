@@ -65,7 +65,7 @@ void View::noteNewRound(int phases)
     computeShiftSize(phases);
 }
 //-----------------------------------------------------------------
-void View::drawOn(SDL_Surface *screen)
+void View::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
 {
     m_screen = screen;
     m_animShift = min(SCALE, m_animShift + m_shiftSize);

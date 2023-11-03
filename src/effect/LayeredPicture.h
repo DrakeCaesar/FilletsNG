@@ -28,7 +28,7 @@ public:
     Uint32 getMaskAt(const V2 &loc);
     Uint32 getNoMask() const { return MASK_NO; }
 
-    virtual void drawOn(SDL_Surface *screen);
+    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif
