@@ -124,7 +124,7 @@ void NodeDrawer::drawSelect(const V2 &loc) const
 
     const SDL_Surface *dot = m_imagePack->getRes("solved");
     int radius = max(dot->w, dot->h) / 2 + 1;
-    Uint32 colorRGBA = 0x8018c6ff;
+    Uint32 colorRGBA = 0x8018c6ff; // RGBA 0xffc61880
     SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(m_screen);
 
     filledCircleColor(renderer, loc.getX(), loc.getY(), radius, colorRGBA);
@@ -160,7 +160,7 @@ void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
 
     SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(m_screen);
 
-    Uint32 colorRGBA = 0xff00ffff; // RGB 0xffff00ff
+    Uint32 colorRGBA = 0xff00ffff; // RGBA 0xffff00ff
 
     std::vector<BezierCurve> curveList = BezierCurve::getBezierCurvesForPoints(x1, y1, x2, y2);
     bool foundCurve = false;
