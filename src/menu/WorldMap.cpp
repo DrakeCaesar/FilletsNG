@@ -245,6 +245,7 @@ bool WorldMap::checkEnding() const {
 //-----------------------------------------------------------------
 void WorldMap::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     m_drawer->setScreen(screen);
+    m_drawer->setRenderer(renderer);
     m_startNode->drawPath(m_drawer);
     if (m_selected) {
         m_drawer->drawSelect(m_selected->getLoc());

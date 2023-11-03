@@ -116,11 +116,9 @@ void NodeDrawer::drawSelect(const V2 &loc) const {
     const SDL_Surface *dot = m_imagePack->getRes("solved");
     int radius = max(dot->w, dot->h) / 2 + 1;
     Uint32 colorRGBA = 0x8018c6ff; // RGBA 0xffc61880
-    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(m_screen);
-
+    SDL_Renderer *renderer = this->renderer;
     filledCircleColor(renderer, loc.getX(), loc.getY(), radius, colorRGBA);
 
-    SDL_DestroyRenderer(renderer);
 }
 //-----------------------------------------------------------------
 /**
@@ -148,8 +146,7 @@ void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const {
     Sint16 x2 = end->getLoc().getX();
     Sint16 y2 = end->getLoc().getY();
 
-    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(m_screen);
-
+    SDL_Renderer *renderer = this->renderer;
     Uint32 colorRGBA = 0xff00ffff; // RGBA 0xffff00ff
 
     std::vector<BezierCurve> curveList = BezierCurve::getBezierCurvesForPoints(x1, y1, x2, y2);
@@ -163,7 +160,6 @@ void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const {
         drawLine(renderer, x1, y1, x2, y2, colorRGBA);
         std::cout << "need to define: " << x1 << " " << y1 << " " << x2 << " " << y2 << std::endl;
     }
-    SDL_DestroyRenderer(renderer);
 }
 
 void NodeDrawer::drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, Uint32 colorRGBA) const {
@@ -214,7 +210,7 @@ void NodeDrawer::drawText(V2 loc, const std::string &text) const {
         LOG_WARNING(ExInfo("Failed to create text surface"));
         return;
     }
-    SDL_Renderer *renderer = SDL_CreateSoftwareRenderer(m_screen);
+    SDL_Renderer *renderer = this->renderer;
     // Create a texture from the surface.
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
@@ -223,9 +219,10 @@ void NodeDrawer::drawText(V2 loc, const std::string &text) const {
 
     // Render the text to the screen.
     SDL_RenderCopy(renderer, textTexture, NULL, &renderQuad);
-    SDL_DestroyRenderer(renderer);
 
     // Clean up the surface and texture.
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
 }
+
+

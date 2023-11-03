@@ -67,7 +67,7 @@ void View::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     m_animShift = min(SCALE, m_animShift + m_shiftSize);
     if (!movingfish)
         m_animShift = (tick - 1) % speedup * 3;
-    m_models.drawOn(this);
+    m_models.drawOn(this, renderer);
     drawDecors();
 }
 //-----------------------------------------------------------------

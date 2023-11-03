@@ -22,6 +22,7 @@
 
 #include "SDL2/SDL_image.h"
 #include <stdlib.h> // atexit()
+#include <iostream>
 
 //-----------------------------------------------------------------
 /**
@@ -48,7 +49,7 @@ void VideoAgent::own_init() {
  * First will be drawed first.
  */
 void VideoAgent::own_update() {
-    drawOn(m_screen, m_renderer);
+    drawOn(m_screen, s_renderer);
     SDL_UpdateTexture(m_texture, NULL, m_screen->pixels, m_screen->pitch);
     SDL_RenderClear(m_renderer);
     SDL_RenderCopy(m_renderer, m_texture, NULL, NULL);
@@ -149,6 +150,11 @@ void VideoAgent::changeVideoMode(int screen_width, int screen_height) {
 
     if (newScreen) {
         m_screen = newScreen;
+        std::cout << "screen created" << std::endl;
+        SDL_DestroyRenderer(s_renderer);
+        s_renderer = SDL_CreateSoftwareRenderer(m_screen);
+//        s_renderer = SDL_CreateRenderer(m_window, -1, 0);
+
         // NOTE: must be two times to change MouseState
         SDL_WarpMouseInWindow(m_window, screen_width / 2, screen_height / 2);
         SDL_WarpMouseInWindow(m_window, screen_width / 2, screen_height / 2);

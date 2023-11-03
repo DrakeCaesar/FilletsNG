@@ -21,6 +21,7 @@ class NodeDrawer : public NoCopy {
 private:
     ResImagePack *m_imagePack;
     SDL_Surface *m_screen;
+    SDL_Renderer *renderer;
     Font *m_font;
 
 private:
@@ -47,6 +48,8 @@ public:
 
     void drawBezier(SDL_Renderer *renderer, float startX, float startY, float c1X, float c1Y, float c2X, float c2Y,
                     float endX, float endY, Uint32 colorRGBA) const;
+
+    void setRenderer(SDL_Renderer *renderer_in) { renderer = renderer_in; };
 };
 
 #endif

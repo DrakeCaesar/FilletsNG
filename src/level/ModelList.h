@@ -8,6 +8,7 @@ class Landslip;
 #include "Cube.h"
 
 #include <vector>
+#include <SDL_render.h>
 
 /**
  * Wrapper around list of models.
@@ -21,7 +22,7 @@ public:
 
     int size() const { return (int) m_models->size(); }
 
-    void drawOn(View *view) const;
+    void drawOn(View *view, SDL_Renderer *renderer) const;
 
     bool stoneOn(Landslip *slip) const;
 

@@ -21,7 +21,7 @@ ModelList::ModelList(const Cube::t_models *models) {
 }
 
 //-----------------------------------------------------------------
-void ModelList::drawOn(View *view) const {
+void ModelList::drawOn(View *view, SDL_Renderer *renderer) const {
     Cube::t_models::const_iterator end = m_models->end();
     for (Cube::t_models::const_iterator i = m_models->begin(); i != end; ++i) {
         view->drawModel(*i);
