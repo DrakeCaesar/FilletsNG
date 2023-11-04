@@ -61,6 +61,7 @@ void NodeDrawer::drawNode(const LevelNode *node) const {
 
     auto texture_far = SDL_CreateTextureFromSurface(renderer, m_imagePack->getRes("far"));
     drawDot(texture_far, loc);
+    SDL_DestroyTexture(texture_far);
 
     SDL_Surface *dot = NULL;
     switch (node->getState()) {
@@ -90,6 +91,7 @@ void NodeDrawer::drawNode(const LevelNode *node) const {
     }
     auto texture = SDL_CreateTextureFromSurface(renderer, dot);
     drawDot(texture, loc);
+    SDL_DestroyTexture(texture);
 
     // std::stringstream ss = std::stringstream();
     // ss << "" << loc.getX() << "," << loc.getY() << "";

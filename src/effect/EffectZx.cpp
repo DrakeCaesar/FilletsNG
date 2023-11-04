@@ -48,7 +48,13 @@ void EffectZx::updateEffect() {
 /**
  * Draw ZX spectrum loading.
  */
-void EffectZx::blit(SDL_Surface *screen, SDL_Surface *surface, int x, int y) {
+void
+EffectZx::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y) {
+    int width, height;
+    SDL_GetRendererOutputSize(renderer, &width, &height);
+    SDL_Surface *screen = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+    SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screen->pixels, screen->pitch);
+
     SurfaceLock lock1(screen);
     SurfaceLock lock2(surface);
 
@@ -106,4 +112,5 @@ void EffectZx::blit(SDL_Surface *screen, SDL_Surface *surface, int x, int y) {
             pit.inc();
         }
     }
+    SDL_FreeSurface(screen);
 }

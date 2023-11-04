@@ -47,8 +47,12 @@ bool EffectDisintegrate::isInvisible() const {
  * Disintegration effect.
  * Draw only some pixels.
  */
-void EffectDisintegrate::blit(SDL_Surface *screen, SDL_Surface *surface,
-                              int x, int y) {
+void EffectDisintegrate::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y) {
+
+    int width, height;
+    SDL_GetRendererOutputSize(renderer, &width, &height);
+    SDL_Surface *screen = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+
     SurfaceLock lock1(screen);
     SurfaceLock lock2(surface);
 
@@ -62,4 +66,10 @@ void EffectDisintegrate::blit(SDL_Surface *screen, SDL_Surface *surface,
             }
         }
     }
+
+    auto texture_s = SDL_CreateTextureFromSurface(renderer, screen);
+    SDL_RenderCopy(renderer, texture_s, NULL, NULL);
+    SDL_DestroyTexture(texture_s);
+    SDL_FreeSurface(screen);
+
 }

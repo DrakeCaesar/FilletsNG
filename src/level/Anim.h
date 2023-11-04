@@ -33,7 +33,7 @@ private:
     std::string m_usedPath;
 
 private:
-    void blit(SDL_Surface *screen, SDL_Surface *surface, int x, int y);
+    void blit(SDL_Renderer *screen, SDL_Texture *surface, int x, int y);
 
 public:
     Anim();

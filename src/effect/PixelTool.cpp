@@ -11,6 +11,7 @@
 #include "LogicException.h"
 
 #include <assert.h>
+#include <iostream>
 
 //-----------------------------------------------------------------
 /**
@@ -59,6 +60,11 @@ void PixelTool::putColor(SDL_Surface *surface, int x, int y,
  */
 Uint32
 PixelTool::getPixel(SDL_Surface *surface, int x, int y) {
+
+    if (!(0 <= x && x < surface->w) && (0 <= y && y < surface->h)) {
+        std::cout << "error" << std::endl;
+    }
+
     assert((0 <= x && x < surface->w) && (0 <= y && y < surface->h));
 
     int bpp = surface->format->BytesPerPixel;

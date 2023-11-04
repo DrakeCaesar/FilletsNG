@@ -43,7 +43,7 @@ void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     SDL_Rect pad;
     pad.h = 1;
 
-    //copy surface
+    // copy surface
     SDL_Surface *m_surface2 = SDL_CreateRGBSurface(0, m_surface->w, m_surface->h, 32, 0, 0, 0, 0);
     SDL_BlitSurface(m_surface, NULL, m_surface2, NULL);
 
@@ -70,4 +70,7 @@ void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     auto texture = SDL_CreateTextureFromSurface(renderer, m_surface2);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_DestroyTexture(texture);
+    SDL_FreeSurface(m_surface2);
+
+
 }
