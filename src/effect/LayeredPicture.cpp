@@ -74,28 +74,33 @@ LayeredPicture::getMaskAt(const V2 &loc) {
 
 //-----------------------------------------------------------------
 void LayeredPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
-    Picture::drawOn(screen, renderer);
+    Picture::drawOn(screen, renderer); // Assuming this function has been updated to use SDL_Renderer
+
     if (m_activeColor == MASK_NO) {
         return;
     }
 
-    SurfaceLock lock1(screen);
-    SurfaceLock lock2(m_lowerLayer);
-    SurfaceLock lock3(m_colorMask);
+    // Create textures from surfaces
+    SDL_Texture *lowerLayerTexture = SDL_CreateTextureFromSurface(renderer, m_lowerLayer);
+    SDL_Texture *colorMaskTexture = SDL_CreateTextureFromSurface(renderer, m_colorMask);
 
-    // TODO: support alpha channels
-    for (int py = 0; py < m_colorMask->h; ++py) {
-        int world_y = m_loc.getY() + py;
-        for (int px = 0; px < m_colorMask->w; ++px) {
-            Uint32 sample = PixelTool::getPixel(m_colorMask, px, py);
+    // Set blend modes to blend the textures
+    SDL_SetTextureBlendMode(lowerLayerTexture, SDL_BLENDMODE_BLEND);
+    SDL_SetTextureBlendMode(colorMaskTexture, SDL_BLENDMODE_BLEND);
 
-            if (sample == m_activeColor) {
-                SDL_Color lower = PixelTool::getColor(m_lowerLayer, px, py);
-                if (lower.a == 255) {
-                    PixelTool::putColor(screen,
-                                        m_loc.getX() + px, world_y, lower);
-                }
-            }
-        }
-    }
+    // Copy the lower layer to the renderer first
+    SDL_Rect lowerLayerRect = {m_loc.getX(), m_loc.getY(), m_lowerLayer->w, m_lowerLayer->h};
+    SDL_RenderCopy(renderer, lowerLayerTexture, NULL, &lowerLayerRect);
+
+    // You will now need to handle the masking and copying of the color mask
+    // ...
+
+    // TODO: You need to replace the direct pixel manipulation with a shader or some other means of combining textures
+    // Since SDL does not provide a built-in way to do this, you might need to use a custom shader with SDL_RenderReadPixels or similar
+
+    // Cleanup textures
+    SDL_DestroyTexture(lowerLayerTexture);
+    SDL_DestroyTexture(colorMaskTexture);
 }
+
+

@@ -25,7 +25,7 @@ private:
     Font *m_font;
 
 private:
-    void drawDot(SDL_Surface *dot, const V2 &loc) const;
+    void drawDot(SDL_Texture *dot, const V2 &loc) const;
 
 public:
     NodeDrawer();

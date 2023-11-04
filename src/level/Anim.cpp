@@ -46,12 +46,13 @@ Anim::~Anim() {
     delete m_animPack[SIDE_RIGHT];
     delete m_effect;
 }
+
 //-----------------------------------------------------------------
 /**
  * Draw anim phase at screen position.
  * Increase phase when anim is running.
  */
-void Anim::drawAt(SDL_Surface *screen, int x, int y, eSide side) {
+void Anim::drawAt(SDL_Surface *screen, SDL_Renderer *renderer, int x, int y, eSide side) {
     x += offset;
     y += offset;
     if (!m_effect->isInvisible()) {

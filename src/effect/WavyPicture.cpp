@@ -43,6 +43,10 @@ void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     SDL_Rect pad;
     pad.h = 1;
 
+    //copy surface
+    SDL_Surface *m_surface2 = SDL_CreateRGBSurface(0, m_surface->w, m_surface->h, 32, 0, 0, 0, 0);
+    SDL_BlitSurface(m_surface, NULL, m_surface2, NULL);
+
     float shift = TimerAgent::agent()->getCycles() * m_speed;
     shift = shift / speedup;
     for (int py = 0; py < m_surface->h; ++py) {
@@ -53,13 +57,17 @@ void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
         line_rect.y = py;
         dest_rect.x = m_loc.getX() + offset;
         dest_rect.y = m_loc.getY() + py + offset;
-        SDL_BlitSurface(m_surface, &line_rect, screen, &dest_rect);
+        SDL_BlitSurface(m_surface, &line_rect, m_surface2, &dest_rect);
 
         pad.x = (shiftX < 0) ? 0 : m_surface->w - shiftX;
         pad.y = py;
         pad.w = abs(shiftX);
         dest_rect.x = m_loc.getX() + pad.x;
         dest_rect.y = m_loc.getY() + py;
-        SDL_BlitSurface(m_surface, &pad, screen, &dest_rect);
+        SDL_BlitSurface(m_surface, &pad, m_surface2, &dest_rect);
     }
+
+    auto texture = SDL_CreateTextureFromSurface(renderer, m_surface2);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_DestroyTexture(texture);
 }

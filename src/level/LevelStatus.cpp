@@ -23,7 +23,8 @@ extern "C"
 
 //-----------------------------------------------------------------
 inline LevelStatus *
-getStatus(lua_State *L) {
+getStatus(lua_State *L)
+{
     return dynamic_cast<LevelStatus *>(script_getLeader(L));
 }
 
@@ -32,16 +33,18 @@ getStatus(lua_State *L) {
  * void status_readMoves(saved_moves)
  */
 static int
-script_status_readMoves(lua_State *L) throw() {
-    BEGIN_NOEXCEPTION ;
-        const char *saved_moves = luaL_checkstring(L, 1);
-        getStatus(L)->readMoves(saved_moves);
+script_status_readMoves(lua_State *L) throw()
+{
+    BEGIN_NOEXCEPTION;
+    const char *saved_moves = luaL_checkstring(L, 1);
+    getStatus(L)->readMoves(saved_moves);
     END_NOEXCEPTION;
     return 0;
 }
 
 //-----------------------------------------------------------------
-LevelStatus::LevelStatus() {
+LevelStatus::LevelStatus()
+{
     m_bestMoves = -1;
     m_complete = false;
     m_wasRunning = false;
@@ -49,13 +52,15 @@ LevelStatus::LevelStatus() {
 }
 
 //-----------------------------------------------------------------
-void LevelStatus::readMoves(const std::string &savedMoves) {
+void LevelStatus::readMoves(const std::string &savedMoves)
+{
     m_savedMoves = savedMoves;
 }
 
 //-----------------------------------------------------------------
 void LevelStatus::prepareRun(const std::string &codename, const std::string &poster,
-                             int bestMoves, const std::string &bestAuthor) {
+                             int bestMoves, const std::string &bestAuthor)
+{
     m_complete = false;
     m_wasRunning = false;
     m_codename = codename;
@@ -66,13 +71,16 @@ void LevelStatus::prepareRun(const std::string &codename, const std::string &pos
 
 //-----------------------------------------------------------------
 std::string
-LevelStatus::getSolutionFilename(const std::string &codename) {
-    return "solved/" + codename + ".lua";
+LevelStatus::getSolutionFilename(const std::string &codename)
+{
+    // return "solved/" + codename + ".lua";
+    return "solved/start.lua";
 }
 
 //-----------------------------------------------------------------
 std::string
-LevelStatus::getSolutionFilename() const {
+LevelStatus::getSolutionFilename() const
+{
     return getSolutionFilename(m_codename);
 }
 //-----------------------------------------------------------------
@@ -81,17 +89,21 @@ LevelStatus::getSolutionFilename() const {
  * @return saved_moves or empty string
  */
 std::string
-LevelStatus::readSolvedMoves() {
+LevelStatus::readSolvedMoves()
+{
     m_savedMoves = "";
 
     Path oldSolution = Path::dataReadPath(getSolutionFilename());
-    if (oldSolution.exists()) {
-        try {
+    if (oldSolution.exists())
+    {
+        try
+        {
             scriptDo("saved_moves=nil");
             scriptInclude(oldSolution);
             scriptDo("status_readMoves(saved_moves)");
         }
-        catch (ScriptException &e) {
+        catch (ScriptException &e)
+        {
             LOG_WARNING(e.info());
         }
     }
@@ -103,21 +115,26 @@ LevelStatus::readSolvedMoves() {
  * Write best solution to the file.
  * Save moves and models state.
  */
-void LevelStatus::writeSolvedMoves(const std::string &moves) {
+void LevelStatus::writeSolvedMoves(const std::string &moves)
+{
     std::string prevMoves = readSolvedMoves();
 
-    if (prevMoves.empty() || moves.size() < prevMoves.size()) {
+    if (prevMoves.empty() || moves.size() < prevMoves.size())
+    {
         Path file = Path::dataWritePath(getSolutionFilename());
         FILE *saveFile = fopen(file.getNative().c_str(), "w");
-        if (saveFile) {
+        if (saveFile)
+        {
             fputs("\nsaved_moves = '", saveFile);
             fputs(moves.c_str(), saveFile);
             fputs("'\n", saveFile);
             fclose(saveFile);
-        } else {
+        }
+        else
+        {
             LOG_WARNING(ExInfo("cannot save solution")
-                                .addInfo("file", file.getNative())
-                                .addInfo("moves", moves));
+                            .addInfo("file", file.getNative())
+                            .addInfo("moves", moves));
         }
     }
 }
@@ -126,9 +143,11 @@ void LevelStatus::writeSolvedMoves(const std::string &moves) {
  * Returns DemoMode or NULL.
  */
 GameState *
-LevelStatus::createPoster() const {
+LevelStatus::createPoster() const
+{
     DemoMode *result = NULL;
-    if (!m_poster.empty()) {
+    if (!m_poster.empty())
+    {
         result = new DemoMode(Path::dataReadPath(m_poster));
     }
     return result;
@@ -138,13 +157,18 @@ LevelStatus::createPoster() const {
  * Compares this player and the best one.
  * @returns -1 (this is worse), 0 (equals) or 1 (the best)
  */
-int LevelStatus::compareToBest() {
+int LevelStatus::compareToBest()
+{
     size_t moves = readSolvedMoves().size();
     int result = 1;
-    if (m_bestMoves > 0) {
-        if (m_bestMoves < moves) {
+    if (m_bestMoves > 0)
+    {
+        if (m_bestMoves < moves)
+        {
             result = -1;
-        } else if (m_bestMoves == moves) {
+        }
+        else if (m_bestMoves == moves)
+        {
             result = 0;
         }
     }

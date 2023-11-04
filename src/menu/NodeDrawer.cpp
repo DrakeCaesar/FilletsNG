@@ -58,7 +58,9 @@ NodeDrawer::~NodeDrawer() {
  */
 void NodeDrawer::drawNode(const LevelNode *node) const {
     V2 loc = node->getLoc();
-    drawDot(m_imagePack->getRes("far"), loc);
+
+    auto texture_far = SDL_CreateTextureFromSurface(renderer, m_imagePack->getRes("far"));
+    drawDot(texture_far, loc);
 
     SDL_Surface *dot = NULL;
     switch (node->getState()) {
@@ -86,7 +88,8 @@ void NodeDrawer::drawNode(const LevelNode *node) const {
                                 .addInfo("state", node->getState()));
             return;
     }
-    drawDot(dot, loc);
+    auto texture = SDL_CreateTextureFromSurface(renderer, dot);
+    drawDot(texture, loc);
 
     // std::stringstream ss = std::stringstream();
     // ss << "" << loc.getX() << "," << loc.getY() << "";
@@ -101,12 +104,25 @@ void NodeDrawer::drawNode(const LevelNode *node) const {
  * @param x x cord. or centre
  * @param x y cord. or centre
  */
-void NodeDrawer::drawDot(SDL_Surface *dot, const V2 &loc) const {
+void NodeDrawer::drawDot(SDL_Texture *dotTexture, const V2 &loc) const {
+    if (!dotTexture || !renderer) {
+        // Handle error: the texture or the renderer is not available
+        return;
+    }
+
+    int w, h;
+    SDL_QueryTexture(dotTexture, NULL, NULL, &w, &h); // Get the width and height of the texture
+
     SDL_Rect rect;
-    rect.x = loc.getX() - dot->w / 2;
-    rect.y = loc.getY() - dot->h / 2;
-    SDL_BlitSurface(dot, NULL, m_screen, &rect);
+    rect.x = loc.getX() - w / 2;
+    rect.y = loc.getY() - h / 2;
+    rect.w = w; // Set the width for the destination rectangle
+    rect.h = h; // Set the height for the destination rectangle
+
+    // Now, instead of blitting to a surface, copy to the renderer
+    SDL_RenderCopy(renderer, dotTexture, NULL, &rect);
 }
+
 //-----------------------------------------------------------------
 /**
  * Highlightes selected node.
@@ -118,7 +134,6 @@ void NodeDrawer::drawSelect(const V2 &loc) const {
     Uint32 colorRGBA = 0x8018c6ff; // RGBA 0xffc61880
     SDL_Renderer *renderer = this->renderer;
     filledCircleColor(renderer, loc.getX(), loc.getY(), radius, colorRGBA);
-
 }
 //-----------------------------------------------------------------
 /**
@@ -129,8 +144,11 @@ void NodeDrawer::drawSelected(const std::string &levelname) const {
     int text_width = m_font->calcTextWidth(levelname);
 
     SDL_Rect rect;
-    rect.x = (m_screen->w - text_width) / 2;
-    rect.y = m_screen->h - 50;
+    int renderer_width, renderer_height;
+    SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
+
+    rect.x = (renderer_width - text_width) / 2;
+    rect.y = renderer_height - 50;
 
     SDL_Color color = {255, 255, 0, 255};
     SDL_Surface *surface = m_font->renderTextOutlined(levelname, color);
@@ -160,6 +178,7 @@ void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const {
         drawLine(renderer, x1, y1, x2, y2, colorRGBA);
         std::cout << "need to define: " << x1 << " " << y1 << " " << x2 << " " << y2 << std::endl;
     }
+
 }
 
 void NodeDrawer::drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, Uint32 colorRGBA) const {

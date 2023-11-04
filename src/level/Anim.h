@@ -40,7 +40,7 @@ public:
 
     virtual ~Anim();
 
-    void drawAt(SDL_Surface *screen, int x, int y, eSide side);
+    void drawAt(SDL_Surface *screen, SDL_Renderer *renderer, int x, int y, eSide side);
 
     void addAnim(const std::string &name, const Path &picture,
                  eSide side = SIDE_LEFT);

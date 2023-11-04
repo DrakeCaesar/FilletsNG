@@ -51,9 +51,17 @@ void Picture::changePicture(SDL_Surface *new_surface) {
  * Blit entire surface to [x,y].
  */
 void Picture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
+    // Convert the surface to a texture
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, m_surface);
     SDL_Rect rect;
     rect.x = m_loc.getX();
     rect.y = m_loc.getY();
+    SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 
-    SDL_BlitSurface(m_surface, NULL, screen, &rect);
+    // Copy the texture to the renderer
+    SDL_RenderCopy(renderer, texture, NULL, &rect);
+
+    // Clean up the texture
+    SDL_DestroyTexture(texture);
+
 }

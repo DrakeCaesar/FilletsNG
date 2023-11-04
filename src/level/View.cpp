@@ -64,6 +64,7 @@ void View::noteNewRound(int phases) {
 //-----------------------------------------------------------------
 void View::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     m_screen = screen;
+    m_renderer = renderer;
     m_animShift = min(SCALE, m_animShift + m_shiftSize);
     if (!movingfish)
         m_animShift = (tick - 1) % speedup * 3;
@@ -83,7 +84,7 @@ void View::drawModel(Cube *model) {
         if (!model->isLeft()) {
             side = Anim::SIDE_RIGHT;
         }
-        model->anim()->drawAt(m_screen,
+        model->anim()->drawAt(m_screen, m_renderer,
                               screenPos.getX(), screenPos.getY(), side);
     }
 }

@@ -25,6 +25,7 @@ private:
     int m_animShift;
     int m_shiftSize;
     SDL_Surface *m_screen;
+    SDL_Renderer *m_renderer;
     V2 m_screenShift;
 
 private:

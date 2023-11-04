@@ -12,7 +12,10 @@ class Path;
 class Picture : public Drawable {
 protected:
     V2 m_loc;
+    SDL_Texture *m_texture;
     SDL_Surface *m_surface;
+
+    SDL_Renderer *renderer;
 
 public:
     Picture(const Path &file, const V2 &loc);
@@ -21,9 +24,21 @@ public:
 
     virtual ~Picture();
 
-    int getW() const { return m_surface->w; }
+    int getW() const {
+        return m_surface->w;
 
-    int getH() const { return m_surface->h; }
+        int renderer_width, renderer_height;
+        SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
+        return renderer_width;
+    }
+
+    int getH() const {
+        return m_surface->h;
+
+        int renderer_width, renderer_height;
+        SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
+        return renderer_height;
+    }
 
     virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 
