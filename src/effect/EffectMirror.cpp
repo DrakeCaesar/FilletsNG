@@ -33,7 +33,7 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     SDL_QueryTexture(texture, nullptr, nullptr, &mirrorW, &mirrorH);
     mirrorW /= 2;
 
-    SDL_Rect srcRect = {mirrorX - mirrorW, mirrorY, mirrorW, mirrorH};
+    SDL_Rect srcRect = {mirrorX - mirrorW + MIRROR_BORDER + 1, mirrorY, mirrorW, mirrorH};
     SDL_Rect dstRect = {mirrorX, mirrorY, mirrorW, mirrorH};
     SDL_Rect frmRect = {0, 0, mirrorW, mirrorH};
     SDL_Rect mskRect = {mirrorW, 0, mirrorW, mirrorH};
