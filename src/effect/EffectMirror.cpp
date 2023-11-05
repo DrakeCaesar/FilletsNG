@@ -26,17 +26,14 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     const int format = SDL_PIXELFORMAT_ARGB8888;
     const int access = SDL_TEXTUREACCESS_TARGET;
 
-    int mirrorX = x;
-    int mirrorY = y;
-    int mirrorW;
-    int mirrorH;
-    SDL_QueryTexture(texture, nullptr, nullptr, &mirrorW, &mirrorH);
-    mirrorW /= 2;
+    int w, h;
+    SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
+    w /= 2;
 
-    SDL_Rect srcRect = {mirrorX - mirrorW + MIRROR_BORDER + 1, mirrorY, mirrorW, mirrorH};
-    SDL_Rect dstRect = {mirrorX, mirrorY, mirrorW, mirrorH};
-    SDL_Rect frmRect = {0, 0, mirrorW, mirrorH};
-    SDL_Rect mskRect = {mirrorW, 0, mirrorW, mirrorH};
+    SDL_Rect srcRect = {x - w + MIRROR_BORDER + 1, y, w, h};
+    SDL_Rect dstRect = {x, y, w, h};
+    SDL_Rect frmRect = {0, 0, w, h};
+    SDL_Rect mskRect = {w, 0, w, h};
 
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -44,12 +41,12 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
 
     SDL_RenderCopy(renderer, texture, &frmRect, &dstRect);
 
-    SDL_Surface *screenSurface = SDL_CreateRGBSurface(0, mirrorW, mirrorH, 32, 0, 0, 0, 0);
+    SDL_Surface *screenSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
     SDL_RenderReadPixels(renderer, &srcRect, format, screenSurface->pixels, screenSurface->pitch);
     SDL_Texture *screenTexture = SDL_CreateTextureFromSurface(renderer, screenSurface);
     SDL_FreeSurface(screenSurface);
 
-    SDL_Texture *mirroredTexture = SDL_CreateTexture(renderer, format, access, mirrorW, mirrorH);
+    SDL_Texture *mirroredTexture = SDL_CreateTexture(renderer, format, access, w, h);
     SDL_SetRenderTarget(renderer, mirroredTexture);
     SDL_RenderCopy(renderer, texture, &mskRect, &frmRect);
     SDL_SetTextureBlendMode(screenTexture, SDL_BLENDMODE_MOD);
