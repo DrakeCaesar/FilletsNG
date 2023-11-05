@@ -29,32 +29,29 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     int w, h;
     SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
     w /= 2;
-
     SDL_Rect srcRect = {x - w + MIRROR_BORDER + 1, y, w, h};
     SDL_Rect dstRect = {x, y, w, h};
-    SDL_Rect frmRect = {0, 0, w, h};
+    SDL_Rect mrrRect = {0, 0, w, h};
     SDL_Rect mskRect = {w, 0, w, h};
-
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderDrawRect(renderer, &srcRect);
-
-    SDL_RenderCopy(renderer, texture, &frmRect, &dstRect);
 
     SDL_Surface *screenSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
     SDL_RenderReadPixels(renderer, &srcRect, format, screenSurface->pixels, screenSurface->pitch);
-    SDL_Texture *screenTexture = SDL_CreateTextureFromSurface(renderer, screenSurface);
+    SDL_Texture *original = SDL_CreateTextureFromSurface(renderer, screenSurface);
     SDL_FreeSurface(screenSurface);
 
-    SDL_Texture *mirroredTexture = SDL_CreateTexture(renderer, format, access, w, h);
-    SDL_SetRenderTarget(renderer, mirroredTexture);
-    SDL_RenderCopy(renderer, texture, &mskRect, &frmRect);
-    SDL_SetTextureBlendMode(screenTexture, SDL_BLENDMODE_MOD);
-    SDL_RenderCopyEx(renderer, screenTexture, &frmRect, &frmRect, 0, nullptr, SDL_FLIP_HORIZONTAL);
-    SDL_DestroyTexture(screenTexture);
+    SDL_Texture *mirrored = SDL_CreateTexture(renderer, format, access, w, h);
+    SDL_SetRenderTarget(renderer, mirrored);
+    SDL_RenderCopy(renderer, texture, &mskRect, nullptr);
+    SDL_SetTextureBlendMode(original, SDL_BLENDMODE_MOD);
+    SDL_RenderCopyEx(renderer, original, nullptr, nullptr, 0, nullptr, SDL_FLIP_HORIZONTAL);
+    SDL_DestroyTexture(original);
 
     SDL_SetRenderTarget(renderer, nullptr);
-    SDL_SetTextureBlendMode(mirroredTexture, SDL_BLENDMODE_ADD);
-    SDL_RenderCopy(renderer, mirroredTexture, &frmRect, &dstRect);
-    SDL_DestroyTexture(mirroredTexture);
+    SDL_RenderCopy(renderer, texture, &mrrRect, &dstRect);
+    SDL_SetTextureBlendMode(mirrored, SDL_BLENDMODE_BLEND);
+    SDL_RenderCopy(renderer, mirrored, nullptr, &dstRect);
+    SDL_DestroyTexture(mirrored);
+
+    // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    // SDL_RenderDrawRect(renderer, &srcRect);
 }
