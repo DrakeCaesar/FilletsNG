@@ -23,83 +23,41 @@ const char *EffectMirror::NAME = "mirror";
 
 
 void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y) {
-    // Determine the area we will be updating based on the position and size of the texture.
+    const int format = SDL_PIXELFORMAT_ARGB8888;
+    const int access = SDL_TEXTUREACCESS_TARGET;
 
     int mirrorX = x;
     int mirrorY = y;
     int mirrorW;
     int mirrorH;
-    SDL_QueryTexture(texture, NULL, NULL, &mirrorW, &mirrorH);
+    SDL_QueryTexture(texture, nullptr, nullptr, &mirrorW, &mirrorH);
     mirrorW /= 2;
 
-    SDL_Rect srcRect;
-    srcRect.x = mirrorX - mirrorW;
-    srcRect.y = mirrorY;
-    srcRect.w = mirrorW;
-    srcRect.h = mirrorH;
-
-    SDL_Rect dstRect;
-    dstRect.x = mirrorX;
-    dstRect.y = mirrorY;
-    dstRect.w = mirrorW;
-    dstRect.h = mirrorH;
+    SDL_Rect srcRect = {mirrorX - mirrorW, mirrorY, mirrorW, mirrorH};
+    SDL_Rect dstRect = {mirrorX, mirrorY, mirrorW, mirrorH};
+    SDL_Rect frmRect = {0, 0, mirrorW, mirrorH};
+    SDL_Rect mskRect = {mirrorW, 0, mirrorW, mirrorH};
 
 
-    SDL_Rect mirrorRect;
-    mirrorRect.x = 0;
-    mirrorRect.y = 0;
-    mirrorRect.w = mirrorW;
-    mirrorRect.h = mirrorH;
-
-    SDL_Rect maskRect;
-    maskRect.x = mirrorW;
-    maskRect.y = 0;
-    maskRect.w = mirrorW;
-    maskRect.h = mirrorH;
-
-    const int format = SDL_PIXELFORMAT_ARGB8888;
-    const int access = SDL_TEXTUREACCESS_TARGET;
-
-
-    int width, height;
-    SDL_GetRendererOutputSize(renderer, &width, &height);
-    SDL_Surface *screenSurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-    SDL_RenderReadPixels(renderer, &srcRect, format, screenSurface->pixels, screenSurface->pitch);
-    auto screenTexture = SDL_CreateTextureFromSurface(renderer, screenSurface);
-    SDL_Texture *mirroredTexture = SDL_CreateTexture(renderer, format, access, mirrorW, mirrorH);
-
-    SDL_Texture *maskTexture = SDL_CreateTexture(renderer, format, access, mirrorW, mirrorH);
-    SDL_SetRenderTarget(renderer, maskTexture);
-    SDL_RenderCopy(renderer, texture, &maskRect, &mirrorRect);
-
-    SDL_Texture *mirrorTexture = SDL_CreateTexture(renderer, format, access, mirrorW, mirrorH);
-    SDL_SetRenderTarget(renderer, mirrorTexture);
-    SDL_RenderCopy(renderer, texture, &mirrorRect, &mirrorRect);
-
-
-    SDL_SetRenderTarget(renderer, nullptr);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderDrawRect(renderer, &srcRect);
-    SDL_RenderCopy(renderer, texture, &mirrorRect, &dstRect);
 
+    SDL_RenderCopy(renderer, texture, &frmRect, &dstRect);
 
+    SDL_Surface *screenSurface = SDL_CreateRGBSurface(0, mirrorW, mirrorH, 32, 0, 0, 0, 0);
+    SDL_RenderReadPixels(renderer, &srcRect, format, screenSurface->pixels, screenSurface->pitch);
+    SDL_Texture *screenTexture = SDL_CreateTextureFromSurface(renderer, screenSurface);
+    SDL_FreeSurface(screenSurface);
+
+    SDL_Texture *mirroredTexture = SDL_CreateTexture(renderer, format, access, mirrorW, mirrorH);
     SDL_SetRenderTarget(renderer, mirroredTexture);
-    // SDL_RenderCopy(renderer, texture, &mirrorRect, &mirrorRect);
-    SDL_RenderCopy(renderer, maskTexture, &mirrorRect, &mirrorRect);
+    SDL_RenderCopy(renderer, texture, &mskRect, &frmRect);
     SDL_SetTextureBlendMode(screenTexture, SDL_BLENDMODE_MOD);
-    SDL_RenderCopyEx(renderer, screenTexture, &mirrorRect, &mirrorRect, 0, nullptr, SDL_FLIP_HORIZONTAL);
-
+    SDL_RenderCopyEx(renderer, screenTexture, &frmRect, &frmRect, 0, nullptr, SDL_FLIP_HORIZONTAL);
+    SDL_DestroyTexture(screenTexture);
 
     SDL_SetRenderTarget(renderer, nullptr);
     SDL_SetTextureBlendMode(mirroredTexture, SDL_BLENDMODE_ADD);
-
-
-    SDL_RenderCopy(renderer, mirroredTexture, &mirrorRect, &dstRect);
-
-
-    SDL_DestroyTexture(screenTexture);
-    SDL_DestroyTexture(maskTexture);
+    SDL_RenderCopy(renderer, mirroredTexture, &frmRect, &dstRect);
     SDL_DestroyTexture(mirroredTexture);
-    SDL_DestroyTexture(mirrorTexture);
-    SDL_FreeSurface(screenSurface);
 }
