@@ -21,13 +21,12 @@ const char *EffectMirror::NAME = "mirror";
  * NOTE: mirror object should be drawn as the last.
  */
 const int format = SDL_PIXELFORMAT_ARGB8888;
-const int access = SDL_TEXTUREACCESS_TARGET;
 
 static SDL_Surface *screenSurface = nullptr;
 static SDL_Texture *original = nullptr;
 static SDL_Texture *mirrored = nullptr;
 
-void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y) {
+void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface * /* surface */, int x, int y) {
     int w, h;
     SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
     w /= 2;
@@ -36,18 +35,14 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     SDL_Rect mrrRect = {0, 0, w, h};
     SDL_Rect mskRect = {w, 0, w, h};
 
-    if (screenSurface == nullptr && original == nullptr && mirrored == nullptr) {
+    if (screenSurface == nullptr)
         screenSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
-    }
-    if (original == nullptr) {
-        original = SDL_CreateTextureFromSurface(renderer, screenSurface);
-    } else {
-        SDL_UpdateTexture(original, nullptr, screenSurface->pixels, screenSurface->pitch);
-    }
-    if (mirrored == nullptr) {
-        mirrored = SDL_CreateTexture(renderer, format, access, w, h);
-    }
+    if (original == nullptr)
+        original = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, w, h);
+    if (mirrored == nullptr)
+        mirrored = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_TARGET, w, h);
 
+    SDL_UpdateTexture(original, nullptr, screenSurface->pixels, screenSurface->pitch);
     SDL_RenderReadPixels(renderer, &srcRect, format, screenSurface->pixels, screenSurface->pitch);
 
     SDL_SetRenderTarget(renderer, mirrored);
