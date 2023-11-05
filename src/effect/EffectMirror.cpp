@@ -22,17 +22,6 @@ const char *EffectMirror::NAME = "mirror";
  */
 
 
-
-SDL_BlendMode customBlendMode = SDL_ComposeCustomBlendMode(
-        SDL_BLENDFACTOR_ONE, // srcColorFactor
-        SDL_BLENDFACTOR_ONE, // dstColorFactor
-        SDL_BLENDOPERATION_SUBTRACT, // colorOperation
-        SDL_BLENDFACTOR_ZERO, // srcAlphaFactor
-        SDL_BLENDFACTOR_ONE, // dstAlphaFactor
-        SDL_BLENDOPERATION_ADD // alphaOperation
-);
-
-
 void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y) {
     // Determine the area we will be updating based on the position and size of the texture.
 
@@ -41,6 +30,7 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     int mirrorW;
     int mirrorH;
     SDL_QueryTexture(texture, NULL, NULL, &mirrorW, &mirrorH);
+    mirrorW /= 2;
 
     SDL_Rect srcRect;
     srcRect.x = mirrorX - mirrorW;
@@ -61,18 +51,36 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     mirrorRect.w = mirrorW;
     mirrorRect.h = mirrorH;
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderDrawRect(renderer, &srcRect);
-    SDL_RenderCopy(renderer, texture, NULL, &dstRect);
+    SDL_Rect maskRect;
+    maskRect.x = mirrorW;
+    maskRect.y = 0;
+    maskRect.w = mirrorW;
+    maskRect.h = mirrorH;
+
+    const int format = SDL_PIXELFORMAT_ARGB8888;
+    const int access = SDL_TEXTUREACCESS_TARGET;
+
 
     int width, height;
     SDL_GetRendererOutputSize(renderer, &width, &height);
     SDL_Surface *screenSurface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-    SDL_RenderReadPixels(renderer, &srcRect, SDL_PIXELFORMAT_ARGB8888, screenSurface->pixels, screenSurface->pitch);
+    SDL_RenderReadPixels(renderer, &srcRect, format, screenSurface->pixels, screenSurface->pitch);
     auto screenTexture = SDL_CreateTextureFromSurface(renderer, screenSurface);
-    SDL_Texture *mirroredTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
-                                                     mirrorW, mirrorH);
-    SDL_Texture *maskTexture = IMG_LoadTexture(renderer, "/home/domin/Desktop/zrcadlo_mask.png");
+    SDL_Texture *mirroredTexture = SDL_CreateTexture(renderer, format, access, mirrorW, mirrorH);
+
+    SDL_Texture *maskTexture = SDL_CreateTexture(renderer, format, access, mirrorW, mirrorH);
+    SDL_SetRenderTarget(renderer, maskTexture);
+    SDL_RenderCopy(renderer, texture, &maskRect, &mirrorRect);
+
+    SDL_Texture *mirrorTexture = SDL_CreateTexture(renderer, format, access, mirrorW, mirrorH);
+    SDL_SetRenderTarget(renderer, mirrorTexture);
+    SDL_RenderCopy(renderer, texture, &mirrorRect, &mirrorRect);
+
+
+    SDL_SetRenderTarget(renderer, nullptr);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderDrawRect(renderer, &srcRect);
+    SDL_RenderCopy(renderer, texture, &mirrorRect, &dstRect);
 
 
     SDL_SetRenderTarget(renderer, mirroredTexture);
@@ -87,20 +95,11 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
 
 
     SDL_RenderCopy(renderer, mirroredTexture, &mirrorRect, &dstRect);
-    SDL_Texture *targetTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width,
-                                                   height);
-
-
-    // SDL_SetTextureBlendMode(targetTexture, SDL_BLENDMODE_BLEND);
-    // SDL_SetRenderTarget(renderer, targetTexture);
-    // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    // SDL_RenderClear(renderer);
-    //
-    // SDL_SetRenderTarget(renderer, nullptr);
 
 
     SDL_DestroyTexture(screenTexture);
     SDL_DestroyTexture(maskTexture);
     SDL_DestroyTexture(mirroredTexture);
+    SDL_DestroyTexture(mirrorTexture);
     SDL_FreeSurface(screenSurface);
 }
