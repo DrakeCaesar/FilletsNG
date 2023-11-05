@@ -93,11 +93,11 @@ void NodeDrawer::drawNode(const LevelNode *node) const {
     drawDot(texture, loc);
     SDL_DestroyTexture(texture);
 
-    // std::stringstream ss = std::stringstream();
-    // ss << "" << loc.getX() << "," << loc.getY() << "";
-    // std::string coords = ss.str();
-    // V2 textLoc = {loc.getX(), loc.getY()};
-    // drawText(textLoc, coords);
+//    std::stringstream ss = std::stringstream();
+//    ss << "" << loc.getX() << "," << loc.getY() << "";
+//    std::string coords = ss.str();
+//    V2 textLoc = {loc.getX(), loc.getY()};
+//    drawText(textLoc, coords);
 }
 
 //-----------------------------------------------------------------
@@ -224,8 +224,8 @@ void NodeDrawer::drawText(V2 loc, const std::string &text) const {
     SDL_Color textColoBG = {0, 0, 0, 255};
 
     // Create a surface from the string.
-    TTF_Font *Sans = TTF_OpenFont("FiraCodeNerdFont-Bold.ttf", 10);
-    SDL_Surface *textSurface = TTF_RenderText_LCD(Sans, text.c_str(), textColoFG, textColoBG);
+    TTF_Font *Sans = TTF_OpenFont("/usr/share/fonts/truetype/ubuntu/UbuntuMono-B.ttf", 10);
+    SDL_Surface *textSurface = TTF_RenderText_Shaded(Sans, text.c_str(), textColoFG, textColoBG);
 
     if (textSurface == NULL) {
         LOG_WARNING(ExInfo("Failed to create text surface"));

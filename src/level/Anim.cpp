@@ -61,7 +61,7 @@ void Anim::drawAt(SDL_Surface *screen, SDL_Renderer *renderer, int x, int y, eSi
         auto texture = SDL_CreateTextureFromSurface(renderer, surface);
         m_effect->blit(renderer, texture, surface, x, y);
         SDL_DestroyTexture(texture);
-        
+
         if (m_run && tick % speedup == 0) {
             m_animPhase++;
             if (m_animPhase >= m_animPack[side]->countRes(m_animName)) {

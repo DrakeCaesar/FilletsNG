@@ -13,10 +13,11 @@
 #include "SDL2/SDL.h"
 
 #if !defined(HAVE_X11) && !defined(WIN32)
-void SysVideo::setCaption(const std::string &title)
-{
+
+void SysVideo::setCaption(const std::string &title) {
     //    SDL_WM_SetCaption(title.c_str(), NULL);
 }
+
 #else
 
 #include "SDL_syswm.h"

@@ -13,7 +13,8 @@
 #include "Log.h"
 
 #include <string.h> //memset
-
+#include <sstream>
+#include <iomanip>
 //-----------------------------------------------------------------
 /**
  * Initialize the player for a specific piece of music.
@@ -25,16 +26,26 @@ SDLMusicLooper::SDLMusicLooper(const Path &file)
     Mix_QuerySpec(&freq, &fmt, &channels);
 
     int sampleSize;
-    if (fmt == AUDIO_S8 || fmt == AUDIO_U8) {
-        sampleSize = 1;
-    } else if (fmt == AUDIO_S16LSB || fmt == AUDIO_S16MSB || fmt == AUDIO_U16LSB || fmt == AUDIO_U16MSB) {
-        sampleSize = 2;
-    } else if (fmt == AUDIO_F32SYS) {
-        sampleSize = 4;
-    } else {
-        LOG_WARNING(ExInfo("unhandled audio format"));
-        sampleSize = 4;
+
+    switch (fmt & 0xFF) {
+        case 0x08:
+            sampleSize = 1; // 8 bits per sample
+            break;
+        case 0x10:
+            sampleSize = 2; // 16 bits per sample
+            break;
+        case 0x20:
+            sampleSize = 4; // 32 bits per sample
+            break;
+        default:
+            sampleSize = 4; // Default sample size (if not 8, 16, or 32 bits)
+            std::stringstream ss;
+            ss << "0x" << std::setfill('0') << std::setw(4) << std::uppercase << std::hex << fmt;
+            LOG_WARNING(ExInfo("unhandled audio format").addInfo("fmt", ss.str()));
+            break;
+
     }
+
     m_music = Mix_LoadWAV(file.getNative().c_str());
     if (m_music) {
         lookupLoopData(file, sampleSize * channels * freq / 22050);
@@ -54,7 +65,8 @@ SDLMusicLooper::~SDLMusicLooper() {
 }
 
 //-----------------------------------------------------------------
-void SDLMusicLooper::setVolume(int volume) {
+void
+SDLMusicLooper::setVolume(int volume) {
     m_volume = volume;
     if (m_volume > MIX_MAX_VOLUME) {
         m_volume = MIX_MAX_VOLUME;
@@ -64,14 +76,16 @@ void SDLMusicLooper::setVolume(int volume) {
 }
 
 //-----------------------------------------------------------------
-void SDLMusicLooper::start() {
+void
+SDLMusicLooper::start() {
     if (m_music) {
         Mix_HookMusic(musicOutput, (void *) this);
     }
 }
 
 //-----------------------------------------------------------------
-void SDLMusicLooper::stop() {
+void
+SDLMusicLooper::stop() {
     Mix_HookMusic(NULL, NULL);
 }
 //-----------------------------------------------------------------
@@ -87,7 +101,8 @@ void SDLMusicLooper::stop() {
  * loop_start
  * loop_end
  */
-void SDLMusicLooper::lookupLoopData(const Path &file, int multiplier) {
+void
+SDLMusicLooper::lookupLoopData(const Path &file, int multiplier) {
     m_startLoop = 0;
     m_endLoop = m_music->alen;
 
@@ -125,7 +140,8 @@ void SDLMusicLooper::lookupLoopData(const Path &file, int multiplier) {
 /**
  * Callback function that provides the music data to the mixer.
  */
-void SDLMusicLooper::musicOutput(void *udata, Uint8 *stream, int length) {
+void
+SDLMusicLooper::musicOutput(void *udata, Uint8 *stream, int length) {
     SDLMusicLooper *that = (SDLMusicLooper *) udata;
     int n;
 
