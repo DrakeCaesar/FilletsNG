@@ -8,6 +8,8 @@
  */
 #include <iostream>
 #include <SDL_image.h>
+#include <chrono>
+#include <deque>
 #include "EffectMirror.h"
 
 #include "SurfaceLock.h"
@@ -26,7 +28,12 @@ static SDL_Surface *screenSurface = nullptr;
 static SDL_Texture *original = nullptr;
 static SDL_Texture *mirrored = nullptr;
 
+// std::deque<std::chrono::microseconds> durations;
+// long long sumDurations = 0;
+
 void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface * /* surface */, int x, int y) {
+    // auto start = std::chrono::high_resolution_clock::now();
+
     int w, h;
     SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
     w /= 2;
@@ -42,8 +49,8 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     if (mirrored == nullptr)
         mirrored = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_TARGET, w, h);
 
-    SDL_UpdateTexture(original, nullptr, screenSurface->pixels, screenSurface->pitch);
     SDL_RenderReadPixels(renderer, &srcRect, format, screenSurface->pixels, screenSurface->pitch);
+    SDL_UpdateTexture(original, nullptr, screenSurface->pixels, screenSurface->pitch);
 
     SDL_SetRenderTarget(renderer, mirrored);
     SDL_RenderCopy(renderer, texture, &mskRect, nullptr);
@@ -54,6 +61,18 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     SDL_RenderCopy(renderer, texture, &mrrRect, &dstRect);
     SDL_SetTextureBlendMode(mirrored, SDL_BLENDMODE_BLEND);
     SDL_RenderCopy(renderer, mirrored, nullptr, &dstRect);
+
+    // auto end = std::chrono::high_resolution_clock::now();
+    // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    // sumDurations += duration.count();
+    // durations.push_back(duration);
+    // if (durations.size() > 1000) {
+    //     sumDurations -= durations.front().count();
+    //     durations.pop_front();
+    // }
+    // auto averageDuration = sumDurations / durations.size();
+    // std::cout << "Average RenderReadPixels over last " << durations.size() << " calls: "
+    //           << averageDuration << "us" << std::endl;
 }
 
 void EffectMirror::cleanup() {
