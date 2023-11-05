@@ -17,6 +17,8 @@ public:
 
     virtual void blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface,
                       int x, int y);
+
+    static void cleanup();
 };
 
 #endif
