@@ -6,6 +6,7 @@
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  */
+#include <iostream>
 #include "EffectMirror.h"
 
 #include "SurfaceLock.h"
@@ -21,12 +22,11 @@ const char *EffectMirror::NAME = "mirror";
 void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y) {
     // Determine the area we will be updating based on the position and size of the texture.
 
-    int border = 0;
-
-    int mirrorW = surface->w + border * 2;
-    int mirrorH = surface->h + border * 2;
-    int mirrorX = x - border;
-    int mirrorY = y - border;
+    int mirrorX = x;
+    int mirrorY = y;
+    int mirrorW;
+    int mirrorH;
+    SDL_QueryTexture(texture, NULL, NULL, &mirrorW, &mirrorH);
 
     SDL_Rect dstRect;
     dstRect.x = mirrorX - mirrorW;
@@ -40,30 +40,32 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     srcRect.w = mirrorW * 2;
     srcRect.h = mirrorH;
 
+    SDL_Rect mirrorRect;
+    mirrorRect.x = mirrorX;
+    mirrorRect.y = mirrorY;
+    mirrorRect.w = mirrorW;
+    mirrorRect.h = mirrorH;
+    SDL_RenderCopy(renderer, texture, NULL, &mirrorRect);
+
     int width, height;
     SDL_GetRendererOutputSize(renderer, &width, &height);
     SDL_Surface *screen = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
     SDL_RenderReadPixels(renderer, &dstRect, SDL_PIXELFORMAT_ARGB8888, screen->pixels, screen->pitch);
     SurfaceLock lock2(surface);
-    SDL_Color mask = PixelTool::getColor(surface, mirrorW / 2, mirrorH / 2);
 
+    SDL_Color mask = PixelTool::getColor(surface, mirrorW / 2, mirrorH / 2);
     for (int py = 0; py < mirrorH; ++py) {
         for (int px = 0; px < mirrorW; ++px) {
             SDL_Color pixel = PixelTool::getColor(surface, px, py);
             if (px > MIRROR_BORDER && PixelTool::colorEquals(pixel, mask)) {
-                SDL_Color sample = PixelTool::getColor(screen,
-                                                       mirrorW - px + MIRROR_BORDER, py);
+                SDL_Color sample = PixelTool::getColor(screen, mirrorW - px + MIRROR_BORDER, py);
                 PixelTool::putColor(screen, px + mirrorW, py, sample);
-            } else {
-                if (pixel.a == 255) {
-                    PixelTool::putColor(screen, px + mirrorW, py, pixel);
-                }
             }
         }
     }
     auto texture_s = SDL_CreateTextureFromSurface(renderer, screen);
     SDL_SetRenderDrawColor(renderer, dstRect.x, dstRect.y, dstRect.w, dstRect.h);
-    //SDL_RenderCopy(renderer, texture_s, &srcRect, &dstRect);
+    SDL_RenderCopy(renderer, texture_s, &srcRect, &dstRect);
     SDL_RenderCopy(renderer, texture_s, &srcRect, &dstRect);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);

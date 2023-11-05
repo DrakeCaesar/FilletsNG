@@ -93,11 +93,11 @@ void NodeDrawer::drawNode(const LevelNode *node) const {
     drawDot(texture, loc);
     SDL_DestroyTexture(texture);
 
-//    std::stringstream ss = std::stringstream();
-//    ss << "" << loc.getX() << "," << loc.getY() << "";
-//    std::string coords = ss.str();
-//    V2 textLoc = {loc.getX(), loc.getY()};
-//    drawText(textLoc, coords);
+    // std::stringstream ss = std::stringstream();
+    // ss << "" << loc.getX() << "," << loc.getY() << "";
+    // std::string coords = ss.str();
+    // V2 textLoc = {loc.getX(), loc.getY()};
+    // drawText(textLoc, coords);
 }
 
 //-----------------------------------------------------------------
