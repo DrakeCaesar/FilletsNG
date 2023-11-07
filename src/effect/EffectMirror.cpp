@@ -16,17 +16,13 @@
 #include "PixelTool.h"
 
 const char *EffectMirror::NAME = "mirror";
+static SDL_Texture *mirrored = nullptr;
 //-----------------------------------------------------------------
 /**
  * Mirror effect. Draw left side inside.
  * The pixel in the middle will be used as a mask.
  * NOTE: mirror object should be drawn as the last.
  */
-const int format = SDL_PIXELFORMAT_ARGB8888;
-
-static SDL_Surface *screenSurface = nullptr;
-static SDL_Texture *mirrored = nullptr;
-
 
 void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface * /* surface */, int x, int y) {
     int w, h;
@@ -37,28 +33,25 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
     SDL_Rect mrrRect = {0, 0, w, h};
     SDL_Rect mskRect = {w, 0, w, h};
 
-    if (screenSurface == nullptr)
-        screenSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
     if (mirrored == nullptr)
-        mirrored = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_TARGET, w, h);
+        mirrored = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, w, h);
 
-    SDL_Texture *original = SDL_GetRenderTarget(renderer);
+    SDL_RenderCopy(renderer, texture, &mrrRect, &dstRect);
+    SDL_Texture *screen = SDL_GetRenderTarget(renderer);
+
     SDL_SetRenderTarget(renderer, mirrored);
     SDL_RenderCopy(renderer, texture, &mskRect, nullptr);
-    SDL_SetTextureBlendMode(original, SDL_BLENDMODE_MOD);
-    SDL_RenderCopyEx(renderer, original, &srcRect, &mrrRect, 0, nullptr, SDL_FLIP_HORIZONTAL);
-    SDL_SetTextureBlendMode(original, SDL_BLENDMODE_NONE);
-    SDL_SetRenderTarget(renderer, original);
-    SDL_RenderCopy(renderer, texture, &mrrRect, &dstRect);
+
+    SDL_SetTextureBlendMode(screen, SDL_BLENDMODE_MOD);
+    SDL_RenderCopyEx(renderer, screen, &srcRect, &mrrRect, 0, nullptr, SDL_FLIP_HORIZONTAL);
+    SDL_SetTextureBlendMode(screen, SDL_BLENDMODE_NONE);
+
+    SDL_SetRenderTarget(renderer, screen);
     SDL_SetTextureBlendMode(mirrored, SDL_BLENDMODE_BLEND);
     SDL_RenderCopy(renderer, mirrored, nullptr, &dstRect);
 }
 
 void EffectMirror::cleanup() {
-    if (screenSurface) {
-        SDL_FreeSurface(screenSurface);
-        screenSurface = nullptr;
-    }
     if (mirrored) {
         SDL_DestroyTexture(mirrored);
         mirrored = nullptr;
