@@ -25,15 +25,10 @@ const char *EffectMirror::NAME = "mirror";
 const int format = SDL_PIXELFORMAT_ARGB8888;
 
 static SDL_Surface *screenSurface = nullptr;
-static SDL_Texture *original = nullptr;
 static SDL_Texture *mirrored = nullptr;
 
-// std::deque<std::chrono::microseconds> durations;
-// long long sumDurations = 0;
 
 void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface * /* surface */, int x, int y) {
-    // auto start = std::chrono::high_resolution_clock::now();
-
     int w, h;
     SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
     w /= 2;
@@ -44,45 +39,25 @@ void EffectMirror::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surfac
 
     if (screenSurface == nullptr)
         screenSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
-    if (original == nullptr)
-        original = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_STREAMING, w, h);
     if (mirrored == nullptr)
         mirrored = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_TARGET, w, h);
 
-    SDL_RenderReadPixels(renderer, &srcRect, format, screenSurface->pixels, screenSurface->pitch);
-    SDL_UpdateTexture(original, nullptr, screenSurface->pixels, screenSurface->pitch);
-
+    SDL_Texture *original = SDL_GetRenderTarget(renderer);
     SDL_SetRenderTarget(renderer, mirrored);
     SDL_RenderCopy(renderer, texture, &mskRect, nullptr);
     SDL_SetTextureBlendMode(original, SDL_BLENDMODE_MOD);
-    SDL_RenderCopyEx(renderer, original, nullptr, nullptr, 0, nullptr, SDL_FLIP_HORIZONTAL);
-
-    SDL_SetRenderTarget(renderer, nullptr);
+    SDL_RenderCopyEx(renderer, original, &srcRect, &mrrRect, 0, nullptr, SDL_FLIP_HORIZONTAL);
+    SDL_SetTextureBlendMode(original, SDL_BLENDMODE_NONE);
+    SDL_SetRenderTarget(renderer, original);
     SDL_RenderCopy(renderer, texture, &mrrRect, &dstRect);
     SDL_SetTextureBlendMode(mirrored, SDL_BLENDMODE_BLEND);
     SDL_RenderCopy(renderer, mirrored, nullptr, &dstRect);
-
-    // auto end = std::chrono::high_resolution_clock::now();
-    // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    // sumDurations += duration.count();
-    // durations.push_back(duration);
-    // if (durations.size() > 1000) {
-    //     sumDurations -= durations.front().count();
-    //     durations.pop_front();
-    // }
-    // auto averageDuration = sumDurations / durations.size();
-    // std::cout << "Average RenderReadPixels over last " << durations.size() << " calls: "
-    //           << averageDuration << "us" << std::endl;
 }
 
 void EffectMirror::cleanup() {
     if (screenSurface) {
         SDL_FreeSurface(screenSurface);
         screenSurface = nullptr;
-    }
-    if (original) {
-        SDL_DestroyTexture(original);
-        original = nullptr;
     }
     if (mirrored) {
         SDL_DestroyTexture(mirrored);

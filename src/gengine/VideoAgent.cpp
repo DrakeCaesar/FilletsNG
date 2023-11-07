@@ -49,11 +49,11 @@ void VideoAgent::own_init() {
  * First will be drawed first.
  */
 void VideoAgent::own_update() {
-    SDL_UpdateTexture(m_texture, NULL, m_screen->pixels, m_screen->pitch);
-    SDL_RenderClear(m_renderer);
-    SDL_RenderCopy(m_renderer, m_texture, NULL, NULL);
-    drawOn(NULL, m_renderer);
+    SDL_SetRenderTarget(m_renderer, m_texture);
+    drawOn(nullptr, m_renderer);
 
+    SDL_SetRenderTarget(m_renderer, nullptr);
+    SDL_RenderCopy(m_renderer, m_texture, NULL, NULL);
     SDL_RenderPresent(m_renderer);
 }
 //-----------------------------------------------------------------
@@ -146,7 +146,7 @@ void VideoAgent::changeVideoMode(int screen_width, int screen_height) {
 
     m_texture = SDL_CreateTexture(m_renderer,
                                   SDL_PIXELFORMAT_ARGB8888,
-                                  SDL_TEXTUREACCESS_STREAMING,
+                                  SDL_TEXTUREACCESS_TARGET,
                                   screen_width, screen_height);
 
     if (newScreen) {
@@ -154,8 +154,8 @@ void VideoAgent::changeVideoMode(int screen_width, int screen_height) {
         std::cout << "screen created" << std::endl;
 
         // NOTE: must be two times to change MouseState
-        SDL_WarpMouseInWindow(m_window, screen_width / 2, screen_height / 2);
-        SDL_WarpMouseInWindow(m_window, screen_width / 2, screen_height / 2);
+        // SDL_WarpMouseInWindow(m_window, screen_width / 2, screen_height / 2);
+        // SDL_WarpMouseInWindow(m_window, screen_width / 2, screen_height / 2);
     } else {
         throw SDLException(ExInfo("SetVideoMode")
                                    .addInfo("width", screen_width)
