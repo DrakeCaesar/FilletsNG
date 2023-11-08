@@ -20,6 +20,8 @@
  */
 SDL_Surface *
 SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height) {
+    //TODO: Investigate
+    return nullptr;
     if (!width) {
         width = surface->w;
     }

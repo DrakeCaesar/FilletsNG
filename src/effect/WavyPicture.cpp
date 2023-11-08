@@ -32,7 +32,7 @@ static int test = 0;
 
 void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     test++;
-    if (test % 2 == 2) {
+    if (test % 2 < 1) {
         if (m_amp == 0) {
             Picture::drawOn(screen, renderer);
             return;
