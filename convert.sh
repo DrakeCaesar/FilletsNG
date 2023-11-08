@@ -1,5 +1,6 @@
 #!/bin/sh
 ignore="icon.png|menu|background.png|banka-p.png|barely-poz.png|bathroom-p.png|batyskaf-p.png|bludiste-p.png|bottles-p.png|bunker-p.png|chodba-p2.png|dela-p.png|deutsche-pozadi.png|diry-p.png|disketa-p-opr.png|drakar1-p.png|drakar-p.png|fdto-p.png|gral-pozadi.png|jednicky-p.png|jeskyne-p.png|kajuta1p.png|kajuta2p.png|kankan-p.png|koraly-p.png|koste-p.png|kuchyne-pozadi.png|kufrik-p.png|letadlo-p.png|mapa-p.png|mikro-p.png|motor-pozadi.png|ncp-p.png|noground-p.png|odpadky-p.png|paprsky-pozadi.png|party1-p.png|pocitac-pozadi.png|pohon-p.png|potopena-pozadi.png|pozadi.png|pozadi2.png|pravidla-p.png|prvni-p.png|puclik-p.png|reaktor-p.png|recycled-p.png|redhat1-p.png|schody-p.png|score-pozadi.png|secret-p.png|sloupy-p.png|smetak-p.png|spunt-p.png|steel-pozadi0.png|steel-pozadi1.png|steel-pozadi2.png|svatba-pozadi.png|tetris-p.png|truhla-p.png|trup-p1.png|ufo-pozadi-1.png|utes-p.png|ves-p.png|vitejte1-p.png|vladova-p.png|vrak-pozadi.png|warcr2-p1.png|wc-p.png|win-p.png|zaval-p.png|zdviz1-p.png|zdviz2-p.png|zelva-p.png|zrc-p.png|zx-pozadi.png"
+special="zrcadlo.png"
 
 find images -name "*.png" | while read line ;
 do {
@@ -15,7 +16,7 @@ cp images-baseline/fishes/small/left/body_rest_00.png  images-baseline/fishes/sm
 wait
 
 
-find images-baseline -name "*.png" | grep -E "${ignore}" | cut -c 16- | while read line ; 
+find images-baseline -name "*.png" | grep -E "${ignore}" | grep -vE "${special}" | cut -c 16- | while read line ; 
 do {
     magick images-baseline$line -strip -set option:png:exclude-chunk tIME -transparent green -background black -alpha background png32:images$line & 
     #echo images$line & 
@@ -55,3 +56,19 @@ do {
 }; done
 
 wait
+
+input="images-baseline/submarine/zrcadlo.png"
+mask="images/submarine/zrcadlo_mask.png"
+output="images/submarine/zrcadlo.png"
+
+magick "$input" -transparent green -background black -alpha background -bordercolor none -border 5 -channel A -gaussian-blur 0x1 png32:"$output"
+magick "$output" -background none -extent 200%x100% "$output"
+magick "$output" -fill none +opaque "#00FFFF" "$mask"
+magick "$mask" -fill white +opaque none "$mask"
+magick "$output" -strip -set option:png:exclude-chunk tIME -fill black -opaque cyan "$output"
+
+# Combine width calculation and assignment into one line
+width=$(( $(magick identify -format "%w" "$output") / 2 ))
+
+magick composite -geometry +${width}+0 "$mask" "$output" "$output"
+rm "$mask"
