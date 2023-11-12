@@ -26,7 +26,7 @@
  * Create new animation sprite.
  */
 Anim::Anim()
-        : m_viewShift(0, 0) {
+    : m_viewShift(0, 0) {
     m_animPack[SIDE_LEFT] = new ResImagePack();
     m_animPack[SIDE_RIGHT] = new ResImagePack();
 
@@ -52,11 +52,11 @@ Anim::~Anim() {
  * Draw anim phase at screen position.
  * Increase phase when anim is running.
  */
-void Anim::drawAt(SDL_Surface *screen, SDL_Renderer *renderer, int x, int y, eSide side) {
+void Anim::drawAt(SDL_Surface* screen, SDL_Renderer* renderer, int x, int y, eSide side) {
     x += offset;
     y += offset;
     if (!m_effect->isInvisible()) {
-        SDL_Surface *surface =
+        SDL_Surface* surface =
                 m_animPack[side]->getRes(m_animName, m_animPhase);
         auto texture = SDL_CreateTextureFromSurface(renderer, surface);
         m_effect->blit(renderer, texture, surface, x, y);
@@ -80,39 +80,43 @@ void Anim::drawAt(SDL_Surface *screen, SDL_Renderer *renderer, int x, int y, eSi
 
     m_effect->updateEffect();
 }
+
 //-----------------------------------------------------------------
 /**
  * Add picture to anim,
  * default side is left side.
  */
-void Anim::addAnim(const std::string &name, const Path &picture, eSide side) {
+void Anim::addAnim(const std::string&name, const Path&picture, eSide side) {
     m_usedPath = picture.getPosixName();
     m_animPack[side]->addImage(name, picture);
 }
+
 //-----------------------------------------------------------------
 /**
  * Add prepared picture to anim,
  * default side is left side.
  */
-void Anim::addAnim(const std::string &name, SDL_Surface *new_image, eSide side) {
+void Anim::addAnim(const std::string&name, SDL_Surface* new_image, eSide side) {
     m_animPack[side]->addRes(name, new_image);
 }
+
 //-----------------------------------------------------------------
 /**
  * Run this animation.
  * Nothing is changed when animation is already running.
  */
-void Anim::runAnim(const std::string &name, int start_phase) {
+void Anim::runAnim(const std::string&name, int start_phase) {
     if (m_animName != name) {
         setAnim(name, start_phase);
     }
     m_run = true;
 }
+
 //-----------------------------------------------------------------
 /**
  * Set static visage.
  */
-void Anim::setAnim(const std::string &name, int phase) {
+void Anim::setAnim(const std::string&name, int phase) {
     m_run = false;
     m_animName = name;
     m_animPhase = phase;
@@ -121,16 +125,18 @@ void Anim::setAnim(const std::string &name, int phase) {
     if (m_animPhase >= count) {
         if (count == 0) {
             m_animPhase = 0;
-        } else {
+        }
+        else {
             m_animPhase %= count;
         }
         LOG_WARNING(ExInfo("anim phase over-flow")
-                            .addInfo("anim", name)
-                            .addInfo("phase", phase)
-                            .addInfo("count", count)
-                            .addInfo("usedPath", m_usedPath));
+            .addInfo("anim", name)
+            .addInfo("phase", phase)
+            .addInfo("count", count)
+            .addInfo("usedPath", m_usedPath));
     }
 }
+
 //-----------------------------------------------------------------
 /**
  * Use special efect for one phase.
@@ -139,7 +145,7 @@ void Anim::setAnim(const std::string &name, int phase) {
  * @param name anim name, empty is no anim
  * @param phase anim phase
  */
-void Anim::useSpecialAnim(const std::string &name, int phase) {
+void Anim::useSpecialAnim(const std::string&name, int phase) {
     m_specialAnimName = name;
     m_specialAnimPhase = phase;
     if (m_specialAnimName.empty()) {
@@ -151,25 +157,27 @@ void Anim::useSpecialAnim(const std::string &name, int phase) {
         if (count == 0) {
             m_specialAnimName = "";
             m_specialAnimPhase = 0;
-        } else {
+        }
+        else {
             m_specialAnimPhase %= count;
         }
         LOG_WARNING(ExInfo("special anim phase over-flow")
-                            .addInfo("anim", name)
-                            .addInfo("phase", phase)
-                            .addInfo("count", count));
+            .addInfo("anim", name)
+            .addInfo("phase", phase)
+            .addInfo("count", count));
     }
 }
+
 //-----------------------------------------------------------------
 /**
  * Change effect.
  * @throws LogicException when new_effect is NULL.
  */
-void Anim::changeEffect(ViewEffect *new_effect) {
+void Anim::changeEffect(ViewEffect* new_effect) {
     if (NULL == new_effect) {
         throw LogicException(ExInfo("new_effect is NULL")
-                                     .addInfo("animName", m_animName)
-                                     .addInfo("specialAnimName", m_specialAnimName));
+            .addInfo("animName", m_animName)
+            .addInfo("specialAnimName", m_specialAnimName));
     }
 
     delete m_effect;
@@ -177,23 +185,28 @@ void Anim::changeEffect(ViewEffect *new_effect) {
 }
 
 //-----------------------------------------------------------------
-int Anim::countAnimPhases(const std::string &anim, eSide side) const {
+int Anim::countAnimPhases(const std::string&anim, eSide side) const {
     return m_animPack[side]->countRes(anim);
 }
 
 //-----------------------------------------------------------------
-void Anim::setEffect(const std::string &effectName) {
+void Anim::setEffect(const std::string&effectName) {
     if (EffectNone::NAME == effectName) {
         changeEffect(new EffectNone());
-    } else if (EffectMirror::NAME == effectName) {
+    }
+    else if (EffectMirror::NAME == effectName) {
         changeEffect(new EffectMirror());
-    } else if (EffectInvisible::NAME == effectName) {
+    }
+    else if (EffectInvisible::NAME == effectName) {
         changeEffect(new EffectInvisible());
-    } else if (EffectReverse::NAME == effectName) {
+    }
+    else if (EffectReverse::NAME == effectName) {
         changeEffect(new EffectReverse());
-    } else if (EffectZx::NAME == effectName) {
+    }
+    else if (EffectZx::NAME == effectName) {
         changeEffect(new EffectZx());
-    } else {
+    }
+    else {
         ExInfo error = ExInfo("unknown view effect")
                 .addInfo("effect", effectName);
         LOG_WARNING(error);
@@ -202,7 +215,7 @@ void Anim::setEffect(const std::string &effectName) {
 
 //-----------------------------------------------------------------
 static std::string
-encode(const std::string &input) {
+encode(const std::string&input) {
     std::string output = input;
     StringTool::replace(output, "&", "&amp;");
     StringTool::replace(output, ",", "&comma;");
@@ -217,7 +230,7 @@ encode(int value) {
 
 //-----------------------------------------------------------------
 static std::string
-decode(const std::string &input) {
+decode(const std::string&input) {
     std::string output = input;
     StringTool::replace(output, "&comma;", ",");
     StringTool::replace(output, "&amp;", "&");
@@ -226,12 +239,12 @@ decode(const std::string &input) {
 
 //-----------------------------------------------------------------
 static int
-decodeInt(const std::string &input) {
+decodeInt(const std::string&input) {
     bool ok;
-    int result = (int) StringTool::readInt(input.c_str(), &ok);
+    int result = (int)StringTool::readInt(input.c_str(), &ok);
     if (!ok) {
         LOG_WARNING(ExInfo("invalid int")
-                            .addInfo("input", input));
+            .addInfo("input", input));
     }
     return result;
 }
@@ -252,11 +265,11 @@ Anim::getState() const {
 }
 
 //-----------------------------------------------------------------
-void Anim::restoreState(const std::string &state) {
+void Anim::restoreState(const std::string&state) {
     StringTool::t_args values = StringTool::split(state, ',');
     if (values.size() != 8) {
         LOG_WARNING(ExInfo("invalid anim state")
-                            .addInfo("state", state));
+            .addInfo("state", state));
         return;
     }
 

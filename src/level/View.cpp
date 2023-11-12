@@ -23,8 +23,8 @@
  * Create new view.
  * @param models wrapper arount models
  */
-View::View(const ModelList &models)
-        : m_models(models), m_screenShift(0, 0) {
+View::View(const ModelList&models)
+    : m_models(models), m_screenShift(0, 0) {
     m_animShift = 0;
     m_shiftSize = SCALE;
     m_screen = NULL;
@@ -62,7 +62,7 @@ void View::noteNewRound(int phases) {
 }
 
 //-----------------------------------------------------------------
-void View::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
+void View::drawOn(SDL_Surface* screen, SDL_Renderer* renderer) {
     m_screen = screen;
     m_renderer = renderer;
     m_animShift = min(SCALE, m_animShift + m_shiftSize);
@@ -71,12 +71,13 @@ void View::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     m_models.drawOn(this, renderer);
     drawDecors();
 }
+
 //-----------------------------------------------------------------
 /**
  * Draw model.
  * Care about model shift during move.
  */
-void View::drawModel(Cube *model) {
+void View::drawModel(Cube* model) {
     if (!model->isLost()) {
         V2 screenPos = getScreenPos(model);
 
@@ -88,6 +89,7 @@ void View::drawModel(Cube *model) {
                               screenPos.getX(), screenPos.getY(), side);
     }
 }
+
 //-----------------------------------------------------------------
 /**
  * Split move in a few phases.
@@ -95,15 +97,17 @@ void View::drawModel(Cube *model) {
 void View::computeShiftSize(int phases) {
     if (phases > 0) {
         m_shiftSize = SCALE / phases;
-    } else {
+    }
+    else {
         m_shiftSize = SCALE;
     }
 }
+
 //-----------------------------------------------------------------
 /**
  * Returns position on screen when model will be drawn.
  */
-V2 View::getScreenPos(const Cube *model) const {
+V2 View::getScreenPos(const Cube* model) const {
     V2 shift(0, 0);
     Dir::eDir dir = model->getLastMoveDir();
     if (dir != Dir::DIR_NO) {
@@ -115,10 +119,11 @@ V2 View::getScreenPos(const Cube *model) const {
     V2 anim_shift = model->const_anim()->getViewShift();
     return model->getLocation().plus(anim_shift).scale(SCALE).plus(shift);
 }
+
 //-----------------------------------------------------------------
 /**
  * Returns position of tile under cursor.
  */
-V2 View::getFieldPos(const V2 &cursor) const {
+V2 View::getFieldPos(const V2&cursor) const {
     return cursor.minus(m_screenShift).shrink(SCALE);
 }
