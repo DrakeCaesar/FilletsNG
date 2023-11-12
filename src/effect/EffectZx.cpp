@@ -13,7 +13,7 @@
 #include "PixelIterator.h"
 #include "Random.h"
 
-const char *EffectZx::NAME = "zx";
+const char* EffectZx::NAME = "zx";
 const double EffectZx::STRIPE_STANDARD = 38.5;
 const double EffectZx::STRIPE_NARROW = 3.4;
 //-----------------------------------------------------------------
@@ -26,6 +26,7 @@ EffectZx::EffectZx() {
     m_countHeight = 0;
     m_stripeHeight = STRIPE_STANDARD;
 }
+
 //-----------------------------------------------------------------
 /**
  * Update sprite height as ZX Spectrum does.
@@ -35,25 +36,30 @@ void EffectZx::updateEffect() {
     if (m_phase == 1) {
         m_zx = ZX1;
         m_stripeHeight = STRIPE_STANDARD;
-    } else if (2 <= m_phase && m_phase <= 51) {
+    }
+    else if (2 <= m_phase && m_phase <= 51) {
         m_stripeHeight = (m_stripeHeight * 3 * (0.97 + Random::randomReal(0.06)) + STRIPE_STANDARD) / 4.0;
-    } else if (m_phase == 52) {
+    }
+    else if (m_phase == 52) {
         m_zx = ZX3;
         m_stripeHeight = STRIPE_NARROW;
-    } else {
+    }
+    else {
         m_stripeHeight = (m_stripeHeight * 3 * (0.95 + Random::randomReal(0.1)) + STRIPE_NARROW) / 4.0;
     }
 }
+
 //-----------------------------------------------------------------
 /**
  * Draw ZX spectrum loading.
  */
 void
-EffectZx::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y) {
+EffectZx::blit(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Surface* surface, int x, int y) {
     int width, height;
+    //store surface to file
+
     SDL_GetRendererOutputSize(renderer, &width, &height);
-    SDL_Surface *screen = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-    SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, screen->pixels, screen->pitch);
+    SDL_Surface* screen = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
 
     SurfaceLock lock1(screen);
     SurfaceLock lock2(surface);
@@ -112,5 +118,13 @@ EffectZx::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surfac
             pit.inc();
         }
     }
+    // convert surface to texture
+    // SDL_SaveBMP(screen, "/home/domin/Desktop/surface.bmp");
+
+    auto texture_s = SDL_CreateTextureFromSurface(renderer, screen);
+    // SDL_RenderCopy(renderer, texture_s, NULL, NULL);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_FreeSurface(screen);
+
+    SDL_DestroyTexture(texture_s);
 }
