@@ -40,6 +40,7 @@ public:
         return renderer_height;
     }
 
+
     virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 
     void setLoc(const V2 &loc) { m_loc = loc; }

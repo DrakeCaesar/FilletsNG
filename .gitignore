@@ -17,4 +17,6 @@ script/options.lua
 solved
 list.txt
 cmake-build-debug
+cmake-build-debug-visual-studio
 cmake-build-release
+cmake-build-release-visual-studio

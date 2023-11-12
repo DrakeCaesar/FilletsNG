@@ -15,6 +15,7 @@
 #include <string.h> //memset
 #include <sstream>
 #include <iomanip>
+#include <iostream>
 //-----------------------------------------------------------------
 /**
  * Initialize the player for a specific piece of music.
@@ -22,8 +23,11 @@
 SDLMusicLooper::SDLMusicLooper(const Path &file)
         : m_volume(MIX_MAX_VOLUME), m_position(0) {
     Uint16 fmt;
+
     int freq, channels;
     Mix_QuerySpec(&freq, &fmt, &channels);
+    std::cout << fmt << std::endl;
+    
 
     int sampleSize;
 

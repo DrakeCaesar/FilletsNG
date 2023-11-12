@@ -32,7 +32,7 @@ static int test = 0;
 
 void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     test++;
-    if (test % 2 < 1) {
+    if (test % 2 < 3) {
         if (m_amp == 0) {
             Picture::drawOn(screen, renderer);
             return;
@@ -47,12 +47,19 @@ void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
         SDL_Rect pad;
         pad.h = 1;
 
+        m_texture = SDL_CreateTextureFromSurface(renderer, m_surface);
+
+
         // copy surface
         SDL_Surface *m_surface2 = SDL_CreateRGBSurface(0, m_surface->w, m_surface->h, 32, 0, 0, 0, 0);
         SDL_BlitSurface(m_surface, NULL, m_surface2, NULL);
 
         float shift = TimerAgent::agent()->getCycles() * m_speed;
         shift = shift / speedup;
+        SDL_Rect srcRect;
+        SDL_FRect dstRect;
+
+
         for (int py = 0; py < m_surface->h; ++py) {
             // NOTE: C99 has lrintf and sinf
             Sint16 shiftX = static_cast<Sint16>(0.5 +
@@ -69,35 +76,9 @@ void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
             dest_rect.x = m_loc.getX() + pad.x;
             dest_rect.y = m_loc.getY() + py;
             SDL_BlitSurface(m_surface, &pad, m_surface2, &dest_rect);
-        }
-
-        auto texture = SDL_CreateTextureFromSurface(renderer, m_surface2);
-        SDL_RenderCopy(renderer, texture, NULL, NULL);
-        SDL_DestroyTexture(texture);
-        SDL_FreeSurface(m_surface2);
-
-    } else {
 
 
-        if (m_amp == 0) {
-            // If amplitude is 0, just draw the picture normally.
-            SDL_Rect destRect = {m_loc.getX(), m_loc.getY(), m_surface->w, m_surface->h};
-            SDL_RenderCopy(renderer, m_texture, NULL, &destRect);
-            return;
-        }
-
-        // Enable linear filtering for smoother rendering
-        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-
-        // Create a texture from the surface
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, m_surface);
-        SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-
-        float shift = TimerAgent::agent()->getCycles() * m_speed / speedup;
-
-        // Assuming m_loc is a Point class with x, y coordinates
-        for (int py = 0; py < m_surface->h; ++py) {
-            float shiftX = 0.5f + m_amp * sinf((float) py / m_periode + shift);
+            shiftX = 0.5f + m_amp * sinf((float) py / m_periode + shift);
             shiftX = -shiftX;
             // The line to render is 1 pixel tall
             SDL_Rect srcRect = {0, py, m_surface->w, 1};
@@ -109,12 +90,60 @@ void WavyPicture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
             };
 
             // Render the line with subpixel precision
-            SDL_RenderCopyExF(renderer, texture, &srcRect, &dstRect, 0.0, NULL, SDL_FLIP_NONE);
+            SDL_RenderCopyExF(renderer, m_texture, &srcRect, &dstRect, 0.0, NULL, SDL_FLIP_NONE);
+        }
+
+        auto texture = SDL_CreateTextureFromSurface(renderer, m_surface2);
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
+        SDL_DestroyTexture(texture);
+        SDL_FreeSurface(m_surface2);
+
+        SDL_DestroyTexture(m_texture);
+
+    } else {
+        //convert sufrace to texture
+        m_texture = SDL_CreateTextureFromSurface(renderer, m_surface);
+
+        if (m_amp == 0) {
+            // If amplitude is 0, just draw the picture normally.
+            SDL_Rect destRect = {m_loc.getX(), m_loc.getY(), m_surface->w, m_surface->h};
+            SDL_RenderCopy(renderer, m_texture, NULL, &destRect);
+            return;
+        }
+
+        int width, height;
+        SDL_QueryTexture(m_texture, NULL, NULL, &width, &height);
+
+        // Enable linear filtering for smoother rendering
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+
+        // Create a texture from the surface
+        // SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, m_surface);
+        // SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+
+        float shift = TimerAgent::agent()->getCycles() * m_speed / speedup;
+
+        // Assuming m_loc is a Point class with x, y coordinates
+        for (int py = 0; py < height; ++py) {
+            float shiftX = 0.5f + m_amp * sinf((float) py / m_periode + shift);
+            shiftX = round(shiftX);
+            shiftX = -shiftX;
+            // The line to render is 1 pixel tall
+            SDL_Rect srcRect = {0, py, width, 1};
+            SDL_FRect dstRect = {
+                    (float) m_loc.getX() + shiftX + (float) offset, // Subpixel precision for x-coordinate
+                    static_cast<float>(m_loc.getY() + py + offset), // Y-coordinate, no subpixel precision needed
+                    static_cast<float>(width), // Width of the texture
+                    1.0f // Height of the line is 1 pixel
+            };
+
+            // Render the line with subpixel precision
+            SDL_RenderCopyExF(renderer, m_texture, &srcRect, &dstRect, 0.0, NULL, SDL_FLIP_NONE);
 
             // No wrapping logic needed; SDL_RenderCopyExF handles positions outside the target rectangle
         }
 
         // Free the temporary texture
-        SDL_DestroyTexture(texture);
+        SDL_DestroyTexture(m_texture);
     }
 }
