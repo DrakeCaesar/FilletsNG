@@ -23,6 +23,7 @@
 #include "SDL2/SDL_image.h"
 #include <stdlib.h> // atexit()
 #include <iostream>
+#include "RendererSingleton.h"
 
 //-----------------------------------------------------------------
 /**
@@ -121,7 +122,7 @@ void VideoAgent::changeVideoMode(int screen_width, int screen_height) {
                                     screen_width, screen_height,
                                     m_fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 
-        m_renderer = SDL_CreateRenderer(m_window, -1, 0);
+        m_renderer = RendererSingleton::getInstance().initialize(m_window, -1, 0);
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
         SDL_RenderSetLogicalSize(m_renderer, screen_width, screen_height);
     } else {

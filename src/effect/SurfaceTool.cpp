@@ -8,7 +8,10 @@
  */
 #include "SurfaceTool.h"
 
+#include <SurfaceLock.h>
+
 #include "SDLException.h"
+#include "RendererSingleton.h"
 
 //-----------------------------------------------------------------
 /**
@@ -20,8 +23,6 @@
  */
 SDL_Surface *
 SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height) {
-    //TODO: Investigate
-    return nullptr;
     if (!width) {
         width = surface->w;
     }
@@ -86,6 +87,15 @@ SurfaceTool::createClone(SDL_Surface *surface) {
  */
 void SurfaceTool::alphaFill(SDL_Surface *surface, SDL_Rect *dstrect,
                             const SDL_Color &color) {
+
+    SDL_Renderer* renderer = RendererSingleton::getInstance().getRenderer();
+
+    int width, height;
+    SDL_GetRendererOutputSize(renderer, &width, &height);
+    surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+    SurfaceLock lock1(surface);
+
+
     int w = surface->w;
     int h = surface->h;
     if (dstrect) {

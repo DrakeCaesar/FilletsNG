@@ -29,8 +29,8 @@ void RadioBox::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
         rect.w = getW();
         rect.h = getH();
 
-        Uint32 green = SDL_MapRGB(screen->format, 0x00, 0xff, 0x00);
-        SDL_FillRect(screen, &rect, green);
+        SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0x00, 255);
+        SDL_RenderFillRect(renderer, &rect);
     }
     WiContainer::drawOn(screen, renderer);
 }

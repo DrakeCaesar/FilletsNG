@@ -47,21 +47,20 @@ int Slider::slide2value(int slide) {
 //-----------------------------------------------------------------
 void Slider::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
     int value = OptionAgent::agent()->getAsInt(m_param);
-    SDL_Color gray = {0x00, 0x00, 0x00, 129};
-    Uint32 green = SDL_MapRGB(screen->format, 0x00, 0xff, 0x00);
-
     SDL_Rect rect;
     rect.x = m_shift.getX();
     rect.y = m_shift.getY();
     rect.w = getW();
     rect.h = getH();
-    SurfaceTool::alphaFill(screen, &rect, gray);
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 129);
+    SDL_RenderFillRect(renderer, &rect);
 
     rect.x = m_shift.getX();
     rect.y = m_shift.getY();
     rect.w = value2slide(value);
     rect.h = getH();
-    SDL_FillRect(screen, &rect, green);
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0x00, 255);
+    SDL_RenderFillRect(renderer, &rect);
 }
 
 //-----------------------------------------------------------------
