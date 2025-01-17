@@ -11,10 +11,6 @@ config.status
 .vs/
 build/
 .cache/
-x64/
 script/options.lua
-/Debug
 solved
 list.txt
-/cmake-build-*/
-
