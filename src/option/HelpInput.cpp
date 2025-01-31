@@ -8,26 +8,28 @@
  */
 #include "HelpInput.h"
 
-#include "Keymap.h"
-#include "KeyDesc.h"
 #include "GameState.h"
+#include "KeyDesc.h"
+#include "Keymap.h"
 
 //-----------------------------------------------------------------
 /**
  * Escape, space or mouse click quit state.
  */
-HelpInput::HelpInput(GameState *state)
-        : StateInput(state) {
+HelpInput::HelpInput(GameState *state) : StateInput(state)
+{
 }
 //-----------------------------------------------------------------
 /**
  * Quits on unhandled keypress.
  */
-void HelpInput::specStroke(const KeyStroke & /*stroke*/) {
-    quitState();
+void HelpInput::specStroke(const KeyStroke & /*stroke*/)
+{
+  quitState();
 }
 
 //-----------------------------------------------------------------
-void HelpInput::mouseEvent(const MouseStroke & /*buttons*/) {
-    quitState();
+void HelpInput::mouseEvent(const MouseStroke & /*buttons*/)
+{
+  quitState();
 }

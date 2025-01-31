@@ -13,29 +13,33 @@
 #include "def-script.h"
 
 //-----------------------------------------------------------------
-Scripter::Scripter() {
-    m_script = new ScriptState();
-    m_script->registerLeader(this);
+Scripter::Scripter()
+{
+  m_script = new ScriptState();
+  m_script->registerLeader(this);
 
-    m_script->registerFunc("file_include", script_file_include);
-    m_script->registerFunc("file_exists", script_file_exists);
+  m_script->registerFunc("file_include", script_file_include);
+  m_script->registerFunc("file_exists", script_file_exists);
 }
 
 //-----------------------------------------------------------------
-Scripter::~Scripter() {
-    delete m_script;
+Scripter::~Scripter()
+{
+  delete m_script;
 }
 //-----------------------------------------------------------------
 /**
  * Include this script file.
  */
-void Scripter::scriptInclude(const Path &filename) {
-    m_script->doFile(filename);
+void Scripter::scriptInclude(const Path &filename)
+{
+  m_script->doFile(filename);
 }
 //-----------------------------------------------------------------
 /**
  * Run this command.
  */
-void Scripter::scriptDo(const std::string &input) {
-    m_script->doString(input);
+void Scripter::scriptDo(const std::string &input)
+{
+  m_script->doString(input);
 }

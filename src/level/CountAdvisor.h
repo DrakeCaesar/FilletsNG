@@ -4,13 +4,16 @@
 /**
  * Interface to advise countdown.
  */
-class CountAdvisor {
+class CountAdvisor
+{
 public:
-    virtual ~CountAdvisor() {}
+  virtual ~CountAdvisor()
+  {
+  }
 
-    virtual int getCountForSolved() const = 0;
+  virtual int getCountForSolved() const = 0;
 
-    virtual int getCountForWrong() const = 0;
+  virtual int getCountForWrong() const = 0;
 };
 
 #endif

@@ -10,25 +10,32 @@ class Cube;
 /**
  * Two dimensional game field.
  */
-class Field : public NoCopy {
+class Field : public NoCopy
+{
 private:
-    int m_w;
-    int m_h;
-    Cube ***m_marks;
-    Cube *m_border;
+  int m_w;
+  int m_h;
+  Cube ***m_marks;
+  Cube *m_border;
 
 public:
-    Field(int w, int h);
+  Field(int w, int h);
 
-    ~Field();
+  ~Field();
 
-    int getW() const { return m_w; }
+  int getW() const
+  {
+    return m_w;
+  }
 
-    int getH() const { return m_h; }
+  int getH() const
+  {
+    return m_h;
+  }
 
-    Cube *getModel(const V2 &loc);
+  Cube *getModel(const V2 &loc);
 
-    void setModel(const V2 &loc, Cube *model, Cube *toOverride);
+  void setModel(const V2 &loc, Cube *model, Cube *toOverride);
 };
 
 #endif

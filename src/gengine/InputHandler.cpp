@@ -11,43 +11,45 @@
 #include "ExInfo.h"
 
 //-----------------------------------------------------------------
-InputHandler::InputHandler()
-        : m_mouseLoc(-1, -1) {
-    m_pressed = NULL;
-    m_buttons = 0;
+InputHandler::InputHandler() : m_mouseLoc(-1, -1)
+{
+  m_pressed = NULL;
+  m_buttons = 0;
 }
 
 //-----------------------------------------------------------------
-void InputHandler::mouseState(const V2 &loc, Uint8 buttons) {
-    m_mouseLoc = loc;
-    m_buttons = buttons;
+void InputHandler::mouseState(const V2 &loc, Uint8 buttons)
+{
+  m_mouseLoc = loc;
+  m_buttons = buttons;
 }
 
 //-----------------------------------------------------------------
-bool InputHandler::isPressed(Uint8 key) const {
-    return m_pressed && m_pressed[key];
+bool InputHandler::isPressed(Uint8 key) const
+{
+  return m_pressed && m_pressed[key];
 }
 
 //-----------------------------------------------------------------
-bool InputHandler::isLeftPressed() const {
-    return m_buttons & SDL_BUTTON(1);
+bool InputHandler::isLeftPressed() const
+{
+  return m_buttons & SDL_BUTTON(1);
 }
 
 //-----------------------------------------------------------------
-bool InputHandler::isMiddlePressed() const {
-    return m_buttons & SDL_BUTTON(2);
+bool InputHandler::isMiddlePressed() const
+{
+  return m_buttons & SDL_BUTTON(2);
 }
 
 //-----------------------------------------------------------------
-bool InputHandler::isRightPressed() const {
-    return m_buttons & SDL_BUTTON(3);
+bool InputHandler::isRightPressed() const
+{
+  return m_buttons & SDL_BUTTON(3);
 }
 
 //-----------------------------------------------------------------
-std::string
-InputHandler::toString() const {
-    return ExInfo("input")
-            .addInfo("mouse", m_mouseLoc.toString())
-            .addInfo("buttons", m_buttons)
-            .info();
+std::string InputHandler::toString() const
+{
+  return ExInfo("input").addInfo("mouse", m_mouseLoc.toString()).addInfo("buttons", m_buttons).info();
 }

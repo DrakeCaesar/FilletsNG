@@ -5,41 +5,42 @@ class V2;
 
 class Field;
 
-#include "NoCopy.h"
-#include "Dir.h"
 #include "Cube.h"
+#include "Dir.h"
+#include "NoCopy.h"
 
 /**
  * Marks and unmasks object from game field.
  */
-class MarkMask : public NoCopy {
+class MarkMask : public NoCopy
+{
 private:
-    Cube *m_model;
-    Field *m_field;
+  Cube *m_model;
+  Field *m_field;
 
 private:
-    void writeModel(Cube *model, Cube *toOverride);
+  void writeModel(Cube *model, Cube *toOverride);
 
-    bool canGo(Dir::eDir dir) const;
+  bool canGo(Dir::eDir dir) const;
 
-    bool isInRoom() const;
+  bool isInRoom() const;
 
 public:
-    MarkMask(Cube *model, Field *field);
+  MarkMask(Cube *model, Field *field);
 
-    Cube::t_models getResist(Dir::eDir dir) const;
+  Cube::t_models getResist(Dir::eDir dir) const;
 
-    Cube::t_models getPlacedResist(const V2 &loc) const;
+  Cube::t_models getPlacedResist(const V2 &loc) const;
 
-    void mask();
+  void mask();
 
-    void unmask();
+  void unmask();
 
-    Dir::eDir getBorderDir() const;
+  Dir::eDir getBorderDir() const;
 
-    bool isFullyOut() const;
+  bool isFullyOut() const;
 
-    static void unique(Cube::t_models *models);
+  static void unique(Cube::t_models *models);
 };
 
 #endif

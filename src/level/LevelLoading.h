@@ -10,34 +10,44 @@ class RoomAccess;
 /**
  * Game loading.
  */
-class LevelLoading : public NoCopy {
+class LevelLoading : public NoCopy
+{
 private:
-    static const int SPEED_REPLAY = 1;
+  static const int SPEED_REPLAY = 1;
 
-    bool m_paused;
-    bool m_replayMode;
-    int m_loadSpeed;
-    std::string m_loadedMoves;
-    RoomAccess *m_access;
+  bool m_paused;
+  bool m_replayMode;
+  int m_loadSpeed;
+  std::string m_loadedMoves;
+  RoomAccess *m_access;
 
 public:
-    LevelLoading(RoomAccess *access);
+  LevelLoading(RoomAccess *access);
 
-    void setLoadSpeed(int loadSpeed) { m_loadSpeed = loadSpeed; }
+  void setLoadSpeed(int loadSpeed)
+  {
+    m_loadSpeed = loadSpeed;
+  }
 
-    void reset();
+  void reset();
 
-    void loadGame(const std::string &moves);
+  void loadGame(const std::string &moves);
 
-    void loadReplay(const std::string &moves);
+  void loadReplay(const std::string &moves);
 
-    void togglePause() { m_paused = !m_paused; }
+  void togglePause()
+  {
+    m_paused = !m_paused;
+  }
 
-    bool isPaused() const { return m_paused; }
+  bool isPaused() const
+  {
+    return m_paused;
+  }
 
-    bool isLoading() const;
+  bool isLoading() const;
 
-    void nextLoadAction();
+  void nextLoadAction();
 };
 
 #endif

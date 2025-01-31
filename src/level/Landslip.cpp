@@ -14,91 +14,111 @@
 #include <string.h>
 
 //-----------------------------------------------------------------
-Landslip::Landslip(const ModelList &models)
-        : m_models(models) {
-    m_impact = Cube::NONE;
-    m_stoned = new bool[m_models.size()];
-    memset(m_stoned, false, sizeof(bool) * m_models.size());
+Landslip::Landslip(const ModelList &models) : m_models(models)
+{
+  m_impact = Cube::NONE;
+  m_stoned = new bool[m_models.size()];
+  memset(m_stoned, false, sizeof(bool) * m_models.size());
 }
 
 //-----------------------------------------------------------------
-Landslip::~Landslip() {
-    delete[] m_stoned;
+Landslip::~Landslip()
+{
+  delete[] m_stoned;
 }
 //-----------------------------------------------------------------
 /**
  * Indentify falling objects.
  * @return whether something is falling.
  */
-bool Landslip::computeFall() {
-    while (m_models.stoneOn(this)) {
-        /* empty */
-    }
-    return m_models.fallOn(this);
+bool Landslip::computeFall()
+{
+  while (m_models.stoneOn(this))
+  {
+    /* empty */
+  }
+  return m_models.fallOn(this);
 }
 
 //-----------------------------------------------------------------
-bool Landslip::stoneModel(const Cube *model) {
-    bool change = false;
-    if (!isStoned(model)) {
-        if (isFixed(model) || isOnPad(model)) {
-            stone(model);
-            change = true;
-        }
+bool Landslip::stoneModel(const Cube *model)
+{
+  bool change = false;
+  if (!isStoned(model))
+  {
+    if (isFixed(model) || isOnPad(model))
+    {
+      stone(model);
+      change = true;
     }
-    return change;
+  }
+  return change;
 }
 
 //-----------------------------------------------------------------
-bool Landslip::isOnPad(const Cube *model) const {
-    const Cube::t_models pad = model->const_rules()->getResist(Dir::DIR_DOWN);
-    Cube::t_models::const_iterator end = pad.end();
-    for (Cube::t_models::const_iterator i = pad.begin(); i != end; ++i) {
-        if (isFixed(*i)) {
-            return true;
-        }
+bool Landslip::isOnPad(const Cube *model) const
+{
+  const Cube::t_models pad = model->const_rules()->getResist(Dir::DIR_DOWN);
+  Cube::t_models::const_iterator end = pad.end();
+  for (Cube::t_models::const_iterator i = pad.begin(); i != end; ++i)
+  {
+    if (isFixed(*i))
+    {
+      return true;
     }
-    return false;
+  }
+  return false;
 }
 
 //-----------------------------------------------------------------
-bool Landslip::isFixed(const Cube *model) const {
-    return isStoned(model) || model->isWall() ||
-           model->isAlive() || model->isLost();
+bool Landslip::isFixed(const Cube *model) const
+{
+  return isStoned(model) || model->isWall() || model->isAlive() || model->isLost();
 }
 
 //-----------------------------------------------------------------
-bool Landslip::isStoned(const Cube *model) const {
-    int index = model->getIndex();
-    if (index > -1) {
-        return m_stoned[index];
-    } else {
-        return true;
-    }
+bool Landslip::isStoned(const Cube *model) const
+{
+  int index = model->getIndex();
+  if (index > -1)
+  {
+    return m_stoned[index];
+  }
+  else
+  {
+    return true;
+  }
 }
 
 //-----------------------------------------------------------------
-void Landslip::stone(const Cube *model) {
-    int index = model->getIndex();
-    if (index > -1) {
-        m_stoned[index] = true;
-    }
+void Landslip::stone(const Cube *model)
+{
+  int index = model->getIndex();
+  if (index > -1)
+  {
+    m_stoned[index] = true;
+  }
 }
 //-----------------------------------------------------------------
 /**
  * Let model to fall.
  * @return true when model is falling
  */
-bool Landslip::fallModel(Cube *model) {
-    bool falling = false;
-    if (!isFixed(model)) {
-        model->rules()->actionFall();
-        falling = true;
-    } else {
-        bool lastFall = model->rules()->clearLastFall();
-        if (lastFall && m_impact < model->getWeight()) {
-            m_impact = model->getWeight();
-        }
+bool Landslip::fallModel(Cube *model)
+{
+  bool falling = false;
+  if (!isFixed(model))
+  {
+    model->rules()->actionFall();
+    falling = true;
+  }
+  else
+  {
+    bool lastFall = model->rules()->clearLastFall();
+    if (lastFall && m_impact < model->getWeight())
+    {
+      m_impact = model->getWeight();
     }
-    return falling;
+  }
+  return falling;
 }

@@ -15,7 +15,7 @@
  * Add SDL_GetError to info.
  * @param problem detail info
  */
-SDLException::SDLException(const ExInfo &problem)
-        : BaseException(ExInfo(problem).addInfo("SDL", SDL_GetError())) {
-    /* empty */
+SDLException::SDLException(const ExInfo &problem) : BaseException(ExInfo(problem).addInfo("SDL", SDL_GetError()))
+{
+  /* empty */
 }

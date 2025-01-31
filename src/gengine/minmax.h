@@ -4,17 +4,17 @@
 /**
  * Minimum.
  */
-inline int
-min(int one, int second) {
-    return one <= second ? one : second;
+inline int min(int one, int second)
+{
+  return one <= second ? one : second;
 }
 
 /**
  * Maximum.
  */
-inline int
-max(int one, int second) {
-    return one >= second ? one : second;
+inline int max(int one, int second)
+{
+  return one >= second ? one : second;
 }
 
 #endif

@@ -14,45 +14,52 @@ class Decor;
 /**
  * View for model.
  */
-class View : public Drawable {
+class View : public Drawable
+{
 public:
-    static const int SCALE = 15;
+  static const int SCALE = 15;
 
 private:
-    typedef std::vector<Decor *> t_decors;
-    t_decors m_decors;
-    ModelList m_models;
-    int m_animShift;
-    int m_shiftSize;
-    SDL_Surface *m_screen;
-    SDL_Renderer *m_renderer;
-    V2 m_screenShift;
+  typedef std::vector<Decor *> t_decors;
+  t_decors m_decors;
+  ModelList m_models;
+  int m_animShift;
+  int m_shiftSize;
+  SDL_Surface *m_screen;
+  SDL_Renderer *m_renderer;
+  V2 m_screenShift;
 
 private:
-    void computeShiftSize(int phases);
+  void computeShiftSize(int phases);
 
-    void drawDecors();
+  void drawDecors();
 
 public:
-    View(const ModelList &models);
+  View(const ModelList &models);
 
-    virtual ~View();
+  virtual ~View();
 
-    void setScreenShift(const V2 &shift) { m_screenShift = shift; }
+  void setScreenShift(const V2 &shift)
+  {
+    m_screenShift = shift;
+  }
 
-    void noteNewRound(int phases);
+  void noteNewRound(int phases);
 
-    void drawModel(Cube *model);
+  void drawModel(Cube *model);
 
-    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
+  virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 
-    V2 getScreenPos(const Cube *model) const;
+  V2 getScreenPos(const Cube *model) const;
 
-    V2 getFieldPos(const V2 &cursor) const;
+  V2 getFieldPos(const V2 &cursor) const;
 
-    void addDecor(Decor *new_decor) { m_decors.push_back(new_decor); }
+  void addDecor(Decor *new_decor)
+  {
+    m_decors.push_back(new_decor);
+  }
 
-    void removeDecors();
+  void removeDecors();
 };
 
 #endif

@@ -16,49 +16,52 @@ class PlannedDialog;
 /**
  * Stack of running dialogs.
  */
-class DialogStack : public NoCopy {
+class DialogStack : public NoCopy
+{
 private:
-    ResDialogPack *m_dialogs;
+  ResDialogPack *m_dialogs;
 
-    typedef std::list<PlannedDialog *> t_running;
-    t_running m_running;
-    t_running m_cycling;
-    PlannedDialog *m_activeDialog;
+  typedef std::list<PlannedDialog *> t_running;
+  t_running m_running;
+  t_running m_cycling;
+  PlannedDialog *m_activeDialog;
 
 private:
-    void removeFirstNotTalking();
+  void removeFirstNotTalking();
 
-    bool isTalkingIn(int actor, const t_running &fifo) const;
+  bool isTalkingIn(int actor, const t_running &fifo) const;
 
-    void killSoundIn(int actor, t_running &fifo);
+  void killSoundIn(int actor, t_running &fifo);
 
-    void killTalksIn(t_running &fifo);
+  void killTalksIn(t_running &fifo);
 
-    void releaseDialog(PlannedDialog *dialog);
+  void releaseDialog(PlannedDialog *dialog);
 
 public:
-    DialogStack();
+  DialogStack();
 
-    virtual ~DialogStack();
+  virtual ~DialogStack();
 
-    void updateStack();
+  void updateStack();
 
-    void addDialog(const std::string &name, Dialog *dialog);
+  void addDialog(const std::string &name, Dialog *dialog);
 
-    void actorTalk(int actor, const std::string &name,
-                   int volume, int loops = 0, bool dialogFlag = false);
+  void actorTalk(int actor, const std::string &name, int volume, int loops = 0, bool dialogFlag = false);
 
-    bool isTalking(int actor) const;
+  bool isTalking(int actor) const;
 
-    void killSound(int actor);
+  void killSound(int actor);
 
-    bool isDialog() const;
+  bool isDialog() const;
 
-    bool areRunning() const { return !m_running.empty(); }
+  bool areRunning() const
+  {
+    return !m_running.empty();
+  }
 
-    void killTalks();
+  void killTalks();
 
-    void removeAll();
+  void removeAll();
 };
 
 #endif

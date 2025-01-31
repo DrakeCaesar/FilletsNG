@@ -14,22 +14,22 @@ class FinderAlg;
 /**
  * Mouse controls move.
  */
-class MouseControl {
+class MouseControl
+{
 private:
-    Controls *m_controls;
-    const View *m_view;
-    FinderAlg *m_finder;
+  Controls *m_controls;
+  const View *m_view;
+  FinderAlg *m_finder;
 
 private:
-    bool moveTo(const V2 &field) const;
+  bool moveTo(const V2 &field) const;
 
-    bool moveHardTo(const V2 &field) const;
+  bool moveHardTo(const V2 &field) const;
 
 public:
-    MouseControl(Controls *controls, const View *m_view,
-                 FinderAlg *finder);
+  MouseControl(Controls *controls, const View *m_view, FinderAlg *finder);
 
-    bool mouseDrive(const InputProvider *input) const;
+  bool mouseDrive(const InputProvider *input) const;
 };
 
 #endif

@@ -18,21 +18,24 @@
  * @param subtitle subtitle
  * @param fontname name of selected font
  */
-FishDialog::FishDialog(const std::string &lang,
-                       const std::string &soundfile, const std::string &subtitle,
+FishDialog::FishDialog(const std::string &lang, const std::string &soundfile, const std::string &subtitle,
                        const std::string &fontname)
-        : Dialog(lang, soundfile, subtitle), m_fontname(fontname) {
-    /* empty */
+    : Dialog(lang, soundfile, subtitle), m_fontname(fontname)
+{
+  /* empty */
 }
 //-----------------------------------------------------------------
 /**
  * Subtitles are optional, dialog can have only sound.
  */
-void FishDialog::runSubtitle(const StringTool::t_args &args) const {
-    if (!m_fontname.empty()) {
-        std::string subtitle = getFormatedSubtitle(args);
-        if (!subtitle.empty()) {
-            SubTitleAgent::agent()->newSubtitle(subtitle, m_fontname);
-        }
+void FishDialog::runSubtitle(const StringTool::t_args &args) const
+{
+  if (!m_fontname.empty())
+  {
+    std::string subtitle = getFormatedSubtitle(args);
+    if (!subtitle.empty())
+    {
+      SubTitleAgent::agent()->newSubtitle(subtitle, m_fontname);
     }
+  }
 }

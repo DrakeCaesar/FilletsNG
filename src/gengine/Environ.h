@@ -7,44 +7,42 @@ class BaseMsg;
 
 #include "NoCopy.h"
 
-#include <string>
 #include <map>
+#include <string>
 
 /**
  * Params.
  */
-class Environ : public NoCopy {
+class Environ : public NoCopy
+{
 private:
-    typedef std::map<std::string, std::string> t_values;
-    typedef std::multimap<std::string, BaseMsg *> t_watchers;
-    t_values m_values;
-    t_watchers m_watchers;
+  typedef std::map<std::string, std::string> t_values;
+  typedef std::multimap<std::string, BaseMsg *> t_watchers;
+  t_values m_values;
+  t_watchers m_watchers;
 
 public:
-    virtual ~Environ();
+  virtual ~Environ();
 
-    void store(const Path &file);
+  void store(const Path &file);
 
-    void setParam(const std::string &name, const std::string &value);
+  void setParam(const std::string &name, const std::string &value);
 
-    void setParam(const std::string &name, long value);
+  void setParam(const std::string &name, long value);
 
-    std::string getParam(const std::string &name,
-                         const std::string &implicit = "") const;
+  std::string getParam(const std::string &name, const std::string &implicit = "") const;
 
-    int getAsInt(const std::string &name,
-                 int implicit = 0) const;
+  int getAsInt(const std::string &name, int implicit = 0) const;
 
-    bool getAsBool(const std::string &name,
-                   bool implicit = false) const;
+  bool getAsBool(const std::string &name, bool implicit = false) const;
 
-    void addWatcher(const std::string &name, BaseMsg *msg);
+  void addWatcher(const std::string &name, BaseMsg *msg);
 
-    void removeWatchers(const std::string &listenerName);
+  void removeWatchers(const std::string &listenerName);
 
-    std::string toString() const;
+  std::string toString() const;
 
-    std::string getHelpInfo() const;
+  std::string getHelpInfo() const;
 };
 
 #endif

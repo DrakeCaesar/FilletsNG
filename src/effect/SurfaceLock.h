@@ -8,14 +8,15 @@
 /**
  * Lock and unlock surface.
  */
-class SurfaceLock : public NoCopy {
+class SurfaceLock : public NoCopy
+{
 private:
-    SDL_Surface *m_surface;
+  SDL_Surface *m_surface;
 
 public:
-    SurfaceLock(SDL_Surface *surface);
+  SurfaceLock(SDL_Surface *surface);
 
-    virtual ~SurfaceLock();
+  virtual ~SurfaceLock();
 };
 
 #endif

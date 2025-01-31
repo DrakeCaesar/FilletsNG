@@ -6,9 +6,10 @@
 /**
  * Exception about SDL_mixer fail.
  */
-class MixException : public BaseException {
+class MixException : public BaseException
+{
 public:
-    MixException(const ExInfo &problem);
+  MixException(const ExInfo &problem);
 };
 
 #endif

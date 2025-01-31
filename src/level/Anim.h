@@ -5,73 +5,84 @@ class Path;
 
 class ResImagePack;
 
-#include "ViewEffect.h"
 #include "NoCopy.h"
 #include "V2.h"
+#include "ViewEffect.h"
 
 #include "SDL2/SDL.h"
 
 /**
  * Animation sprite.
  */
-class Anim : public NoCopy {
+class Anim : public NoCopy
+{
 public:
-    enum eSide {
-        SIDE_LEFT = 0,
-        SIDE_RIGHT = 1
-    };
+  enum eSide
+  {
+    SIDE_LEFT = 0,
+    SIDE_RIGHT = 1
+  };
 
 private:
-    ViewEffect *m_effect;
-    V2 m_viewShift;
-    ResImagePack *m_animPack[2];
-    std::string m_animName;
-    int m_animPhase;
-    bool m_run;
-    std::string m_specialAnimName;
-    int m_specialAnimPhase;
-    std::string m_usedPath;
+  ViewEffect *m_effect;
+  V2 m_viewShift;
+  ResImagePack *m_animPack[2];
+  std::string m_animName;
+  int m_animPhase;
+  bool m_run;
+  std::string m_specialAnimName;
+  int m_specialAnimPhase;
+  std::string m_usedPath;
 
 private:
-    void blit(SDL_Renderer *screen, SDL_Texture *surface, int x, int y);
+  void blit(SDL_Renderer *screen, SDL_Texture *surface, int x, int y);
 
 public:
-    Anim();
+  Anim();
 
-    virtual ~Anim();
+  virtual ~Anim();
 
-    void drawAt(SDL_Surface *screen, SDL_Renderer *renderer, int x, int y, eSide side);
+  void drawAt(SDL_Surface *screen, SDL_Renderer *renderer, int x, int y, eSide side);
 
-    void addAnim(const std::string &name, const Path &picture,
-                 eSide side = SIDE_LEFT);
+  void addAnim(const std::string &name, const Path &picture, eSide side = SIDE_LEFT);
 
-    void addAnim(const std::string &name, SDL_Surface *new_image,
-                 eSide side = SIDE_LEFT);
+  void addAnim(const std::string &name, SDL_Surface *new_image, eSide side = SIDE_LEFT);
 
-    void runAnim(const std::string &name, int start_phase = 0);
+  void runAnim(const std::string &name, int start_phase = 0);
 
-    void setAnim(const std::string &name, int phase);
+  void setAnim(const std::string &name, int phase);
 
-    void useSpecialAnim(const std::string &name, int phase);
+  void useSpecialAnim(const std::string &name, int phase);
 
-    bool isDisintegrated() const { return m_effect->isDisintegrated(); }
+  bool isDisintegrated() const
+  {
+    return m_effect->isDisintegrated();
+  }
 
-    bool isInvisible() const { return m_effect->isInvisible(); }
+  bool isInvisible() const
+  {
+    return m_effect->isInvisible();
+  }
 
-    void changeEffect(ViewEffect *new_effect);
+  void changeEffect(ViewEffect *new_effect);
 
-    void setViewShift(const V2 &shift) { m_viewShift = shift; }
+  void setViewShift(const V2 &shift)
+  {
+    m_viewShift = shift;
+  }
 
-    V2 getViewShift() const { return m_viewShift; };
+  V2 getViewShift() const
+  {
+    return m_viewShift;
+  };
 
-    void setEffect(const std::string &effectName);
+  void setEffect(const std::string &effectName);
 
-    int countAnimPhases(const std::string &anim,
-                        eSide side = SIDE_LEFT) const;
+  int countAnimPhases(const std::string &anim, eSide side = SIDE_LEFT) const;
 
-    std::string getState() const;
+  std::string getState() const;
 
-    void restoreState(const std::string &state);
+  void restoreState(const std::string &state);
 };
 
 #endif

@@ -3,37 +3,50 @@
 
 class IWidget;
 
-#include "GameState.h"
 #include "Drawable.h"
+#include "GameState.h"
 
 /**
  * Help screen.
  */
-class MenuHelp : public GameState, public Drawable {
+class MenuHelp : public GameState, public Drawable
+{
 private:
-    IWidget *m_help;
+  IWidget *m_help;
 
 protected:
-    virtual void own_initState();
+  virtual void own_initState();
 
-    virtual void own_updateState() {}
+  virtual void own_updateState()
+  {
+  }
 
-    virtual void own_pauseState() {}
+  virtual void own_pauseState()
+  {
+  }
 
-    virtual void own_resumeState();
+  virtual void own_resumeState();
 
-    virtual void own_cleanState() {}
+  virtual void own_cleanState()
+  {
+  }
 
 public:
-    MenuHelp();
+  MenuHelp();
 
-    virtual ~MenuHelp();
+  virtual ~MenuHelp();
 
-    virtual const char *getName() const { return "state_help"; };
+  virtual const char *getName() const
+  {
+    return "state_help";
+  };
 
-    virtual bool allowBg() const { return true; }
+  virtual bool allowBg() const
+  {
+    return true;
+  }
 
-    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
+  virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

@@ -10,24 +10,28 @@ class Command;
 /**
  * Queue for sequential commands.
  */
-class CommandQueue : public NoCopy {
+class CommandQueue : public NoCopy
+{
 private:
-    typedef std::deque<Command *> t_commands;
-    t_commands m_commands;
-    int m_count;
+  typedef std::deque<Command *> t_commands;
+  t_commands m_commands;
+  int m_count;
 
 public:
-    CommandQueue();
+  CommandQueue();
 
-    virtual ~CommandQueue();
+  virtual ~CommandQueue();
 
-    void planCommand(Command *new_command);
+  void planCommand(Command *new_command);
 
-    bool executeFirst();
+  bool executeFirst();
 
-    void removeAll();
+  void removeAll();
 
-    bool empty() const { return m_commands.empty(); }
+  bool empty() const
+  {
+    return m_commands.empty();
+  }
 };
 
 #endif

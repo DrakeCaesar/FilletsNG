@@ -11,60 +11,71 @@ class WiStatusBar;
 
 class Labels;
 
-#include "GameState.h"
 #include "Drawable.h"
+#include "GameState.h"
 
 /**
  * Options menu which allow to set lang and tune volume.
  */
-class MenuOptions : public GameState, public Drawable {
+class MenuOptions : public GameState, public Drawable
+{
 private:
-    IWidget *m_container;
-    WiStatusBar *m_statusBar;
-    bool m_needRefresh;
+  IWidget *m_container;
+  WiStatusBar *m_statusBar;
+  bool m_needRefresh;
 
 private:
-    void prepareMenu();
+  void prepareMenu();
 
-    IWidget *createSoundPanel(const Labels &labels);
+  IWidget *createSoundPanel(const Labels &labels);
 
-    IWidget *createMusicPanel(const Labels &labels);
+  IWidget *createMusicPanel(const Labels &labels);
 
-    IWidget *createLangPanel(const Labels &labels);
+  IWidget *createLangPanel(const Labels &labels);
 
-    IWidget *createSpeechPanel(const Labels &labels);
+  IWidget *createSpeechPanel(const Labels &labels);
 
-    IWidget *createSubtitlesPanel(const Labels &labels);
+  IWidget *createSubtitlesPanel(const Labels &labels);
 
-    IWidget *createBackButton(const Labels &labels);
+  IWidget *createBackButton(const Labels &labels);
 
-    WiStatusBar *createStatusBar(int width);
+  WiStatusBar *createStatusBar(int width);
 
 protected:
-    virtual void own_initState();
+  virtual void own_initState();
 
-    virtual void own_updateState();
+  virtual void own_updateState();
 
-    virtual void own_pauseState() {}
+  virtual void own_pauseState()
+  {
+  }
 
-    virtual void own_resumeState();
+  virtual void own_resumeState();
 
-    virtual void own_cleanState() {}
+  virtual void own_cleanState()
+  {
+  }
 
 public:
-    MenuOptions();
+  MenuOptions();
 
-    virtual ~MenuOptions();
+  virtual ~MenuOptions();
 
-    virtual const char *getName() const { return "state_options"; };
+  virtual const char *getName() const
+  {
+    return "state_options";
+  };
 
-    virtual bool allowBg() const { return true; }
+  virtual bool allowBg() const
+  {
+    return true;
+  }
 
-    void mouseButton(const MouseStroke &stroke);
+  void mouseButton(const MouseStroke &stroke);
 
-    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
+  virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 
-    void receiveString(const StringMsg *msg);
+  void receiveString(const StringMsg *msg);
 };
 
 #endif

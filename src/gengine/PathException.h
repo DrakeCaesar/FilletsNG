@@ -6,11 +6,12 @@
 /**
  * Exception about filename and filesystem.
  */
-class PathException : public BaseException {
+class PathException : public BaseException
+{
 public:
-    PathException(const ExInfo &problem)
-            : BaseException(problem) {
-    }
+  PathException(const ExInfo &problem) : BaseException(problem)
+  {
+  }
 };
 
 #endif

@@ -8,8 +8,8 @@
  */
 #include "Slider.h"
 
-#include "OptionAgent.h"
 #include "MouseStroke.h"
+#include "OptionAgent.h"
 #include "SurfaceTool.h"
 #include "minmax.h"
 
@@ -17,58 +17,63 @@
 /**
  * Create slider for this param and optinaly specify min and max value.
  */
-Slider::Slider(const std::string &param, int minValue, int maxValue)
-        : m_param(param) {
-    m_min = minValue;
-    m_max = maxValue;
+Slider::Slider(const std::string &param, int minValue, int maxValue) : m_param(param)
+{
+  m_min = minValue;
+  m_max = maxValue;
 }
 //-----------------------------------------------------------------
 /**
  * Scale value to slider rate.
  * @return position on slider
  */
-int Slider::value2slide(int value) {
-    int slide = value - m_min;
-    slide = max(slide, m_min);
-    slide = min(slide, m_max);
-    return slide * PIXELS_PER_VALUE;
+int Slider::value2slide(int value)
+{
+  int slide = value - m_min;
+  slide = max(slide, m_min);
+  slide = min(slide, m_max);
+  return slide * PIXELS_PER_VALUE;
 }
 //-----------------------------------------------------------------
 /**
  * Scale slider rate to param value.
  * @return integer value
  */
-int Slider::slide2value(int slide) {
-    int value = slide + m_min;
-    double fraction = static_cast<double>(value) / PIXELS_PER_VALUE;
-    return static_cast<int>(fraction + 0.5);
+int Slider::slide2value(int slide)
+{
+  int value = slide + m_min;
+  double fraction = static_cast<double>(value) / PIXELS_PER_VALUE;
+  return static_cast<int>(fraction + 0.5);
 }
 
 //-----------------------------------------------------------------
-void Slider::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
-    int value = OptionAgent::agent()->getAsInt(m_param);
-    SDL_Rect rect;
-    rect.x = m_shift.getX();
-    rect.y = m_shift.getY();
-    rect.w = getW();
-    rect.h = getH();
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 129);
-    SDL_RenderFillRect(renderer, &rect);
+void Slider::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
+{
+  int value = OptionAgent::agent()->getAsInt(m_param);
+  SDL_Rect rect;
+  rect.x = m_shift.getX();
+  rect.y = m_shift.getY();
+  rect.w = getW();
+  rect.h = getH();
+  SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 129);
+  SDL_RenderFillRect(renderer, &rect);
 
-    rect.x = m_shift.getX();
-    rect.y = m_shift.getY();
-    rect.w = value2slide(value);
-    rect.h = getH();
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0x00, 255);
-    SDL_RenderFillRect(renderer, &rect);
+  rect.x = m_shift.getX();
+  rect.y = m_shift.getY();
+  rect.w = value2slide(value);
+  rect.h = getH();
+  SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0x00, 255);
+  SDL_RenderFillRect(renderer, &rect);
 }
 
 //-----------------------------------------------------------------
-void Slider::own_mouseButton(const MouseStroke &stroke) {
-    if (stroke.isLeft()) {
-        // TODO: play click
-        V2 inside = stroke.getLoc().minus(m_shift);
-        int value = slide2value(inside.getX());
-        OptionAgent::agent()->setPersistent(m_param, value);
-    }
+void Slider::own_mouseButton(const MouseStroke &stroke)
+{
+  if (stroke.isLeft())
+  {
+    // TODO: play click
+    V2 inside = stroke.getLoc().minus(m_shift);
+    int value = slide2value(inside.getX());
+    OptionAgent::agent()->setPersistent(m_param, value);
+  }
 }

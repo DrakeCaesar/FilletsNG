@@ -8,29 +8,32 @@
  */
 #include "PosterState.h"
 
+#include "DemoInput.h"
 #include "Path.h"
 #include "Picture.h"
-#include "DemoInput.h"
 
 #include "OptionAgent.h"
 #include "VideoAgent.h"
 
 //-----------------------------------------------------------------
-PosterState::PosterState(const Path &picture) {
-    m_bg = new Picture(picture, V2(0, 0));
-    takeHandler(new DemoInput(this));
-    registerDrawable(m_bg);
+PosterState::PosterState(const Path &picture)
+{
+  m_bg = new Picture(picture, V2(0, 0));
+  takeHandler(new DemoInput(this));
+  registerDrawable(m_bg);
 }
 
 //-----------------------------------------------------------------
-PosterState::~PosterState() {
-    delete m_bg;
+PosterState::~PosterState()
+{
+  delete m_bg;
 }
 
 //-----------------------------------------------------------------
-void PosterState::own_initState() {
-    OptionAgent *options = OptionAgent::agent();
-    options->setParam("screen_width", m_bg->getW());
-    options->setParam("screen_height", m_bg->getH());
-    VideoAgent::agent()->initVideoMode();
+void PosterState::own_initState()
+{
+  OptionAgent *options = OptionAgent::agent();
+  options->setParam("screen_width", m_bg->getW());
+  options->setParam("screen_height", m_bg->getH());
+  VideoAgent::agent()->initVideoMode();
 }

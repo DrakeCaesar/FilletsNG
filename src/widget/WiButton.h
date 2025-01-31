@@ -8,17 +8,18 @@ class BaseMsg;
 /**
  * Button widget.
  */
-class WiButton : public WiContainer {
+class WiButton : public WiContainer
+{
 private:
-    BaseMsg *m_msg;
+  BaseMsg *m_msg;
 
 protected:
-    virtual void own_mouseButton(const MouseStroke &stroke);
+  virtual void own_mouseButton(const MouseStroke &stroke);
 
 public:
-    WiButton(IWidget *new_content, BaseMsg *new_msg);
+  WiButton(IWidget *new_content, BaseMsg *new_msg);
 
-    virtual ~WiButton();
+  virtual ~WiButton();
 };
 
 #endif

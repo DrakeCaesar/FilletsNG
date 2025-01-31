@@ -8,12 +8,12 @@
 /**
  * Exception about unknown msg.
  */
-class UnknownMsgException : public BaseException {
+class UnknownMsgException : public BaseException
+{
 public:
-    UnknownMsgException(const BaseMsg *msg)
-            : BaseException(ExInfo("unknown message")
-                                    .addInfo("msg", msg->toString())) {
-    }
+  UnknownMsgException(const BaseMsg *msg) : BaseException(ExInfo("unknown message").addInfo("msg", msg->toString()))
+  {
+  }
 };
 
 #endif

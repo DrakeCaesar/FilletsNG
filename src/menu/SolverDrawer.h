@@ -8,9 +8,10 @@ class LevelStatus;
 /**
  * Draws the best solver.
  */
-class SolverDrawer : public VBox {
+class SolverDrawer : public VBox
+{
 public:
-    SolverDrawer(LevelStatus *status);
+  SolverDrawer(LevelStatus *status);
 };
 
 #endif

@@ -6,18 +6,23 @@
 /**
  * Multi lang. level description.
  */
-class LevelDesc : public Dialog {
+class LevelDesc : public Dialog
+{
 private:
-    std::string m_levelname;
+  std::string m_levelname;
 
 public:
-    LevelDesc(const std::string &lang,
-              const std::string &levelname,
-              const std::string &desc);
+  LevelDesc(const std::string &lang, const std::string &levelname, const std::string &desc);
 
-    std::string getLevelName() const { return m_levelname; }
+  std::string getLevelName() const
+  {
+    return m_levelname;
+  }
 
-    std::string getDesc() const { return getSubtitle(); }
+  std::string getDesc() const
+  {
+    return getSubtitle();
+  }
 };
 
 #endif

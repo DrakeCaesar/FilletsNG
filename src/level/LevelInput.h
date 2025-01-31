@@ -12,30 +12,31 @@ class KeyStroke;
 /**
  * Handle input for level.
  */
-class LevelInput : public GameInput {
+class LevelInput : public GameInput
+{
 private:
-    static const int KEY_SWITCH = 101;
-    static const int KEY_SAVE = 102;
-    static const int KEY_LOAD = 103;
-    static const int KEY_RESTART = 104;
-    static const int KEY_UNDO = 105;
-    static const int KEY_REDO = 106;
-    static const int KEY_SHOW_STEPS = 107;
+  static const int KEY_SWITCH = 101;
+  static const int KEY_SAVE = 102;
+  static const int KEY_LOAD = 103;
+  static const int KEY_RESTART = 104;
+  static const int KEY_UNDO = 105;
+  static const int KEY_REDO = 106;
+  static const int KEY_SHOW_STEPS = 107;
 
 private:
-    Level *getLevel();
+  Level *getLevel();
 
 protected:
-    virtual void specKey(int keyIndex);
+  virtual void specKey(int keyIndex);
 
-    virtual void specStroke(const KeyStroke &stroke);
+  virtual void specStroke(const KeyStroke &stroke);
 
 public:
-    LevelInput(Level *level);
+  LevelInput(Level *level);
 
-    virtual void mouseEvent(const MouseStroke &buttons);
+  virtual void mouseEvent(const MouseStroke &buttons);
 
-    virtual void keyUp(const KeyStroke &stroke);
+  virtual void keyUp(const KeyStroke &stroke);
 };
 
 #endif

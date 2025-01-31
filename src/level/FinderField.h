@@ -8,22 +8,23 @@ class V2;
 /**
  * Array of closed nodes used for finding.
  */
-class FinderField : public NoCopy {
+class FinderField : public NoCopy
+{
 private:
-    bool **m_closed;
-    int m_w;
-    int m_h;
+  bool **m_closed;
+  int m_w;
+  int m_h;
 
 public:
-    FinderField(int w, int h);
+  FinderField(int w, int h);
 
-    virtual ~FinderField();
+  virtual ~FinderField();
 
-    void reset();
+  void reset();
 
-    void markClosed(const V2 &loc);
+  void markClosed(const V2 &loc);
 
-    bool isClosed(const V2 &loc) const;
+  bool isClosed(const V2 &loc) const;
 };
 
 #endif

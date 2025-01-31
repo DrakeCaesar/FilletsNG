@@ -4,20 +4,27 @@
 /**
  * Lock game for anim phases.
  */
-class PhaseLocker {
+class PhaseLocker
+{
 private:
-    int m_lockPhases;
+  int m_lockPhases;
 
 public:
-    PhaseLocker();
+  PhaseLocker();
 
-    void reset() { m_lockPhases = 0; }
+  void reset()
+  {
+    m_lockPhases = 0;
+  }
 
-    int getLocked() const { return m_lockPhases; }
+  int getLocked() const
+  {
+    return m_lockPhases;
+  }
 
-    void decLock();
+  void decLock();
 
-    void ensurePhases(int count);
+  void ensurePhases(int count);
 };
 
 #endif

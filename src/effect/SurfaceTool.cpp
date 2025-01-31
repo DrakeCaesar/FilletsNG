@@ -10,8 +10,8 @@
 
 #include <SurfaceLock.h>
 
-#include "SDLException.h"
 #include "RendererSingleton.h"
+#include "SDLException.h"
 
 //-----------------------------------------------------------------
 /**
@@ -21,45 +21,43 @@
  * @param height height or 0 for the same height
  * @throws SDLException when function fails
  */
-SDL_Surface *
-SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height) {
-    if (!width) {
-        width = surface->w;
-    }
-    if (!height) {
-        height = surface->h;
-    }
+SDL_Surface *SurfaceTool::createEmpty(SDL_Surface *surface, int width, int height)
+{
+  if (!width)
+  {
+    width = surface->w;
+  }
+  if (!height)
+  {
+    height = surface->h;
+  }
 
-    SDL_Surface *result = SDL_CreateRGBSurface(surface->flags, width, height,
-                                               surface->format->BitsPerPixel,
-                                               surface->format->Rmask,
-                                               surface->format->Gmask,
-                                               surface->format->Bmask,
-                                               surface->format->Amask);
-    if (NULL == result) {
-        throw SDLException(ExInfo("CreateRGBSurface"));
-    }
-    return result;
+  SDL_Surface *result =
+      SDL_CreateRGBSurface(surface->flags, width, height, surface->format->BitsPerPixel, surface->format->Rmask,
+                           surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
+  if (NULL == result)
+  {
+    throw SDLException(ExInfo("CreateRGBSurface"));
+  }
+  return result;
 }
 //-----------------------------------------------------------------
 /**
  * Return new surface with transparent background.
  */
-SDL_Surface *
-SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent) {
-    SDL_Surface *surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
-                                                w, h, 32,
-                                                0, 0, 0, 0);
-    if (NULL == surface) {
-        throw SDLException(ExInfo("CreateRGBSurface"));
-    }
+SDL_Surface *SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent)
+{
+  SDL_Surface *surface = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0, 0, 0, 0);
+  if (NULL == surface)
+  {
+    throw SDLException(ExInfo("CreateRGBSurface"));
+  }
 
-    Uint32 transparentKey = SDL_MapRGB(surface->format,
-                                       transparent.r, transparent.g, transparent.b);
-    SDL_SetColorKey(surface, SDL_TRUE, transparentKey);
+  Uint32 transparentKey = SDL_MapRGB(surface->format, transparent.r, transparent.g, transparent.b);
+  SDL_SetColorKey(surface, SDL_TRUE, transparentKey);
 
-    SurfaceTool::alphaFill(surface, NULL, transparent);
-    return surface;
+  SurfaceTool::alphaFill(surface, NULL, transparent);
+  return surface;
 }
 //-----------------------------------------------------------------
 /**
@@ -67,14 +65,14 @@ SurfaceTool::createTransparent(int w, int h, const SDL_Color &transparent) {
  * @return new surface, free it after use
  * @throws SDLException when function fails
  */
-SDL_Surface *
-SurfaceTool::createClone(SDL_Surface *surface) {
-    SDL_Surface *clone = SDL_ConvertSurface(surface,
-                                            surface->format, surface->flags);
-    if (NULL == clone) {
-        throw SDLException(ExInfo("ConvertSurface"));
-    }
-    return clone;
+SDL_Surface *SurfaceTool::createClone(SDL_Surface *surface)
+{
+  SDL_Surface *clone = SDL_ConvertSurface(surface, surface->format, surface->flags);
+  if (NULL == clone)
+  {
+    throw SDLException(ExInfo("ConvertSurface"));
+  }
+  return clone;
 }
 //-----------------------------------------------------------------
 /**
@@ -85,28 +83,28 @@ SurfaceTool::createClone(SDL_Surface *surface) {
  * @param dstrect dstrect or NULL (the whole surface will be filled with color).
  * @param color {red, green, blue, alpha}
  */
-void SurfaceTool::alphaFill(SDL_Surface *surface, SDL_Rect *dstrect,
-                            const SDL_Color &color) {
+void SurfaceTool::alphaFill(SDL_Surface *surface, SDL_Rect *dstrect, const SDL_Color &color)
+{
 
-    SDL_Renderer* renderer = RendererSingleton::getInstance().getRenderer();
+  SDL_Renderer *renderer = RendererSingleton::getInstance().getRenderer();
 
-    int width, height;
-    SDL_GetRendererOutputSize(renderer, &width, &height);
-    surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-    SurfaceLock lock1(surface);
+  int width, height;
+  SDL_GetRendererOutputSize(renderer, &width, &height);
+  surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+  SurfaceLock lock1(surface);
 
+  int w = surface->w;
+  int h = surface->h;
+  if (dstrect)
+  {
+    w = dstrect->w;
+    h = dstrect->h;
+  }
+  SDL_Surface *canvas = createEmpty(surface, w, h);
+  Uint32 pixel = SDL_MapRGB(canvas->format, color.r, color.g, color.b);
+  SDL_FillRect(canvas, NULL, pixel);
+  SDL_SetSurfaceAlphaMod(canvas, color.a);
 
-    int w = surface->w;
-    int h = surface->h;
-    if (dstrect) {
-        w = dstrect->w;
-        h = dstrect->h;
-    }
-    SDL_Surface *canvas = createEmpty(surface, w, h);
-    Uint32 pixel = SDL_MapRGB(canvas->format, color.r, color.g, color.b);
-    SDL_FillRect(canvas, NULL, pixel);
-    SDL_SetSurfaceAlphaMod(canvas, color.a);
-
-    SDL_BlitSurface(canvas, NULL, surface, dstrect);
-    SDL_FreeSurface(canvas);
+  SDL_BlitSurface(canvas, NULL, surface, dstrect);
+  SDL_FreeSurface(canvas);
 }

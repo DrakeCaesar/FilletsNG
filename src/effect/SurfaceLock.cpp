@@ -15,20 +15,25 @@
  * Lock surface when necessary.
  * @throws SDLException when surface cannot be locked
  */
-SurfaceLock::SurfaceLock(SDL_Surface *surface) {
-    m_surface = surface;
-    if (SDL_MUSTLOCK(m_surface)) {
-        if (SDL_LockSurface(m_surface) < 0) {
-            throw SDLException(ExInfo("LockSurface"));
-        }
+SurfaceLock::SurfaceLock(SDL_Surface *surface)
+{
+  m_surface = surface;
+  if (SDL_MUSTLOCK(m_surface))
+  {
+    if (SDL_LockSurface(m_surface) < 0)
+    {
+      throw SDLException(ExInfo("LockSurface"));
     }
+  }
 }
 //-----------------------------------------------------------------
 /**
  * Unlock surface.
  */
-SurfaceLock::~SurfaceLock() {
-    if (SDL_MUSTLOCK(m_surface)) {
-        SDL_UnlockSurface(m_surface);
-    }
+SurfaceLock::~SurfaceLock()
+{
+  if (SDL_MUSTLOCK(m_surface))
+  {
+    SDL_UnlockSurface(m_surface);
+  }
 }

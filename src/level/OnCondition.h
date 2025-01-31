@@ -6,13 +6,16 @@ class Cube;
 /**
  * Test condition.
  */
-class OnCondition {
+class OnCondition
+{
 public:
-    virtual ~OnCondition() {}
+  virtual ~OnCondition()
+  {
+  }
 
-    virtual bool isSatisfy(Cube *model) const = 0;
+  virtual bool isSatisfy(Cube *model) const = 0;
 
-    virtual bool isWrong(Cube *model) const = 0;
+  virtual bool isWrong(Cube *model) const = 0;
 };
 
 #endif

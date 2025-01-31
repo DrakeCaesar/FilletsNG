@@ -4,16 +4,25 @@
 /**
  * Class with private copy constructor and assign operator.
  */
-class NoCopy {
+class NoCopy
+{
 private:
-    NoCopy(const NoCopy &) {}
+  NoCopy(const NoCopy &)
+  {
+  }
 
-    void operator=(const NoCopy &) {}
+  void operator=(const NoCopy &)
+  {
+  }
 
 public:
-    NoCopy() {}
+  NoCopy()
+  {
+  }
 
-    virtual ~NoCopy() {}
+  virtual ~NoCopy()
+  {
+  }
 };
 
 #endif

@@ -4,16 +4,19 @@
 /**
  * Command interface.
  */
-class Command {
+class Command
+{
 public:
-    virtual ~Command() {}
+  virtual ~Command()
+  {
+  }
 
-    /**
-     * Return true when command has finished his work.
-     * @param count number of calls
-     * @return true for finish
-     */
-    virtual bool finish(int count) = 0;
+  /**
+   * Return true when command has finished his work.
+   * @param count number of calls
+   * @return true for finish
+   */
+  virtual bool finish(int count) = 0;
 };
 
 #endif

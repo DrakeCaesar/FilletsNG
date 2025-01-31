@@ -8,26 +8,28 @@
  */
 #include "PedoInput.h"
 
-#include "Pedometer.h"
 #include "Keymap.h"
+#include "Pedometer.h"
 
 #include "KeyStroke.h"
 #include "MouseStroke.h"
 
 //-----------------------------------------------------------------
-PedoInput::PedoInput(Pedometer *pedometer)
-        : GameInput(pedometer) {
+PedoInput::PedoInput(Pedometer *pedometer) : GameInput(pedometer)
+{
 }
 
 //-----------------------------------------------------------------
-Pedometer *
-PedoInput::getPedo() {
-    return dynamic_cast<Pedometer *>(m_state);
+Pedometer *PedoInput::getPedo()
+{
+  return dynamic_cast<Pedometer *>(m_state);
 }
 
 //-----------------------------------------------------------------
-void PedoInput::mouseEvent(const MouseStroke &buttons) {
-    if (buttons.isLeft()) {
-        getPedo()->runSelected();
-    }
+void PedoInput::mouseEvent(const MouseStroke &buttons)
+{
+  if (buttons.isLeft())
+  {
+    getPedo()->runSelected();
+  }
 }

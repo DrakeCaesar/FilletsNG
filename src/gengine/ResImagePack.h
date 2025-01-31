@@ -3,29 +3,33 @@
 
 class Path;
 
-#include "ResourcePack.h"
 #include "ResCache.h"
+#include "ResourcePack.h"
 
 #include "SDL2/SDL.h"
 
 /**
  * Image resources and image loading.
  */
-class ResImagePack : public ResourcePack<SDL_Surface *> {
+class ResImagePack : public ResourcePack<SDL_Surface *>
+{
 private:
-    static ResCache<SDL_Surface *> *CACHE;
-    bool m_caching_enabled;
+  static ResCache<SDL_Surface *> *CACHE;
+  bool m_caching_enabled;
 
 public:
-    explicit ResImagePack(bool caching_enabled = true);
+  explicit ResImagePack(bool caching_enabled = true);
 
-    virtual const char *getName() const { return "image_pack"; }
+  virtual const char *getName() const
+  {
+    return "image_pack";
+  }
 
-    static SDL_Surface *loadImage(const Path &file);
+  static SDL_Surface *loadImage(const Path &file);
 
-    void addImage(const std::string &name, const Path &file);
+  void addImage(const std::string &name, const Path &file);
 
-    virtual void unloadRes(SDL_Surface *res);
+  virtual void unloadRes(SDL_Surface *res);
 };
 
 #endif

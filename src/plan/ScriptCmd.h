@@ -3,23 +3,24 @@
 
 class ScriptState;
 
-#include "NoCopy.h"
 #include "Command.h"
+#include "NoCopy.h"
 
 /**
  * Command which execute script function.
  */
-class ScriptCmd : public Command, public NoCopy {
+class ScriptCmd : public Command, public NoCopy
+{
 private:
-    int m_funcRef;
-    ScriptState *m_script;
+  int m_funcRef;
+  ScriptState *m_script;
 
 public:
-    ScriptCmd(ScriptState *script, int funcRef);
+  ScriptCmd(ScriptState *script, int funcRef);
 
-    virtual ~ScriptCmd();
+  virtual ~ScriptCmd();
 
-    virtual bool finish(int count);
+  virtual bool finish(int count);
 };
 
 #endif

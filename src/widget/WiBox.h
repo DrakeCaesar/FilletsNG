@@ -9,21 +9,22 @@
  * Box which care about subwidget layout.
  * NOTE: soubwidgets should have constant size.
  */
-class WiBox : public IWidget {
+class WiBox : public IWidget
+{
 protected:
-    typedef std::vector<IWidget *> t_widgets;
-    t_widgets m_widgets;
+  typedef std::vector<IWidget *> t_widgets;
+  t_widgets m_widgets;
 
-    virtual std::string own_getTip(const V2 &loc);
+  virtual std::string own_getTip(const V2 &loc);
 
-    virtual void own_mouseButton(const MouseStroke &stroke);
+  virtual void own_mouseButton(const MouseStroke &stroke);
 
 public:
-    virtual ~WiBox();
+  virtual ~WiBox();
 
-    virtual void addWidget(IWidget *new_widget) = 0;
+  virtual void addWidget(IWidget *new_widget) = 0;
 
-    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
+  virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

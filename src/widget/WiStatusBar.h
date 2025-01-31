@@ -11,25 +11,32 @@ class Font;
 /**
  * Statusbar with fixed width.
  */
-class WiStatusBar : public IWidget {
+class WiStatusBar : public IWidget
+{
 private:
-    Font *m_font;
-    SDL_Color m_color;
-    int m_w;
-    std::string m_label;
+  Font *m_font;
+  SDL_Color m_color;
+  int m_w;
+  std::string m_label;
 
 public:
-    WiStatusBar(Font *new_font, const SDL_Color &color, int width = 0);
+  WiStatusBar(Font *new_font, const SDL_Color &color, int width = 0);
 
-    virtual ~WiStatusBar();
+  virtual ~WiStatusBar();
 
-    virtual int getW() const { return m_w; }
+  virtual int getW() const
+  {
+    return m_w;
+  }
 
-    virtual int getH() const;
+  virtual int getH() const;
 
-    void setLabel(const std::string &label) { m_label = label; }
+  void setLabel(const std::string &label)
+  {
+    m_label = label;
+  }
 
-    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
+  virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

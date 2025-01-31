@@ -13,11 +13,11 @@ const char *EffectNone::NAME = "none";
 /**
  * Blit without special effect.
  */
-void EffectNone::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x,
-                      int y) {
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
-    SDL_RenderCopy(renderer, texture, NULL, &rect);
+void EffectNone::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y)
+{
+  SDL_Rect rect;
+  rect.x = x;
+  rect.y = y;
+  SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+  SDL_RenderCopy(renderer, texture, NULL, &rect);
 }

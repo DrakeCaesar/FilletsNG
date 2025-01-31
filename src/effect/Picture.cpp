@@ -14,54 +14,57 @@
 /**
  * Load surface.
  */
-Picture::Picture(const Path &file, const V2 &loc)
-        : m_loc(loc) {
-    m_surface = ResImagePack::loadImage(file);
+Picture::Picture(const Path &file, const V2 &loc) : m_loc(loc)
+{
+  m_surface = ResImagePack::loadImage(file);
 }
 //-----------------------------------------------------------------
 /**
  * Use this surface.
  */
-Picture::Picture(SDL_Surface *new_surface, const V2 &loc)
-        : m_loc(loc) {
-    m_surface = new_surface;
+Picture::Picture(SDL_Surface *new_surface, const V2 &loc) : m_loc(loc)
+{
+  m_surface = new_surface;
 }
 
 //-----------------------------------------------------------------
 /**
  * Free surface.
  */
-Picture::~Picture() {
-    SDL_FreeSurface(m_surface);
+Picture::~Picture()
+{
+  SDL_FreeSurface(m_surface);
 }
 
 //-----------------------------------------------------------------
-void Picture::changePicture(const Path &file) {
-    SDL_FreeSurface(m_surface);
-    m_surface = ResImagePack::loadImage(file);
+void Picture::changePicture(const Path &file)
+{
+  SDL_FreeSurface(m_surface);
+  m_surface = ResImagePack::loadImage(file);
 }
 
 //-----------------------------------------------------------------
-void Picture::changePicture(SDL_Surface *new_surface) {
-    SDL_FreeSurface(m_surface);
-    m_surface = new_surface;
+void Picture::changePicture(SDL_Surface *new_surface)
+{
+  SDL_FreeSurface(m_surface);
+  m_surface = new_surface;
 }
 //-----------------------------------------------------------------
 /**
  * Blit entire surface to [x,y].
  */
-void Picture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer) {
-    // Convert the surface to a texture
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, m_surface);
-    SDL_Rect rect;
-    rect.x = m_loc.getX();
-    rect.y = m_loc.getY();
-    SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+void Picture::drawOn(SDL_Surface *screen, SDL_Renderer *renderer)
+{
+  // Convert the surface to a texture
+  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, m_surface);
+  SDL_Rect rect;
+  rect.x = m_loc.getX();
+  rect.y = m_loc.getY();
+  SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 
-    // Copy the texture to the renderer
-    SDL_RenderCopy(renderer, texture, NULL, &rect);
+  // Copy the texture to the renderer
+  SDL_RenderCopy(renderer, texture, NULL, &rect);
 
-    // Clean up the texture
-    SDL_DestroyTexture(texture);
-
+  // Clean up the texture
+  SDL_DestroyTexture(texture);
 }

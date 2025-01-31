@@ -6,14 +6,17 @@
 /**
  * Blit with reversed left and right side.
  */
-class EffectReverse : public ViewEffect {
+class EffectReverse : public ViewEffect
+{
 public:
-    static const char *NAME;
+  static const char *NAME;
 
-    virtual const char *getName() const { return NAME; }
+  virtual const char *getName() const
+  {
+    return NAME;
+  }
 
-    virtual void blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface,
-                      int x, int y);
+  virtual void blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y);
 };
 
 #endif

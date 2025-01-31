@@ -1,8 +1,8 @@
 #ifndef HEADER_SDLSOUNDAGENT_H
 #define HEADER_SDLSOUNDAGENT_H
 
-#include "SoundAgent.h"
 #include "SDLMusicLooper.h"
+#include "SoundAgent.h"
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_mixer.h"
@@ -11,40 +11,40 @@
 /**
  * Sound and music.
  */
-class SDLSoundAgent : public SoundAgent {
+class SDLSoundAgent : public SoundAgent
+{
 private:
-    static BaseMsg *ms_finished;
-    Mix_Music *m_music;
-    SDLMusicLooper *m_looper;
-    std::string m_playingPath;
-    int m_soundVolume;
-    int m_musicVolume;
+  static BaseMsg *ms_finished;
+  Mix_Music *m_music;
+  SDLMusicLooper *m_looper;
+  std::string m_playingPath;
+  int m_soundVolume;
+  int m_musicVolume;
 
 private:
-    std::string generateIdName(const Path &file);
+  std::string generateIdName(const Path &file);
 
-    Mix_Chunk *findChunk(const std::string &name);
+  Mix_Chunk *findChunk(const std::string &name);
 
-    static void musicFinished();
+  static void musicFinished();
 
 protected:
-    virtual void own_init();
+  virtual void own_init();
 
-    virtual void own_shutdown();
+  virtual void own_shutdown();
 
-    virtual void reinit();
+  virtual void reinit();
 
-    virtual void setSoundVolume(int volume);
+  virtual void setSoundVolume(int volume);
 
-    virtual void setMusicVolume(int volume);
+  virtual void setMusicVolume(int volume);
 
 public:
-    virtual int playSound(Mix_Chunk *sound, int volume, int loops = 0);
+  virtual int playSound(Mix_Chunk *sound, int volume, int loops = 0);
 
-    virtual void playMusic(const Path &file,
-                           BaseMsg *finished);
+  virtual void playMusic(const Path &file, BaseMsg *finished);
 
-    virtual void stopMusic();
+  virtual void stopMusic();
 };
 
 #endif

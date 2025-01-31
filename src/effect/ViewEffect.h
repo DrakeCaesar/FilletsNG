@@ -6,23 +6,33 @@
 /**
  * Graphic effect before blit.
  */
-class ViewEffect {
+class ViewEffect
+{
 public:
-    virtual ~ViewEffect() {}
+  virtual ~ViewEffect()
+  {
+  }
 
-    /**
-     * Update effect after blit.
-     */
-    virtual void updateEffect() {}
+  /**
+   * Update effect after blit.
+   */
+  virtual void updateEffect()
+  {
+  }
 
-    virtual const char *getName() const = 0;
+  virtual const char *getName() const = 0;
 
-    virtual bool isDisintegrated() const { return false; }
+  virtual bool isDisintegrated() const
+  {
+    return false;
+  }
 
-    virtual bool isInvisible() const { return false; }
+  virtual bool isInvisible() const
+  {
+    return false;
+  }
 
-    virtual void blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface,
-                      int x, int y) = 0;
+  virtual void blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y) = 0;
 };
 
 #endif

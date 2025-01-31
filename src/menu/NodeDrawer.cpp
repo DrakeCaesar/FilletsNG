@@ -8,96 +8,96 @@
  */
 #include "NodeDrawer.h"
 
-#include "ResImagePack.h"
 #include "Font.h"
+#include "ResImagePack.h"
 
-#include "Log.h"
-#include "V2.h"
-#include "Path.h"
 #include "LevelNode.h"
+#include "Log.h"
+#include "Path.h"
 #include "TimerAgent.h"
+#include "V2.h"
 #include "minmax.h"
 
-#include "SDL2/SDL2_gfxPrimitives.h"
 #include "Application.h"
+#include "BezierCurves.h"
+#include "SDL2/SDL2_gfxPrimitives.h"
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "BezierCurves.h"
 
 //-----------------------------------------------------------------
-NodeDrawer::NodeDrawer() {
-    m_font = new Font(Path::dataReadPath("font/font_menu.ttf"), 22);
+NodeDrawer::NodeDrawer()
+{
+  m_font = new Font(Path::dataReadPath("font/font_menu.ttf"), 22);
 
-    m_imagePack = new ResImagePack();
-    m_imagePack->addImage("solved",
-                          Path::dataReadPath("images/menu/n0.png"));
+  m_imagePack = new ResImagePack();
+  m_imagePack->addImage("solved", Path::dataReadPath("images/menu/n0.png"));
 
-    m_imagePack->addImage("open",
-                          Path::dataReadPath("images/menu/n1.png"));
-    m_imagePack->addImage("open",
-                          Path::dataReadPath("images/menu/n2.png"));
-    m_imagePack->addImage("open",
-                          Path::dataReadPath("images/menu/n3.png"));
-    m_imagePack->addImage("open",
-                          Path::dataReadPath("images/menu/n4.png"));
+  m_imagePack->addImage("open", Path::dataReadPath("images/menu/n1.png"));
+  m_imagePack->addImage("open", Path::dataReadPath("images/menu/n2.png"));
+  m_imagePack->addImage("open", Path::dataReadPath("images/menu/n3.png"));
+  m_imagePack->addImage("open", Path::dataReadPath("images/menu/n4.png"));
 
-    m_imagePack->addImage("far",
-                          Path::dataReadPath("images/menu/n_far.png"));
+  m_imagePack->addImage("far", Path::dataReadPath("images/menu/n_far.png"));
 }
 
 //-----------------------------------------------------------------
-NodeDrawer::~NodeDrawer() {
-    m_imagePack->removeAll();
-    delete m_imagePack;
-    delete m_font;
+NodeDrawer::~NodeDrawer()
+{
+  m_imagePack->removeAll();
+  delete m_imagePack;
+  delete m_font;
 }
 //-----------------------------------------------------------------
 /**
  * Draw blinking dot centred on node position.
  */
-void NodeDrawer::drawNode(const LevelNode *node) const {
-    V2 loc = node->getLoc();
+void NodeDrawer::drawNode(const LevelNode *node) const
+{
+  V2 loc = node->getLoc();
 
-    auto texture_far = SDL_CreateTextureFromSurface(renderer, m_imagePack->getRes("far"));
-    drawDot(texture_far, loc);
-    SDL_DestroyTexture(texture_far);
+  auto texture_far = SDL_CreateTextureFromSurface(renderer, m_imagePack->getRes("far"));
+  drawDot(texture_far, loc);
+  SDL_DestroyTexture(texture_far);
 
-    SDL_Surface *dot = NULL;
-    switch (node->getState()) {
-        case LevelNode::STATE_FAR:
-            return;
-        case LevelNode::STATE_OPEN: {
-            int phase = (TimerAgent::agent()->getCycles() / speedup) % 10;
-            if (phase > 4) {
-                phase--;
-            }
-            if (phase > 7) {
-                phase--;
-            }
-            if (phase >= 4) {
-                phase = 7 - phase;
-            }
-            dot = m_imagePack->getRes("open", phase);
-        }
-            break;
-        case LevelNode::STATE_SOLVED:
-            dot = m_imagePack->getRes("solved");
-            break;
-        default:
-            LOG_WARNING(ExInfo("don't know how to draw node")
-                                .addInfo("state", node->getState()));
-            return;
+  SDL_Surface *dot = NULL;
+  switch (node->getState())
+  {
+  case LevelNode::STATE_FAR:
+    return;
+  case LevelNode::STATE_OPEN: {
+    int phase = (TimerAgent::agent()->getCycles() / speedup) % 10;
+    if (phase > 4)
+    {
+      phase--;
     }
-    auto texture = SDL_CreateTextureFromSurface(renderer, dot);
-    drawDot(texture, loc);
-    SDL_DestroyTexture(texture);
+    if (phase > 7)
+    {
+      phase--;
+    }
+    if (phase >= 4)
+    {
+      phase = 7 - phase;
+    }
+    dot = m_imagePack->getRes("open", phase);
+  }
+  break;
+  case LevelNode::STATE_SOLVED:
+    dot = m_imagePack->getRes("solved");
+    break;
+  default:
+    LOG_WARNING(ExInfo("don't know how to draw node").addInfo("state", node->getState()));
+    return;
+  }
+  auto texture = SDL_CreateTextureFromSurface(renderer, dot);
+  drawDot(texture, loc);
+  SDL_DestroyTexture(texture);
 
-    // std::stringstream ss = std::stringstream();
-    // ss << "" << loc.getX() << "," << loc.getY() << "";
-    // std::string coords = ss.str();
-    // V2 textLoc = {loc.getX(), loc.getY()};
-    // drawText(textLoc, coords);
+  // std::stringstream ss = std::stringstream();
+  // ss << "" << loc.getX() << "," << loc.getY() << "";
+  // std::string coords = ss.str();
+  // V2 textLoc = {loc.getX(), loc.getY()};
+  // drawText(textLoc, coords);
 }
 
 //-----------------------------------------------------------------
@@ -106,144 +106,150 @@ void NodeDrawer::drawNode(const LevelNode *node) const {
  * @param x x cord. or centre
  * @param x y cord. or centre
  */
-void NodeDrawer::drawDot(SDL_Texture *dotTexture, const V2 &loc) const {
-    if (!dotTexture || !renderer) {
-        // Handle error: the texture or the renderer is not available
-        return;
-    }
+void NodeDrawer::drawDot(SDL_Texture *dotTexture, const V2 &loc) const
+{
+  if (!dotTexture || !renderer)
+  {
+    // Handle error: the texture or the renderer is not available
+    return;
+  }
 
-    int w, h;
-    SDL_QueryTexture(dotTexture, NULL, NULL, &w, &h); // Get the width and height of the texture
+  int w, h;
+  SDL_QueryTexture(dotTexture, NULL, NULL, &w, &h); // Get the width and height of the texture
 
-    SDL_Rect rect;
-    rect.x = loc.getX() - w / 2;
-    rect.y = loc.getY() - h / 2;
-    rect.w = w; // Set the width for the destination rectangle
-    rect.h = h; // Set the height for the destination rectangle
+  SDL_Rect rect;
+  rect.x = loc.getX() - w / 2;
+  rect.y = loc.getY() - h / 2;
+  rect.w = w; // Set the width for the destination rectangle
+  rect.h = h; // Set the height for the destination rectangle
 
-    // Now, instead of blitting to a surface, copy to the renderer
-    SDL_RenderCopy(renderer, dotTexture, NULL, &rect);
+  // Now, instead of blitting to a surface, copy to the renderer
+  SDL_RenderCopy(renderer, dotTexture, NULL, &rect);
 }
 
 //-----------------------------------------------------------------
 /**
  * Highlightes selected node.
  */
-void NodeDrawer::drawSelect(const V2 &loc) const {
+void NodeDrawer::drawSelect(const V2 &loc) const
+{
 
-    const SDL_Surface *dot = m_imagePack->getRes("solved");
-    int radius = max(dot->w, dot->h) / 2 + 1;
-    Uint32 colorRGBA = 0x8018c6ff; // RGBA 0xffc61880
-    SDL_Renderer *renderer = this->renderer;
-    filledCircleColor(renderer, loc.getX(), loc.getY(), radius, colorRGBA);
+  const SDL_Surface *dot = m_imagePack->getRes("solved");
+  int radius = max(dot->w, dot->h) / 2 + 1;
+  Uint32 colorRGBA = 0x8018c6ff; // RGBA 0xffc61880
+  SDL_Renderer *renderer = this->renderer;
+  filledCircleColor(renderer, loc.getX(), loc.getY(), radius, colorRGBA);
 }
 //-----------------------------------------------------------------
 /**
  * Draws name of selected level.
  */
-void NodeDrawer::drawSelected(const std::string &levelname) const {
-    // TODO: draw deflected text
-    int text_width = m_font->calcTextWidth(levelname);
+void NodeDrawer::drawSelected(const std::string &levelname) const
+{
+  // TODO: draw deflected text
+  int text_width = m_font->calcTextWidth(levelname);
 
-    SDL_Rect rect;
-    int renderer_width, renderer_height;
-    SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
+  SDL_Rect rect;
+  int renderer_width, renderer_height;
+  SDL_GetRendererOutputSize(renderer, &renderer_width, &renderer_height);
 
-    rect.x = (renderer_width - text_width) / 2;
-    rect.y = renderer_height - 50;
+  rect.x = (renderer_width - text_width) / 2;
+  rect.y = renderer_height - 50;
 
-    SDL_Color color = {255, 255, 0, 255};
-    SDL_Surface *surface = m_font->renderTextOutlined(levelname, color);
-    SDL_BlitSurface(surface, NULL, m_screen, &rect);
-    SDL_FreeSurface(surface);
+  SDL_Color color = {255, 255, 0, 255};
+  SDL_Surface *surface = m_font->renderTextOutlined(levelname, color);
+  SDL_BlitSurface(surface, NULL, m_screen, &rect);
+  SDL_FreeSurface(surface);
 }
 
 //-----------------------------------------------------------------
-void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const {
-    // TODO: nice curves
-    Sint16 x1 = start->getLoc().getX();
-    Sint16 y1 = start->getLoc().getY();
-    Sint16 x2 = end->getLoc().getX();
-    Sint16 y2 = end->getLoc().getY();
+void NodeDrawer::drawEdge(const LevelNode *start, const LevelNode *end) const
+{
+  // TODO: nice curves
+  Sint16 x1 = start->getLoc().getX();
+  Sint16 y1 = start->getLoc().getY();
+  Sint16 x2 = end->getLoc().getX();
+  Sint16 y2 = end->getLoc().getY();
 
-    SDL_Renderer *renderer = this->renderer;
-    Uint32 colorRGBA = 0xff00ffff; // RGBA 0xffff00ff
+  SDL_Renderer *renderer = this->renderer;
+  Uint32 colorRGBA = 0xff00ffff; // RGBA 0xffff00ff
 
-    std::vector<BezierCurve> curveList = BezierCurve::getBezierCurvesForPoints(x1, y1, x2, y2);
-    bool foundCurve = false;
-    for (int i = 0; i < curveList.size(); i++) {
-        drawBezier(renderer, curveList[i].startX, curveList[i].startY, curveList[i].controlX1, curveList[i].controlY1,
-                   curveList[i].controlX2, curveList[i].controlY2, curveList[i].endX, curveList[i].endY, colorRGBA);
-        foundCurve = true;
-    }
-    if (!foundCurve) {
-        drawLine(renderer, x1, y1, x2, y2, colorRGBA);
-        std::cout << "need to define: " << x1 << " " << y1 << " " << x2 << " " << y2 << std::endl;
-    }
-
+  std::vector<BezierCurve> curveList = BezierCurve::getBezierCurvesForPoints(x1, y1, x2, y2);
+  bool foundCurve = false;
+  for (int i = 0; i < curveList.size(); i++)
+  {
+    drawBezier(renderer, curveList[i].startX, curveList[i].startY, curveList[i].controlX1, curveList[i].controlY1,
+               curveList[i].controlX2, curveList[i].controlY2, curveList[i].endX, curveList[i].endY, colorRGBA);
+    foundCurve = true;
+  }
+  if (!foundCurve)
+  {
+    drawLine(renderer, x1, y1, x2, y2, colorRGBA);
+    std::cout << "need to define: " << x1 << " " << y1 << " " << x2 << " " << y2 << std::endl;
+  }
 }
 
-void NodeDrawer::drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, Uint32 colorRGBA) const {
-    drawBezier(renderer, x1, y1, x1, y1, x2, y2, x2, y2, colorRGBA);
+void NodeDrawer::drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, Uint32 colorRGBA) const
+{
+  drawBezier(renderer, x1, y1, x1, y1, x2, y2, x2, y2, colorRGBA);
 }
 
-void
-NodeDrawer::drawBezier(SDL_Renderer *renderer, float startX, float startY, float c1X, float c1Y, float c2X, float c2Y,
-                       float endX, float endY, Uint32 colorRGBA) const {
-    // Number of points on the curve to calculate
-    const int numPoints = 100;
+void NodeDrawer::drawBezier(SDL_Renderer *renderer, float startX, float startY, float c1X, float c1Y, float c2X,
+                            float c2Y, float endX, float endY, Uint32 colorRGBA) const
+{
+  // Number of points on the curve to calculate
+  const int numPoints = 100;
 
-    // Thickness of the Bezier curve
-    const float thickness = 3.0f; // for example, a diameter of 3 pixels for the circles
+  // Thickness of the Bezier curve
+  const float thickness = 3.0f; // for example, a diameter of 3 pixels for the circles
 
-    // Calculate points on the Bezier curve
-    for (int i = 0; i <= numPoints; i++) {
-        float t = i / static_cast<float>(numPoints);
-        float u = 1 - t;
-        float tt = t * t;
-        float uu = u * u;
-        float uuu = uu * u;
-        float ttt = tt * t;
+  // Calculate points on the Bezier curve
+  for (int i = 0; i <= numPoints; i++)
+  {
+    float t = i / static_cast<float>(numPoints);
+    float u = 1 - t;
+    float tt = t * t;
+    float uu = u * u;
+    float uuu = uu * u;
+    float ttt = tt * t;
 
-        // Bezier curve equation
-        float pointX = uuu * startX + 3 * uu * t * c1X + 3 * u * tt * c2X + ttt * endX;
-        float pointY = uuu * startY + 3 * uu * t * c1Y + 3 * u * tt * c2Y + ttt * endY;
+    // Bezier curve equation
+    float pointX = uuu * startX + 3 * uu * t * c1X + 3 * u * tt * c2X + ttt * endX;
+    float pointY = uuu * startY + 3 * uu * t * c1Y + 3 * u * tt * c2Y + ttt * endY;
 
-        // Draw a filled circle at each calculated point on the curve
-        filledCircleColor(renderer,
-                          static_cast<Sint16>(pointX),
-                          static_cast<Sint16>(pointY),
-                          static_cast<Sint16>(thickness / 2),
-                          colorRGBA); // Yellow color, for example
-    }
+    // Draw a filled circle at each calculated point on the curve
+    filledCircleColor(renderer, static_cast<Sint16>(pointX), static_cast<Sint16>(pointY),
+                      static_cast<Sint16>(thickness / 2),
+                      colorRGBA); // Yellow color, for example
+  }
 }
 
-void NodeDrawer::drawText(V2 loc, const std::string &text) const {
-    // Set up the color for the text.
-    SDL_Color textColoFG = {255, 255, 255, 255};
-    SDL_Color textColoBG = {0, 0, 0, 255};
+void NodeDrawer::drawText(V2 loc, const std::string &text) const
+{
+  // Set up the color for the text.
+  SDL_Color textColoFG = {255, 255, 255, 255};
+  SDL_Color textColoBG = {0, 0, 0, 255};
 
-    // Create a surface from the string.
-    TTF_Font *Sans = TTF_OpenFont("/usr/share/fonts/truetype/ubuntu/UbuntuMono-B.ttf", 10);
-    SDL_Surface *textSurface = TTF_RenderText_Shaded(Sans, text.c_str(), textColoFG, textColoBG);
+  // Create a surface from the string.
+  TTF_Font *Sans = TTF_OpenFont("/usr/share/fonts/truetype/ubuntu/UbuntuMono-B.ttf", 10);
+  SDL_Surface *textSurface = TTF_RenderText_Shaded(Sans, text.c_str(), textColoFG, textColoBG);
 
-    if (textSurface == NULL) {
-        LOG_WARNING(ExInfo("Failed to create text surface"));
-        return;
-    }
-    SDL_Renderer *renderer = this->renderer;
-    // Create a texture from the surface.
-    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+  if (textSurface == NULL)
+  {
+    LOG_WARNING(ExInfo("Failed to create text surface"));
+    return;
+  }
+  SDL_Renderer *renderer = this->renderer;
+  // Create a texture from the surface.
+  SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
-    // Set up the rectangle where the text will be rendered.
-    SDL_Rect renderQuad = {loc.getX() - 20, loc.getY() + 10, textSurface->w, textSurface->h};
+  // Set up the rectangle where the text will be rendered.
+  SDL_Rect renderQuad = {loc.getX() - 20, loc.getY() + 10, textSurface->w, textSurface->h};
 
-    // Render the text to the screen.
-    SDL_RenderCopy(renderer, textTexture, NULL, &renderQuad);
+  // Render the text to the screen.
+  SDL_RenderCopy(renderer, textTexture, NULL, &renderQuad);
 
-    // Clean up the surface and texture.
-    SDL_FreeSurface(textSurface);
-    SDL_DestroyTexture(textTexture);
+  // Clean up the surface and texture.
+  SDL_FreeSurface(textSurface);
+  SDL_DestroyTexture(textTexture);
 }
-
-

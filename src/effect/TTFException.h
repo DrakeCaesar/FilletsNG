@@ -6,9 +6,10 @@
 /**
  * Exception about SDL_ttf fail.
  */
-class TTFException : public BaseException {
+class TTFException : public BaseException
+{
 public:
-    TTFException(const ExInfo &problem);
+  TTFException(const ExInfo &problem);
 };
 
 #endif

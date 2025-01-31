@@ -14,8 +14,9 @@
 
 #if !defined(HAVE_X11) && !defined(WIN32)
 
-void SysVideo::setCaption(const std::string &title) {
-    //    SDL_WM_SetCaption(title.c_str(), NULL);
+void SysVideo::setCaption(const std::string &title)
+{
+  //    SDL_WM_SetCaption(title.c_str(), NULL);
 }
 
 #else
@@ -29,18 +30,21 @@ static bool sysSetCaption(SDL_SysWMinfo *info, const std::string &title);
  * Set window title.
  * @param title UTF-8 string
  */
-void SysVideo::setCaption(const std::string &title) {
-    bool done = false;
-    SDL_SysWMinfo info;
-    SDL_VERSION(&info.version);
-    SDL_Window *window;
-    if (SDL_GetWindowWMInfo(window, &info) > 0) {
-        done = sysSetCaption(&info, title);
-    }
+void SysVideo::setCaption(const std::string &title)
+{
+  bool done = false;
+  SDL_SysWMinfo info;
+  SDL_VERSION(&info.version);
+  SDL_Window *window;
+  if (SDL_GetWindowWMInfo(window, &info) > 0)
+  {
+    done = sysSetCaption(&info, title);
+  }
 
-    if (!done) {
-        //        SDL_WM_SetCaption(title.c_str(), NULL);
-    }
+  if (!done)
+  {
+    //        SDL_WM_SetCaption(title.c_str(), NULL);
+  }
 }
 //-----------------------------------------------------------------
 /**
@@ -53,59 +57,56 @@ void SysVideo::setCaption(const std::string &title) {
 #include <X11/Xutil.h>
 bool sysSetCaption(SDL_SysWMinfo *info, const std::string &title)
 {
-    bool result = false;
+  bool result = false;
 #ifdef X_HAVE_UTF8_STRING
-    if (info->subsystem == SDL_SYSWM_X11)
+  if (info->subsystem == SDL_SYSWM_X11)
+  {
+    info->info.x11.lock_func();
+
+    XTextProperty titleprop;
+    char *text_list = const_cast<char *>(title.c_str());
+    int error = Xutf8TextListToTextProperty(info->info.x11.display, &text_list, 1, XUTF8StringStyle, &titleprop);
+    if (!error)
     {
-        info->info.x11.lock_func();
-
-        XTextProperty titleprop;
-        char *text_list = const_cast<char *>(title.c_str());
-        int error = Xutf8TextListToTextProperty(info->info.x11.display,
-                                                &text_list, 1, XUTF8StringStyle, &titleprop);
-        if (!error)
-        {
-            XSetWMName(info->info.x11.display, info->info.x11.wmwindow,
-                       &titleprop);
-            XFree(titleprop.value);
-            result = true;
-        }
-        else
-        {
-            LOG_DEBUG(ExInfo("not supported conversion")
-                          .addInfo("error", error)
-                          .addInfo("title", title));
-        }
-
-        info->info.x11.unlock_func();
+      XSetWMName(info->info.x11.display, info->info.x11.wmwindow, &titleprop);
+      XFree(titleprop.value);
+      result = true;
     }
+    else
+    {
+      LOG_DEBUG(ExInfo("not supported conversion").addInfo("error", error).addInfo("title", title));
+    }
+
+    info->info.x11.unlock_func();
+  }
 #endif
-    return result;
+  return result;
 }
 #elif defined(WIN32)
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
 
-bool sysSetCaption(SDL_SysWMinfo *info, const std::string &title) {
-    bool result = false;
-    LPWSTR lpszW = new WCHAR[title.size()];
-    if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1,
-                            lpszW, title.size())) {
-        result = SetWindowTextW(info->info.win.window, lpszW);
-    } else {
-        LOG_DEBUG(ExInfo("not supported conversion")
-                          .addInfo("error", GetLastError())
-                          .addInfo("title", title));
-    }
-    delete[] lpszW;
-    return result;
+bool sysSetCaption(SDL_SysWMinfo *info, const std::string &title)
+{
+  bool result = false;
+  LPWSTR lpszW = new WCHAR[title.size()];
+  if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, lpszW, title.size()))
+  {
+    result = SetWindowTextW(info->info.win.window, lpszW);
+  }
+  else
+  {
+    LOG_DEBUG(ExInfo("not supported conversion").addInfo("error", GetLastError()).addInfo("title", title));
+  }
+  delete[] lpszW;
+  return result;
 }
 
 #else
 bool sysSetCaption(SDL_SysWMinfo * /*info*/, const std::string & /*title*/)
 {
-    return false;
+  return false;
 }
 #endif
 #endif // HAVE_X11 || WIN32

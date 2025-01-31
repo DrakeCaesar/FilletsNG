@@ -14,31 +14,35 @@ class CountAdvisor;
 /**
  * Countdowns finished or wrong state.
  */
-class LevelCountDown {
+class LevelCountDown
+{
 private:
-    int m_countdown;
-    const RoomAccess *m_access;
-    LevelStatus *m_levelStatus;
+  int m_countdown;
+  const RoomAccess *m_access;
+  LevelStatus *m_levelStatus;
 
 private:
-    void setCountDown(const CountAdvisor *advisor);
+  void setCountDown(const CountAdvisor *advisor);
 
 public:
-    LevelCountDown(const RoomAccess *access);
+  LevelCountDown(const RoomAccess *access);
 
-    void fillStatus(LevelStatus *status) { m_levelStatus = status; }
+  void fillStatus(LevelStatus *status)
+  {
+    m_levelStatus = status;
+  }
 
-    void reset();
+  void reset();
 
-    bool countDown(const CountAdvisor *advisor);
+  bool countDown(const CountAdvisor *advisor);
 
-    bool isFinishedEnough() const;
+  bool isFinishedEnough() const;
 
-    bool isWrongEnough() const;
+  bool isWrongEnough() const;
 
-    void saveSolution();
+  void saveSolution();
 
-    GameState *createNextState();
+  GameState *createNextState();
 };
 
 #endif

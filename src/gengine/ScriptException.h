@@ -6,11 +6,12 @@
 /**
  * Exception about script fail.
  */
-class ScriptException : public BaseException {
+class ScriptException : public BaseException
+{
 public:
-    ScriptException(const ExInfo &problem)
-            : BaseException(problem) {
-    }
+  ScriptException(const ExInfo &problem) : BaseException(problem)
+  {
+  }
 };
 
 #endif

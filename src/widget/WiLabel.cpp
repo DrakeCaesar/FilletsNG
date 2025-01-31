@@ -11,7 +11,7 @@
 #include "Font.h"
 
 //-----------------------------------------------------------------
-WiLabel::WiLabel(const std::string &text, const Font &font,
-                 const SDL_Color &color)
-        : WiPicture(font.renderTextOutlined(text, color)) {
+WiLabel::WiLabel(const std::string &text, const Font &font, const SDL_Color &color)
+    : WiPicture(font.renderTextOutlined(text, color))
+{
 }

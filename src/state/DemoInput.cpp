@@ -8,9 +8,9 @@
  */
 #include "DemoInput.h"
 
-#include "Keymap.h"
-#include "KeyDesc.h"
 #include "GameState.h"
+#include "KeyDesc.h"
+#include "Keymap.h"
 
 //-----------------------------------------------------------------
 /**
@@ -18,13 +18,14 @@
  * Escape, space or mouse click quit state.
  * @param demo pointer to the leader
  */
-DemoInput::DemoInput(GameState *demo)
-        : GameInput(demo) {
-    KeyDesc key_quit(KEY_QUIT, "quit");
-    m_keymap->registerKey(KeyStroke(SDLK_SPACE, KMOD_NONE), key_quit);
+DemoInput::DemoInput(GameState *demo) : GameInput(demo)
+{
+  KeyDesc key_quit(KEY_QUIT, "quit");
+  m_keymap->registerKey(KeyStroke(SDLK_SPACE, KMOD_NONE), key_quit);
 }
 
 //-----------------------------------------------------------------
-void DemoInput::mouseEvent(const MouseStroke & /*buttons*/) {
-    quitState();
+void DemoInput::mouseEvent(const MouseStroke & /*buttons*/)
+{
+  quitState();
 }

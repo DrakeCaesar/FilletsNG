@@ -6,19 +6,22 @@
 /**
  * Mirror reflect left side.
  */
-class EffectMirror : public ViewEffect {
+class EffectMirror : public ViewEffect
+{
 private:
-    static const int MIRROR_BORDER = 3;
+  static const int MIRROR_BORDER = 3;
 
 public:
-    static const char *NAME;
+  static const char *NAME;
 
-    virtual const char *getName() const { return NAME; }
+  virtual const char *getName() const
+  {
+    return NAME;
+  }
 
-    virtual void blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface,
-                      int x, int y);
+  virtual void blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y);
 
-    static void cleanup();
+  static void cleanup();
 };
 
 #endif

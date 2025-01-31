@@ -6,11 +6,12 @@
 /**
  * Only help is need.
  */
-class HelpException : public BaseException {
+class HelpException : public BaseException
+{
 public:
-    HelpException(const ExInfo &problem)
-            : BaseException(problem) {
-    }
+  HelpException(const ExInfo &problem) : BaseException(problem)
+  {
+  }
 };
 
 #endif

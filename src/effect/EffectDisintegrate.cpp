@@ -8,68 +8,78 @@
  */
 #include "EffectDisintegrate.h"
 
-#include "SurfaceLock.h"
 #include "PixelTool.h"
 #include "Random.h"
+#include "SurfaceLock.h"
 
 const char *EffectDisintegrate::NAME = "disintegrate";
 //-----------------------------------------------------------------
 /**
  * Start as not disintegrated.
  */
-EffectDisintegrate::EffectDisintegrate() {
-    m_disint = DISINT_START;
+EffectDisintegrate::EffectDisintegrate()
+{
+  m_disint = DISINT_START;
 }
 
 //-----------------------------------------------------------------
-void EffectDisintegrate::updateEffect() {
-    if (m_disint > 0) {
-        m_disint -= DISINT_SPEED;
-        if (m_disint < 0) {
-            m_disint = 0;
-        }
+void EffectDisintegrate::updateEffect()
+{
+  if (m_disint > 0)
+  {
+    m_disint -= DISINT_SPEED;
+    if (m_disint < 0)
+    {
+      m_disint = 0;
     }
+  }
 }
 //-----------------------------------------------------------------
 /**
  * Returns true for object for who the disint effect is finished.
  */
-bool EffectDisintegrate::isDisintegrated() const {
-    return 0 == m_disint;
+bool EffectDisintegrate::isDisintegrated() const
+{
+  return 0 == m_disint;
 }
 
 //-----------------------------------------------------------------
-bool EffectDisintegrate::isInvisible() const {
-    return isDisintegrated();
+bool EffectDisintegrate::isInvisible() const
+{
+  return isDisintegrated();
 }
 //-----------------------------------------------------------------
 /**
  * Disintegration effect.
  * Draw only some pixels.
  */
-void EffectDisintegrate::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y) {
+void EffectDisintegrate::blit(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Surface *surface, int x, int y)
+{
 
-    int width, height;
-    SDL_GetRendererOutputSize(renderer, &width, &height);
-    SDL_Surface *screen = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+  int width, height;
+  SDL_GetRendererOutputSize(renderer, &width, &height);
+  SDL_Surface *screen = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
 
-    SurfaceLock lock1(screen);
-    SurfaceLock lock2(surface);
+  SurfaceLock lock1(screen);
+  SurfaceLock lock2(surface);
 
-    for (int py = 0; py < surface->h; ++py) {
-        for (int px = 0; px < surface->w; ++px) {
-            if (Random::aByte(py * surface->w + px) < m_disint) {
-                SDL_Color pixel = PixelTool::getColor(surface, px, py);
-                if (pixel.a == 255) {
-                    PixelTool::putColor(screen, x + px, y + py, pixel);
-                }
-            }
+  for (int py = 0; py < surface->h; ++py)
+  {
+    for (int px = 0; px < surface->w; ++px)
+    {
+      if (Random::aByte(py * surface->w + px) < m_disint)
+      {
+        SDL_Color pixel = PixelTool::getColor(surface, px, py);
+        if (pixel.a == 255)
+        {
+          PixelTool::putColor(screen, x + px, y + py, pixel);
         }
+      }
     }
+  }
 
-    auto texture_s = SDL_CreateTextureFromSurface(renderer, screen);
-    SDL_RenderCopy(renderer, texture_s, NULL, NULL);
-    SDL_DestroyTexture(texture_s);
-    SDL_FreeSurface(screen);
-
+  auto texture_s = SDL_CreateTextureFromSurface(renderer, screen);
+  SDL_RenderCopy(renderer, texture_s, NULL, NULL);
+  SDL_DestroyTexture(texture_s);
+  SDL_FreeSurface(screen);
 }

@@ -8,18 +8,18 @@
  */
 #include "Path.h"
 
-#include "Log.h"
-#include "OptionAgent.h"
 #include "Dialog.h"
 #include "FsPath.h"
+#include "Log.h"
+#include "OptionAgent.h"
 #include "PathException.h"
 
 #include <stdio.h>
 
 //-----------------------------------------------------------------
-Path::Path(const std::string &file)
-        : m_path(file) {
-    /* empty */
+Path::Path(const std::string &file) : m_path(file)
+{
+  /* empty */
 }
 //-----------------------------------------------------------------
 /**
@@ -31,81 +31,97 @@ Path::Path(const std::string &file)
  * @param writeable whether we want write to the file
  * @return path to user or system file
  */
-Path Path::dataPath(const std::string &file, bool writeable) {
-    Path datapath = dataUserPath(file);
+Path Path::dataPath(const std::string &file, bool writeable)
+{
+  Path datapath = dataUserPath(file);
 
-    if (!datapath.exists()) {
-        FILE *try_open = NULL;
-        if (writeable) {
-            try {
-                LOG_INFO(ExInfo("creating path")
-                                 .addInfo("path", datapath.getNative()));
-                FsPath::createPath(datapath.getPosixName());
+  if (!datapath.exists())
+  {
+    FILE *try_open = NULL;
+    if (writeable)
+    {
+      try
+      {
+        LOG_INFO(ExInfo("creating path").addInfo("path", datapath.getNative()));
+        FsPath::createPath(datapath.getPosixName());
 
-                try_open = fopen(datapath.getNative().c_str(), "wb");
-            }
-            catch (PathException &e) {
-                LOG_WARNING(e.info());
-            }
-        }
-
-        if (try_open) {
-            fclose(try_open);
-        } else {
-            datapath = dataSystemPath(file);
-        }
+        try_open = fopen(datapath.getNative().c_str(), "wb");
+      }
+      catch (PathException &e)
+      {
+        LOG_WARNING(e.info());
+      }
     }
 
-    return datapath;
+    if (try_open)
+    {
+      fclose(try_open);
+    }
+    else
+    {
+      datapath = dataSystemPath(file);
+    }
+  }
+
+  return datapath;
 }
 
 //-----------------------------------------------------------------
-Path Path::dataReadPath(const std::string &file) {
-    return dataPath(file, false);
+Path Path::dataReadPath(const std::string &file)
+{
+  return dataPath(file, false);
 }
 
 //-----------------------------------------------------------------
-Path Path::dataWritePath(const std::string &file) {
-    return dataPath(file, true);
+Path Path::dataWritePath(const std::string &file)
+{
+  return dataPath(file, true);
 }
 //-----------------------------------------------------------------
 /**
  * Return path to system file.
  * Path does not need to exist.
  */
-Path Path::dataSystemPath(const std::string &file) {
-    std::string systemdir = OptionAgent::agent()->getParam("systemdir");
-    systemdir = "..";
+Path Path::dataSystemPath(const std::string &file)
+{
+  std::string systemdir = OptionAgent::agent()->getParam("systemdir");
+  systemdir = "..";
 
-    return constructPath(systemdir, file);
+  return constructPath(systemdir, file);
 }
 //-----------------------------------------------------------------
 /**
  * Return path to user file.
  * Path does not need to exist.
  */
-Path Path::dataUserPath(const std::string &file) {
-    std::string userdir = OptionAgent::agent()->getParam("userdir");
-    return constructPath(userdir, file);
+Path Path::dataUserPath(const std::string &file)
+{
+  std::string userdir = OptionAgent::agent()->getParam("userdir");
+  return constructPath(userdir, file);
 }
 //-----------------------------------------------------------------
 /**
  * Create path to the given file in the given directory.
  * Tries to use path to a localized resource if it exists.
  */
-Path Path::constructPath(const std::string &dir, const std::string &file) {
-    std::string localized = localizePath(file);
-    Path localizedPath = Path(FsPath::join(dir, localized));
+Path Path::constructPath(const std::string &dir, const std::string &file)
+{
+  std::string localized = localizePath(file);
+  Path localizedPath = Path(FsPath::join(dir, localized));
 
-    if (localized == file) {
-        return localizedPath;
-    } else if (localizedPath.exists()) {
-        LOG_INFO(ExInfo("localized")
-                         .addInfo("path", localizedPath.getNative()));
-        return localizedPath;
-    } else {
-        return Path(FsPath::join(dir, file));
-    }
+  if (localized == file)
+  {
+    return localizedPath;
+  }
+  else if (localizedPath.exists())
+  {
+    LOG_INFO(ExInfo("localized").addInfo("path", localizedPath.getNative()));
+    return localizedPath;
+  }
+  else
+  {
+    return Path(FsPath::join(dir, file));
+  }
 }
 //-----------------------------------------------------------------
 /**
@@ -115,37 +131,41 @@ Path Path::constructPath(const std::string &dir, const std::string &file) {
  * @param original original path
  * @return localized path if it is meaningful or the original path
  */
-std::string
-Path::localizePath(const std::string &original) {
-    std::string::size_type dotPos = original.rfind('.');
-    if (dotPos == std::string::npos) {
-        return original;
-    }
+std::string Path::localizePath(const std::string &original)
+{
+  std::string::size_type dotPos = original.rfind('.');
+  if (dotPos == std::string::npos)
+  {
+    return original;
+  }
 
-    std::string lang = OptionAgent::agent()->getParam("lang");
-    if (Dialog::DEFAULT_LANG == lang || lang.empty()) {
-        return original;
-    }
+  std::string lang = OptionAgent::agent()->getParam("lang");
+  if (Dialog::DEFAULT_LANG == lang || lang.empty())
+  {
+    return original;
+  }
 
-    std::string appendix = "__" + lang;
+  std::string appendix = "__" + lang;
 
-    std::string::size_type dirPos = original.rfind('/');
-    if (dirPos != std::string::npos && dotPos < dirPos) {
-        return original;
-    }
+  std::string::size_type dirPos = original.rfind('/');
+  if (dirPos != std::string::npos && dotPos < dirPos)
+  {
+    return original;
+  }
 
-    std::string path = original;
-    path.insert(dotPos, appendix);
-    return path;
+  std::string path = original;
+  path.insert(dotPos, appendix);
+  return path;
 }
 
 //-----------------------------------------------------------------
-std::string
-Path::getNative() const {
-    return FsPath::getNative(m_path);
+std::string Path::getNative() const
+{
+  return FsPath::getNative(m_path);
 }
 
 //-----------------------------------------------------------------
-bool Path::exists() const {
-    return FsPath::exists(m_path);
+bool Path::exists() const
+{
+  return FsPath::exists(m_path);
 }

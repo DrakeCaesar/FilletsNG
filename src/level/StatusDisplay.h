@@ -8,19 +8,20 @@ class Picture;
 /**
  * Show status change.
  */
-class StatusDisplay : public Drawable {
+class StatusDisplay : public Drawable
+{
 private:
-    Picture *m_picture;
-    int m_time;
+  Picture *m_picture;
+  int m_time;
 
 public:
-    StatusDisplay();
+  StatusDisplay();
 
-    virtual ~StatusDisplay();
+  virtual ~StatusDisplay();
 
-    void displayStatus(Picture *new_picture, int time);
+  void displayStatus(Picture *new_picture, int time);
 
-    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
+  virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

@@ -11,22 +11,21 @@ class ResDialogPack;
 /**
  * Loads localized labels.
  */
-class Labels : public Scripter {
+class Labels : public Scripter
+{
 private:
-    mutable ResDialogPack *m_labels;
+  mutable ResDialogPack *m_labels;
 
 public:
-    Labels(const Path &source);
+  Labels(const Path &source);
 
-    virtual ~Labels();
+  virtual ~Labels();
 
-    void addLabel(const std::string &name, const std::string &lang,
-                  const std::string &text);
+  void addLabel(const std::string &name, const std::string &lang, const std::string &text);
 
-    std::string getLabel(const std::string &name) const;
+  std::string getLabel(const std::string &name) const;
 
-    std::string getFormatedLabel(const std::string &name,
-                                 const StringTool::t_args &args) const;
+  std::string getFormatedLabel(const std::string &name, const StringTool::t_args &args) const;
 };
 
 #endif

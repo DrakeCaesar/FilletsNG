@@ -11,24 +11,26 @@
 #include "MenuOptions.h"
 
 //-----------------------------------------------------------------
-OptionsInput::OptionsInput(MenuOptions *menu)
-        : StateInput(menu) {
+OptionsInput::OptionsInput(MenuOptions *menu) : StateInput(menu)
+{
 }
 
 //-----------------------------------------------------------------
-MenuOptions *
-OptionsInput::getMenu() {
-    return dynamic_cast<MenuOptions *>(m_state);
+MenuOptions *OptionsInput::getMenu()
+{
+  return dynamic_cast<MenuOptions *>(m_state);
 }
 //-----------------------------------------------------------------
 /**
  * Toggle menu.
  */
-void OptionsInput::enableMenu() {
-    quitState();
+void OptionsInput::enableMenu()
+{
+  quitState();
 }
 
 //-----------------------------------------------------------------
-void OptionsInput::mouseEvent(const MouseStroke &buttons) {
-    getMenu()->mouseButton(buttons);
+void OptionsInput::mouseEvent(const MouseStroke &buttons)
+{
+  getMenu()->mouseButton(buttons);
 }

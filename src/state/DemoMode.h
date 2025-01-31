@@ -5,42 +5,50 @@ class Picture;
 
 class DemoInput;
 
-#include "Path.h"
-#include "GameState.h"
-#include "Planner.h"
 #include "Drawable.h"
+#include "GameState.h"
+#include "Path.h"
+#include "Planner.h"
 
 /**
  * Graphic demo.
  */
-class DemoMode : public Planner, public GameState, public Drawable {
+class DemoMode : public Planner, public GameState, public Drawable
+{
 private:
-    int m_oldLimitY;
-    Path m_demoscript;
-    SDL_Surface *m_surfaceBuffer;
-    Picture *m_display;
+  int m_oldLimitY;
+  Path m_demoscript;
+  SDL_Surface *m_surfaceBuffer;
+  Picture *m_display;
 
 protected:
-    virtual void own_initState();
+  virtual void own_initState();
 
-    virtual void own_updateState();
+  virtual void own_updateState();
 
-    virtual void own_pauseState() {}
+  virtual void own_pauseState()
+  {
+  }
 
-    virtual void own_resumeState() {}
+  virtual void own_resumeState()
+  {
+  }
 
-    virtual void own_cleanState();
+  virtual void own_cleanState();
 
 public:
-    DemoMode(const Path &demoscript);
+  DemoMode(const Path &demoscript);
 
-    virtual ~DemoMode();
+  virtual ~DemoMode();
 
-    virtual const char *getName() const { return "state_demo"; };
+  virtual const char *getName() const
+  {
+    return "state_demo";
+  };
 
-    bool action_display(Picture *picture);
+  bool action_display(Picture *picture);
 
-    virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
+  virtual void drawOn(SDL_Surface *screen, SDL_Renderer *renderer);
 };
 
 #endif

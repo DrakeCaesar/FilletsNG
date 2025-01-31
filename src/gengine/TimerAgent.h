@@ -9,28 +9,35 @@
 /**
  * Delay and framerame.
  */
-class TimerAgent : public BaseAgent {
-AGENT(TimerAgent, Name::TIMER_NAME);
+class TimerAgent : public BaseAgent
+{
+  AGENT(TimerAgent, Name::TIMER_NAME);
 
 private:
-    int m_timeinterval;
-    Uint32 m_lastTime;
-    Uint32 m_nextTime;
-    Uint32 m_deltaTime;
-    int m_count;
+  int m_timeinterval;
+  Uint32 m_lastTime;
+  Uint32 m_nextTime;
+  Uint32 m_deltaTime;
+  int m_count;
 
 private:
-    int getTimeInterval();
+  int getTimeInterval();
 
 protected:
-    virtual void own_init();
+  virtual void own_init();
 
-    virtual void own_update();
+  virtual void own_update();
 
 public:
-    Uint32 getDeltaTime() const { return m_deltaTime; }
+  Uint32 getDeltaTime() const
+  {
+    return m_deltaTime;
+  }
 
-    int getCycles() const { return m_count; }
+  int getCycles() const
+  {
+    return m_count;
+  }
 };
 
 #endif

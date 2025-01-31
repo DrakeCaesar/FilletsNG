@@ -10,39 +10,40 @@ class GameState;
 /**
  * Stack of states.
  */
-class StateManager : public NoCopy {
+class StateManager : public NoCopy
+{
 private:
-    typedef std::list<GameState *> t_states;
-    t_states m_states;
-    t_states m_trash;
+  typedef std::list<GameState *> t_states;
+  t_states m_states;
+  t_states m_trash;
 
 private:
-    void emptyTrash();
+  void emptyTrash();
 
-    void removeState(GameState *state);
+  void removeState(GameState *state);
 
-    void insertAfter(GameState *who, GameState *new_state);
+  void insertAfter(GameState *who, GameState *new_state);
 
-    t_states::iterator findIter(GameState *who);
+  t_states::iterator findIter(GameState *who);
 
-    void checkStack();
+  void checkStack();
 
-    void pauseBg(t_states::iterator stateIt);
+  void pauseBg(t_states::iterator stateIt);
 
-    void resumeBg(t_states::iterator stateIt);
+  void resumeBg(t_states::iterator stateIt);
 
-    void installHandlers();
+  void installHandlers();
 
 public:
-    virtual ~StateManager();
+  virtual ~StateManager();
 
-    void updateGame();
+  void updateGame();
 
-    void changeState(GameState *who, GameState *new_state);
+  void changeState(GameState *who, GameState *new_state);
 
-    void pushState(GameState *who, GameState *new_state);
+  void pushState(GameState *who, GameState *new_state);
 
-    void popState(GameState *who);
+  void popState(GameState *who);
 };
 
 #endif

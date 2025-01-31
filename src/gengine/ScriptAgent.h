@@ -20,16 +20,17 @@ extern "C"
  * Global scripting.
  * It is used by OptionAgent and debug console.
  */
-class ScriptAgent : public BaseAgent, public Scripter {
-AGENT(ScriptAgent, Name::SCRIPT_NAME);
+class ScriptAgent : public BaseAgent, public Scripter
+{
+  AGENT(ScriptAgent, Name::SCRIPT_NAME);
 
 protected:
-    virtual void own_init();
+  virtual void own_init();
 
 public:
-    void registerFunc(const char *name, lua_CFunction func);
+  void registerFunc(const char *name, lua_CFunction func);
 
-    virtual void receiveString(const StringMsg *msg);
+  virtual void receiveString(const StringMsg *msg);
 };
 
 #endif

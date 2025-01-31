@@ -5,9 +5,9 @@ class Cube;
 
 class InputProvider;
 
-#include "KeyControl.h"
 #include "ControlSym.h"
 #include "Dir.h"
+#include "KeyControl.h"
 #include "V2.h"
 
 #include "SDL2/SDL.h"
@@ -16,72 +16,77 @@ class InputProvider;
 /**
  * Unit to drive.
  */
-class Unit {
+class Unit
+{
 private:
-    KeyControl m_buttons;
-    ControlSym m_symbols;
-    Cube *m_model;
-    bool m_startActive;
+  KeyControl m_buttons;
+  ControlSym m_symbols;
+  Cube *m_model;
+  bool m_startActive;
 
 private:
-    char goLeft();
+  char goLeft();
 
-    char goRight();
+  char goRight();
 
-    char goUp();
+  char goUp();
 
-    char goDown();
+  char goDown();
 
 public:
-    Unit(const KeyControl &buttons, const ControlSym &symbols,
-         bool startActive = false);
+  Unit(const KeyControl &buttons, const ControlSym &symbols, bool startActive = false);
 
-    void takeModel(Cube *model) { m_model = model; }
+  void takeModel(Cube *model)
+  {
+    m_model = model;
+  }
 
-    bool startActive() { return m_startActive; }
+  bool startActive()
+  {
+    return m_startActive;
+  }
 
-    bool canDrive() const;
+  bool canDrive() const;
 
-    bool willMove() const;
+  bool willMove() const;
 
-    char drive(const InputProvider *input);
+  char drive(const InputProvider *input);
 
-    char driveBorrowed(const InputProvider *input,
-                       const KeyControl &buttons);
+  char driveBorrowed(const InputProvider *input, const KeyControl &buttons);
 
-    void activate();
+  void activate();
 
-    char mySymbol(SDL_Keycode key) const;
+  char mySymbol(SDL_Keycode key) const;
 
-    char mySymbolBorrowed(SDL_Keycode key, const KeyControl &buttons) const;
+  char mySymbolBorrowed(SDL_Keycode key, const KeyControl &buttons) const;
 
-    char myOrder(Dir::eDir dir) const;
+  char myOrder(Dir::eDir dir) const;
 
-    char driveOrder(char move);
+  char driveOrder(char move);
 
-    bool isMoving() const;
+  bool isMoving() const;
 
-    bool isMovingDown() const;
+  bool isMovingDown() const;
 
-    bool isTurning() const;
+  bool isTurning() const;
 
-    bool isPushing() const;
+  bool isPushing() const;
 
-    bool isDrivenBy(char symbol) const;
+  bool isDrivenBy(char symbol) const;
 
-    bool equalsModel(const Cube *other) const;
+  bool equalsModel(const Cube *other) const;
 
-    V2 getLoc() const;
+  V2 getLoc() const;
 
-    int getW() const;
+  int getW() const;
 
-    int getH() const;
+  int getH() const;
 
-    bool isFreePlace(const V2 &loc) const;
+  bool isFreePlace(const V2 &loc) const;
 
-    int countAnimPhases(const std::string &anim) const;
+  int countAnimPhases(const std::string &anim) const;
 
-    bool isPowerful() const;
+  bool isPowerful() const;
 };
 
 #endif

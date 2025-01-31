@@ -6,34 +6,36 @@ class Cube;
 /**
  * Goal for model.
  */
-class Goal {
+class Goal
+{
 private:
-    enum eSATISFY {
-        SATISFY_TRUE,
-        SATISFY_FALSE,
-        SATISFY_IGNORE
-    };
+  enum eSATISFY
+  {
+    SATISFY_TRUE,
+    SATISFY_FALSE,
+    SATISFY_IGNORE
+  };
 
-    eSATISFY m_alive;
-    eSATISFY m_out;
+  eSATISFY m_alive;
+  eSATISFY m_out;
 
 private:
-    Goal(eSATISFY out, eSATISFY alive);
+  Goal(eSATISFY out, eSATISFY alive);
 
 public:
-    static Goal noGoal();
+  static Goal noGoal();
 
-    static Goal outGoal();
+  static Goal outGoal();
 
-    static Goal escapeGoal();
+  static Goal escapeGoal();
 
-    static Goal aliveGoal();
+  static Goal aliveGoal();
 
-    bool isSatisfy(const Cube *model) const;
+  bool isSatisfy(const Cube *model) const;
 
-    bool isWrong(const Cube *model) const;
+  bool isWrong(const Cube *model) const;
 
-    bool shouldGoOut() const;
+  bool shouldGoOut() const;
 };
 
 #endif

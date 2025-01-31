@@ -8,43 +8,47 @@ extern bool movingfish;
 
 class AgentPack;
 
-#include "NoCopy.h"
 #include "BaseListener.h"
 #include "Name.h"
+#include "NoCopy.h"
 
 /**
  * Main application
  */
-class Application : public NoCopy, public BaseListener {
+class Application : public NoCopy, public BaseListener
+{
 private:
-    AgentPack *m_agents;
-    bool m_quit;
+  AgentPack *m_agents;
+  bool m_quit;
 
 private:
-    void prepareLogLevel();
+  void prepareLogLevel();
 
-    void prepareOptions(int argc, char *argv[]);
+  void prepareOptions(int argc, char *argv[]);
 
-    void customizeGame();
+  void customizeGame();
 
-    void addSoundAgent();
+  void addSoundAgent();
 
 public:
-    Application();
+  Application();
 
-    virtual ~Application();
+  virtual ~Application();
 
-    virtual const char *getName() const { return Name::APP_NAME; }
+  virtual const char *getName() const
+  {
+    return Name::APP_NAME;
+  }
 
-    void init(int argc, char *argv[]);
+  void init(int argc, char *argv[]);
 
-    void run();
+  void run();
 
-    void shutdown();
+  void shutdown();
 
-    virtual void receiveSimple(const SimpleMsg *msg);
+  virtual void receiveSimple(const SimpleMsg *msg);
 
-    virtual void receiveString(const StringMsg *msg);
+  virtual void receiveString(const StringMsg *msg);
 };
 
 #endif

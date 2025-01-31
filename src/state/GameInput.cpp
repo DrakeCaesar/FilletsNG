@@ -15,13 +15,15 @@
 /**
  * Push help screen at top.
  */
-void GameInput::enableHelp() {
-    m_state->pushState(new MenuHelp());
+void GameInput::enableHelp()
+{
+  m_state->pushState(new MenuHelp());
 }
 //-----------------------------------------------------------------
 /**
  * Push menu state at top.
  */
-void GameInput::enableMenu() {
-    m_state->pushState(new MenuOptions());
+void GameInput::enableMenu()
+{
+  m_state->pushState(new MenuOptions());
 }

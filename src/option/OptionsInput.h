@@ -8,17 +8,18 @@ class MenuOptions;
 /**
  * Handle input for options menu.
  */
-class OptionsInput : public StateInput {
+class OptionsInput : public StateInput
+{
 private:
-    MenuOptions *getMenu();
+  MenuOptions *getMenu();
 
 protected:
-    virtual void enableMenu();
+  virtual void enableMenu();
 
 public:
-    OptionsInput(MenuOptions *menu);
+  OptionsInput(MenuOptions *menu);
 
-    virtual void mouseEvent(const MouseStroke &buttons);
+  virtual void mouseEvent(const MouseStroke &buttons);
 };
 
 #endif

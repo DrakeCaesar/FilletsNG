@@ -6,19 +6,30 @@
 /**
  * Empty place with width and height.
  */
-class WiSpace : public IWidget {
+class WiSpace : public IWidget
+{
 private:
-    int m_w;
-    int m_h;
+  int m_w;
+  int m_h;
 
 public:
-    WiSpace(int width, int height) : m_w(width), m_h(height) {}
+  WiSpace(int width, int height) : m_w(width), m_h(height)
+  {
+  }
 
-    virtual int getW() const { return m_w; }
+  virtual int getW() const
+  {
+    return m_w;
+  }
 
-    virtual int getH() const { return m_h; }
+  virtual int getH() const
+  {
+    return m_h;
+  }
 
-    virtual void drawOn(SDL_Surface * /*screen*/, SDL_Renderer * /*renderer*/) {}
+  virtual void drawOn(SDL_Surface * /*screen*/, SDL_Renderer * /*renderer*/)
+  {
+  }
 };
 
 #endif

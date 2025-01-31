@@ -1,34 +1,41 @@
 #ifndef HEADER_INTMSG_H
 #define HEADER_INTMSG_H
 
-#include "BaseMsg.h"
 #include "BaseListener.h"
+#include "BaseMsg.h"
 
 /**
  * Message with integer value.
  */
-class IntMsg : public BaseMsg {
+class IntMsg : public BaseMsg
+{
 private:
-    int m_value;
+  int m_value;
 
 public:
-    CLONE(IntMsg);
+  CLONE(IntMsg);
 
-    IntMsg(BaseListener *listener, const std::string &name,
-           int value)
-            : BaseMsg(listener->getName(), name), m_value(value) {}
+  IntMsg(BaseListener *listener, const std::string &name, int value)
+      : BaseMsg(listener->getName(), name), m_value(value)
+  {
+  }
 
-    IntMsg(const std::string &listenerName, const std::string &name,
-           int value)
-            : BaseMsg(listenerName, name), m_value(value) {}
+  IntMsg(const std::string &listenerName, const std::string &name, int value)
+      : BaseMsg(listenerName, name), m_value(value)
+  {
+  }
 
-    virtual void sendActual(BaseListener *listener) const {
-        listener->receiveInt(this);
-    }
+  virtual void sendActual(BaseListener *listener) const
+  {
+    listener->receiveInt(this);
+  }
 
-    int getValue() const { return m_value; }
+  int getValue() const
+  {
+    return m_value;
+  }
 
-    virtual std::string toString() const;
+  virtual std::string toString() const;
 };
 
 #endif
