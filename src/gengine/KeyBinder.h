@@ -3,25 +3,27 @@
 
 class BaseMsg;
 
-#include "NoCopy.h"
 #include "KeyStroke.h"
+#include "NoCopy.h"
 
 #include <map>
 
 /**
  * Key binder.
  */
-class KeyBinder : public NoCopy {
-    private:
-        typedef std::map<KeyStroke,BaseMsg*,stroke_less> t_strokes;
-        t_strokes m_strokes;
-    public:
-        ~KeyBinder();
+class KeyBinder : public NoCopy
+{
+private:
+  typedef std::map<KeyStroke, BaseMsg *, stroke_less> t_strokes;
+  t_strokes m_strokes;
 
-        void addStroke(const KeyStroke &stroke, BaseMsg *msg);
-        void removeStroke(const KeyStroke &stroke);
+public:
+  ~KeyBinder();
 
-        void keyDown(const SDL_Keysym &keysym) const;
+  void addStroke(const KeyStroke &stroke, BaseMsg *msg);
+  void removeStroke(const KeyStroke &stroke);
+
+  void keyDown(const SDL_Keysym &keysym) const;
 };
 
 #endif

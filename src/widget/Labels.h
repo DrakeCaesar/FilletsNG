@@ -10,19 +10,19 @@ class ResDialogPack;
 /**
  * Loads localized labels.
  */
-class Labels : public Scripter {
-    private:
-        mutable ResDialogPack *m_labels;
-    public:
-        Labels(const Path &source);
-        virtual ~Labels();
+class Labels : public Scripter
+{
+private:
+  mutable ResDialogPack *m_labels;
 
-        void addLabel(const std::string &name, const std::string &lang,
-                const std::string &text);
+public:
+  Labels(const Path &source);
+  virtual ~Labels();
 
-        std::string getLabel(const std::string &name) const;
-        std::string getFormatedLabel(const std::string &name,
-                const StringTool::t_args &args) const;
+  void addLabel(const std::string &name, const std::string &lang, const std::string &text);
+
+  std::string getLabel(const std::string &name) const;
+  std::string getFormatedLabel(const std::string &name, const StringTool::t_args &args) const;
 };
 
 #endif

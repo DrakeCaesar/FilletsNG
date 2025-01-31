@@ -13,7 +13,7 @@
 //-----------------------------------------------------------------
 CommandQueue::CommandQueue()
 {
-    m_count = 0;
+  m_count = 0;
 }
 //-----------------------------------------------------------------
 /**
@@ -21,16 +21,15 @@ CommandQueue::CommandQueue()
  */
 CommandQueue::~CommandQueue()
 {
-    removeAll();
+  removeAll();
 }
 //-----------------------------------------------------------------
 /**
  * Add new command at the end of queue.
  */
-void
-CommandQueue::planCommand(Command *new_command)
+void CommandQueue::planCommand(Command *new_command)
 {
-    m_commands.push_back(new_command);
+  m_commands.push_back(new_command);
 }
 //-----------------------------------------------------------------
 /**
@@ -39,37 +38,38 @@ CommandQueue::planCommand(Command *new_command)
  * If the command returns true, remove him from queue.
  * @return true when a command was executed
  */
-bool
-CommandQueue::executeFirst()
+bool CommandQueue::executeFirst()
 {
-    bool result = false;
-    if (!m_commands.empty()) {
-        Command *command = m_commands.front();
-        if (command->finish(m_count)) {
-            m_commands.pop_front();
-            m_count = 0;
-            delete command;
-        }
-        else {
-            m_count++;
-        }
-        result = true;
+  bool result = false;
+  if (!m_commands.empty())
+  {
+    Command *command = m_commands.front();
+    if (command->finish(m_count))
+    {
+      m_commands.pop_front();
+      m_count = 0;
+      delete command;
     }
+    else
+    {
+      m_count++;
+    }
+    result = true;
+  }
 
-    return result;
+  return result;
 }
 //-----------------------------------------------------------------
 /**
  * Remove all commands.
  */
-void
-CommandQueue::removeAll()
+void CommandQueue::removeAll()
 {
-    t_commands::iterator end = m_commands.end();
-    for (t_commands::iterator i = m_commands.begin(); i != end; ++i) {
-        delete (*i);
-    }
-    m_commands.clear();
-    m_count = 0;
+  t_commands::iterator end = m_commands.end();
+  for (t_commands::iterator i = m_commands.begin(); i != end; ++i)
+  {
+    delete (*i);
+  }
+  m_commands.clear();
+  m_count = 0;
 }
-

@@ -16,15 +16,19 @@ class StringMsg;
  * Listener must register oneself to MessagerAgent to be
  * able to receive messages.
  */
-class BaseListener : public INamed {
-    protected:
-        void registerWatcher(const std::string &param);
-        void removeWatchers();
-    public:
-        virtual ~BaseListener() {}
-        virtual void receiveSimple(const SimpleMsg *msg);
-        virtual void receiveInt(const IntMsg *msg);
-        virtual void receiveString(const StringMsg *msg);
+class BaseListener : public INamed
+{
+protected:
+  void registerWatcher(const std::string &param);
+  void removeWatchers();
+
+public:
+  virtual ~BaseListener()
+  {
+  }
+  virtual void receiveSimple(const SimpleMsg *msg);
+  virtual void receiveInt(const IntMsg *msg);
+  virtual void receiveString(const StringMsg *msg);
 };
 
 #endif

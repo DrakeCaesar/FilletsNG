@@ -18,8 +18,8 @@
  */
 ScriptCmd::ScriptCmd(ScriptState *script, int funcRef)
 {
-    m_script = script;
-    m_funcRef = funcRef;
+  m_script = script;
+  m_funcRef = funcRef;
 }
 //-----------------------------------------------------------------
 /**
@@ -27,7 +27,7 @@ ScriptCmd::ScriptCmd(ScriptState *script, int funcRef)
  */
 ScriptCmd::~ScriptCmd()
 {
-    m_script->unref(m_funcRef);
+  m_script->unref(m_funcRef);
 }
 //-----------------------------------------------------------------
 /**
@@ -36,9 +36,7 @@ ScriptCmd::~ScriptCmd()
  * @return true for finish
  * @throws ScriptException when error occures
  */
-bool
-ScriptCmd::finish(int count)
+bool ScriptCmd::finish(int count)
 {
-    return m_script->callCommand(m_funcRef, count);
+  return m_script->callCommand(m_funcRef, count);
 }
-

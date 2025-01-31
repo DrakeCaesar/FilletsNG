@@ -8,37 +8,37 @@
  */
 #include "ResDialogPack.h"
 
-#include "Log.h"
 #include "Dialog.h"
+#include "Log.h"
 #include "OptionAgent.h"
 #include "minmax.h"
 
 //-----------------------------------------------------------------
-    void
-ResDialogPack::unloadRes(Dialog *res)
+void ResDialogPack::unloadRes(Dialog *res)
 {
-    delete res;
+  delete res;
 }
 //-----------------------------------------------------------------
 /**
  * Return match score.
  * One string must excatly be starting substring of the other.
  */
-int
-ResDialogPack::matchScore(const std::string &first,
-        const std::string &second) const
+int ResDialogPack::matchScore(const std::string &first, const std::string &second) const
 {
-    int score = 0;
-    int minSize = min((int)first.size(), (int)second.size());
-    for (int i = 0; i < minSize; ++i) {
-        if (first[i] == second[i]) {
-            score++;
-        }
-        else {
-            return 0;
-        }
+  int score = 0;
+  int minSize = min((int)first.size(), (int)second.size());
+  for (int i = 0; i < minSize; ++i)
+  {
+    if (first[i] == second[i])
+    {
+      score++;
     }
-    return score;
+    else
+    {
+      return 0;
+    }
+  }
+  return score;
 }
 //-----------------------------------------------------------------
 /**
@@ -46,71 +46,67 @@ ResDialogPack::matchScore(const std::string &first,
  * Compare dialog names and lang codes.
  * The best lang match is selected, at least two characters must equals.
  */
-   const Dialog *
-ResDialogPack::findDialog(const std::string &name,
-        const std::string &lang)
+const Dialog *ResDialogPack::findDialog(const std::string &name, const std::string &lang)
 {
-    int bestScore = 0;
-    Dialog *bestDialog = NULL;
+  int bestScore = 0;
+  Dialog *bestDialog = NULL;
 
-    t_range range = getRange(name);
-    t_range::iterator end = range.end();
-    for (t_range::iterator i = range.begin(); i != end; ++i) {
-        int score = matchScore(lang, (*i)->getLang());
-        if (bestScore < score) {
-            bestScore = score;
-            bestDialog = *i;
-        }
+  t_range range = getRange(name);
+  t_range::iterator end = range.end();
+  for (t_range::iterator i = range.begin(); i != end; ++i)
+  {
+    int score = matchScore(lang, (*i)->getLang());
+    if (bestScore < score)
+    {
+      bestScore = score;
+      bestDialog = *i;
     }
+  }
 
-    if (bestScore < 2) {
-        bestDialog = NULL;
-    }
-    return bestDialog;
+  if (bestScore < 2)
+  {
+    bestDialog = NULL;
+  }
+  return bestDialog;
 }
 //-----------------------------------------------------------------
 /**
  * Try find dialog for current lang or default lang.
  * @return dialog or NULL
  */
-    const Dialog *
-ResDialogPack::findDialogHard(const std::string &name)
+const Dialog *ResDialogPack::findDialogHard(const std::string &name)
 {
-    std::string lang = OptionAgent::agent()->getParam("lang");
-    const Dialog *dialog = findDialog(name, lang);
-    if (NULL == dialog) {
-        dialog = findDialog(name, Dialog::DEFAULT_LANG);
-        if (NULL == dialog) {
-            LOG_WARNING(ExInfo("cannot find dialog")
-                    .addInfo("name", name)
-                    .addInfo("lang", lang)
-                    .addInfo("pack", toString()));
-        }
+  std::string lang = OptionAgent::agent()->getParam("lang");
+  const Dialog *dialog = findDialog(name, lang);
+  if (NULL == dialog)
+  {
+    dialog = findDialog(name, Dialog::DEFAULT_LANG);
+    if (NULL == dialog)
+    {
+      LOG_WARNING(ExInfo("cannot find dialog").addInfo("name", name).addInfo("lang", lang).addInfo("pack", toString()));
     }
+  }
 
-    return dialog;
+  return dialog;
 }
 //-----------------------------------------------------------------
 /**
  * Try find dialog for lang=speech or default lang.
  * @return dialog or NULL
  */
-    const Dialog *
-ResDialogPack::findDialogSpeech(const std::string &name)
+const Dialog *ResDialogPack::findDialogSpeech(const std::string &name)
 {
-    std::string speech = OptionAgent::agent()->getParam("speech",
-            OptionAgent::agent()->getParam("lang"));
-    const Dialog *dialog = findDialog(name, speech);
-    if (NULL == dialog || dialog->isSpeechless()) {
-        dialog = findDialog(name, Dialog::DEFAULT_LANG);
-        if (NULL == dialog) {
-            LOG_WARNING(ExInfo("cannot find speech")
-                    .addInfo("name", name)
-                    .addInfo("speech", speech)
-                    .addInfo("pack", toString()));
-        }
+  std::string speech = OptionAgent::agent()->getParam("speech", OptionAgent::agent()->getParam("lang"));
+  const Dialog *dialog = findDialog(name, speech);
+  if (NULL == dialog || dialog->isSpeechless())
+  {
+    dialog = findDialog(name, Dialog::DEFAULT_LANG);
+    if (NULL == dialog)
+    {
+      LOG_WARNING(
+          ExInfo("cannot find speech").addInfo("name", name).addInfo("speech", speech).addInfo("pack", toString()));
     }
+  }
 
-    return dialog;
+  return dialog;
 }
-

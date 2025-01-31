@@ -10,111 +10,107 @@
 
 #include "StateManager.h"
 
-#include "Log.h"
-#include "WorldMap.h"
 #include "InputAgent.h"
-#include "KeyStroke.h"
-#include "KeyBinder.h"
-#include "SimpleMsg.h"
 #include "IntMsg.h"
-#include "Path.h"
-#include "OptionAgent.h"
-#include "LevelStatus.h"
+#include "KeyBinder.h"
+#include "KeyStroke.h"
 #include "Level.h"
+#include "LevelStatus.h"
+#include "Log.h"
+#include "OptionAgent.h"
+#include "Path.h"
+#include "SimpleMsg.h"
+#include "WorldMap.h"
 
 #include "SDL2/SDL.h"
 
 //-----------------------------------------------------------------
-    void
-GameAgent::own_init()
+void GameAgent::own_init()
 {
-    m_manager = new StateManager();
-    std::string replayLevel = OptionAgent::agent()->getParam("replay_level");
-    if (replayLevel == "") {
-        Path pathMap = Path::dataReadPath(OptionAgent::agent()->getParam(
-                    "worldmap", "script/worldmap.lua"));
-        WorldMap *worldmap = new WorldMap();
-        worldmap->initMap(pathMap);
-        m_manager->pushState(NULL, worldmap);
-    } else {
-        replaySolution(replayLevel);
-    }
+  m_manager = new StateManager();
+  std::string replayLevel = OptionAgent::agent()->getParam("replay_level");
+  if (replayLevel == "")
+  {
+    Path pathMap = Path::dataReadPath(OptionAgent::agent()->getParam("worldmap", "script/worldmap.lua"));
+    WorldMap *worldmap = new WorldMap();
+    worldmap->initMap(pathMap);
+    m_manager->pushState(NULL, worldmap);
+  }
+  else
+  {
+    replaySolution(replayLevel);
+  }
 
-    keyBinding();
+  keyBinding();
 }
 //-----------------------------------------------------------------
 /**
  * Replays the given solution instead of starting the game.
  * It is used only for testing.
  */
-    void
-GameAgent::replaySolution(const std::string &codename)
+void GameAgent::replaySolution(const std::string &codename)
 {
-    static LevelStatus *levelStatus = NULL;
-    static DescFinder *desc = NULL;
-    if (levelStatus == NULL) {
-        levelStatus = new LevelStatus();
-        desc = new WorldMap();
-    }
+  static LevelStatus *levelStatus = NULL;
+  static DescFinder *desc = NULL;
+  if (levelStatus == NULL)
+  {
+    levelStatus = new LevelStatus();
+    desc = new WorldMap();
+  }
 
-    levelStatus->prepareRun(codename, "", 0, "");
-    std::string moves = levelStatus->readSolvedMoves();
+  levelStatus->prepareRun(codename, "", 0, "");
+  std::string moves = levelStatus->readSolvedMoves();
 
-    Path datafile = Path::dataReadPath(
-        "script/" + codename + "/init.lua");
-    Level *level = new Level(codename, datafile, 0);
-    level->fillStatus(levelStatus);
-    level->fillDesc(desc);
+  Path datafile = Path::dataReadPath("script/" + codename + "/init.lua");
+  Level *level = new Level(codename, datafile, 0);
+  level->fillStatus(levelStatus);
+  level->fillDesc(desc);
 
-    m_manager->pushState(NULL, level);
-    level->loadReplay(moves);
+  m_manager->pushState(NULL, level);
+  level->loadReplay(moves);
 }
 //-----------------------------------------------------------------
 /**
  * Update game.
  * Play level or show menu.
  */
-    void
-GameAgent::own_update()
+void GameAgent::own_update()
 {
-    m_manager->updateGame();
+  m_manager->updateGame();
 }
 //-----------------------------------------------------------------
 /**
  * Remember playtime.
  */
-    void
-GameAgent::own_shutdown()
+void GameAgent::own_shutdown()
 {
-    OptionAgent *options = OptionAgent::agent();
-    int playtime = options->getAsInt("playtime");
-    playtime += SDL_GetTicks() / 1000;
-    options->setPersistent("playtime", playtime);
+  OptionAgent *options = OptionAgent::agent();
+  int playtime = options->getAsInt("playtime");
+  playtime += SDL_GetTicks() / 1000;
+  options->setPersistent("playtime", playtime);
 
-    delete m_manager;
+  delete m_manager;
 }
 
 //-----------------------------------------------------------------
 /**
  * Global keystrokes.
  */
-    void
-GameAgent::keyBinding()
+void GameAgent::keyBinding()
 {
-    BaseMsg *msg;
-    KeyBinder *keyBinder = InputAgent::agent()->keyBinder();
+  BaseMsg *msg;
+  KeyBinder *keyBinder = InputAgent::agent()->keyBinder();
 
-    // fullscreen
-    KeyStroke fs(SDLK_F11, KMOD_NONE);
-    msg = new SimpleMsg(Name::VIDEO_NAME, "fullscreen");
-    keyBinder->addStroke(fs, msg);
+  // fullscreen
+  KeyStroke fs(SDLK_F11, KMOD_NONE);
+  msg = new SimpleMsg(Name::VIDEO_NAME, "fullscreen");
+  keyBinder->addStroke(fs, msg);
 
-    // log
-    KeyStroke log_plus(SDLK_KP_PLUS, KMOD_RALT);
-    msg = new SimpleMsg(Name::APP_NAME, "inc_loglevel");
-    keyBinder->addStroke(log_plus, msg);
-    KeyStroke log_minus(SDLK_KP_MINUS, KMOD_RALT);
-    msg = new SimpleMsg(Name::APP_NAME, "dec_loglevel");
-    keyBinder->addStroke(log_minus, msg);
+  // log
+  KeyStroke log_plus(SDLK_KP_PLUS, KMOD_RALT);
+  msg = new SimpleMsg(Name::APP_NAME, "inc_loglevel");
+  keyBinder->addStroke(log_plus, msg);
+  KeyStroke log_minus(SDLK_KP_MINUS, KMOD_RALT);
+  msg = new SimpleMsg(Name::APP_NAME, "dec_loglevel");
+  keyBinder->addStroke(log_minus, msg);
 }
-

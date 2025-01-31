@@ -8,14 +8,18 @@
 /**
  * Generic exception.
  */
-class BaseException : public std::exception {
-    private:
-        ExInfo m_info;
-    public:
-        explicit BaseException(const ExInfo &exinfo);
-        virtual ~BaseException() throw() {}
-        virtual const char *what() const throw();
-        virtual const ExInfo &info() const throw();
+class BaseException : public std::exception
+{
+private:
+  ExInfo m_info;
+
+public:
+  explicit BaseException(const ExInfo &exinfo);
+  virtual ~BaseException() throw()
+  {
+  }
+  virtual const char *what() const throw();
+  virtual const ExInfo &info() const throw();
 };
 
 #endif

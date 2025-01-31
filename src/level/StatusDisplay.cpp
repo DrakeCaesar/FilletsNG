@@ -13,38 +13,39 @@
 //-----------------------------------------------------------------
 StatusDisplay::StatusDisplay()
 {
-    m_picture = NULL;
-    m_time = 0;
+  m_picture = NULL;
+  m_time = 0;
 }
 //-----------------------------------------------------------------
 StatusDisplay::~StatusDisplay()
 {
-    if (m_picture) {
-        delete m_picture;
-    }
+  if (m_picture)
+  {
+    delete m_picture;
+  }
 }
 //-----------------------------------------------------------------
 /**
  * Dislay this picture the given number of times.
  */
-void
-StatusDisplay::displayStatus(Picture *new_picture, int time)
+void StatusDisplay::displayStatus(Picture *new_picture, int time)
 {
-    if (m_picture) {
-        delete m_picture;
-    }
-    m_picture = new_picture;
-    m_time = time;
+  if (m_picture)
+  {
+    delete m_picture;
+  }
+  m_picture = new_picture;
+  m_time = time;
 }
 //-----------------------------------------------------------------
-void
-StatusDisplay::drawOn(SDL_Surface *screen)
+void StatusDisplay::drawOn(SDL_Surface *screen)
 {
-    if (m_time > 0) {
-        m_time--;
-        if (m_picture) {
-            m_picture->drawOn(screen);
-        }
+  if (m_time > 0)
+  {
+    m_time--;
+    if (m_picture)
+    {
+      m_picture->drawOn(screen);
     }
+  }
 }
-

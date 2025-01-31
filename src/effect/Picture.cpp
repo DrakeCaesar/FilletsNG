@@ -14,19 +14,17 @@
 /**
  * Load surface.
  */
-Picture::Picture(const Path &file, const V2 &loc)
-    : m_loc(loc)
+Picture::Picture(const Path &file, const V2 &loc) : m_loc(loc)
 {
-    m_surface = ResImagePack::loadImage(file);
+  m_surface = ResImagePack::loadImage(file);
 }
 //-----------------------------------------------------------------
 /**
  * Use this surface.
  */
-Picture::Picture(SDL_Surface *new_surface, const V2 &loc)
-    : m_loc(loc)
+Picture::Picture(SDL_Surface *new_surface, const V2 &loc) : m_loc(loc)
 {
-    m_surface = new_surface;
+  m_surface = new_surface;
 }
 
 //-----------------------------------------------------------------
@@ -35,34 +33,29 @@ Picture::Picture(SDL_Surface *new_surface, const V2 &loc)
  */
 Picture::~Picture()
 {
-    SDL_FreeSurface(m_surface);
+  SDL_FreeSurface(m_surface);
 }
 //-----------------------------------------------------------------
-void
-Picture::changePicture(const Path &file)
+void Picture::changePicture(const Path &file)
 {
-    SDL_FreeSurface(m_surface);
-    m_surface = ResImagePack::loadImage(file);
+  SDL_FreeSurface(m_surface);
+  m_surface = ResImagePack::loadImage(file);
 }
 //-----------------------------------------------------------------
-void
-Picture::changePicture(SDL_Surface *new_surface)
+void Picture::changePicture(SDL_Surface *new_surface)
 {
-    SDL_FreeSurface(m_surface);
-    m_surface = new_surface;
+  SDL_FreeSurface(m_surface);
+  m_surface = new_surface;
 }
 //-----------------------------------------------------------------
 /**
  * Blit entire surface to [x,y].
  */
-void
-Picture::drawOn(SDL_Surface *screen)
+void Picture::drawOn(SDL_Surface *screen)
 {
-    SDL_Rect rect;
-    rect.x = m_loc.getX();
-    rect.y = m_loc.getY();
+  SDL_Rect rect;
+  rect.x = m_loc.getX();
+  rect.y = m_loc.getY();
 
-    SDL_BlitSurface(m_surface, NULL, screen, &rect);
+  SDL_BlitSurface(m_surface, NULL, screen, &rect);
 }
-
-

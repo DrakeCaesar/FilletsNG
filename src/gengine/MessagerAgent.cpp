@@ -8,9 +8,9 @@
  */
 #include "MessagerAgent.h"
 
-#include "Log.h"
-#include "BaseMsg.h"
 #include "BaseListener.h"
+#include "BaseMsg.h"
+#include "Log.h"
 #include "NameException.h"
 
 #include <memory> // for auto_ptr
@@ -22,20 +22,18 @@
  *
  * @param listener listener, borowed pointer
  */
-    void
-MessagerAgent::addListener(BaseListener *listener)
+void MessagerAgent::addListener(BaseListener *listener)
 {
-    m_listeners[listener->getName()] = listener;
+  m_listeners[listener->getName()] = listener;
 }
 //-----------------------------------------------------------------
 /**
  * Forget listener.
  * @param listenerName listener name
  */
-    void
-MessagerAgent::removeListener(const std::string &listenerName)
+void MessagerAgent::removeListener(const std::string &listenerName)
 {
-    m_listeners.erase(listenerName);
+  m_listeners.erase(listenerName);
 }
 //-----------------------------------------------------------------
 /**
@@ -43,22 +41,18 @@ MessagerAgent::removeListener(const std::string &listenerName)
  * @param msg message, will be deleted
  * @throws NameException when listener cannot be found
  */
-void
-MessagerAgent::forwardNewMsg(BaseMsg *msg)
+void MessagerAgent::forwardNewMsg(BaseMsg *msg)
 {
-    std::auto_ptr<BaseMsg> sure_delete(msg);
+  std::auto_ptr<BaseMsg> sure_delete(msg);
 
-    const std::string &listenerName = msg->getListenerName();
-    LOG_DEBUG(ExInfo("received new message")
-            .addInfo("msg", msg->toString()));
+  const std::string &listenerName = msg->getListenerName();
+  LOG_DEBUG(ExInfo("received new message").addInfo("msg", msg->toString()));
 
-    t_listeners::iterator it = m_listeners.find(listenerName);
-    if (m_listeners.end() == it) {
-        throw NameException(ExInfo("cannot find listener")
-                .addInfo("name", listenerName));
-    }
+  t_listeners::iterator it = m_listeners.find(listenerName);
+  if (m_listeners.end() == it)
+  {
+    throw NameException(ExInfo("cannot find listener").addInfo("name", listenerName));
+  }
 
-    msg->sendActual(it->second);
+  msg->sendActual(it->second);
 }
-
-

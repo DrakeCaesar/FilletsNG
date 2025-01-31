@@ -10,11 +10,11 @@
 
 #include "ExInfo.h"
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int Log::ms_logLevel = LEVEL_INFO;
-//int Log::ms_logLevel = LEVEL_DEBUG;
+// int Log::ms_logLevel = LEVEL_DEBUG;
 //-----------------------------------------------------------------
 /**
  * Print log info.
@@ -23,31 +23,30 @@ int Log::ms_logLevel = LEVEL_INFO;
  * @param line line number in source file
  * @param info detail info
  */
-void 
-Log::log(int level, const char *file, int line,
-        const ExInfo &info) throw()
+void Log::log(int level, const char *file, int line, const ExInfo &info) throw()
 {
-    if (level <= ms_logLevel) {
-        const char *levelName;
-        switch (level) {
-            case LEVEL_DEBUG:
-                levelName = "DEBUG";
-                break;
-            case LEVEL_INFO:
-                levelName = "INFO";
-                break;
-            case LEVEL_WARNING:
-                levelName = "WARNING";
-                break;
-            case LEVEL_ERROR:
-                levelName = "ERROR";
-                break;
-            default:
-                levelName = "UNKNOWN";
-                break;
-        }
-
-        fprintf(stderr, "%s:%d: %s %s\n", file, line, levelName, info.what());
+  if (level <= ms_logLevel)
+  {
+    const char *levelName;
+    switch (level)
+    {
+    case LEVEL_DEBUG:
+      levelName = "DEBUG";
+      break;
+    case LEVEL_INFO:
+      levelName = "INFO";
+      break;
+    case LEVEL_WARNING:
+      levelName = "WARNING";
+      break;
+    case LEVEL_ERROR:
+      levelName = "ERROR";
+      break;
+    default:
+      levelName = "UNKNOWN";
+      break;
     }
-}
 
+    fprintf(stderr, "%s:%d: %s %s\n", file, line, levelName, info.what());
+  }
+}

@@ -16,26 +16,24 @@
 /**
  * Set sound and music volume.
  */
-    void
-SoundAgent::own_init()
+void SoundAgent::own_init()
 {
-    reinit();
+  reinit();
 
-    registerWatcher("volume_sound");
-    registerWatcher("volume_music");
+  registerWatcher("volume_sound");
+  registerWatcher("volume_music");
 }
 //-----------------------------------------------------------------
 /**
  * Reininitalize the sound system.
  */
-    void
-SoundAgent::reinit()
+void SoundAgent::reinit()
 {
-    OptionAgent *options = OptionAgent::agent();
-    options->setDefault("volume_sound", 90);
-    options->setDefault("volume_music", 50);
-    setSoundVolume(options->getAsInt("volume_sound"));
-    setMusicVolume(options->getAsInt("volume_music"));
+  OptionAgent *options = OptionAgent::agent();
+  options->setDefault("volume_sound", 90);
+  options->setDefault("volume_music", 50);
+  setSoundVolume(options->getAsInt("volume_sound"));
+  setMusicVolume(options->getAsInt("volume_music"));
 }
 //-----------------------------------------------------------------
 /**
@@ -46,24 +44,24 @@ SoundAgent::reinit()
  *
  * @throws UnknownMsgException
  */
-    void
-SoundAgent::receiveString(const StringMsg *msg)
+void SoundAgent::receiveString(const StringMsg *msg)
 {
-    if (msg->equalsName("param_changed")) {
-        std::string param = msg->getValue();
-        if ("volume_sound" == param) {
-            int volume = OptionAgent::agent()->getAsInt("volume_sound");
-            setSoundVolume(volume);
-        }
-        else if ("volume_music" == param) {
-            int volume = OptionAgent::agent()->getAsInt("volume_music");
-            setMusicVolume(volume);
-        }
+  if (msg->equalsName("param_changed"))
+  {
+    std::string param = msg->getValue();
+    if ("volume_sound" == param)
+    {
+      int volume = OptionAgent::agent()->getAsInt("volume_sound");
+      setSoundVolume(volume);
     }
-    else {
-        throw UnknownMsgException(msg);
+    else if ("volume_music" == param)
+    {
+      int volume = OptionAgent::agent()->getAsInt("volume_music");
+      setMusicVolume(volume);
     }
+  }
+  else
+  {
+    throw UnknownMsgException(msg);
+  }
 }
-
-
-

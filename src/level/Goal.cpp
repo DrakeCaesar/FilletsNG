@@ -13,53 +13,52 @@
 //-----------------------------------------------------------------
 Goal::Goal(eSATISFY out, eSATISFY alive)
 {
-    m_out = out;
-    m_alive = alive;
+  m_out = out;
+  m_alive = alive;
 }
 //-----------------------------------------------------------------
-    Goal
-Goal::noGoal()
+Goal Goal::noGoal()
 {
-    return Goal(SATISFY_IGNORE, SATISFY_IGNORE);
+  return Goal(SATISFY_IGNORE, SATISFY_IGNORE);
 }
 //-----------------------------------------------------------------
-    Goal
-Goal::outGoal()
+Goal Goal::outGoal()
 {
-    return Goal(SATISFY_TRUE, SATISFY_IGNORE);
+  return Goal(SATISFY_TRUE, SATISFY_IGNORE);
 }
 //-----------------------------------------------------------------
-    Goal
-Goal::escapeGoal()
+Goal Goal::escapeGoal()
 {
-    return Goal(SATISFY_TRUE, SATISFY_TRUE);
+  return Goal(SATISFY_TRUE, SATISFY_TRUE);
 }
 //-----------------------------------------------------------------
-    Goal
-Goal::aliveGoal()
+Goal Goal::aliveGoal()
 {
-    return Goal(SATISFY_IGNORE, SATISFY_TRUE);
+  return Goal(SATISFY_IGNORE, SATISFY_TRUE);
 }
 //-----------------------------------------------------------------
-bool
-Goal::isSatisfy(const Cube *model) const
+bool Goal::isSatisfy(const Cube *model) const
 {
-    bool result = true;
-    if (SATISFY_TRUE == m_out) {
-        result &= model->isOut(); 
-    }
-    else if (SATISFY_FALSE == m_out) {
-        result &= (!model->isOut());
-    }
+  bool result = true;
+  if (SATISFY_TRUE == m_out)
+  {
+    result &= model->isOut();
+  }
+  else if (SATISFY_FALSE == m_out)
+  {
+    result &= (!model->isOut());
+  }
 
-    if (SATISFY_TRUE == m_alive) {
-        result &= model->isAlive();
-    }
-    else if (SATISFY_FALSE == m_alive) {
-        result &= (!model->isAlive());
-    }
+  if (SATISFY_TRUE == m_alive)
+  {
+    result &= model->isAlive();
+  }
+  else if (SATISFY_FALSE == m_alive)
+  {
+    result &= (!model->isAlive());
+  }
 
-    return result;
+  return result;
 }
 //-----------------------------------------------------------------
 /**
@@ -67,24 +66,22 @@ Goal::isSatisfy(const Cube *model) const
  * Dead fish cannot be revived.
  * Object out of room cannot go back.
  */
-bool
-Goal::isWrong(const Cube *model) const
+bool Goal::isWrong(const Cube *model) const
 {
-    bool wrong = false;
-    if (SATISFY_TRUE == m_alive) {
-        wrong |= !model->isAlive();
-    }
+  bool wrong = false;
+  if (SATISFY_TRUE == m_alive)
+  {
+    wrong |= !model->isAlive();
+  }
 
-    if (SATISFY_FALSE == m_out) {
-        wrong |= model->isOut();
-    }
-    return wrong;
+  if (SATISFY_FALSE == m_out)
+  {
+    wrong |= model->isOut();
+  }
+  return wrong;
 }
 //-----------------------------------------------------------------
-bool
-Goal::shouldGoOut() const
+bool Goal::shouldGoOut() const
 {
-    return SATISFY_TRUE == m_out;
+  return SATISFY_TRUE == m_out;
 }
-
-

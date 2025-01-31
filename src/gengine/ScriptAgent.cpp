@@ -14,20 +14,17 @@
 
 #include "options-script.h"
 
-
 //-----------------------------------------------------------------
-    void
-ScriptAgent::own_init()
+void ScriptAgent::own_init()
 {
-    registerFunc("sendMsg", script_options_sendMsg);
-    registerFunc("setParam", script_options_setParam);
-    registerFunc("getParam", script_options_getParam);
+  registerFunc("sendMsg", script_options_sendMsg);
+  registerFunc("setParam", script_options_setParam);
+  registerFunc("getParam", script_options_getParam);
 }
 //-----------------------------------------------------------------
-    void
-ScriptAgent::registerFunc(const char *name, lua_CFunction func)
+void ScriptAgent::registerFunc(const char *name, lua_CFunction func)
 {
-    m_script->registerFunc(name, func);
+  m_script->registerFunc(name, func);
 }
 //-----------------------------------------------------------------
 /**
@@ -36,15 +33,14 @@ ScriptAgent::registerFunc(const char *name, lua_CFunction func)
  *
  * @throws UnknownMsgException
  */
-    void
-ScriptAgent::receiveString(const StringMsg *msg)
+void ScriptAgent::receiveString(const StringMsg *msg)
 {
-    if (msg->equalsName("dostring")) {
-        scriptDo(msg->getValue());
-    }
-    else {
-        throw UnknownMsgException(msg);
-    }
+  if (msg->equalsName("dostring"))
+  {
+    scriptDo(msg->getValue());
+  }
+  else
+  {
+    throw UnknownMsgException(msg);
+  }
 }
-
-

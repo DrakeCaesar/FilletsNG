@@ -9,21 +9,29 @@ class Cube;
 /**
  * Two dimensional game field.
  */
-class Field : public NoCopy {
-    private:
-        int m_w;
-        int m_h;
-        Cube ***m_marks;
-        Cube *m_border;
-    public:
-        Field(int w, int h);
-        ~Field();
+class Field : public NoCopy
+{
+private:
+  int m_w;
+  int m_h;
+  Cube ***m_marks;
+  Cube *m_border;
 
-        int getW() const { return m_w; }
-        int getH() const { return m_h; }
+public:
+  Field(int w, int h);
+  ~Field();
 
-        Cube *getModel(const V2 &loc);
-        void setModel(const V2 &loc, Cube *model, Cube *toOverride);
+  int getW() const
+  {
+    return m_w;
+  }
+  int getH() const
+  {
+    return m_h;
+  }
+
+  Cube *getModel(const V2 &loc);
+  void setModel(const V2 &loc, Cube *model, Cube *toOverride);
 };
 
 #endif

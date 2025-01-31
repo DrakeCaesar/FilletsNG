@@ -9,51 +9,48 @@
 #ifdef HAVE_SMPEG
 #include "MovieState.h"
 
-#include "SDL_Movie.h"
 #include "DemoInput.h"
+#include "SDL_Movie.h"
 
 #include "OptionAgent.h"
-#include "VideoAgent.h"
 #include "SoundAgent.h"
+#include "VideoAgent.h"
 
 //-----------------------------------------------------------------
-MovieState::MovieState(const Path &file)
-    : m_file(file)
+MovieState::MovieState(const Path &file) : m_file(file)
 {
-    takeHandler(new DemoInput(this));
+  takeHandler(new DemoInput(this));
 }
 //-----------------------------------------------------------------
-    void
-MovieState::own_initState()
+void MovieState::own_initState()
 {
-    SoundAgent::agent()->stopMusic();
-    Mix_CloseAudio();
-    m_movie = new SDL_Movie();
-    m_movie->Load(m_file.getNative().c_str());
+  SoundAgent::agent()->stopMusic();
+  Mix_CloseAudio();
+  m_movie = new SDL_Movie();
+  m_movie->Load(m_file.getNative().c_str());
 
-    SMPEG_Info info = m_movie->GetInfo();
-    OptionAgent *options = OptionAgent::agent();
-    options->setParam("screen_width", info.width);
-    options->setParam("screen_height", info.height);
-    VideoAgent::agent()->initVideoMode();
+  SMPEG_Info info = m_movie->GetInfo();
+  OptionAgent *options = OptionAgent::agent();
+  options->setParam("screen_width", info.width);
+  options->setParam("screen_height", info.height);
+  VideoAgent::agent()->initVideoMode();
 
-    m_movie->Play();
-    registerDrawable(m_movie);
+  m_movie->Play();
+  registerDrawable(m_movie);
 }
 //-----------------------------------------------------------------
-    void
-MovieState::own_updateState()
+void MovieState::own_updateState()
 {
-    if(m_movie->GetStatus() != SMPEG_PLAYING) {
-        quitState();
-    }
+  if (m_movie->GetStatus() != SMPEG_PLAYING)
+  {
+    quitState();
+  }
 }
 //-----------------------------------------------------------------
-    void
-MovieState::own_cleanState()
+void MovieState::own_cleanState()
 {
-    delete m_movie;
-    SoundAgent::agent()->reinit();
+  delete m_movie;
+  SoundAgent::agent()->reinit();
 }
 
 #endif

@@ -8,26 +8,26 @@
  */
 #include "ResImagePack.h"
 
-#include "Path.h"
 #include "ImgException.h"
-#include "SDLException.h"
-#include "OptionAgent.h"
 #include "Log.h"
+#include "OptionAgent.h"
+#include "Path.h"
+#include "SDLException.h"
 
 #include "SDL2/SDL_image.h"
 
 // The set cache size allows to contain all fish images and animations
 // from level 'barrel'.
-ResCache<SDL_Surface*> *ResImagePack::CACHE = new ResCache<SDL_Surface*>(
-        265, new ResImagePack(false));
+ResCache<SDL_Surface *> *ResImagePack::CACHE = new ResCache<SDL_Surface *>(265, new ResImagePack(false));
 
 //-----------------------------------------------------------------
-ResImagePack::ResImagePack(bool caching_enabled) {
-    m_caching_enabled = false;
-    if (caching_enabled) {
-        m_caching_enabled = OptionAgent::agent()->getAsBool(
-                "cache_images", true);
-    }
+ResImagePack::ResImagePack(bool caching_enabled)
+{
+  m_caching_enabled = false;
+  if (caching_enabled)
+  {
+    m_caching_enabled = OptionAgent::agent()->getAsBool("cache_images", true);
+  }
 }
 //-----------------------------------------------------------------
 /**
@@ -38,23 +38,22 @@ ResImagePack::ResImagePack(bool caching_enabled) {
  * @throws ImgException when image cannot be loaded
  * @throws SDLException when image cannot be converted
  */
-SDL_Surface *
-ResImagePack::loadImage(const Path &file)
+SDL_Surface *ResImagePack::loadImage(const Path &file)
 {
-    SDL_Surface *raw_image = IMG_Load(file.getNative().c_str());
-    if (NULL == raw_image) {
-        throw ImgException(ExInfo("Load")
-                .addInfo("file", file.getNative()));
-    }
+  SDL_Surface *raw_image = IMG_Load(file.getNative().c_str());
+  if (NULL == raw_image)
+  {
+    throw ImgException(ExInfo("Load").addInfo("file", file.getNative()));
+  }
 
-    SDL_Surface *surface = SDL_ConvertSurfaceFormat(raw_image,SDL_PIXELFORMAT_RGBA32,0);
-    if (NULL == surface) {
-        throw SDLException(ExInfo("DisplayFormat")
-                .addInfo("file", file.getNative()));
-    }
-    SDL_FreeSurface(raw_image);
+  SDL_Surface *surface = SDL_ConvertSurfaceFormat(raw_image, SDL_PIXELFORMAT_RGBA32, 0);
+  if (NULL == surface)
+  {
+    throw SDLException(ExInfo("DisplayFormat").addInfo("file", file.getNative()));
+  }
+  SDL_FreeSurface(raw_image);
 
-    return surface;
+  return surface;
 }
 //-----------------------------------------------------------------
 /**
@@ -63,30 +62,34 @@ ResImagePack::loadImage(const Path &file)
  * @throws ImgException when image cannot be loaded
  * @throws SDLException when image cannot be converted
  */
-void
-ResImagePack::addImage(const std::string &name, const Path &file)
+void ResImagePack::addImage(const std::string &name, const Path &file)
 {
-    SDL_Surface *surface;
-    if (m_caching_enabled) {
-        surface = CACHE->get(file.getPosixName());
-        if (!surface) {
-            surface = loadImage(file);
-            CACHE->put(file.getPosixName(), surface);
-        }
-    } else {
-        surface = loadImage(file);
+  SDL_Surface *surface;
+  if (m_caching_enabled)
+  {
+    surface = CACHE->get(file.getPosixName());
+    if (!surface)
+    {
+      surface = loadImage(file);
+      CACHE->put(file.getPosixName(), surface);
     }
+  }
+  else
+  {
+    surface = loadImage(file);
+  }
 
-    addRes(name, surface);
+  addRes(name, surface);
 }
 //-----------------------------------------------------------------
-void
-ResImagePack::unloadRes(SDL_Surface *res)
+void ResImagePack::unloadRes(SDL_Surface *res)
 {
-    if (m_caching_enabled) {
-        CACHE->release(res);
-    } else {
-        SDL_FreeSurface(res);
-    }
+  if (m_caching_enabled)
+  {
+    CACHE->release(res);
+  }
+  else
+  {
+    SDL_FreeSurface(res);
+  }
 }
-

@@ -8,8 +8,8 @@
  */
 #include "RoomAccess.h"
 
-#include "Room.h"
 #include "LogicException.h"
+#include "Room.h"
 
 //-----------------------------------------------------------------
 /**
@@ -17,62 +17,58 @@
  */
 RoomAccess::RoomAccess()
 {
-    m_room = NULL;
+  m_room = NULL;
 }
 //-----------------------------------------------------------------
 RoomAccess::~RoomAccess()
 {
-    cleanRoom();
+  cleanRoom();
 }
 //-----------------------------------------------------------------
-    void
-RoomAccess::takeRoom(Room *new_room)
+void RoomAccess::takeRoom(Room *new_room)
 {
-    cleanRoom();
-    m_room = new_room;
+  cleanRoom();
+  m_room = new_room;
 }
 //-----------------------------------------------------------------
 /**
  * Remove old room.
  */
-    void
-RoomAccess::cleanRoom()
+void RoomAccess::cleanRoom()
 {
-    if (m_room) {
-        delete m_room;
-        m_room = NULL;
-    }
+  if (m_room)
+  {
+    delete m_room;
+    m_room = NULL;
+  }
 }
 //-----------------------------------------------------------------
 /**
  * Check whether room is ready.
  * @throws LogicException when room is not ready
  */
-void
-RoomAccess::checkRoom() const
+void RoomAccess::checkRoom() const
 {
-    if (NULL == m_room) {
-        throw LogicException(ExInfo("room is not ready"));
-    }
+  if (NULL == m_room)
+  {
+    throw LogicException(ExInfo("room is not ready"));
+  }
 }
 //-----------------------------------------------------------------
 /**
  * Returns room or throws exception.
  */
-    Room *
-RoomAccess::room()
+Room *RoomAccess::room()
 {
-    checkRoom();
-    return m_room;
+  checkRoom();
+  return m_room;
 }
 //-----------------------------------------------------------------
 /**
  * Returns room or throws exception.
  */
-    const Room *
-RoomAccess::const_room() const
+const Room *RoomAccess::const_room() const
 {
-    checkRoom();
-    return m_room;
+  checkRoom();
+  return m_room;
 }
-

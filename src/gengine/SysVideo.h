@@ -6,9 +6,10 @@
 /**
  * System dependend video functions.
  */
-class SysVideo {
-    public:
-        static void setCaption(const std::string &title);
+class SysVideo
+{
+public:
+  static void setCaption(const std::string &title);
 };
 
 #endif

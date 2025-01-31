@@ -11,10 +11,10 @@ class Font;
 /**
  * Multi line paragraph.
  */
-class WiPara : public VBox {
-    public:
-        WiPara(const std::string &text, const Font &font,
-                const SDL_Color &color);
+class WiPara : public VBox
+{
+public:
+  WiPara(const std::string &text, const Font &font, const SDL_Color &color);
 };
 
 #endif

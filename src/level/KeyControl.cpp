@@ -8,16 +8,14 @@
  */
 #include "KeyControl.h"
 
-
 //-----------------------------------------------------------------
 /**
  * Default control are arrows.
  */
 KeyControl::KeyControl()
 {
-    m_up = SDLK_UP;
-    m_down = SDLK_DOWN;
-    m_left = SDLK_LEFT;
-    m_right = SDLK_RIGHT;
+  m_up = SDLK_UP;
+  m_down = SDLK_DOWN;
+  m_left = SDLK_LEFT;
+  m_right = SDLK_RIGHT;
 }
-
