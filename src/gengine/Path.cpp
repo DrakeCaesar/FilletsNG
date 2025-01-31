@@ -85,7 +85,7 @@ Path Path::dataWritePath(const std::string &file)
 Path Path::dataSystemPath(const std::string &file)
 {
   std::string systemdir = OptionAgent::agent()->getParam("systemdir");
-  systemdir = "..";
+  systemdir = "../..";
 
   return constructPath(systemdir, file);
 }
